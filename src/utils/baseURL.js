@@ -1,0 +1,9 @@
+export const API_DUMMY = "http://localhost:8080";
+export const API_URL = "http://localhost:8080/api/";
+export const API_AUTH = "http://localhost:8080/api/user" ;
+export const API_PRODUCT = "http://localhost:8080/api/product" ;
+export const API_TOKO = "http://localhost:8080/api/toko" ;
+export const API_CATEGORY = "http://localhost:8080/api/category" ;
+export const API_CART = "http://localhost:8080/api/cart" ;
+export const API_Sidebar = "http://localhost:8080/api/sidebar" ;
+export const API_HISTORY = "http://localhost:8080/api/history" ;
