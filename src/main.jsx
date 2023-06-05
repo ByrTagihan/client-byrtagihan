@@ -5,6 +5,8 @@ import './index.css'
 import { BrowserRouter } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import * as Icons from "@fortawesome/free-solid-svg-icons";
+import { Provider } from 'react-redux'
+import store from './store'
 
 const iconList = Object.keys(Icons)
   .filter((key) => key !== "fas" && key !== "prefix")
@@ -14,8 +16,10 @@ library.add(...iconList);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-      <BrowserRouter>
+      <Provider store={store}>
+      {/* <BrowserRouter> */}
         <App iconList={iconList} />
-      </BrowserRouter>
+      {/* </BrowserRouter> */}
+      </Provider>
   </React.StrictMode>,
 )
