@@ -1,6 +1,7 @@
 import React from 'react'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import ResetPassword from './views/pages/reset/ForgotPasswor'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -91,6 +92,7 @@ const routes = [
   { path: '/icons/coreui-icons', name: 'CoreUI Icons', element: CoreUIIcons },
   { path: '/icons/flags', name: 'Flags', element: Flags },
   { path: '/icons/brands', name: 'Brands', element: Brands },
+  { path: '/reset', name: 'Reset', element: ResetPassword },
   // { path: '/loginn', name: 'Loginn', element: Login },
   // { path: '/registerr', name: 'Registerr', element: Register },
   // { path: '/notifications', name: 'Notifications', element: Alerts, exact: true },
