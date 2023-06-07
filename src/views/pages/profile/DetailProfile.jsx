@@ -16,36 +16,77 @@ import {
 import CIcon from "@coreui/icons-react";
 import { cilAddressBook, cilTablet, cilUser } from "@coreui/icons";
 import axios from "axios";
-
+import Swal from "sweetalert2";
 
 const DetailProfile = () => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
 
-// const [email, setEmail] = useState("");
-// const [nama, setNama] = useState("");
-// const [hp, setHp] = useState("");
-// const [alamat, setAlamat] = useState("");
-// const [profile, setProfile] = useState({
-//   nama: "",
-//   email: "",
-//   hp: "",
-//   alamat: "",
-// });
+  const [name, setName] = useState("");
+  const [hp, setHp] = useState("");
+  const [address, setAddress] = useState("");
+  const [picture, setPicture] = useState(null);
+  const [profile, setProfile] = useState({
+    email: "",
+    name: "",
+    hp: "",
+    address: "",
+    picture: null,
+  });
 
-// const getAll = async () => {
-//   await axios
-//     .get(`http://localhost:3000/postingans`)
-//     .then((res) => {
-//       setProfile(res.data.data);
-//       console.log(res.data.data);
-//     })
-//     .catch((error) => {
-//       alert("Terjadi Kesalahan" + error);
-//     });
-// };
+  const get = async () => {
+    await axios
+      .get(`https://api.byrtagihan.com/api/customer/profile`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
+      .then((res) => {
+        const profil = res.data.data;
+        setProfile(profil);
+        setHp(profil.hp)
+        setName(profil.name)
+        setAddress(profil.address)
+        setPicture(profil.picture)
+        console.log(res.data.data);
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
+      });
+  };
 
-// useEffect(() => {
-//   getAll(0);
-// }, []);
+  useEffect(() => {
+    get(0);
+  }, []);
+
+  const Put = async (e) => {
+    e.preventDefault();
+    e.persist();
+
+    const data = {
+      name: name,
+      hp: hp,
+      address: address,
+      picture: picture,
+    };
+
+    try {
+      await axios.put(`https://api.byrtagihan.com/api/customer/profile`, data, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      });
+      setShow(false);
+      Swal.fire({
+        icon: "success",
+        title: "berhasil mengedit",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <div className="bg-light min-vh-99 d-flex flex-row align-items-center">
@@ -55,14 +96,13 @@ const DetailProfile = () => {
               <CCardGroup>
                 <CCard className="p-4">
                   <CCardBody>
-                    <CForm>
+                    <CForm onSubmit={Put}>
                       <h3>Profile Customer</h3>
                       <br />
 
-                      <p className="mb-3">Id : </p>
+                      <p className="mb-1">Id : {profile.id}</p>
                       <p className="mb-3">
-                        <CIcon icon={cilUser} /> Email : 
-                        {/* {profile.email} */}
+                        <CIcon icon={cilUser} /> Email : {profile.email}
                       </p>
 
                       <CInputGroup className="mb-3">
@@ -70,8 +110,10 @@ const DetailProfile = () => {
                           <CIcon icon={cilUser} />
                         </CInputGroupText>
                         <CFormInput
-                          placeholder="Nama"
-                          autoComplete="username"
+                          placeholder="Name"
+                          autoComplete="name"
+                          onChange={(e) => setName(e.target.value)}
+                          value={name}
                         />
                       </CInputGroup>
 
@@ -79,22 +121,42 @@ const DetailProfile = () => {
                         <CInputGroupText>
                           <CIcon icon={cilTablet} />
                         </CInputGroupText>
-                        <CFormInput placeholder="No Hp" autoComplete="hp" />
+                        <CFormInput
+                          placeholder="No Hp"
+                          autoComplete="hp"
+                          onChange={(e) => setHp(e.target.value)}
+                          value={hp}
+                        />
                       </CInputGroup>
+
 
                       <CInputGroup className="mb-3">
                         <CInputGroupText>
                           <CIcon icon={cilAddressBook} />
                         </CInputGroupText>
                         <CFormInput
-                          placeholder="Alamat"
-                          autoComplete="alamat"
+                          placeholder="Address"
+                          autoComplete="address"
+                          onChange={(e) => setAddress(e.target.value)}
+                          value={address}
+                        />
+                      </CInputGroup>
+
+                      <CInputGroup className="mb-3">
+                        <CFormInput
+                          autoComplete="picture"
+                          onChange={(e) => setPicture(e.target.files[0])}
+                          type="file"
                         />
                       </CInputGroup>
 
                       <CRow>
                         <CCol xs={6}>
-                          <CButton color="primary" className="px-3 py-1.5">
+                          <CButton
+                            type="submit"
+                            color="primary"
+                            className="px-3 py-1.5"
+                          >
                             Simpan
                           </CButton>
                         </CCol>
@@ -110,17 +172,21 @@ const DetailProfile = () => {
                         className="mt-3"
                         active
                         tabIndex={-1}
+                        data-coreui-toggle="modal"
+                        data-coreui-target="#exampleModal"
                       >
                         Update Foto
                       </CButton>
 
                       <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTImk8eQKoXGjObbR2hHG1XBE_TpIeiRwMDlg&usqp=CAU"
+                        style={{ height: "40vh" }}
                         alt=""
+                        src={profile.picture}
                       />
                     </div>
                   </CCardBody>
                 </CCard>
+
               </CCardGroup>
             </CCol>
           </CRow>
