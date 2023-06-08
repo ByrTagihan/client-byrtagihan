@@ -4,6 +4,7 @@ import Register from './pages/Register'
 import ResetPassword from './views/pages/reset/ForgotPasswor'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+const DetailProfile = React.lazy(() => import('./views/pages/profile/DetailProfile'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -56,6 +57,7 @@ const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/customerProfile', name: 'CustomerProfile', element: DetailProfile },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
   // { path: '/theme/typography', name: 'Typography', element: Typography },
