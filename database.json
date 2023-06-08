@@ -1,0 +1,39 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "",
+      "email": "",
+      "password": "",
+      "token": 123
+    },
+    {
+      "email": "test@",
+      "password": "test",
+      "username": "test",
+      "id": 2,
+      "token": 13
+    },
+    {
+      "username": "test1",
+      "password": "test23",
+      "id": 3
+    },
+    {
+      "email": "testing@gmail.com",
+      "password": "testing123",
+      "username": "testing ",
+      "id": 4
+    },
+    {
+      "username": "testing",
+      "password": "testing123",
+      "id": 5
+    },
+    {
+      "username": "testing",
+      "password": "testing123",
+      "id": 6
+    }
+  ]
+}
