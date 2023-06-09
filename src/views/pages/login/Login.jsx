@@ -42,27 +42,27 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      if(type_token === "customer") {
-      const { data, status } = await axios.post(
-        "https://api.byrtagihan.com/api/customer/login",
-        {
-          email: email,
-          password: password,
+      if (type_token === "customer") {
+        const { data, status } = await axios.post(
+          "https://api.byrtagihan.com/api/customer/login",
+          {
+            email: email,
+            password: password,
+          }
+        );
+        // Jika respon 200/ ok
+        if (status === 200) {
+          alert("Success");
+          localStorage.setItem("type_token", data.data.type_token);
+          localStorage.setItem("id", data.data.id);
+          localStorage.setItem("token", data.data.token);
+          navigate("/#/");
+          // setTimeout(() => {
+          //   window.location.reload();
+          // }, 1500);
         }
-      );
-      // Jika respon 200/ ok
-      if (status === 200) {
-        alert("Success");
-        localStorage.setItem("type_token", data.data.type_token);
-        localStorage.setItem("id", data.data.id);
-        localStorage.setItem("token", data.data.token);
-        navigate("/#/");
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 1500);
       }
-      }
-      else if(type_token === "user") {
+      else if (type_token === "user") {
         const { data, status } = await axios.post(
           "https://api.byrtagihan.com/api/user/login",
           {
@@ -81,27 +81,27 @@ const Login = () => {
             window.location.reload();
           }, 1500);
         }
-        } 
-        else if(type_token === "member") {
-          const { data, status } = await axios.post(
-            "https://api.byrtagihan.com/api/member/login",
-            {
-              unique_id : unique_id,
-              password: password,
-            }
-          );
-          // Jika respon 200/ ok
-          if (status === 200) {
-            alert("Success");
-            localStorage.setItem("type_token", data.data.type_token);
-            localStorage.setItem("id", data.data.id);
-            localStorage.setItem("toke", data.data.token);
-            navigate("/");
-            setTimeout(() => {
-              window.location.reload();
-            }, 1500);
+      }
+      else if (type_token === "member") {
+        const { data, status } = await axios.post(
+          "https://api.byrtagihan.com/api/member/login",
+          {
+            unique_id: unique_id,
+            password: password,
           }
-          } 
+        );
+        // Jika respon 200/ ok
+        if (status === 200) {
+          alert("Success");
+          localStorage.setItem("type_token", data.data.type_token);
+          localStorage.setItem("id", data.data.id);
+          localStorage.setItem("toke", data.data.token);
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+      }
     } catch (error) {
       alert("username/ Password No Valid");
       console.log(error);
@@ -117,7 +117,7 @@ const Login = () => {
               <CCard className="p-4">
                 <CCardBody>
                   <CForm>
-                    <h1 style={{color:"black"}}>Login</h1>
+                    <h1 style={{ color: "black" }}>Login</h1>
                     <p className="text-medium-emphasis">
                       Sign In to your account
                     </p>
@@ -129,32 +129,32 @@ const Login = () => {
                     </select>
                     {type_token === "member" ? (
                       <>
-                    <CInputGroup className="mb-3">
-                      <CInputGroupText>
-                        <CIcon icon={cilUser} />
-                      </CInputGroupText>
-                      <CFormInput
-                        placeholder="unique_id"
-                        autoComplete="unique_id"
-                        value={unique_id}
-                        type="number"
-                        onChange={(e) => setUnique_id(e.target.value)}
-                      />
-                    </CInputGroup>
+                        <CInputGroup className="mb-3">
+                          <CInputGroupText>
+                            <CIcon icon={cilUser} />
+                          </CInputGroupText>
+                          <CFormInput
+                            placeholder="unique_id"
+                            autoComplete="unique_id"
+                            value={unique_id}
+                            type="number"
+                            onChange={(e) => setUnique_id(e.target.value)}
+                          />
+                        </CInputGroup>
                       </>
-                    ):(
+                    ) : (
                       <CInputGroup className="mb-3">
-                      <CInputGroupText>
-                        <CIcon icon={cilUser} />
-                      </CInputGroupText>
-                      <CFormInput
-                        placeholder="email"
-                        autoComplete="email"
-                        value={email}
-                        type="email"
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </CInputGroup>
+                        <CInputGroupText>
+                          <CIcon icon={cilUser} />
+                        </CInputGroupText>
+                        <CFormInput
+                          placeholder="email"
+                          autoComplete="email"
+                          value={email}
+                          type="email"
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </CInputGroup>
                     )}
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
