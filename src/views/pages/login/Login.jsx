@@ -42,7 +42,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      if(type_token === "customer") {
+      if(type_token === "admin Sekolah") {
       const { data, status } = await axios.post(
         "https://api.byrtagihan.com/api/customer/login",
         {
@@ -52,17 +52,23 @@ const Login = () => {
       );
       // Jika respon 200/ ok
       if (status === 200) {
-        alert("Success");
+        // Swal.fire({
+        //   icon: "success",
+        //   title:  "Successfully logged in",
+        //   showConfirmButton: false,
+        //   timer: 1500,
+        // });
+        alert("Successfully logged in Customer")
         localStorage.setItem("type_token", data.data.type_token);
         localStorage.setItem("id", data.data.id);
-        localStorage.setItem("toke", data.data.token);
+        localStorage.setItem("token", data.data.token);
         navigate("/#/");
         // setTimeout(() => {
         //   window.location.reload();
         // }, 1500);
       }
       }
-      else if(type_token === "user") {
+      else if(type_token === "guru") {
         const { data, status } = await axios.post(
           "https://api.byrtagihan.com/api/user/login",
           {
@@ -72,17 +78,21 @@ const Login = () => {
         );
         // Jika respon 200/ ok
         if (status === 200) {
-          alert("Success");
+          Swal.fire({
+            icon: "success",
+            title: "Successfully logged in as " + localStorage.getItem("type_token"),
+            showConfirmButton: false,
+          });
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
-          localStorage.setItem("toke", data.data.token);
+          localStorage.setItem("token", data.data.token);
           navigate("/");
           setTimeout(() => {
             window.location.reload();
           }, 1500);
         }
         } 
-        else if(type_token === "member") {
+        else if(type_token === "siswa") {
           const { data, status } = await axios.post(
             "https://api.byrtagihan.com/api/member/login",
             {
@@ -92,10 +102,14 @@ const Login = () => {
           );
           // Jika respon 200/ ok
           if (status === 200) {
-            alert("Success");
+            Swal.fire({
+              icon: "success",
+              title: "Successfully logged in as " + localStorage.getItem("type_token"),
+              showConfirmButton: false,
+            });
             localStorage.setItem("type_token", data.data.type_token);
             localStorage.setItem("id", data.data.id);
-            localStorage.setItem("toke", data.data.token);
+            localStorage.setItem("token", data.data.token);
             navigate("/");
             setTimeout(() => {
               window.location.reload();
@@ -123,9 +137,9 @@ const Login = () => {
                     </p>
                     <select className="selectt" aria-label="Default select example" onChange={(e) => setType_token(e.target.value)}>
                       <option>Select Roles</option>
-                      <option value="user">user</option>
-                      <option value="customer">customer</option>
-                      <option value="member">member</option>
+                      <option value="guru">guru</option>
+                      <option value="admin Sekolah">admin Sekolah</option>
+                      <option value="siswa">siswa</option>
                     </select>
                     {type_token === "member" ? (
                       <>
@@ -137,7 +151,7 @@ const Login = () => {
                         placeholder="unique_id"
                         autoComplete="unique_id"
                         value={unique_id}
-                        type="number"
+                        type="text"
                         onChange={(e) => setUnique_id(e.target.value)}
                       />
                     </CInputGroup>

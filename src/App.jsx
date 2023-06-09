@@ -2,6 +2,7 @@ import React, { Component, Suspense } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import './scss/style.scss'
 import ResetPassword from './views/pages/reset/ForgotPasswor'
+// import LIstDataSIswa from './pages/LIstDataSIswa'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -30,6 +31,7 @@ class App extends Component {
             <Route exact path="/500" name="Page 500" element={<Page500 />} />
             <Route exact path="/reset" name="Reset" element={<ResetPassword />} />
             <Route path="*" name="Home" element={<DefaultLayout />} />
+            {/* <Route path="/listdatasiswa" name="ListDataSiswa" element={<LIstDataSIswa />} /> */}
           </Routes>
         </Suspense>
       </HashRouter>

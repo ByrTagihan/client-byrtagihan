@@ -1,9 +1,11 @@
 import React from 'react'
-import Login from './pages/Login'
-import Register from './pages/Register'
+// import Login from './pages/Login'
+// import Register from './pages/Register'
 import ResetPassword from './views/pages/reset/ForgotPasswor'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+const LIstDataSIswa = React.lazy(() => import('./pages/LIstDataSIswa'))
+const EditListSiswa = React.lazy(() => import('./edit/ListDataSiswaEdit'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -44,6 +46,8 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const CoreUIIcons = React.lazy(() => import('./views/icons/coreui-icons/CoreUIIcons'))
 const Flags = React.lazy(() => import('./views/icons/flags/Flags'))
 const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
+const Tagihan = React.lazy(() => import('./pages/Tagihan'))
+const LihatTagihanMember = React.lazy(() => import('./pages/LihatTagihanByMember'))
 
 // Notifications
 // const Alerts = React.lazy(() => import('./views/notifications/alerts/Alerts'))
@@ -54,7 +58,7 @@ const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
 // const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
-  { path: '/', exact: true, name: 'Home' },
+  { path: '/home', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
@@ -93,6 +97,10 @@ const routes = [
   { path: '/icons/flags', name: 'Flags', element: Flags },
   { path: '/icons/brands', name: 'Brands', element: Brands },
   { path: '/reset', name: 'Reset', element: ResetPassword },
+  { path: '/listdatasiswa', name: 'ListDataSiswa', element: LIstDataSIswa },
+  { path: '/Editlistdatasiswa/:id', name: 'EditListDataSiswa', element: EditListSiswa },
+  { path: '/datatagihan/:id', name: 'dataTagihan', element: Tagihan },
+  { path: '/lihattagihanmember', name: 'dataTagihan', element: LihatTagihanMember },
   // { path: '/loginn', name: 'Loginn', element: Login },
   // { path: '/registerr', name: 'Registerr', element: Register },
   // { path: '/notifications', name: 'Notifications', element: Alerts, exact: true },

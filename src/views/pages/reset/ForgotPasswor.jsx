@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 
-import "./../../../css/ForgotPassword.css"
+// import "./../../../css/ForgotPassword.css"
 import { CButton, CCard, CCardBody, CCardGroup, CCol, CContainer, CForm, CFormInput, CInputGroup, CInputGroupText, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default function ResetPassword() {
     const [email, setEmail] = useState();
@@ -18,7 +19,12 @@ export default function ResetPassword() {
             email : email,
         }).then(res => {
             console.log(res);
-        alert("Success");
+         Swal.fire({
+          icon: "success",
+          title:  "Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         window.location.reload();
         })
         .catch(err => {
