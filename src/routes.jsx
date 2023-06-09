@@ -5,6 +5,8 @@ import ResetPassword from './views/pages/reset/ForgotPasswor'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const GantiPasswordCustomer = React.lazy(() => import('./views/pages/profile/GantiPasswordCustomer'))
+const TambahTagihanMember = React.lazy(() => import('./views/pages/member/TambahTagihanMember'))
+const EditTagihanMember = React.lazy(() => import('./views/pages/member/EditTagihanMember'))
 const DetailProfile = React.lazy(() => import('./views/pages/profile/DetailProfile'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
@@ -60,6 +62,8 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/customerProfile', name: 'CustomerProfile', element: DetailProfile },
   { path: '/gantiPasswordCustomer', name: 'GantiPasswordCustomer', element: GantiPasswordCustomer },
+  { path: '/tambahTagihanMember', name: 'TambahTagihanMember', element: TambahTagihanMember },
+  { path: '/editTagihanMember', name: 'EditTagihanMember', element: EditTagihanMember },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
   // { path: '/theme/typography', name: 'Typography', element: Typography },
