@@ -75,7 +75,7 @@ const Login = () => {
           alert("Success");
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
-          localStorage.setItem("toke", data.data.token);
+          localStorage.setItem("token", data.data.token);
           navigate("/");
           setTimeout(() => {
             window.location.reload();

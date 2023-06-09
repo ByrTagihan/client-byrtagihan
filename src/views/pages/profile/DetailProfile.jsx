@@ -46,7 +46,6 @@ const DetailProfile = () => {
         setName(profil.name)
         setAddress(profil.address)
         setPicture(profil.picture)
-        console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -65,7 +64,7 @@ const DetailProfile = () => {
       name: name,
       hp: hp,
       address: address,
-      picture: picture,
+      picture: null,
     };
 
     try {
@@ -75,7 +74,7 @@ const DetailProfile = () => {
       setShow(false);
       Swal.fire({
         icon: "success",
-        title: "berhasil mengedit",
+        title: "Successfully Edited Data",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -96,14 +95,14 @@ const DetailProfile = () => {
               <CCardGroup>
                 <CCard className="p-4">
                   <CCardBody>
-                    <CForm onSubmit={Put}>
+                    <CForm style={{color: "gray"}} onSubmit={Put}>
                       <h3>Profile Customer</h3>
                       <br />
 
-                      <p className="mb-1">Id : {profile.id}</p>
-                      <p className="mb-3">
+                      <h6 className="mb-1">Id : {profile.id}</h6>
+                      <h6 className="mb-3">
                         <CIcon icon={cilUser} /> Email : {profile.email}
-                      </p>
+                      </h6>
 
                       <CInputGroup className="mb-3">
                         <CInputGroupText>
@@ -158,6 +157,15 @@ const DetailProfile = () => {
                             className="px-3 py-1.5"
                           >
                             Simpan
+                          </CButton>
+                        </CCol>
+                        <CCol xs={6}>
+                          <CButton
+                            href="/#/gantiPasswordCustomer"
+                            color="primary"
+                            style={{textDecoration: "none"}}
+                          >
+                            Ubah Password
                           </CButton>
                         </CCol>
                       </CRow>

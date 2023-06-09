@@ -4,6 +4,7 @@ import Register from './pages/Register'
 import ResetPassword from './views/pages/reset/ForgotPasswor'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+const GantiPasswordCustomer = React.lazy(() => import('./views/pages/profile/GantiPasswordCustomer'))
 const DetailProfile = React.lazy(() => import('./views/pages/profile/DetailProfile'))
 const CustomerOrganization = React.lazy(() => import("./views/pages/costumer/CustomerOrganization"))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -59,6 +60,7 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/customerProfile', name: 'CustomerProfile', element: DetailProfile },
+  { path: '/gantiPasswordCustomer', name: 'GantiPasswordCustomer', element: GantiPasswordCustomer },
   { path: "/customerOrganization", name: "Customer Organization", element: CustomerOrganization },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
