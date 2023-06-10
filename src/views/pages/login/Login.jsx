@@ -68,7 +68,7 @@ const Login = () => {
         // }, 1500);
       }
       }
-      else if(type_token === "guru") {
+
         const { data, status } = await axios.post(
           "https://api.byrtagihan.com/api/user/login",
           {
@@ -90,9 +90,7 @@ const Login = () => {
           setTimeout(() => {
             window.location.reload();
           }, 1500);
-        }
-        } 
-        else if(type_token === "siswa") {
+        } else if(type_token === "siswa") {
           const { data, status } = await axios.post(
             "https://api.byrtagihan.com/api/member/login",
             {
@@ -115,7 +113,18 @@ const Login = () => {
               window.location.reload();
             }, 1500);
           }
-          } 
+        // Jika respon 200/ ok
+        if (status === 200) {
+          alert("Success");
+          localStorage.setItem("type_token", data.data.type_token);
+          localStorage.setItem("id", data.data.id);
+          localStorage.setItem("toke", data.data.token);
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+      }
     } catch (error) {
       alert("username/ Password No Valid");
       console.log(error);
@@ -131,7 +140,7 @@ const Login = () => {
               <CCard className="p-4">
                 <CCardBody>
                   <CForm>
-                    <h1 style={{color:"black"}}>Login</h1>
+                    <h1 style={{ color: "black" }}>Login</h1>
                     <p className="text-medium-emphasis">
                       Sign In to your account
                     </p>
@@ -156,19 +165,19 @@ const Login = () => {
                       />
                     </CInputGroup>
                       </>
-                    ):(
+                    ) : (
                       <CInputGroup className="mb-3">
-                      <CInputGroupText>
-                        <CIcon icon={cilUser} />
-                      </CInputGroupText>
-                      <CFormInput
-                        placeholder="email"
-                        autoComplete="email"
-                        value={email}
-                        type="email"
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </CInputGroup>
+                        <CInputGroupText>
+                          <CIcon icon={cilUser} />
+                        </CInputGroupText>
+                        <CFormInput
+                          placeholder="email"
+                          autoComplete="email"
+                          value={email}
+                          type="email"
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </CInputGroup>
                     )}
                     <CInputGroup className="mb-4">
                       <CInputGroupText>

@@ -71,14 +71,11 @@ const AppSidebar = () => {
       <SimpleBar>
         <AppSidebarNav items={navigation} />
       </SimpleBar>
-    </CSidebarNav>
-    <CSidebarBrand className="d-md-flex">
-          <button className='button' style={{ background:"none", color: "white", width: "100%"}} onClick={logout}><i class="fas fa-sign-out-alt"></i> Logout</button>
-    </CSidebarBrand>
-    {/* <CSidebarToggler
+    </CSidebarNav> 
+    <CSidebarToggler
       className="d-none d-lg-flex"
       onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}
-    /> */}
+    />
   </CSidebar>
   )
 }
