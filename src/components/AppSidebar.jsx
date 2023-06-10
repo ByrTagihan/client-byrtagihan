@@ -15,7 +15,7 @@ import 'simplebar/dist/simplebar.min.css'
 // sidebar nav config
 import navigation from '../_nav'
 
-import "../css/AppSidebar.css"
+// import "../css/AppSidebar.css"
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
@@ -63,14 +63,13 @@ const AppSidebar = () => {
       dispatch({ type: 'set', sidebarShow: visible })
     }}
   >
-    <CSidebarBrand className="d-none d-md-flex" to="/">
-      <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} />
-      <CIcon className="sidebar-brand-narrow" icon={sygnet} height={35} />
+    <CSidebarBrand className="d-none d-md-flex" to="/home">
+      <img src='https://o.remove.bg/downloads/10ac4362-d87e-43a9-ad06-f60b6185f4e8/branding-identity-corporate-b-logo-vector-design-template_460848-13934-removebg-preview.png' className="sidebar-brand-full" style={{width:"20%"}} width={10}/> 
+      <p style={{marginRight:"20%", marginTop:"15px", fontWeight:"bold", fontSize:"20px"}}>Tagihan</p>
     </CSidebarBrand>
     <CSidebarNav>
       <SimpleBar>
         <AppSidebarNav items={navigation} />
-          <button style={{marginTop: "110%", background:"none", color: "white", width: "100%"}} onClick={logout}>Logout</button>
       </SimpleBar>
     </CSidebarNav> 
     <CSidebarToggler
