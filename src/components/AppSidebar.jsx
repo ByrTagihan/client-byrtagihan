@@ -72,7 +72,7 @@ const AppSidebar = () => {
         <AppSidebarNav items={navigation} />
           <button style={{marginTop: "110%", background:"none", color: "white", width: "100%"}} onClick={logout}>Logout</button>
       </SimpleBar>
-    </CSidebarNav>
+    </CSidebarNav> 
     <CSidebarToggler
       className="d-none d-lg-flex"
       onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}

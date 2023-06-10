@@ -11,20 +11,17 @@ import {
   CInputGroupText,
   CRow,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
-import { cilAddressBook, cilEyedropper } from "@coreui/icons";
 import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import usePasswordToggle from "./usePasswordToggle";
 
 const GantiPasswordCustomer = () => {
   const [old_password, setOld_password] = useState("");
   const [new_password, setNew_password] = useState("");
   const [confirm_new_password, setConfirm_new_password] = useState("");
 
+  const [password_lama, setPasswordLama] = useState("old_password");
 
   const Put = async (e) => {
     e.preventDefault();
@@ -44,7 +41,6 @@ const GantiPasswordCustomer = () => {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
       );
-          
 
       if (new_password === confirm_new_password) {
         Swal.fire({
@@ -53,8 +49,8 @@ const GantiPasswordCustomer = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-      } 
-      // else if (old_password !== old_password) {
+      }
+      //  if (old_password !== password_lama) {
       //   Swal.fire({
       //     icon: "error",
       //     title: "Password tidak sesuai dengan sebelumnya",
@@ -62,7 +58,7 @@ const GantiPasswordCustomer = () => {
       //     timer: 1500,
       //   });
       // }
-       else {
+      else {
         Swal.fire({
           icon: "error",
           title: "Different Password Confirmation",
@@ -104,7 +100,7 @@ const GantiPasswordCustomer = () => {
 
                       <CInputGroup className="mb-3">
                         <CInputGroupText style={{ width: "26.5vh" }}>
-                          Password Baru 
+                          Password Baru
                         </CInputGroupText>
                         <CFormInput
                           placeholder="Password Baru"
@@ -112,7 +108,6 @@ const GantiPasswordCustomer = () => {
                           type="password"
                           onChange={(e) => setNew_password(e.target.value)}
                         />
-                      
                       </CInputGroup>
 
                       <CInputGroup className="mb-4">
@@ -129,13 +124,13 @@ const GantiPasswordCustomer = () => {
 
                       <CRow>
                         <CCol xs={6}>
-                          <CButton
+                          <button
+                            style={{ backgroundColor: "#213555" }}
                             type="submit"
-                            color="primary"
                             className="px-3 py-1.5"
                           >
                             Simpan
-                          </CButton>
+                          </button>
                         </CCol>
                       </CRow>
                     </CForm>
