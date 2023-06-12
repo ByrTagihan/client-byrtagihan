@@ -14,6 +14,7 @@ import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
 import navigation from '../_nav'
+import Gambar from "../assets/images/branding-identity-corporate-b-logo-vector-design-template_460848-13934-removebg-preview.png"
 
 // import "../css/AppSidebar.css"
 import Swal from 'sweetalert2'
@@ -64,7 +65,7 @@ const AppSidebar = () => {
     }}
   >
     <CSidebarBrand className="d-none d-md-flex" to="/home">
-      <img src='https://o.remove.bg/downloads/10ac4362-d87e-43a9-ad06-f60b6185f4e8/branding-identity-corporate-b-logo-vector-design-template_460848-13934-removebg-preview.png' className="sidebar-brand-full" style={{width:"20%"}} width={10}/> 
+      <img src={Gambar} className="sidebar-brand-full" style={{width:"20%"}} width={10}/> 
       <p style={{marginRight:"20%", marginTop:"15px", fontWeight:"bold", fontSize:"20px"}}>Tagihan</p>
     </CSidebarBrand>
     <CSidebarNav>
@@ -73,7 +74,7 @@ const AppSidebar = () => {
       </SimpleBar>
     </CSidebarNav>
     <CSidebarBrand className="d-md-flex">
-          <button className='button' style={{ background:"none", color: "white", width: "100%"}} onClick={logout}><i class="fas fa-sign-out-alt"></i> Logout</button>
+          <button className='button' style={{ background:"none", color: "white", width: "100%"}} onClick={logout}><i className="fas fa-sign-out-alt"></i> Logout</button>
     </CSidebarBrand>
     {/* <CSidebarToggler
       className="d-none d-lg-flex"
