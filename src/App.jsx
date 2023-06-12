@@ -3,6 +3,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom'
 import './scss/style.scss'
 import ResetPassword from './views/pages/reset/ForgotPasswor'
 import PrivateRoute from './utils/PrivateRoute'
+import ForgotPasswordSiswa from './views/pages/reset/ForgotPasswordSiswa'
 // import LIstDataSIswa from './pages/LIstDataSIswa'
 
 const loading = (
@@ -31,6 +32,7 @@ class App extends Component {
             <Route exact path="/404" name="Page 404" element={<Page404 />} />
             <Route exact path="/500" name="Page 500" element={<Page500 />} />
             <Route exact path="/reset" name="Reset" element={<ResetPassword />} />
+            <Route exact path="/forgotPasswordSiswa" name="Forgot Password Siswa" element={<ForgotPasswordSiswa />} />
             <Route path="*" name="Home" element={
             <PrivateRoute>
             <DefaultLayout />
