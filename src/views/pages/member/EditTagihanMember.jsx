@@ -25,7 +25,7 @@ import {
           setShow(false);
           Swal.fire({
             icon: "success",
-            title: "Successfully Edited ",
+            title: "Tersimpan",
             showConfirmButton: false,
             timer: 1500,
           });
