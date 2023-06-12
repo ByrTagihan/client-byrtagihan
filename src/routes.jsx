@@ -6,6 +6,15 @@ import ResetPassword from './views/pages/reset/ForgotPasswor'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const LIstDataSIswa = React.lazy(() => import('./pages/LIstDataSIswa'))
 const EditListSiswa = React.lazy(() => import('./edit/ListDataSiswaEdit'))
+const GantiPasswordCustomer = React.lazy(() => import('./views/pages/profile/GantiPasswordCustomer'))
+const TambahTagihanMember = React.lazy(() => import('./views/pages/member/TambahTagihanMember'))
+const EditTagihanMember = React.lazy(() => import('./views/pages/member/EditTagihanMember'))
+const DetailProfile = React.lazy(() => import('./views/pages/profile/DetailProfile'))
+const CustomerOrganization = React.lazy(() => import("./views/pages/costumer/CustomerOrganization"))
+const Sekolah = React.lazy(() => import('./views/pages/sekolah/Sekolah'))
+const ListTagihan = React.lazy(() => import('./views/pages/tagihan/Tagihan'))
+const AddTagihan = React.lazy(() => import('./views/pages/tagihan/AddTagihan'))
+const EditTagihan = React.lazy(() => import('./views/pages/tagihan/EditTagihan'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -60,6 +69,15 @@ const LihatTagihanMember = React.lazy(() => import('./pages/LihatTagihanByMember
 const routes = [
   { path: '/home', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/customerProfile', name: 'CustomerProfile', element: DetailProfile },
+  { path: '/gantiPasswordCustomer', name: 'GantiPasswordCustomer', element: GantiPasswordCustomer },
+  { path: '/tambahTagihanMember', name: 'TambahTagihanMember', element: TambahTagihanMember },
+  { path: '/editTagihanMember', name: 'EditTagihanMember', element: EditTagihanMember },
+  { path: "/customerOrganization", name: "Customer Organization", element: CustomerOrganization },
+  { path: '/sekolah', name: 'Sekolah', element: Sekolah },
+  { path: '/tagihan', name: 'Tagihan', element: ListTagihan },
+  { path: '/addtagihan', name: 'Tambah Tagihan', element: AddTagihan },
+  { path: '/edittagihan/:id', name: 'Edit Tagihan', element: EditTagihan },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
   // { path: '/theme/typography', name: 'Typography', element: Typography },
