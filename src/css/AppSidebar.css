@@ -1,7 +1,7 @@
-button:hover {
+.button:hover {
     border: none;
-    background-color: rgb(226, 206, 206);
+    /* background-color: rgb(226, 206, 206); */
 }
-button {
+.button {
     border: none;
 }

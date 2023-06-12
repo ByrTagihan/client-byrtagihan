@@ -14,8 +14,9 @@ import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
 import navigation from '../_nav'
+import Gambar from "../assets/images/branding-identity-corporate-b-logo-vector-design-template_460848-13934-removebg-preview.png"
 
-import "../css/AppSidebar.css"
+// import "../css/AppSidebar.css"
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
@@ -63,20 +64,22 @@ const AppSidebar = () => {
       dispatch({ type: 'set', sidebarShow: visible })
     }}
   >
-    <CSidebarBrand className="d-none d-md-flex" to="/">
-      <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} />
-      <CIcon className="sidebar-brand-narrow" icon={sygnet} height={35} />
+    <CSidebarBrand className="d-none d-md-flex" to="/home">
+      <img src={Gambar} className="sidebar-brand-full" style={{width:"20%"}} width={10}/> 
+      <p style={{marginRight:"20%", marginTop:"15px", fontWeight:"bold", fontSize:"20px"}}>Tagihan</p>
     </CSidebarBrand>
     <CSidebarNav>
       <SimpleBar>
         <AppSidebarNav items={navigation} />
-          <button style={{marginTop: "110%", background:"none", color: "white", width: "100%"}} onClick={logout}>Logout</button>
       </SimpleBar>
-    </CSidebarNav> 
-    <CSidebarToggler
+    </CSidebarNav>
+    <CSidebarBrand className="d-md-flex">
+          <button className='button' style={{ background:"none", color: "white", width: "100%"}} onClick={logout}><i className="fas fa-sign-out-alt"></i> Logout</button>
+    </CSidebarBrand>
+    {/* <CSidebarToggler
       className="d-none d-lg-flex"
       onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}
-    />
+    /> */}
   </CSidebar>
   )
 }

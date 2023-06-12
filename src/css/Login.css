@@ -5,3 +5,22 @@
     margin-top: -11px;
     margin-bottom: 8px;
 }
+
+.ccontainer {
+    display: flex;
+}
+
+@media screen and(max-width: 600px) {
+    .ccontainer {
+        display: block;
+    }
+    img {
+        width: 100%;
+    }
+}
+
+@media screen and(min-width: 320px) {
+    .ccontainer {
+        display: block;
+    }
+}
