@@ -118,7 +118,7 @@ const routes = [
   { path: '/listdatasiswa', name: 'ListDataSiswa', element: LIstDataSIswa },
   { path: '/Editlistdatasiswa/:id', name: 'EditListDataSiswa', element: EditListSiswa },
   { path: '/datatagihan/:id', name: 'dataTagihan', element: Tagihan },
-  { path: '/lihattagihanmember', name: 'dataTagihan', element: LihatTagihanMember },
+  { path: '/lihattagihanmember/:id', name: 'dataTagihan', element: LihatTagihanMember },
   // { path: '/loginn', name: 'Loginn', element: Login },
   // { path: '/registerr', name: 'Registerr', element: Register },
   // { path: '/notifications', name: 'Notifications', element: Alerts, exact: true },

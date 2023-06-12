@@ -49,9 +49,9 @@ function Tagihan() {
   return (
     <div>
 
-<table class="table border" style={{ textAlign: "center" }}>
+<table className="table border" style={{ textAlign: "center" }}>
         <thead
-          class="thead-dark"
+          className="thead-dark"
           style={{ backgroundColor: "#213555", color: "white" }}
         >
           <tr>
@@ -83,7 +83,7 @@ function Tagihan() {
                       getById(data.id);
                     }}
                   >
-                      <i class="fas fa-edit"></i>
+                      <i className="fas fa-edit"></i>
                   </button>
                 </td>
               </tr>
