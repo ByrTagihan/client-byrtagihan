@@ -1,5 +1,4 @@
 import {
-  CButton,
   CCard,
   CCardBody,
   CCardGroup,
@@ -15,7 +14,6 @@ import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-
 const GantiPasswordCustomer = () => {
   const [old_password, setOld_password] = useState("");
   const [new_password, setNew_password] = useState("");
@@ -23,8 +21,57 @@ const GantiPasswordCustomer = () => {
 
   const [password_lama, setPasswordLama] = useState("old_password");
 
-  const Put = async (e) => {
-    e.preventDefault();
+  // const Puta = async (e) => {
+  //   e.preventDefault();
+  //   e.persist();
+
+  //   const data = {
+  //     old_password: old_password,
+  //     new_password: new_password,
+  //     confirm_new_password: confirm_new_password,
+  //   };
+
+  //   try {
+  //     await axios.put(
+  //       `https://api.byrtagihan.com/api/customer/password`,
+  //       data,
+  //       {
+  //         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+  //       }
+  //     );
+
+  //     if (new_password === confirm_new_password) {
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "Password Tersimpan",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //     } else if (old_password !== password_lama) {
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Password tidak sesuai dengan sebelumnya",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //     } else {
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Different Password Confirmation",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //     }
+  //     setTimeout(() => {
+  //       window.location.reload();
+  //     }, 1500);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+ const Put = async (e, status) => {
+  e.preventDefault();
     e.persist();
 
     const data = {
@@ -41,27 +88,17 @@ const GantiPasswordCustomer = () => {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
       );
-
-      if (new_password === confirm_new_password) {
+      if (status ===  200) {
         Swal.fire({
           icon: "success",
-          title: "Successfully Edited Password",
+          title: "Sukses mengedit password",
           showConfirmButton: false,
           timer: 1500,
         });
-      }
-      //  if (old_password !== password_lama) {
-      //   Swal.fire({
-      //     icon: "error",
-      //     title: "Password tidak sesuai dengan sebelumnya",
-      //     showConfirmButton: false,
-      //     timer: 1500,
-      //   });
-      // }
-      else {
+      } else {
         Swal.fire({
           icon: "error",
-          title: "Different Password Confirmation",
+          title: "Password lama tidak sesuai",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -72,7 +109,47 @@ const GantiPasswordCustomer = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+ }
+
+
+// const Put = async (status) => {
+//   const data = {
+//     old_password: old_password,
+//     new_password: new_password,
+//     confirm_new_password: confirm_new_password,
+//   };
+
+//     if (status === 200) {
+//       axios.put(
+//         `https://api.byrtagihan.com/api/customer/password`,
+//         data,
+//         {
+//           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+//         }
+//       ).then((res) => {
+//         if (res.data.data.Edit === true) {
+//           Swal.fire({
+//             icon: "success",
+//             title: "Sukses!",
+//             showConfirmButton: false,
+//             timer: 5500,
+//           });
+
+//           setTimeout(() => {
+//             window.location.reload();
+//           }, 1500);
+//         } else {
+//           Swal.fire({
+//             icon: "error",
+//             title: "Tidak bisa",
+//             showConfirmButton: false,
+//             timer: 5500,
+//           });
+//         }
+//       });
+//     }
+//   };
+// };
 
   return (
     <div>

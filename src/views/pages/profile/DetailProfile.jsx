@@ -74,7 +74,7 @@ const DetailProfile = () => {
       setShow(false);
       Swal.fire({
         icon: "success",
-        title: "Successfully Edited Data",
+        title: "Tersimpan",
         showConfirmButton: false,
         timer: 1500,
       });

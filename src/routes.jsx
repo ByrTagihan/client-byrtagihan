@@ -7,7 +7,7 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const GantiPasswordCustomer = React.lazy(() => import('./views/pages/profile/GantiPasswordCustomer'))
 const TambahTagihanMember = React.lazy(() => import('./views/pages/member/TambahTagihanMember'))
 const EditTagihanMember = React.lazy(() => import('./views/pages/member/EditTagihanMember'))
-const DetailProfile = React.lazy(() => import('./views/pages/profile/DetailProfile'))
+const DetailProfile = React.lazy(() => import('./views/pages/profile/DetailProfile')) 
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
