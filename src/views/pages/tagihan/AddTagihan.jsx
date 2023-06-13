@@ -2,13 +2,15 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_DUMMY } from "../../../utils/baseURL";
+import Swal from "sweetalert2";
 
 function AddTagihan() {
   const [memberId, setMemberId] = useState(0);
   const [desc, setDesc] = useState("");
-  const [periode, setPeriode] = useState();
+  const [periode, setPeriode] = useState("");
   const [amount, setAmount] = useState(0);
   const [suggestions, setSuggestions] = useState([]);
+  const [suggestionIndex, setSuggestionIndex] = useState(0);
   const [suggestionsActive, setSuggestionsActive] = useState(false);
   const [value, setValue] = useState("");
 
@@ -22,7 +24,6 @@ function AddTagihan() {
       periode: periode,
       amount: amount,
     };
-
     await axios
       .post(`${API_DUMMY}/customer/bill`, req, {
         headers: {
@@ -31,6 +32,12 @@ function AddTagihan() {
       })
       .then(() => {
         navigate("/tagihan");
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil DiTambahkan",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -40,14 +47,16 @@ function AddTagihan() {
   const handleChange = async (e) => {
     const query = e.target.value;
     setValue(query);
-    setMemberId(query);
 
     try {
-      const response = await fetch(`${API_DUMMY}/customer/member/${query}`, {
-        headers: {
-          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `${API_DUMMY}/customer/member?name=${query}`,
+        {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       if (query.length > 0 && response.ok) {
         const res = await response.json();
@@ -61,12 +70,65 @@ function AddTagihan() {
     }
   };
 
+  const onKeyDown = (keyEvent) => {
+    if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+      keyEvent.preventDefault();
+    }
+  };
+
+  const handleClick = (e, id) => {
+    setSuggestions([]);
+    setValue(e.target.innerText);
+    setMemberId(id);
+    setSuggestionsActive(false);
+  };
+
+  const handleKeyDown = (e) => {
+    // UP ARROW
+    if (e.keyCode === 38) {
+      if (suggestionIndex === 0) {
+        return;
+      }
+      setSuggestionIndex(suggestionIndex - 1);
+    }
+    // DOWN ARROW
+    else if (e.keyCode === 40) {
+      if (suggestionIndex - 1 === suggestions.length) {
+        return;
+      }
+      setSuggestionIndex(suggestionIndex + 1);
+    }
+    // ENTER
+    else if (e.keyCode === 13) {
+      setValue(
+        `NIK = ${suggestions[suggestionIndex].unique_id}, Nama = ${suggestions[suggestionIndex].name}`
+      );
+      setMemberId(suggestions[suggestionIndex].id);
+      setSuggestionIndex(0);
+      setSuggestionsActive(false);
+    }
+  };
 
   const Suggestions = () => {
     return (
-      <div class="card border-secondary border-top-0" style={{borderTopRightRadius : 0, borderTopLeftRadius : 0}}>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">{suggestions.name}</li>
+      <div
+        className="card border-secondary border-top-0"
+        style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
+      >
+        <ul className="list-group list-group-flush">
+          {suggestions.map((data, index) => (
+            <li
+              className={
+                index === suggestionIndex
+                  ? "list-group-item  list-group-item-action active"
+                  : "list-group-item  list-group-item-action"
+              }
+              key={index}
+              onClick={(e)=> handleClick(e, data.id)}
+            >
+              NIK = {data.unique_id}, Nama = {data.name}
+            </li>
+          ))}
         </ul>
       </div>
     );
@@ -74,59 +136,64 @@ function AddTagihan() {
 
   return (
     <div>
-      <div class="card mb-3">
-        <div class="card-header bg-transparent">Tambah Tagihan</div>
-        <div class="card-body">
-          <form onSubmit={addTagihan}>
-            <div class="mb-3 autocomplete">
-              <label class="form-label">MemberID</label>
+      <div className="card mb-3">
+        <div className="card-header bg-transparent">Tambah Tagihan</div>
+        <div className="card-body">
+          <form onSubmit={addTagihan} onKeyDown={onKeyDown}>
+            <div className="mb-3 autocomplete">
+              <label className="form-label">Member</label>
               <input
                 id="number_id"
-                type="number"
-                class="form-control"
+                type="text"
+                className="form-control"
                 value={value}
-                min={0}
+                autoComplete="off"
+                onKeyDown={handleKeyDown}
                 onChange={handleChange}
+                required
               />
               {suggestionsActive && <Suggestions />}
             </div>
-            <div class="mb-3">
-              <label class="form-label">Keterangan</label>
+            <div className="mb-3">
+              <label className="form-label">Keterangan</label>
               <input
                 id="description"
                 type="text"
-                class="form-control"
+                className="form-control"
                 onChange={(e) => setDesc(e.target.value)}
+                required
               />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Nominal</label>
+            <div className="mb-3">
+              <label className="form-label">Nominal</label>
               <input
                 id="amount"
                 type="number"
-                class="form-control"
+                className="form-control"
                 onChange={(e) => setAmount(e.target.value)}
+                required
               />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Periode</label>
+            <div className="mb-3">
+              <label className="form-label">Periode</label>
               <input
                 id="periode"
                 type="date"
-                class="form-control"
+                className="form-control"
                 onChange={(e) => setPeriode(e.target.value)}
+                required
               />
             </div>
             <button
               type="button"
-              class="btn btn-secondary float-start"
+              className="btn btn-secondary float-start"
               onClick={() => {
                 navigate("/tagihan");
               }}
             >
               Close
             </button>
-            <button type="submit" class="btn btn-primary float-end">
+            <button type="submit" className="btn btn-primary float-end">
               Submit
             </button>
           </form>

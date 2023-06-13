@@ -2,13 +2,15 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_DUMMY } from "../../../utils/baseURL";
+import Swal from "sweetalert2";
 
 function EditTagihan() {
   const [memberId, setMemberId] = useState(0);
   const [desc, setDesc] = useState("");
-  const [periode, setPeriode] = useState();
+  const [periode, setPeriode] = useState("");
   const [amount, setAmount] = useState(0);
   const [suggestions, setSuggestions] = useState([]);
+  const [suggestionIndex, setSuggestionIndex] = useState(0);
   const [suggestionsActive, setSuggestionsActive] = useState(false);
   const [value, setValue] = useState("");
   const { id } = useParams();
@@ -23,15 +25,22 @@ function EditTagihan() {
       periode: periode,
       amount: amount,
     };
+    console.log(req);
 
     await axios
-    .put(`${API_DUMMY}/customer/bill/${id}`, req, {
-      headers: {
-        "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-      },
-    })
+      .put(`${API_DUMMY}/customer/bill/${id}`, req, {
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+        },
+      })
       .then(() => {
-        navigate("/tagihan")
+        // navigate("/tagihan");
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Mengubah",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -41,14 +50,16 @@ function EditTagihan() {
   const handleChange = async (e) => {
     const query = e.target.value;
     setValue(query);
-    setMemberId(query);
 
     try {
-      const response = await fetch(`${API_DUMMY}/customer/member/${query}`, {
-        headers: {
-          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `${API_DUMMY}/customer/member?name=${query}`,
+        {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       if (query.length > 0 && response.ok) {
         const res = await response.json();
@@ -62,11 +73,65 @@ function EditTagihan() {
     }
   };
 
+  const onKeyDown = (keyEvent) => {
+    if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+      keyEvent.preventDefault();
+    }
+  };
+
+  const handleClick = (e, id) => {
+    setSuggestions([]);
+    setValue(e.target.innerText);
+    setMemberId(id);
+    setSuggestionsActive(false);
+  };
+
+  const handleKeyDown = (e) => {
+    // UP ARROW
+    if (e.keyCode === 38) {
+      if (suggestionIndex === 0) {
+        return;
+      }
+      setSuggestionIndex(suggestionIndex - 1);
+    }
+    // DOWN ARROW
+    else if (e.keyCode === 40) {
+      if (suggestionIndex - 1 === suggestions.length) {
+        return;
+      }
+      setSuggestionIndex(suggestionIndex + 1);
+    }
+    // ENTER
+    else if (e.keyCode === 13) {
+      setValue(
+        `NIK = ${suggestions[suggestionIndex].unique_id}, Nama = ${suggestions[suggestionIndex].name}`
+      );
+      setMemberId(suggestions[suggestionIndex].id);
+      setSuggestionIndex(0);
+      setSuggestionsActive(false);
+    }
+  };
+
   const Suggestions = () => {
     return (
-      <div class="card border-secondary border-top-0" style={{borderTopRightRadius : 0, borderTopLeftRadius : 0}}>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">{suggestions.name}</li>
+      <div
+        className="card border-secondary border-top-0"
+        style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
+      >
+        <ul className="list-group list-group-flush">
+          {suggestions.map((data, index) => (
+            <li
+              className={
+                index === suggestionIndex
+                  ? " list-group-item  list-group-item-action active"
+                  : "list-group-item  list-group-item-action"
+              }
+              key={index}
+              onClick={(e)=> handleClick(e, data.id)}
+            >
+              NIK = {data.unique_id}, Nama = {data.name}
+            </li>
+          ))}
         </ul>
       </div>
     );
@@ -74,82 +139,95 @@ function EditTagihan() {
 
   useEffect(() => {
     axios
-        .get(`${API_DUMMY}/customer/bill/${id}`, {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          const response = res.data.data
-          setValue(response.member_id)
-          setMemberId(response.member_id)
-          setDesc(response.description)
-          setPeriode(response.periode)
-          setAmount(response.amount)
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  }, [])
+      .get(`${API_DUMMY}/customer/bill/${id}`, {
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        const response = res.data.data;
+        axios
+          .get(`${API_DUMMY}/customer/member/${response.member_id}`, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((ress) => {
+            const users = ress.data.data;
+            setValue(`NIK = ${users.unique_id}, Nama = ${users.name}`);
+            setDesc(response.description);
+            setPeriode(response.periode);
+            setAmount(response.amount);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <div>
-      <div class="card mb-3">
-        <div class="card-header bg-transparent">Edit Tagihan</div>
-        <div class="card-body">
-          <form onSubmit={updateTagihan}>
-            <div class="mb-3 autocomplete">
-              <label class="form-label">MemberID</label>
+      <div className="card mb-3">
+        <div className="card-header bg-transparent">Edit Tagihan</div>
+        <div className="card-body">
+          <form onSubmit={updateTagihan} onKeyDown={onKeyDown}>
+            <div className="mb-3 autocomplete">
+              <label className="form-label">Member</label>
               <input
                 id="number_id"
-                type="number"
-                class="form-control"
+                type="text"
+                className="form-control"
+                autoComplete="off"
                 value={value}
-                min={0}
+                onKeyDown={handleKeyDown}
                 onChange={handleChange}
+                required
               />
               {suggestionsActive && <Suggestions />}
             </div>
-            <div class="mb-3">
-              <label class="form-label">Keterangan</label>
+            <div className="mb-3">
+              <label className="form-label">Keterangan</label>
               <input
                 id="description"
                 type="text"
-                class="form-control"
+                className="form-control"
                 value={desc}
                 onChange={(e) => setDesc(e.target.value)}
+                required
               />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Nominal</label>
+            <div className="mb-3">
+              <label className="form-label">Nominal</label>
               <input
                 id="amount"
                 type="number"
-                class="form-control"
+                className="form-control"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
+                required
               />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Periode</label>
+            <div className="mb-3">
+              <label className="form-label">Periode</label>
               <input
                 id="periode"
                 type="date"
-                class="form-control"
+                className="form-control"
                 value={periode}
                 onChange={(e) => setPeriode(e.target.value)}
+                required
               />
             </div>
             <button
               type="button"
-              class="btn btn-secondary float-start"
+              className="btn btn-secondary float-start"
               onClick={() => {
                 navigate("/tagihan");
               }}
             >
               Close
             </button>
-            <button type="submit" class="btn btn-primary float-end">
+            <button type="submit" className="btn btn-primary float-end">
               Submit
             </button>
           </form>
