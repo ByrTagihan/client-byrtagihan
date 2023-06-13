@@ -1,0 +1,45 @@
+.box {
+    display: flex;
+    gap: 37%;
+}
+.box1 {
+    display: flex;
+    gap: 38.8%;
+    margin-top: 20px;
+}
+.inputNisn {
+    width: 190%;
+}
+.inputNama {
+    width: 190%;
+}
+.inputAddress {
+    width: 190%;
+}
+.inputHp {
+    width: 190%;
+}
+@media(max-width:700px) {
+.box {
+    display: block;
+}
+ .box1 {
+    display: block;
+} 
+.inputNisn {
+    width: 100%;
+    margin-bottom: 10%;
+} 
+.inputNama {
+    width: 100%;
+    margin-bottom: 10%;
+} 
+.inputAddress {
+    width: 100%;
+    margin-bottom: 10%;
+} 
+.inputHp {
+    width: 100%;
+    margin-bottom: 10%;
+}
+}

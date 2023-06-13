@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import "../css/editListDataSiswa.css"
 
 function ListDataSiswaEdit() {
   const [name, setName] = useState("");
@@ -78,16 +79,15 @@ function ListDataSiswaEdit() {
         <div>
             <p style={{fontWeight:"bold", fontSize:"25px", marginBottom:"50px"}}>Edit LIst Data</p>
         </div>
-        <div style={{display:"flex", gap:"37%"}}>
+        <div className="box">
         <div>
           <label className="form-label" style={{fontWeight:"bold"}}>
             Nisn :
           </label>
           <input
             type="text"
-            className="form-control"
+            className="form-control inputNisn"
             aria-describedby="emailHelp"
-            style={{width:"190%"}}
             value={unique_id}
             onChange={(e) => setUnique_id(e.target.value)}
           />
@@ -98,24 +98,22 @@ function ListDataSiswaEdit() {
           </label>
           <input
             type="text"
-            className="form-control"
+            className="form-control inputNama"
             aria-describedby="emailHelp"
-            style={{width:"190%"}}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
         </div>
-        <div style={{display:"flex", gap:"38.8%", marginTop:"20px"}}>
+        <div className="box1">
         <div>
           <label className="form-label" style={{fontWeight:"bold"}}>
             Address :
           </label>
           <textarea
             type="text"
-            className="form-control"
+            className="form-control inputAddress"
             aria-describedby="emailHelp"
-            style={{width:"208%"}}
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           ></textarea>
@@ -126,9 +124,8 @@ function ListDataSiswaEdit() {
           </label>
           <input
             type="number"
-            className="form-control"
+            className="form-control inputHp"
             aria-describedby="emailHelp"
-            style={{width:"190%"}}
             value={hp}
             onChange={(e) => setHp(e.target.value)}
           />

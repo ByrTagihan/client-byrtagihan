@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import "../css/ListDataSiswa.css";
+import "../css/ListDataSiswa.css";
 import axios from "axios";
 import { Button, Modal } from "react-bootstrap";
 import { CButton, CFormInput, CInputGroup, CInputGroupText } from "@coreui/react";
@@ -169,6 +169,7 @@ function LIstDataSIswa() {
       color: "white",
       background: "#526D82",
       borderRadius: "10px",
+      marginBottom:"30px"
     }}>
     {/* <button
       type="button"
@@ -191,20 +192,13 @@ function LIstDataSIswa() {
         justifyContent: "space-between",
         padding: "5px",
       }}>
-      <p
-        style={{
-          marginLeft: "4px",
-          fontSize: "19px",
-          fontWeight: "bold",
-          marginTop: "5px",
-          marginBottom: "8px",
-        }}>
+      <p className="listTagihan">
         List data siswa
       </p>
       <CButton onClick={() => setShow(true)}>Tambah Data</CButton>
     </div>
-
-    <table className="table border" style={{ textAlign: "center", background: "#9DB2BF" }}>
+<div className="table-container">
+    <table className="table table1 border responsive-3">
       <thead
         className="thead-dark"
         style={{color: "black" }}>
@@ -217,19 +211,20 @@ function LIstDataSIswa() {
           <th scope="col">Action</th>
         </tr>
       </thead>
-      <tbody className="bg-white" style={{ textAlign: "center" }}>
+      <tbody className="bg-white ">
         {list.map((data, index) => {
           return (
             <tr key={data.index}>
-              <td>{index + 1}</td>
-              <td>{data.unique_id}</td>
-              <td>{data.name}</td>
-              <td>{data.hp}</td>
-              <td>{data.address}</td>
-              <td style={{ display: "flex", gap: "5px", width: "100%" }}>
+              <td data-cell="Id">{index + 1}</td>
+              <td data-cell="Nisn">{data.unique_id}</td>
+              <td data-cell="Nama">{data.name}</td>
+              <td data-cell="Handphone">{data.hp}</td>
+              <td data-cell="Alamat">{data.address}</td>
+              <td data-cell="Action" className="tdd">
                 <button
+                className="edit1"
                   type="button"
-                  style={{ background: "blue", marginLeft: "20%" }}
+                  style={{ background: "blue"}}
                   // onClick={() => {
                   //   setShow2(true);
                   //   getById(data.id);
@@ -242,12 +237,12 @@ function LIstDataSIswa() {
                     <i className="fas fa-edit"></i>
                   </a>{" "}
                 </button>
-                <button
+                <button className="edit1"
                   onClick={() => deleteData(data.id)}
                   style={{ background: "red", color:"white" }}>
                   <i className="fas fa-trash-alt"></i>
                 </button>
-                <button
+                <button className="edit1"
                   onClick={() => {
                     setShow1(true);
                     getById(data.id);
@@ -255,7 +250,7 @@ function LIstDataSIswa() {
                   style={{ background: "orange", color:"white" }}>
                   <i className="fas fa-unlock-alt"></i>
                 </button>
-                <button style={{ background: "green" }}>
+                <button className="edit1" style={{ background: "green" }}>
                   <a
                     style={{ color: "white" }}
                     href={"/#/lihattagihanmember/" + data.id}>
@@ -269,6 +264,7 @@ function LIstDataSIswa() {
         })}
       </tbody>
     </table>
+    </div>
 
     {/* Modal Edit Password*/}
     <Modal show={show1} onHide={!show1}>
