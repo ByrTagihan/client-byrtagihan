@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 // import "./../../../css/ForgotPassword.css"
 import { CButton, CCard, CCardBody, CCardGroup, CCol, CContainer, CForm, CFormInput, CInputGroup, CInputGroupText, CRow } from '@coreui/react'
@@ -11,28 +11,30 @@ import gambarEmail from "../../../assets/images/email.png"
 import "../../../css/ForgotPassword.css"
 
 export default function ResetPassword() {
-    const [email, setEmail] = useState();
+  const [email, setEmail] = useState();
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        axios.post("https://api.byrtagihan.com/api/customer/forgot_password" , {
-            email : email,
-        }).then(res => {
-            console.log(res);
-         Swal.fire({
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("https://api.byrtagihan.com/api/customer/forgot_password", {
+        email: email,
+      })
+      .then((res) => {
+        console.log(res);
+        Swal.fire({
           icon: "success",
-          title:  "Successfully",
+          title: "Successfully",
           showConfirmButton: false,
           timer: 1500,
         });
         window.location.reload();
-        })
-        .catch(err => {
-            alert("Terjadi Kesalahan " + err)
-        })
-    }
+      })
+      .catch((err) => {
+        alert("Terjadi Kesalahan " + err);
+      });
+  };
   return (
     <div className="bg-light min-vh-100 d-flex flexz-row align-items-center">
     <CContainer className="justify-content-center ccontainer">

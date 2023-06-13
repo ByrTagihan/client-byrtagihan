@@ -5,12 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { CModal } from "@coreui/react";
 import axios from "axios";
 import { API_DUMMY } from "../../../utils/baseURL";
+import Swal from "sweetalert2";
 
 function Tagihan() {
   const [dataMenu, setDataMenu] = useState([]);
   const [visible, setVisible] = useState(false);
   const [paidId, setPaidId] = useState(0);
-  const [paidDate, setPaidDate] = useState();
+  const [paidDate, setPaidDate] = useState("");
   const [paidAmount, setPaidAmount] = useState(0);
 
   let navigate = useNavigate();
@@ -29,13 +30,53 @@ function Tagihan() {
         },
       })
       .then(() => {
-        window.location.reload();
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Membayar",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          window.location.reload();
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  const unBayarTagihan = async (paidIds) => {
+    Swal.fire({
+      title: "Yakin ingin membatalkan pembayaran ?",
+      text: "Data tidak dapat kembali!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cencel",
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          axios
+          .put(`${API_DUMMY}/customer/bill/${paidIds}/unpaid`, {}, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+            },
+          })
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Membatalkan Pembayaran",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+              window.location.reload();
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     getAllData("customer/bill", setDataMenu);
   }, []);
@@ -61,7 +102,7 @@ function Tagihan() {
             </div>
             <div className="card-body">
               <table className="table">
-                <thead>
+                <thead className="text-center">
                   <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Nama Murid</th>
@@ -74,7 +115,7 @@ function Tagihan() {
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-center">
                   {dataMenu.map((data, i) => (
                     <tr key={i}>
                       <th scope="row">{data.id}</th>
@@ -108,19 +149,29 @@ function Tagihan() {
                         >
                           <FontAwesomeIcon icon="fa-trash" />
                         </button>
-                        <button
+                        {data.paid_id != 0 ? (
+                          <button
+                          type="button"
+                          onClick={() => {
+                            unBayarTagihan(data.id);
+                          }}
+                          className="btn btn-danger "
+                        >
+                          Batal Bayar
+                        </button>
+                        ) : (
+                          <button
                           type="button"
                           onClick={() => {
                             setVisible(!visible);
                             setPaidId(data.id);
+                            setPaidAmount(data.amount);
                           }}
-                          className={
-                            "btn btn-info " +
-                            (data.paid_id != 0 ? "disabled" : "")
-                          }
+                          className="btn btn-info " 
                         >
                           Bayar
                         </button>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -130,30 +181,31 @@ function Tagihan() {
           </div>
           <CModal visible={visible} onClose={() => setVisible(false)}>
             <form onSubmit={bayarTagihan}>
-              <div class="modal-header" onClose={() => setVisible(false)}>
-                <h5 class="modal-title">Bayar Tagihan</h5>
+              <div className="modal-header" onClose={() => setVisible(false)}>
+                <h5 className="modal-title">Bayar Tagihan</h5>
               </div>
-              <div class="modal-body">
-                <div class="mb-3">
-                  <label class="form-label">Tanggal Bayar</label>
+              <div className="modal-body">
+                <div className="mb-3">
+                  <label className="form-label">Tanggal Bayar</label>
                   <input
                     id="paid_date"
                     type="date"
-                    class="form-control"
+                    className="form-control"
                     onChange={(e) => setPaidDate(e.target.value)}
                   />
                 </div>
-                <div class="mb-3">
-                  <label class="form-label">Nominal</label>
+                <div className="mb-3">
+                  <label className="form-label">Nominal</label>
                   <input
                     id="paid_amount"
                     type="number"
-                    class="form-control"
-                    onChange={(e) => setPaidAmount(e.target.value)}
+                    className="form-control"
+                    value={paidAmount}
+                    disabled
                   />
                 </div>
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
                   className="btn btn-secondary"

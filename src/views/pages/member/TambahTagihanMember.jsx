@@ -9,36 +9,49 @@ import {
   CRow,
 } from "@coreui/react";
 import axios from "axios";
+import { useState } from "react";
+import { useParams } from "react-router";
 import Swal from "sweetalert2";
 
-
 function TambahTagihanMember() {
+  const param = useParams();
+  const [description, setKeterangan] = useState("");
+  const [periode, setPeriode] = useState();
+  const [amount, setAmount] = useState("");
 
-    const Add = async (e) => {
-        e.preventDefault();
-        e.persist();
-    
-        try {
-          await axios.post(
-            `https://api.byrtagihan.com/api/customer/member/${localStorage.getItem("id")}/bill`,{
-                headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-              }
-          );
-          setShow(false);
-          Swal.fire({
-            icon: "success",
-            title: "Sukses Menambahkan Tagihan",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-        } catch (error) {
-          console.log(error);
+  const Add = async (e) => {
+    e.preventDefault();
+    e.persist();
+
+    const data = {
+      description,
+      periode,
+      amount,
+    };
+
+    try {
+      await axios.post(
+        `https://api.byrtagihan.com/api/customer/member/9/bill`,
+        data,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
-      };
-    
+      );
+      setShow(false);
+      Swal.fire({
+        icon: "success",
+        title: "Sukses Menambahkan Tagihan",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <CCard className="p-4">
@@ -53,6 +66,10 @@ function TambahTagihanMember() {
               <CFormInput
                 placeholder="Keterangan..."
                 autoComplete="keterangan"
+                id="description"
+                type="text"
+                value={description}
+                onChange={(e) => setKeterangan(e.target.value)}
               />
             </CInputGroup>
 
@@ -63,6 +80,9 @@ function TambahTagihanMember() {
               <CFormInput
                 placeholder="Periode..."
                 autoComplete="periode"
+                type="date"
+                value={periode}
+                onChange={(e) => setPeriode(e.target.value)}
               />
             </CInputGroup>
 
@@ -74,12 +94,18 @@ function TambahTagihanMember() {
                 placeholder="Nominal..."
                 autoComplete="nominal"
                 type="number"
+                onChange={(e) => setAmount(e.target.value)}
+                value={amount}
               />
             </CInputGroup>
 
             <CRow>
               <CCol xs={6}>
-                <button style={{backgroundColor: "#213555"}} type="submit"  className="px-3 py-1.5">
+                <button
+                  style={{ backgroundColor: "#213555" }}
+                  type="submit"
+                  className="px-3 py-1.5"
+                >
                   Tambah
                 </button>
               </CCol>

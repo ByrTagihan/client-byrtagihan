@@ -9,12 +9,12 @@ const EditListSiswa = React.lazy(() => import('./edit/ListDataSiswaEdit'))
 const GantiPasswordCustomer = React.lazy(() => import('./views/pages/profile/GantiPasswordCustomer'))
 const TambahTagihanMember = React.lazy(() => import('./views/pages/member/TambahTagihanMember'))
 const EditTagihanMember = React.lazy(() => import('./views/pages/member/EditTagihanMember'))
-const DetailProfile = React.lazy(() => import('./views/pages/profile/DetailProfile'))
 const CustomerOrganization = React.lazy(() => import("./views/pages/costumer/CustomerOrganization"))
 const Sekolah = React.lazy(() => import('./views/pages/sekolah/Sekolah'))
 const ListTagihan = React.lazy(() => import('./views/pages/tagihan/Tagihan'))
 const AddTagihan = React.lazy(() => import('./views/pages/tagihan/AddTagihan'))
 const EditTagihan = React.lazy(() => import('./views/pages/tagihan/EditTagihan'))
+const Profile = React.lazy(() => import('./views/pages/profile/Profile'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -69,10 +69,10 @@ const LihatTagihanMember = React.lazy(() => import('./pages/LihatTagihanByMember
 const routes = [
   { path: '/home', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/customerProfile', name: 'CustomerProfile', element: DetailProfile },
-  { path: '/gantiPasswordCustomer', name: 'GantiPasswordCustomer', element: GantiPasswordCustomer },
-  { path: '/tambahTagihanMember', name: 'TambahTagihanMember', element: TambahTagihanMember },
-  { path: '/editTagihanMember', name: 'EditTagihanMember', element: EditTagihanMember },
+  { path: '/profileCustomer', name: 'Profile', element: Profile },
+  { path: '/gantiPasswordCustomer', name: 'Ganti Password Customer', element: GantiPasswordCustomer },
+  { path: '/tambahTagihanMember', name: 'Tambah Tagihan Member', element: TambahTagihanMember },
+  { path: '/editTagihanMember', name: 'Edit Tagihan Member', element: EditTagihanMember },
   { path: "/customerOrganization", name: "Customer Organization", element: CustomerOrganization },
   { path: '/sekolah', name: 'Sekolah', element: Sekolah },
   { path: '/tagihan', name: 'Tagihan', element: ListTagihan },

@@ -18,14 +18,14 @@ import {
     
         try {
           await axios.put(
-            `https://api.byrtagihan.com/api/customer/member/${localStorage.getItem("id")}/bill/7`,  {
+            `https://api.byrtagihan.com/api/customer/member/9/bill/7`,  {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
               }
           );
           setShow(false);
           Swal.fire({
             icon: "success",
-            title: "Successfully Edited ",
+            title: "Tersimpan",
             showConfirmButton: false,
             timer: 1500,
           });
