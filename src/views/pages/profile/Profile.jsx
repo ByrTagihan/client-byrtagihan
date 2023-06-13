@@ -58,28 +58,12 @@ function Profile() {
     e.preventDefault();
     e.persist();
 
-    const data = {
-      name: name,
-      hp: hp,
-      address: address,
-      picture: picture,
-    };
-    console.log(picture);
-
-
-    // const data = new FormData();
-    // data.append("picture", picture);
-    // data.append("hp", hp);
-    // data.append("name", name);
-    // data.append("address", address);
-
-
     try {
       await axios.put(`https://api.byrtagihan.com/api/customer/profile`, {
-        name, 
-        hp,
-        address,
-        picture,
+        name: name,
+        hp: hp,
+        address: address,
+        picture: picture,
       }, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       });
@@ -103,7 +87,7 @@ function Profile() {
       <div className="box1">
         <h4 className="textProfile">Profile Customer</h4>
         <div style={{ padding: "10px" }}>
-          <img style={{ width: "20rem" }} src={picture} alt="" />
+          <img style={{ width: "20rem" }} src={profile.picture} alt="" />
         </div>
       </div>
 
