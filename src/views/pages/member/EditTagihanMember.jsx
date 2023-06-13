@@ -18,7 +18,7 @@ import {
     
         try {
           await axios.put(
-            `https://api.byrtagihan.com/api/customer/member/${localStorage.getItem("id")}/bill/7`,  {
+            `https://api.byrtagihan.com/api/customer/member/9/bill/7`,  {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
               }
           );

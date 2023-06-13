@@ -1,11 +1,4 @@
-import React, { useState } from "react";
-
-// import "./../../../css/ForgotPassword.css"
 import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCardGroup,
   CCol,
   CContainer,
   CForm,
@@ -14,29 +7,27 @@ import {
   CInputGroupText,
   CRow,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
-import { cilLockLocked, cilUser } from "@coreui/icons";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import gambarEmail from "../../../assets/images/handphone.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import { useState } from "react";
 import Swal from "sweetalert2";
-import gambarEmail from "../../../assets/images/email.png";
 
-export default function ResetPassword() {
-  const [email, setEmail] = useState();
+function ForgotPasswordSiswa() {
+  const [unique_id, setUniqueId] = useState();
 
-  const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
+  const Add = (e) => {
     e.preventDefault();
     axios
-      .post("https://api.byrtagihan.com/api/customer/forgot_password", {
-        email: email,
+      .post("https://api.byrtagihan.com/api/member/forgot_password", {
+        unique_id: unique_id,
       })
       .then((res) => {
         console.log(res);
         Swal.fire({
           icon: "success",
-          title: "Successfully",
+          title: "Terkirim",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -49,7 +40,7 @@ export default function ResetPassword() {
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer
-        style={{ display: "flex" }}
+        style={{ display: "flex", marginRight: "10px" }}
         className="justify-content-center"
       >
         <CRow className="justify-content-center">
@@ -62,21 +53,21 @@ export default function ResetPassword() {
                   textAlign: "center",
                 }}
               >
-                Forgot Password
+                Forgot Password Siswa
               </p>
               <hr />
-              <CForm onSubmit={handleSubmit}>
+              <CForm onSubmit={Add}>
                 <p className="text-medium-emphasis"></p>
                 <br />
                 <CInputGroup className="mb-3">
                   <CInputGroupText>
-                    <CIcon icon={cilUser} />
+                    <FontAwesomeIcon icon="fa-solid fa-mobile" />
                   </CInputGroupText>
                   <CFormInput
-                    placeholder="email"
-                    autoComplete="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="No Handphone"
+                    autoComplete="no Handphone"
+                    value={unique_id}
+                    onChange={(e) => setUniqueId(e.target.value)}
                   />
                 </CInputGroup>
                 <CRow>
@@ -107,3 +98,5 @@ export default function ResetPassword() {
     </div>
   );
 }
+
+export default ForgotPasswordSiswa;

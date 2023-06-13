@@ -18,6 +18,7 @@ import CIcon from "@coreui/icons-react";
 import { cilLockLocked, cilUser } from "@coreui/icons";
 import axios from "axios";
 import "./../../../css/Login.css";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -64,7 +65,7 @@ const Login = () => {
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
-          navigate("/#/");
+          navigate("/dashboard");
           setTimeout(() => {
             window.location.reload();
           }, 1500);

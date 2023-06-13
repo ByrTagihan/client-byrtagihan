@@ -6,7 +6,7 @@ import { CButton, CFormInput, CInputGroup, CInputGroupText } from "@coreui/react
 import CIcon from "@coreui/icons-react";
 import { cilUser } from "@coreui/icons";
 import Swal from "sweetalert2";
-import ReactPaginate from "react-paginate";
+// import ReactPaginate from "react-paginate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
