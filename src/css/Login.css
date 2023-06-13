@@ -9,18 +9,30 @@
 .ccontainer {
     display: flex;
 }
+.login {
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+}
 
-@media screen and(max-width: 600px) {
+@media (min-width: 300px) and (max-width: 800px) {
     .ccontainer {
         display: block;
     }
     img {
-        width: 100%;
+        width: 80%;
+    }
+    .login {
+        font-size: 1px;
+    }
+    .div{
+        padding: 8px;
+        height: auto;
     }
 }
 
-@media screen and(min-width: 320px) {
+/* @media screen and(min-width: 320px) {
     .ccontainer {
         display: block;
     }
-}
+} */
