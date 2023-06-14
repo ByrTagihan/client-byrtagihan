@@ -181,6 +181,7 @@ function EditTagihan() {
                 value={value}
                 onKeyDown={handleKeyDown}
                 onChange={handleChange}
+                disabled
                 required
               />
               {suggestionsActive && <Suggestions />}
