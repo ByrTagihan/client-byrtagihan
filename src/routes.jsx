@@ -5,6 +5,7 @@ import ResetPassword from './views/pages/reset/ForgotPasswor'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const DashboardMember = React.lazy(() => import('./views/dashboard/DashboardMember'))
+const DashboardUser = React.lazy(() => import('./views/dashboard/DashboardUser'))
 const LIstDataSIswa = React.lazy(() => import('./pages/LIstDataSIswa'))
 const EditListSiswa = React.lazy(() => import('./edit/ListDataSiswaEdit'))
 const GantiPasswordCustomer = React.lazy(() => import('./views/pages/profile/GantiPasswordCustomer'))
@@ -71,6 +72,8 @@ const routes = [
   { path: '/home', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/dashboardMember', name: 'Dashboard Member', element: DashboardMember },
+  { path: '/dashboardUser', name: 'DashboardUser', element: DashboardUser },
+  { path: '/profileCustomer', name: 'Profile', element: Profile },
   { path: '/gantiPasswordCustomer', name: 'Ganti Password Customer', element: GantiPasswordCustomer },
   { path: '/profile', name: 'Profile', element: Profile },
   { path: '/tambahTagihanMember', name: 'TambahTagihanMember', element: TambahTagihanMember },

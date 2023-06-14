@@ -39,6 +39,9 @@ const _nav = [
       color: 'info',
       // text: 'NEW',
     },
+    name: 'Dashboard User',
+    to: '/dashboardUser',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
