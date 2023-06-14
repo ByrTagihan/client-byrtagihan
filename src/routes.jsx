@@ -69,7 +69,10 @@ const LihatTagihanMember = React.lazy(() => import('./pages/LihatTagihanByMember
 const routes = [
   { path: '/home', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/profileCustomer', name: 'Profile', element: Profile },
+  { path: '/gantiPasswordCustomer', name: 'Ganti Password Customer', element: GantiPasswordCustomer },
+  { path: '/profile', name: 'Profile', element: Profile },
+  { path: '/tambahTagihanMember', name: 'TambahTagihanMember', element: TambahTagihanMember },
+  { path: '/editTagihanMember', name: 'EditTagihanMember', element: EditTagihanMember },
   { path: '/gantiPasswordCustomer', name: 'Ganti Password Customer', element: GantiPasswordCustomer },
   { path: '/tambahTagihanMember', name: 'Tambah Tagihan Member', element: TambahTagihanMember },
   { path: '/editTagihanMember', name: 'Edit Tagihan Member', element: EditTagihanMember },

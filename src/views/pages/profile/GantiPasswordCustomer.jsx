@@ -15,6 +15,8 @@ import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
+import "../../../css/GantiPasswordCustomer.css"
+
 
 const GantiPasswordCustomer = () => {
   const [old_password, setOld_password] = useState("");
@@ -49,11 +51,10 @@ const GantiPasswordCustomer = () => {
           }
         });
       setTimeout(() => {
-        navigate("/profileCustomer");
+        navigate("/profile");
         window.location.reload();
       }, 1500);
     } catch (eror) {
-      // console.log(eror);
       Swal.fire({
         icon: "error",
         title: "Password lama tidak sesuai",
@@ -70,41 +71,46 @@ const GantiPasswordCustomer = () => {
           <CRow className="justify-content-center">
             <CCol md={9}>
               <CCardGroup>
-                <CCard className="p-4">
+                <CCard className="card">
                   <CCardBody>
                     <CForm onSubmit={Put}>
-                      <h3 style={{ color: "gray" }}>Ganti Password</h3>
+                      <h3 className="title">Ganti Password</h3>
                       <br />
                       <CInputGroup className="mb-3">
-                        <CInputGroupText style={{ width: "26.5vh" }}>
+                        <CInputGroupText className="inputText">
                           Password Lama
                         </CInputGroupText>
                         <CFormInput
                           placeholder="Password Lama"
                           autoComplete="passwordLama"
+                          required
                           type="password"
                           onChange={(e) => setOld_password(e.target.value)}
                         />
                       </CInputGroup>
 
                       <CInputGroup className="mb-3">
-                        <CInputGroupText style={{ width: "26.5vh" }}>
+                        <CInputGroupText className="inputText">
                           Password Baru
                         </CInputGroupText>
                         <CFormInput
                           placeholder="Password Baru"
                           autoComplete="passwordBaru"
+                          required
                           type="password"
                           onChange={(e) => setNew_password(e.target.value)}
                         />
                       </CInputGroup>
 
                       <CInputGroup className="mb-4">
-                        <CInputGroupText>Konfirmasi Password</CInputGroupText>
+                        <CInputGroupText className="inputText">
+                          Konfirmasi Password
+                        </CInputGroupText>
                         <CFormInput
                           placeholder="Konfirmasi Password Baru"
                           autoComplete="konfirmasiPasswordBaru"
                           type="password"
+                          required
                           onChange={(e) =>
                             setConfirm_new_password(e.target.value)
                           }

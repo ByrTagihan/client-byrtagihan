@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   CButton,
@@ -14,6 +15,7 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import "../../../css/Profile.css";
 
 function Profile() {
   const [show, setShow] = useState(false);
@@ -22,13 +24,13 @@ function Profile() {
   const [name, setName] = useState("");
   const [hp, setHp] = useState("");
   const [address, setAddress] = useState("");
-  const [picture, setPicture] = useState(null);
+  const [picture, setPicture] = useState("");
   const [profile, setProfile] = useState({
     email: "",
     name: "",
     hp: "",
     address: "",
-    picture: null,
+    picture: "",
   });
 
   const get = async () => {
@@ -42,7 +44,7 @@ function Profile() {
         setHp(profil.hp);
         setName(profil.name);
         setAddress(profil.address);
-        setPicture(profil.picture);
+        setPicture(profile.picture);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -57,15 +59,13 @@ function Profile() {
     e.preventDefault();
     e.persist();
 
-    const data = {
-      name: name,
-      hp: hp,
-      address: address,
-      picture: null,
-    };
-
     try {
-      await axios.put(`https://api.byrtagihan.com/api/customer/profile`, data, {
+      await axios.put(`https://api.byrtagihan.com/api/customer/profile`, {
+        name: name,
+        hp: hp,
+        address: address,
+        picture: picture,
+      }, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       });
       setShow(false);
@@ -84,30 +84,15 @@ function Profile() {
   };
 
   return (
-    <div style={{ display: "flex", gap: "2rem" }}>
-      <div
-        style={{
-          borderRadius: "10px",
-          width: "21.5rem",
-          height: "27rem",
-          boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-        }}
-      >
-        <h4 style={{ textAlign: "center", padding: "10px" }}>Profile Customer</h4>
+    <div className="allProfile">
+      <div className="box1">
+        <h4 className="textProfile">Profile Customer</h4>
         <div style={{ padding: "10px" }}>
           <img style={{ width: "20rem" }} src={profile.picture} alt="" />
         </div>
       </div>
 
-      <div
-        style={{
-          borderRadius: "10px",
-          width: "40rem",
-          height: "27rem",
-          boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-          padding: "30px",
-        }}
-      >
+      <div className="box2">
         <h6 className="mb-2">Id : {profile.id}</h6>
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> Email : {profile.email}
@@ -152,14 +137,16 @@ function Profile() {
           <CInputGroup className="mb-3">
             <CFormInput
               autoComplete="picture"
-              onChange={(e) => setProfile(e.target.files[0])}
-              type="file"
+              placeholder="link picture"
+              onChange={(e) => setPicture(e.target.value)}
+              value={picture}
+              type="text"
             />
           </CInputGroup>
 
           <CRow>
             <CCol xs={6}>
-              <CButton type="submit" color="primary" className="px-3 py-1.5">
+              <CButton className="buttonSave" type="submit" color="primary" >
                 Simpan
               </CButton>
             </CCol>
@@ -167,7 +154,7 @@ function Profile() {
               <CButton
                 href="/#/gantiPasswordCustomer"
                 color="primary"
-                style={{ textDecoration: "none" }}
+                className="buttonUbah"
               >
                 Ubah Password
               </CButton>

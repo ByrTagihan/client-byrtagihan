@@ -13,9 +13,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import "../../../css/ForgotPasswordSiswa.css";
+// import { useNavigate } from "react-router";
 
 function ForgotPasswordSiswa() {
   const [unique_id, setUniqueId] = useState();
+  // const navigate = useNavigate();
 
   const Add = (e) => {
     e.preventDefault();
@@ -31,30 +34,26 @@ function ForgotPasswordSiswa() {
           showConfirmButton: false,
           timer: 1500,
         });
+        // navigate("/login");
         window.location.reload();
       })
       .catch((err) => {
-        alert("Terjadi Kesalahan " + err);
+        // alert("Terjadi Kesalahan " + err);
+        Swal.fire({
+          icon: "error",
+          title: "Nomor Hp tidak ada",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-      <CContainer
-        style={{ display: "flex", marginRight: "10px" }}
-        className="justify-content-center"
-      >
+      <CContainer className="all">
         <CRow className="justify-content-center">
           <CCol md={8} style={{ width: "30rem", marginTop: "130px" }}>
             <div>
-              <p
-                style={{
-                  fontSize: "25px",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                }}
-              >
-                Forgot Password Siswa
-              </p>
+              <p className="forgot">Forgot Password Siswa</p>
               <hr />
               <CForm onSubmit={Add}>
                 <p className="text-medium-emphasis"></p>
@@ -66,6 +65,7 @@ function ForgotPasswordSiswa() {
                   <CFormInput
                     placeholder="No Handphone"
                     autoComplete="no Handphone"
+                    required
                     value={unique_id}
                     onChange={(e) => setUniqueId(e.target.value)}
                   />
@@ -91,7 +91,7 @@ function ForgotPasswordSiswa() {
         </CRow>
         <CRow>
           <CCol>
-            <img style={{ width: "90%" }} src={gambarEmail} alt="" />
+            <img src={gambarEmail} alt="" />
           </CCol>
         </CRow>
       </CContainer>
