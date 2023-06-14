@@ -32,6 +32,13 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'Dashboard Member',
+    to: '/dashboardMember',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    badge: {
+      color: 'info',
+      // text: 'NEW',
+    },
     name: 'Dashboard User',
     to: '/dashboardUser',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
