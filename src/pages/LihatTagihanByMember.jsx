@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import "../css/ListDataSiswa.css"
 
 function LihatTagihanByMember() {
   const [unique_id, setUnique_id] = useState("");
@@ -190,14 +191,16 @@ function LihatTagihanByMember() {
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
-      );
-      // alert("Success")
+      )
+      .then(() => {
       setShowEdit(false);
       Swal.fire({
         icon: "success",
         title: "Data berhasil diedit",
         showConfirmButton: false,
       });
+      })
+      // alert("Success")
       setTimeout(() => {
         window.location.reload();
       }, 1500);
@@ -206,23 +209,19 @@ function LihatTagihanByMember() {
     }
   };
 
-  const putUnpaid = async () => {
+  const putUnpaid = async (id) => {
     // e.preventDefault();
     // e.persist();
+    console.log(id);
 
-    // const data = {
-    //   paid_date: paid_date,
-    //   paid_amount: paid_amount,
-    // };
-    // console.log(data);
+    const data = {
+    }
 
     try {
       await axios.put(
-        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${idd2}/unpaid`,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      );
+        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${id}/unpaid`, data,{
+          headers: {"auth-tgh": `jwt ${localStorage.getItem("token")}`},
+        });
       // alert("Success")
       setShowEdit(false);
       Swal.fire({
@@ -238,22 +237,22 @@ function LihatTagihanByMember() {
     }
   };
 
-  const [idd2, setId2] = useState(0);
-  const getUnpaid = async (id) => {
-    await axios
-      .get(
-        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/` + id,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
-      .then((res) => {
-        setId2(res.data.data.id);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-  };
+  // const [idd2, setId2] = useState(0);
+  // const getUnpaid = async (id) => {
+  //   await axios
+  //     .get(
+  //       `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/` + id,
+  //       {
+  //         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       setId2(res.data.data.id);
+  //     })
+  //     .catch((error) => {
+  //       alert("Terjadi Kesalahan" + error);
+  //     });
+  // };
 
   const [idd1, setId1] = useState(0);
   const getByIdSudahByr = async (id) => {
@@ -292,11 +291,9 @@ function LihatTagihanByMember() {
   };
   return (
     <>
-      <div>
-        {/* <p style={{fontSize:"24px", fontWeight:"bold", textAlign:"center"}}>Detail</p> */}
-      </div>
       <div
         style={{
+          width:"100%",
           border: "1px solid gray",
           color: "white",
           background: "#526D82",
@@ -304,7 +301,7 @@ function LihatTagihanByMember() {
           marginBottom: "20px",
         }}
       >
-        <div
+        <div className="bungkus"
           style={{
             background: "#526D82",
             borderTopRightRadius: "10px",
@@ -314,22 +311,14 @@ function LihatTagihanByMember() {
             padding: "5px",
           }}
         >
-          <p
-            style={{
-              marginLeft: "4px",
-              fontSize: "19px",
-              fontWeight: "bold",
-              marginTop: "5px",
-              marginBottom: "8px",
-            }}
+          <p className="listTagihan"
           >
             List Tagihan By Member
           </p>
           <CButton onClick={() => setShowAdd(true)}>Tambah Tagihan</CButton>
         </div>
         <table
-          className="table border"
-          style={{ background: "#9DB2BF", textAlign: "center" }}
+          className="table table1 border responsive-3"
         >
           <thead className="thead-dark" style={{ color: "black" }}>
             <tr>
@@ -343,18 +332,13 @@ function LihatTagihanByMember() {
           </thead>
           <tbody
             className="bg-white"
-            style={{
-              textAlign: "center",
-              background: "none",
-              backgroundColor: "none",
-            }}
           >
             {list.map((data, index) => {
               return (
-                <tr key={data.index}>
-                  <td>{index + 1}</td>
-                  <td>{data.description}</td>
-                  <td>{data.periode}</td>
+                <tr key={index}>
+                  <td data-cell="Id">{index + 1}</td>
+                  <td data-cell="Deskripsi">{data.description}</td>
+                  <td data-cell="Periode">{data.periode}</td>
                   {/* {paid_id == 0 ? (
                   <>
                     <td>Belum bayar</td>
@@ -370,7 +354,7 @@ function LihatTagihanByMember() {
                 ) : (
                   <></>
                 )} */}
-                  <td>
+                  <td data-cell="Status">
                     {" "}
                     {data.paid_id != 0 ? (
                       <span>Sudah Bayar</span>
@@ -378,22 +362,11 @@ function LihatTagihanByMember() {
                       <span>Belum Bayar</span>
                     )}
                   </td>
-                  <td>{data.paid_date}</td>
-                  <td
-                    style={{
-                      display: "flex",
-                      gap: "5px",
-                      width: "100%",
-                      paddingRight: "50px",
-                    }}
+                  <td data-cell="Tanggal">{data.paid_date}</td>
+                  <td data-cell="Action" className="tdd"
                   >
-                    <button
-                      type="button"
-                      style={{
-                        background: "blue",
-                        marginLeft: "20%",
-                        color: "white",
-                      }}
+                    <button className="edit1"
+                      type="submit"
                       onClick={() => {
                         setShowEdit(true);
                         getById(data.id);
@@ -404,24 +377,22 @@ function LihatTagihanByMember() {
                         <i className="fas fa-edit"></i>
                       </a>{" "}
                     </button>
-                    <button
+                    <button className="edit1"
                       onClick={() => deleteData(data.id)}
                       style={{ background: "red", color: "white" }}
                     >
                       <i className="fas fa-trash-alt"></i>
                     </button>
                     {data.paid_id != 0 ? (
-                      <button
-                        onClick={() => {
-                          putUnpaid;
-                          getUnpaid(data.id);
-                        }}
+                      <button className="edit1"
+                      type="submit"
+                      onClick={() => putUnpaid(data.id)}
                         style={{ background: "green", color: "white" }}
                       >
                         Terbayar
                       </button>
                     ) : (
-                      <button
+                      <button className="edit1"
                         onClick={() => {
                           setShowEditSudahByr(true);
                           getByIdSudahByr(data.id);
@@ -438,7 +409,8 @@ function LihatTagihanByMember() {
           </tbody>
         </table>
 
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div className="readonly">
+          <div className="readonly1">
           <p
             style={{
               fontSize: "16px",
@@ -457,6 +429,8 @@ function LihatTagihanByMember() {
           >
             Nama : <span>{list1.name}</span>
           </p>
+          </div>
+          <div className="readonly2">
           <p
             style={{
               fontSize: "16px",
@@ -464,7 +438,7 @@ function LihatTagihanByMember() {
               textAlign: "center",
             }}
           >
-            No Handphone : <span>{list1.hp}</span>
+            No Hp : <span>{list1.hp}</span>
           </p>
           <p
             style={{
@@ -475,6 +449,7 @@ function LihatTagihanByMember() {
           >
             Alamat : <span>{list1.address}</span>
           </p>
+          </div>
         </div>
       </div>
 

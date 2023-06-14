@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   CButton,
@@ -136,6 +137,7 @@ function Profile() {
           <CInputGroup className="mb-3">
             <CFormInput
               autoComplete="picture"
+              placeholder="link picture"
               onChange={(e) => setPicture(e.target.value)}
               value={picture}
               type="text"

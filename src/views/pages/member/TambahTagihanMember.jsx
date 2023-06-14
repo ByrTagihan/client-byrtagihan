@@ -10,28 +10,29 @@ import {
 } from "@coreui/react";
 import axios from "axios";
 import { useState } from "react";
+import { useParams } from "react-router";
 import Swal from "sweetalert2";
 
 function TambahTagihanMember() {
-  const [memberId, setMemberId] = useState(0);
-  const [keterangan, setKeterangan] = useState("");
+  const param = useParams();
+  const [description, setKeterangan] = useState("");
   const [periode, setPeriode] = useState();
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
 
   const Add = async (e) => {
     e.preventDefault();
     e.persist();
 
-    // const data = {
-    //   description: keterangan,
-    //   periode: periode,
-    //   amount: amount,
-    // };
+    const data = {
+      description,
+      periode,
+      amount,
+    };
 
     try {
       await axios.post(
-        `https://api.byrtagihan.com/api/customer/member/1/bill`,
-        // data,
+        `https://api.byrtagihan.com/api/customer/member/9/bill`,
+        data,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -43,7 +44,6 @@ function TambahTagihanMember() {
         showConfirmButton: false,
         timer: 1500,
       });
-      // alert("sukses")
       setTimeout(() => {
         window.location.reload();
       }, 1500);
@@ -68,6 +68,7 @@ function TambahTagihanMember() {
                 autoComplete="keterangan"
                 id="description"
                 type="text"
+                value={description}
                 onChange={(e) => setKeterangan(e.target.value)}
               />
             </CInputGroup>
@@ -80,6 +81,7 @@ function TambahTagihanMember() {
                 placeholder="Periode..."
                 autoComplete="periode"
                 type="date"
+                value={periode}
                 onChange={(e) => setPeriode(e.target.value)}
               />
             </CInputGroup>
@@ -93,6 +95,7 @@ function TambahTagihanMember() {
                 autoComplete="nominal"
                 type="number"
                 onChange={(e) => setAmount(e.target.value)}
+                value={amount}
               />
             </CInputGroup>
 

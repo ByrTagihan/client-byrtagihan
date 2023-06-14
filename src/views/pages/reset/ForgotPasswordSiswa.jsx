@@ -14,9 +14,11 @@ import axios from "axios";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import "../../../css/ForgotPasswordSiswa.css";
+// import { useNavigate } from "react-router";
 
 function ForgotPasswordSiswa() {
   const [unique_id, setUniqueId] = useState();
+  // const navigate = useNavigate();
 
   const Add = (e) => {
     e.preventDefault();
@@ -32,10 +34,17 @@ function ForgotPasswordSiswa() {
           showConfirmButton: false,
           timer: 1500,
         });
+        // navigate("/login");
         window.location.reload();
       })
       .catch((err) => {
-        alert("Terjadi Kesalahan " + err);
+        // alert("Terjadi Kesalahan " + err);
+        Swal.fire({
+          icon: "error",
+          title: "Nomor Hp tidak ada",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
   return (

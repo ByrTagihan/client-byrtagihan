@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 // import "./../../../css/ForgotPassword.css"
 import { CButton, CCard, CCardBody, CCardGroup, CCol, CContainer, CForm, CFormInput, CInputGroup, CInputGroupText, CRow } from '@coreui/react'
@@ -8,37 +8,40 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import gambarEmail from "../../../assets/images/email.png"
+import "../../../css/ForgotPassword.css"
 
 export default function ResetPassword() {
-    const [email, setEmail] = useState();
+  const [email, setEmail] = useState();
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        axios.post("https://api.byrtagihan.com/api/customer/forgot_password" , {
-            email : email,
-        }).then(res => {
-            console.log(res);
-         Swal.fire({
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("https://api.byrtagihan.com/api/customer/forgot_password", {
+        email: email,
+      })
+      .then((res) => {
+        console.log(res);
+        Swal.fire({
           icon: "success",
-          title:  "Successfully",
+          title: "Successfully",
           showConfirmButton: false,
           timer: 1500,
         });
         window.location.reload();
-        })
-        .catch(err => {
-            alert("Terjadi Kesalahan " + err)
-        })
-    }
+      })
+      .catch((err) => {
+        alert("Terjadi Kesalahan " + err);
+      });
+  };
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-    <CContainer style={{display:"flex"}} className="justify-content-center">
+    <div className="bg-light min-vh-100 d-flex flexz-row align-items-center">
+    <CContainer className="justify-content-center ccontainer">
       <CRow className="justify-content-center">
         <CCol md={8} style={{width:"30rem", marginTop:"130px"}}>
-          <div>
-            <p style={{fontSize:"25px", fontWeight:"bold", textAlign:"center"}}>Forgot Password</p>
+          <CRow className='forgot'>
+            <p className='forgotPass' style={{fontSize:"25px", fontWeight:"bold", textAlign:"center"}}>Forgot Password</p>
             <hr />
             <CForm onSubmit={handleSubmit}>
                   <p className="text-medium-emphasis"></p>
@@ -57,7 +60,7 @@ export default function ResetPassword() {
                     </CCol>
                   </CRow>
                 </CForm>
-          </div>
+          </CRow>
         </CCol>
       </CRow>
           <CRow>
