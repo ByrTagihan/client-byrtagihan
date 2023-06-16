@@ -86,9 +86,9 @@ const AppHeaderDropdown = () => {
           </CBadge>
         </CDropdownItem>
         <CDropdownDivider />
-        <CDropdownItem href="#">
+        <CDropdownItem href="/#/gantiPasswordCustomer">
           <CIcon icon={cilLockLocked} className="me-2" />
-          Lock Account
+          Ganti Password
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

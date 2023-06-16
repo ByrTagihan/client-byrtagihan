@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   CButton,
@@ -60,14 +59,18 @@ function Profile() {
     e.persist();
 
     try {
-      await axios.put(`https://api.byrtagihan.com/api/customer/profile`, {
-        name: name,
-        hp: hp,
-        address: address,
-        picture: picture,
-      }, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      });
+      await axios.put(
+        `https://api.byrtagihan.com/api/customer/profile`,
+        {
+          name: name,
+          hp: hp,
+          address: address,
+          picture: picture,
+        },
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      );
       setShow(false);
       Swal.fire({
         icon: "success",
@@ -146,19 +149,11 @@ function Profile() {
 
           <CRow>
             <CCol xs={6}>
-              <CButton className="buttonSave" type="submit" color="primary" >
+              <CButton className="buttonSave" type="submit" color="primary">
                 Simpan
               </CButton>
             </CCol>
-            <CCol xs={6}>
-              <CButton
-                href="/#/gantiPasswordCustomer"
-                color="primary"
-                className="buttonUbah"
-              >
-                Ubah Password
-              </CButton>
-            </CCol>
+            <CCol xs={6}></CCol>
           </CRow>
         </CForm>
       </div>
