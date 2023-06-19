@@ -16,6 +16,7 @@ const ListTagihan = React.lazy(() => import('./views/pages/tagihan/Tagihan'))
 const AddTagihan = React.lazy(() => import('./views/pages/tagihan/AddTagihan'))
 const EditTagihan = React.lazy(() => import('./views/pages/tagihan/EditTagihan'))
 const Profile = React.lazy(() => import('./views/pages/profile/Profile'))
+const Mesage = React.lazy(() => import('./views/pages/mesage/Mesage'))
 // const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 // const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -58,6 +59,9 @@ const Flags = React.lazy(() => import('./views/icons/flags/Flags'))
 const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
 const Tagihan = React.lazy(() => import('./pages/Tagihan'))
 const LihatTagihanMember = React.lazy(() => import('./pages/LihatTagihanByMember'))
+const UserCustomer = React.lazy(() => import('./views/pages/user/customer/Customer'))
+const UserChannel = React.lazy(() => import('./views/pages/user/channel/Channel'))
+const EditUserCustomer = React.lazy(() => import('./views/pages/user/customer/EditCustomer'))
 
 // Notifications
 // const Alerts = React.lazy(() => import('./views/notifications/alerts/Alerts'))
@@ -70,6 +74,7 @@ const LihatTagihanMember = React.lazy(() => import('./pages/LihatTagihanByMember
 const routes = [
   { path: '/home', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/userChannel', name: 'User Channel', element: UserChannel },
   { path: '/dashboardUser', name: 'DashboardUser', element: DashboardUser },
   { path: '/profileCustomer', name: 'Profile', element: Profile },
   { path: '/gantiPasswordCustomer', name: 'Ganti Password Customer', element: GantiPasswordCustomer },
@@ -77,9 +82,11 @@ const routes = [
   { path: '/editTagihanMember', name: 'Edit Tagihan Member', element: EditTagihanMember },
   { path: "/customerOrganization", name: "Customer Organization", element: CustomerOrganization },
   { path: '/sekolah', name: 'Sekolah', element: Sekolah },
+  { path: '/mesage', name: 'Mesage', element: Mesage },
   { path: '/tagihan', name: 'Tagihan', element: ListTagihan },
   { path: '/addtagihan', name: 'Tambah Tagihan', element: AddTagihan },
   { path: '/edittagihan/:id', name: 'Edit Tagihan', element: EditTagihan },
+  { path: '/editUserCustomer/:id', name: 'Edit User Customer', element: EditUserCustomer },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
   // { path: '/theme/typography', name: 'Typography', element: Typography },
@@ -116,6 +123,7 @@ const routes = [
   { path: '/icons/coreui-icons', name: 'CoreUI Icons', element: CoreUIIcons },
   { path: '/icons/flags', name: 'Flags', element: Flags },
   { path: '/icons/brands', name: 'Brands', element: Brands },
+  { path: '/userCustomer', name: 'user/customer', element: UserCustomer },
   { path: '/reset', name: 'Reset', element: ResetPassword },
   { path: '/listdatasiswa', name: 'ListDataSiswa', element: LIstDataSIswa },
   { path: '/Editlistdatasiswa/:id', name: 'EditListDataSiswa', element: EditListSiswa },

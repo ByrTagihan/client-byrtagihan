@@ -11,7 +11,7 @@ import {
 } from "@coreui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import "../../css/DashboardUser.css";
+import "../../views/css/DashboardUser.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
@@ -221,12 +221,14 @@ function DashboardUser() {
           <table className="table table1 border responsive-3">
             <thead className="thead-dark" style={{ color: "black" }}>
               <tr>
-                <th scope="col">Id</th>
+                <th scope="col">No</th>
                 <th scope="col">Nama</th>
                 <th scope="col">Email</th>
                 <th scope="col">Provinsi</th>
-                <th scope="col">Create date</th>
-                <th scope="col">Update date</th>
+                <th scope="col">Balance</th>
+                <th scope="col">Bank Account Number</th>
+                <th scope="col">Bank Account Name</th>
+                <th scope="col">Nama Bank</th>
               </tr>
             </thead>
             <tbody className="bg-white ">
@@ -237,8 +239,10 @@ function DashboardUser() {
                 <td data-cell="Name">{data.name}</td>
                 <td data-cell="Email">{data.email}</td>
                 <td data-cell="Provinsi">{data.provinsi}</td>
-                <td data-cell="Create Date">{data.created_date}</td>
-                <td data-cell="Update Date">{data.updated_date}</td>
+                <td data-cell="Provinsi">{data.balance}</td>
+                <td data-cell="Create Date">{data.bank_account_number}</td>
+                <td data-cell="Update Date">{data.bank_account_name}</td>
+                <td data-cell="Update Date">{data.bank_name}</td>
               </tr>
                     )
                 })}
@@ -268,13 +272,13 @@ function DashboardUser() {
           <table className="table table1 border responsive-3">
             <thead className="thead-dark" style={{ color: "black" }}>
               <tr>
-                <th scope="col">Id</th>
+                <th scope="col">No</th>
                 <th scope="col">Deskripsi</th>
                 <th scope="col">Name</th>
                 <th scope="col">Periode</th>
                 <th scope="col">Amount</th>
-                <th scope="col">Create date</th>
-                <th scope="col">Update date</th>
+                {/* <th scope="col">Create date</th>
+                <th scope="col">Update date</th> */}
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -286,8 +290,8 @@ function DashboardUser() {
                 <td data-cell="Nama">{data.organization_name}</td>
                 <td data-cell="Periode">{data.periode}</td>
                 <td data-cell="Amount">{data.amount}</td>
-                <td data-cell="Create Date">{data.created_date}</td>
-                <td data-cell="Update date">{data.updated_date}</td>
+                {/* <td data-cell="Create Date">{data.created_date}</td>
+                <td data-cell="Update date">{data.updated_date}</td> */}
               </tr>
                     )
                 })}
@@ -317,12 +321,12 @@ function DashboardUser() {
           <table className="table table1 border responsive-3">
             <thead className="thead-dark" style={{ color: "black" }}>
               <tr>
-                <th scope="col">Id</th>
+                <th scope="col">No</th>
                 <th scope="col">Deskripsi</th>
                 <th scope="col">Name</th>
                 <th scope="col">Amount</th>
-                <th scope="col">Create date</th>
-                <th scope="col">Update date</th>
+                {/* <th scope="col">Create date</th>
+                <th scope="col">Update date</th> */}
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -333,8 +337,8 @@ function DashboardUser() {
                 <td data-cell="Deskripsi">{data.description}</td>
                 <td data-cell="Nama">{data.organization_name}</td>
                 <td data-cell="Amount">{data.amount}</td>
-                <td data-cell="Create date">{data.created_date}</td>
-                <td data-cell="Update date">{data.updated_date}</td>
+                {/* <td data-cell="Create date">{data.created_date}</td>
+                <td data-cell="Update date">{data.updated_date}</td> */}
               </tr>
                     )
                 })}
@@ -365,11 +369,13 @@ function DashboardUser() {
           <table className="table table1 border responsive-3">
             <thead className="thead-dark" style={{ color: "black" }}>
               <tr>
-                <th scope="col">Id</th>
+                <th scope="col">No</th>
                 <th scope="col">Nama</th>
+                <th scope="col">Email</th>
                 <th scope="col">Last login</th>
-                <th scope="col">Create date</th>
-                <th scope="col">Update date</th>
+                <th scope="col">No Hp</th>
+                {/* <th scope="col">Create date</th>
+                <th scope="col">Update date</th> */}
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -378,9 +384,11 @@ function DashboardUser() {
               <tr key={index}>
                 <td data-cell="Id">{index + 1}</td>
                 <td data-cell="Nama">{data.name}</td>
+                <td data-cell="Nama">{data.email}</td>
                 <td data-cell="Last Login">{data.last_login}</td>
-                <td data-cell="Created date">{data.created_date}</td>
-                <td data-cell="Update date">{data.updated_date}</td>
+                <td data-cell="Last Login">{data.hp}</td>
+                {/* <td data-cell="Created date">{data.created_date}</td>
+                <td data-cell="Update date">{data.updated_date}</td> */}
               </tr>
                     )
                 })}

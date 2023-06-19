@@ -17,7 +17,7 @@ import {
 import CIcon from "@coreui/icons-react";
 import { cilLockLocked, cilUser } from "@coreui/icons";
 import axios from "axios";
-import "./../../../css/Login.css";
+import "./../../../views/css/Login.css";
 import Swal from "sweetalert2";
 
 const Login = () => {
@@ -223,21 +223,6 @@ const Login = () => {
                 />
               </CInputGroup>
               <CRow>
-                {type_token === "siswa" ? (
-                  <>
-                    <CButton
-                      color="link"
-                      style={{
-                        marginTop: "-20px",
-                        marginLeft: "33.5%",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      <a href="/#/resetpassiswa"> Forgot password</a>
-                    </CButton>
-                  </>
-                ) : type_token === "admin Sekolah" ? (
-                  <>
                     <CButton
                       color="link"
                       style={{
@@ -248,10 +233,6 @@ const Login = () => {
                     >
                       <a href="/#/reset"> Forgot password</a>
                     </CButton>
-                  </>
-                ) : (
-                  <></>
-                )}
                 <CCol xs={6}>
                   <button
                     className="px-4"
