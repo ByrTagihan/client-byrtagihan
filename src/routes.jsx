@@ -60,6 +60,8 @@ const Flags = React.lazy(() => import('./views/icons/flags/Flags'))
 const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
 const Tagihan = React.lazy(() => import('./pages/Tagihan'))
 const LihatTagihanMember = React.lazy(() => import('./pages/LihatTagihanByMember'))
+const ListTagihanMember = React.lazy(() => import("./views/pages/member/ListTagihan"))
+const BayarTagihan = React.lazy(() => import("./views/pages/member/BayarTagihan"))
 const UserCustomer = React.lazy(() => import('./views/pages/user/customer/Customer'))
 const UserChannel = React.lazy(() => import('./views/pages/user/channel/Channel'))
 const EditUserCustomer = React.lazy(() => import('./views/pages/user/customer/EditCustomer'))
@@ -95,6 +97,8 @@ const routes = [
   { path: '/tagihan', name: 'Tagihan', element: ListTagihan },
   { path: '/addtagihan', name: 'Tambah Tagihan', element: AddTagihan },
   { path: '/edittagihan/:id', name: 'Edit Tagihan', element: EditTagihan },
+  { path: '/listTagihanMember', name: 'List Tagihan', element: ListTagihanMember },
+  { path: '/bayarTagihan/:id', name: 'Bayar Tagihan', element: BayarTagihan },
   { path: '/editUserCustomer/:id', name: 'Edit User Customer', element: EditUserCustomer },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },

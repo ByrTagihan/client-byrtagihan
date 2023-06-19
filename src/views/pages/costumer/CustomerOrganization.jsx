@@ -65,7 +65,7 @@ function CustomerOrganization() {
         setBank_account_number(organization.bank_account_number)
         setBank_account_name(organization.bank_account_name)
         setBank_name(organization.bank_name)
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -137,8 +137,8 @@ function CustomerOrganization() {
                 <CFormInput
                   placeholder="nama"
                   autoComplete="nama"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email} />
+                  onChange={(e) => setName(e.target.value)}
+                  value={name} />
               </CCol>
             </CInputGroup>
             <CRow className="mb-3">
