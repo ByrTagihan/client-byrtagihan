@@ -17,7 +17,7 @@ import {
 import CIcon from "@coreui/icons-react";
 import { cilLockLocked, cilUser } from "@coreui/icons";
 import axios from "axios";
-import "./../../../css/Login.css";
+import "./../../../views/css/Login.css";
 import Swal from "sweetalert2";
 
 const Login = () => {
@@ -26,19 +26,18 @@ const Login = () => {
   const navigate = useNavigate();
   const [type_token, setType_token] = useState("");
   const [unique_id, setUnique_id] = useState("");
+  const [passwordType, setPasswordType] = useState("password");
+  const [passwordIcon, setPasswordIcon] = useState("fa-solid fa-eye-slash");
 
-  // const [passwordType, setPasswordType] = useState("password");
-  // const [passwordIcon, setPasswordIcon] = useState("fa-solid fa-eye-slash");
-
-  // const togglePassword = () => {
-  //   if (passwordType === "password") {
-  //     setPasswordType("text");
-  //     setPasswordIcon("fa-solid fa-eye");
-  //     return;
-  //   }
-  //   setPasswordType("password");
-  //   setPasswordIcon("fa-solid fa-eye-slash");
-  // };
+  const togglePassword = () => {
+    if (passwordType === "password") {
+      setPasswordType("text");
+      setPasswordIcon("fa-solid fa-eye");
+      return;
+    }
+    setPasswordType("password");
+    setPasswordIcon("fa-solid fa-eye-slash");
+  };
 
   const login = async (e) => {
     e.preventDefault();
@@ -135,7 +134,8 @@ const Login = () => {
           <CCol md={8} style={{ width: "30rem", marginTop: "25px" }}>
             <div>
               <p
-                className="login" style={{
+                className="login"
+                style={{
                   fontSize: "40px",
                   fontWeight: "bold",
                   textAlign: "center",
@@ -156,27 +156,29 @@ const Login = () => {
                 aria-label="Default select example"
                 onChange={(e) => setType_token(e.target.value)}
               >
-                <option selected>Select Roles</option>
+                <option>Select Roles</option>
                 <option value="guru">guru</option>
                 <option value="admin Sekolah">admin Sekolah</option>
-                <option value="siswa">siswa</option>
+                <option value="siswa" selected>
+                  siswa
+                </option>
               </select>
-              {type_token === "siswa" ? (
+              {type_token === "guru" ? (
                 <>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
                       <CIcon icon={cilUser} />
                     </CInputGroupText>
                     <CFormInput
-                      placeholder="unique_id"
-                      autoComplete="unique_id"
-                      value={unique_id}
-                      type="text"
-                      onChange={(e) => setUnique_id(e.target.value)}
+                      placeholder="email"
+                      autoComplete="email"
+                      value={email}
+                      type="email"
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </CInputGroup>
                 </>
-              ) : (
+              ) : type_token === "admin Sekolah" ? (
                 <CInputGroup className="mb-3">
                   <CInputGroupText>
                     <CIcon icon={cilUser} />
@@ -189,13 +191,31 @@ const Login = () => {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </CInputGroup>
+              ) : (
+                <CInputGroup className="mb-3">
+                  <CInputGroupText>
+                    <CIcon icon={cilUser} />
+                  </CInputGroupText>
+                  <CFormInput
+                    placeholder="unique_id"
+                    autoComplete="unique_id"
+                    value={unique_id}
+                    type="text"
+                    onChange={(e) => setUnique_id(e.target.value)}
+                  />
+                </CInputGroup>
               )}
               <CInputGroup className="mb-4">
                 <CInputGroupText>
-                  <CIcon icon={cilLockLocked} />
+                  {/* <CIcon icon={cilLockLocked} /> */}
+                  <span
+                    onClick={togglePassword}
+                  >
+                    <i class={passwordIcon}></i>
+                  </span>
                 </CInputGroupText>
                 <CFormInput
-                  type="password"
+                  type={passwordType}
                   placeholder="Password"
                   autoComplete="current-password"
                   value={password}
@@ -203,21 +223,6 @@ const Login = () => {
                 />
               </CInputGroup>
               <CRow>
-                {type_token === "siswa" ? (
-                  <>
-                    <CButton
-                      color="link"
-                      style={{
-                        marginTop: "-20px",
-                        marginLeft: "33.5%",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      <a href="/#/resetpassiswa"> Forgot password</a>
-                    </CButton>
-                  </>
-                ) : type_token === "admin Sekolah" ? (
-                  <>
                     <CButton
                       color="link"
                       style={{
@@ -228,10 +233,6 @@ const Login = () => {
                     >
                       <a href="/#/reset"> Forgot password</a>
                     </CButton>
-                  </>
-                ) : (
-                  <></>
-                )}
                 <CCol xs={6}>
                   <button
                     className="px-4"

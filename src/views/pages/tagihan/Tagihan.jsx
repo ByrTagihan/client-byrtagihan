@@ -52,7 +52,7 @@ function Tagihan() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Delete",
+      confirmButtonText: "Yakin",
       cancelButtonText: "Cencel",
     })
       .then((result) => {
