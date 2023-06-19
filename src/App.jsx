@@ -33,6 +33,7 @@ class App extends Component {
             <Route exact path="/404" name="Page 404" element={<Page404 />} />
             <Route exact path="/500" name="Page 500" element={<Page500 />} />
             <Route exact path="/reset" name="Reset" element={<ResetPassword />} />
+
             <Route exact path="/konfirmasiPassword" name="Reset" element={<KonfirmasiPassword />} />
             <Route exact path="/forgotPasswordSiswa" name="Forgot Password Siswa" element={<ForgotPasswordSiswa />} />
             <Route path="*" name="Home" element={

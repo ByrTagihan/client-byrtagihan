@@ -116,7 +116,8 @@ function AddTagihan() {
         style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
       >
         <ul className="list-group list-group-flush">
-          {suggestions.map((data, index) => (
+          {suggestions.length != 0 ? (<>
+            {suggestions.map((data, index) => (
             <li
               className={
                 index === suggestionIndex
@@ -128,7 +129,12 @@ function AddTagihan() {
             >
               NIK = {data.unique_id}, Nama = {data.name}
             </li>
-          ))}
+          ))}</>) : (<>
+            <li
+              className="list-group-item "
+            >
+              Member Tidak Ditemukan 
+            </li></>)}
         </ul>
       </div>
     );
