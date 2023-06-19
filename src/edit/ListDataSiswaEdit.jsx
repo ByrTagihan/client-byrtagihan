@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import "../css/editListDataSiswa.css"
+import "../views/css/editListDataSiswa.css"
 
 function ListDataSiswaEdit() {
   const [name, setName] = useState("");
