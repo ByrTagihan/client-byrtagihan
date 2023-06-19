@@ -57,6 +57,8 @@ const Flags = React.lazy(() => import('./views/icons/flags/Flags'))
 const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
 const Tagihan = React.lazy(() => import('./pages/Tagihan'))
 const LihatTagihanMember = React.lazy(() => import('./pages/LihatTagihanByMember'))
+const ListTagihanMember = React.lazy(() => import("./views/pages/member/ListTagihan"))
+const BayarTagihan = React.lazy(() => import("./views/pages/member/BayarTagihan"))
 
 // Notifications
 // const Alerts = React.lazy(() => import('./views/notifications/alerts/Alerts'))
@@ -81,6 +83,8 @@ const routes = [
   { path: '/tagihan', name: 'Tagihan', element: ListTagihan },
   { path: '/addtagihan', name: 'Tambah Tagihan', element: AddTagihan },
   { path: '/edittagihan/:id', name: 'Edit Tagihan', element: EditTagihan },
+  { path: '/listTagihanMember', name: 'List Tagihan', element: ListTagihanMember },
+  { path: '/bayarTagihan/:id', name: 'Bayar Tagihan', element: BayarTagihan },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
   // { path: '/theme/typography', name: 'Typography', element: Typography },
