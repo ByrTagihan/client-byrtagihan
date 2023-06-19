@@ -34,13 +34,12 @@ class App extends Component {
             <Route exact path="/500" name="Page 500" element={<Page500 />} />
             <Route exact path="/reset" name="Reset" element={<ResetPassword />} />
 
-            <Route exact path="/konfirmasiPassword" name="Reset" element={<KonfirmasiPassword />} />
+            <Route exact path="/konfirmasiPassword" element={<KonfirmasiPassword />} />
             <Route exact path="/forgotPasswordSiswa" name="Forgot Password Siswa" element={<ForgotPasswordSiswa />} />
             <Route path="*" name="Home" element={
             <PrivateRoute>
             <DefaultLayout />
             </PrivateRoute>} />
-            {/* <Route path="/listdatasiswa" name="ListDataSiswa" element={<LIstDataSIswa />} /> */}
           </Routes>
         </Suspense>
       </HashRouter>

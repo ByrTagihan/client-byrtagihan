@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import "../views/css/ListDataSiswa.css"
+import "../views/css/ListDataSiswa.css";
 
 function LihatTagihanByMember() {
   const [unique_id, setUnique_id] = useState("");
@@ -185,21 +185,22 @@ function LihatTagihanByMember() {
     console.log(data);
 
     try {
-      await axios.put(
-        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${idd1}/paid`,
-        data,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
-      .then(() => {
-      setShowEdit(false);
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil dibayar",
-        showConfirmButton: false,
-      });
-      })
+      await axios
+        .put(
+          `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${idd1}/paid`,
+          data,
+          {
+            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          }
+        )
+        .then(() => {
+          setShowEdit(false);
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil dibayar",
+            showConfirmButton: false,
+          });
+        });
       // alert("Success")
       setTimeout(() => {
         window.location.reload();
@@ -249,19 +250,22 @@ function LihatTagihanByMember() {
     })
       .then((result) => {
         if (result.isConfirmed) {
-          axios
-          .put(`https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${id}/unpaid`, {}, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-            },
-          })
+          axios.put(
+            `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${id}/unpaid`,
+            {},
+            {
+              headers: {
+                "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+              },
+            }
+          );
           Swal.fire({
             icon: "success",
             title: "Berhasil Membatalkan Pembayaran",
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-              window.location.reload();
+            window.location.reload();
           });
         }
       })
@@ -323,183 +327,472 @@ function LihatTagihanByMember() {
       });
   };
   return (
-    <>
-      <div
-        style={{
-          width:"100%",
-          border: "1px solid gray",
-          color: "white",
-          background: "#526D82",
-          borderRadius: "10px",
-          marginBottom: "20px",
-        }}
-      >
-        <div className="bungkus"
-          style={{
-            background: "#526D82",
-            borderTopRightRadius: "10px",
-            borderTopLeftRadius: "10px",
-            display: "flex",
-            justifyContent: "space-between",
-            padding: "5px",
-          }}
-        >
-          <p className="listTagihan"
-          >
-            List Tagihan By Member
-          </p>
-          <CButton onClick={() => setShowAdd(true)}>Tambah Tagihan</CButton>
-        </div>
-        <table
-          className="table table1 border responsive-3"
-        >
-          <thead className="thead-dark" style={{ color: "black" }}>
-            <tr>
-              <th scope="col">No</th>
-              <th scope="col">Keterangan</th>
-              <th scope="col">Periode</th>
-              <th scope="col">Status</th>
-              <th scope="col">Tanggal Dibayar</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody
-            className="bg-white"
-          >
-            {list.map((data, index) => {
-              return (
-                <tr key={index}>
-                  <td data-cell="Id">{index + 1}</td>
-                  <td data-cell="Deskripsi">{data.description}</td>
-                  <td data-cell="Periode">{data.periode}</td>
-                  {/* {paid_id == 0 ? (
-                  <>
-                    <td>Belum bayar</td>
-                  </>
-                ) : paid_id == 1 ? (
-                  <>
-                    <td>Sudah bayar</td>
-                  </>
-                ) : paid_id == 2 ? (
-                  <>
-                    <td>Sudah bayar</td>
-                  </>
-                ) : (
-                  <></>
-                )} */}
-                  <td data-cell="Status">
-                    {" "}
-                    {data.paid_id != 0 ? (
-                      <span>Sudah Bayar</span>
-                    ) : (
-                      <span>Belum Bayar</span>
-                    )}
-                  </td>
-                  <td data-cell="Tanggal">{data.paid_date}</td>
-                  <td data-cell="Action" className="tdd"
-                  >
-                    <button className="edit1"
-                      type="submit"
-                      onClick={() => {
-                        setShowEdit(true);
-                        getById(data.id);
-                      }}
-                    >
-                      <a>
-                        {" "}
-                        <i className="fas fa-edit"></i>
-                      </a>{" "}
-                    </button>
-                    <button className="edit1"
-                      onClick={() => deleteData(data.id)}
-                      style={{ background: "red", color: "white" }}
-                    >
-                      <i className="fas fa-trash-alt"></i>
-                    </button>
-                    {data.paid_id != 0 ? (
-                      <button className="edit1"
-                      type="submit"
-                      onClick={() => putUnpaid(data.id)}
-                        style={{ background: "green", color: "white" }}
-                      >
-                        Terbayar
-                      </button>
-                    ) : (
-                      <button className="edit1"
-                        onClick={() => {
-                          setShowEditSudahByr(true);
-                          getByIdSudahByr(data.id);
-                        }}
-                        style={{ background: "green", color: "white" }}
-                      >
-                        Bayar
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+    // <>
+    //   <div
+    //     style={{
+    //       width:"100%",
+    //       border: "1px solid gray",
+    //       color: "white",
+    //       background: "#526D82",
+    //       borderRadius: "10px",
+    //       marginBottom: "20px",
+    //     }}
+    //   >
+    //     <div className="bungkus"
+    //       style={{
+    //         background: "#526D82",
+    //         borderTopRightRadius: "10px",
+    //         borderTopLeftRadius: "10px",
+    //         display: "flex",
+    //         justifyContent: "space-between",
+    //         padding: "5px",
+    //       }}
+    //     >
+    //       <p className="listTagihan"
+    //       >
+    //         List Tagihan By Member
+    //       </p>
+    //       <CButton onClick={() => setShowAdd(true)}>Tambah Tagihan</CButton>
+    //     </div>
+    //     <table
+    //       className="table table1 border responsive-3"
+    //     >
+    //       <thead className="thead-dark" style={{ color: "black" }}>
+    //         <tr>
+    //           <th scope="col">No</th>
+    //           <th scope="col">Keterangan</th>
+    //           <th scope="col">Periode</th>
+    //           <th scope="col">Status</th>
+    //           <th scope="col">Tanggal Dibayar</th>
+    //           <th scope="col">Action</th>
+    //         </tr>
+    //       </thead>
+    //       <tbody
+    //         className="bg-white"
+    //       >
+    //         {list.map((data, index) => {
+    //           return (
+    //             <tr key={index}>
+    //               <td data-cell="Id">{index + 1}</td>
+    //               <td data-cell="Deskripsi">{data.description}</td>
+    //               <td data-cell="Periode">{data.periode}</td>
+    //               {/* {paid_id == 0 ? (
+    //               <>
+    //                 <td>Belum bayar</td>
+    //               </>
+    //             ) : paid_id == 1 ? (
+    //               <>
+    //                 <td>Sudah bayar</td>
+    //               </>
+    //             ) : paid_id == 2 ? (
+    //               <>
+    //                 <td>Sudah bayar</td>
+    //               </>
+    //             ) : (
+    //               <></>
+    //             )} */}
+    //               <td data-cell="Status">
+    //                 {" "}
+    //                 {data.paid_id != 0 ? (
+    //                   <span>Sudah Bayar</span>
+    //                 ) : (
+    //                   <span>Belum Bayar</span>
+    //                 )}
+    //               </td>
+    //               <td data-cell="Tanggal">{data.paid_date}</td>
+    //               <td data-cell="Action" className="tdd"
+    //               >
+    //                 <button className="edit1"
+    //                   type="submit"
+    //                   onClick={() => {
+    //                     setShowEdit(true);
+    //                     getById(data.id);
+    //                   }}
+    //                 >
+    //                   <a>
+    //                     {" "}
+    //                     <i className="fas fa-edit"></i>
+    //                   </a>{" "}
+    //                 </button>
+    //                 <button className="edit1"
+    //                   onClick={() => deleteData(data.id)}
+    //                   style={{ background: "red", color: "white" }}
+    //                 >
+    //                   <i className="fas fa-trash-alt"></i>
+    //                 </button>
+    //                 {data.paid_id != 0 ? (
+    //                   <button className="edit1"
+    //                   type="submit"
+    //                   onClick={() => putUnpaid(data.id)}
+    //                     style={{ background: "green", color: "white" }}
+    //                   >
+    //                     Terbayar
+    //                   </button>
+    //                 ) : (
+    //                   <button className="edit1"
+    //                     onClick={() => {
+    //                       setShowEditSudahByr(true);
+    //                       getByIdSudahByr(data.id);
+    //                     }}
+    //                     style={{ background: "green", color: "white" }}
+    //                   >
+    //                     Bayar
+    //                   </button>
+    //                 )}
+    //               </td>
+    //             </tr>
+    //           );
+    //         })}
+    //       </tbody>
+    //     </table>
 
-        <div className="readonly">
-          <div className="readonly1">
-          <p
-            style={{
-              fontSize: "16px",
-              fontWeight: "bold",
-              textAlign: "center",
-            }}
-          >
-            Nisn : <span>{list1.unique_id}</span>
-          </p>
-          <p
-            style={{
-              fontSize: "16px",
-              fontWeight: "bold",
-              textAlign: "center",
-            }}
-          >
-            Nama : <span>{list1.name}</span>
-          </p>
-          </div>
-          <div className="readonly2">
-          <p
-            style={{
-              fontSize: "16px",
-              fontWeight: "bold",
-              textAlign: "center",
-            }}
-          >
-            No Hp : <span>{list1.hp}</span>
-          </p>
-          <p
-            style={{
-              fontSize: "16px",
-              fontWeight: "bold",
-              textAlign: "center",
-            }}
-          >
-            Alamat : <span>{list1.address}</span>
-          </p>
+    //     <div className="readonly">
+    //       <div className="readonly1">
+    //       <p
+    //         style={{
+    //           fontSize: "16px",
+    //           fontWeight: "bold",
+    //           textAlign: "center",
+    //         }}
+    //       >
+    //         Nisn : <span>{list1.unique_id}</span>
+    //       </p>
+    //       <p
+    //         style={{
+    //           fontSize: "16px",
+    //           fontWeight: "bold",
+    //           textAlign: "center",
+    //         }}
+    //       >
+    //         Nama : <span>{list1.name}</span>
+    //       </p>
+    //       </div>
+    //       <div className="readonly2">
+    //       <p
+    //         style={{
+    //           fontSize: "16px",
+    //           fontWeight: "bold",
+    //           textAlign: "center",
+    //         }}
+    //       >
+    //         No Hp : <span>{list1.hp}</span>
+    //       </p>
+    //       <p
+    //         style={{
+    //           fontSize: "16px",
+    //           fontWeight: "bold",
+    //           textAlign: "center",
+    //         }}
+    //       >
+    //         Alamat : <span>{list1.address}</span>
+    //       </p>
+    //       </div>
+    //     </div>
+    //   </div>
+
+    //   <Modal show={showAdd} onHide={!showAdd}>
+    //     <form onSubmit={add}>
+    //       <Modal.Header style={{ background: "#526D82" }}>
+    //         <Modal.Title style={{ color: "white" }}>Modal Add</Modal.Title>
+    //       </Modal.Header>
+    //       <Modal.Body style={{ color: "black" }}>
+    //         <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+    //           Deskripsi :
+    //         </label>
+    //         <CInputGroup className="mb-3">
+    //           <CInputGroupText>
+    //             <FontAwesomeIcon icon="fas fa-align-justify" />
+    //           </CInputGroupText>
+    //           <CFormInput
+    //             placeholder="Deskripsi"
+    //             autoComplete="Deskripsi"
+    //             type="text"
+    //             value={description}
+    //             required
+    //             onChange={(e) => setDescription(e.target.value)}
+    //           />
+    //         </CInputGroup>
+    //         <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+    //           Periode :
+    //         </label>
+    //         <CInputGroup className="mb-3">
+    //           <CInputGroupText>
+    //             <FontAwesomeIcon icon="fas fa-table" />
+    //           </CInputGroupText>
+    //           <CFormInput
+    //             placeholder="periode"
+    //             autoComplete="periode"
+    //             type="date"
+    //             value={periode}
+    //             required
+    //             onChange={(e) => setPeriode(e.target.value)}
+    //           />
+    //         </CInputGroup>
+    //         <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+    //           Amount :
+    //         </label>
+    //         <CInputGroup className="mb-3">
+    //           <CInputGroupText>
+    //             <FontAwesomeIcon icon="fas fa-sort-amount-up-alt" />
+    //           </CInputGroupText>
+    //           <CFormInput
+    //             placeholder="Amount"
+    //             autoComplete="Amount"
+    //             type="number"
+    //             value={amount}
+    //             required
+    //             onChange={(e) => setAmount(e.target.value)}
+    //           />
+    //         </CInputGroup>
+    //       </Modal.Body>
+    //       <Modal.Footer>
+    //         <Button variant="secondary" onClick={() => setShowAdd(false)}>
+    //           Close
+    //         </Button>
+    //         <Button variant="primary" type="submit">
+    //           Save Changes
+    //         </Button>
+    //       </Modal.Footer>
+    //     </form>
+    //   </Modal>
+
+    //   {/* MOdal Edit */}
+    //   <Modal show={showEdit} onHide={!showEdit}>
+    //     <form onSubmit={put}>
+    //       <Modal.Header style={{ background: "#526D82" }}>
+    //         <Modal.Title style={{ color: "white" }}>Modal Edit Pembayaran</Modal.Title>
+    //       </Modal.Header>
+    //       <Modal.Body style={{ color: "black" }}>
+    //         <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+    //           Deskripsi :
+    //         </label>
+    //         <CInputGroup className="mb-3">
+    //           <CInputGroupText>
+    //             <FontAwesomeIcon icon="fas fa-align-justify" />
+    //           </CInputGroupText>
+    //           <CFormInput
+    //             placeholder="Deskripsi"
+    //             autoComplete="Deskripsi"
+    //             type="text"
+    //             value={description}
+    //             required
+    //             onChange={(e) => setDescription(e.target.value)}
+    //           />
+    //         </CInputGroup>
+    //         <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+    //           Periode :
+    //         </label>
+    //         <CInputGroup className="mb-3">
+    //           <CInputGroupText>
+    //             <FontAwesomeIcon icon="fas fa-table" />
+    //           </CInputGroupText>
+    //           <CFormInput
+    //             placeholder="periode"
+    //             autoComplete="periode"
+    //             type="date"
+    //             value={periode}
+    //             required
+    //             onChange={(e) => setPeriode(e.target.value)}
+    //           />
+    //         </CInputGroup>
+    //         <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+    //           Amount :
+    //         </label>
+    //         <CInputGroup className="mb-3">
+    //           <CInputGroupText>
+    //             <FontAwesomeIcon icon="fas fa-sort-amount-up-alt" />
+    //           </CInputGroupText>
+    //           <CFormInput
+    //             placeholder="Amount"
+    //             autoComplete="Amount"
+    //             type="number"
+    //             value={amount}
+    //             required
+    //             onChange={(e) => setAmount(e.target.value)}
+    //           />
+    //         </CInputGroup>
+    //       </Modal.Body>
+    //       <Modal.Footer>
+    //         <Button variant="secondary" onClick={() => setShowEdit(false)}>
+    //           Close
+    //         </Button>
+    //         <Button variant="primary" type="submit">
+    //           Save Changes
+    //         </Button>
+    //       </Modal.Footer>
+    //     </form>
+    //   </Modal>
+
+    //   <Modal show={showEditSudahByr} onHide={!showEditSudahByr}>
+    //     <form onSubmit={putSudahByr}>
+    //       <Modal.Header style={{ background: "#526D82" }}>
+    //         <Modal.Title style={{ color: "white" }}>Modal Pembayaran</Modal.Title>
+    //       </Modal.Header>
+    //       <Modal.Body style={{ color: "black" }}>
+    //         <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+    //           Paid Date :
+    //         </label>
+    //         <CInputGroup className="mb-3">
+    //           <CInputGroupText>
+    //             <FontAwesomeIcon icon="fas fa-table" />
+    //           </CInputGroupText>
+    //           <CFormInput
+    //             placeholder="Paid Date"
+    //             autoComplete="Paid Date"
+    //             type="date"
+    //             value={paid_date}
+    //             onChange={(e) => setPaid_date(e.target.value)}
+    //           />
+    //         </CInputGroup>
+    //         <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+    //           Paid Amount :
+    //         </label>
+    //         <CInputGroup className="mb-3">
+    //           <CInputGroupText>
+    //             <FontAwesomeIcon icon="fas fa-table" />
+    //           </CInputGroupText>
+    //           <CFormInput
+    //             placeholder="Paid Amount"
+    //             autoComplete="Paid Amount"
+    //             type="number"
+    //             value={paid_amount}
+    //             onChange={(e) => setPaid_amount(e.target.value)}
+    //           />
+    //         </CInputGroup>
+    //       </Modal.Body>
+    //       <Modal.Footer>
+    //         <Button
+    //           variant="secondary"
+    //           onClick={() => setShowEditSudahByr(false)}
+    //         >
+    //           Close
+    //         </Button>
+    //         <Button variant="primary" type="submit">
+    //           Save Changes
+    //         </Button>
+    //       </Modal.Footer>
+    //     </form>
+    //   </Modal>
+    // </>
+    <div>
+      <div className="row">
+        <div className="col" xs={12}>
+          <div className="card mb-4">
+            <div className="card-header">
+              <div className="row">
+                <div className="col">
+                  <h4>Lihat Tagihan By Member</h4>
+                </div>
+                {/* <div className="col" style={{ marginLeft: "55%" }}>
+                  <CFormInput
+                    type="search"
+                    placeholder="search data"
+                    value={customer}
+                    onChange={(e) => setCustomer(e.target.value)}
+                  />
+                </div> */}
+                <div className="col">
+                  <button
+                    onClick={() => setShowAdd(true)}
+                    className="btn btn-primary float-end"
+                  >
+                    <FontAwesomeIcon icon="fa-plus" /> Tambah Data
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="card-body table-container">
+              <table className="table responsive-3 table1">
+                <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Keterangan</th>
+                    <th scope="col">Periode</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Tanggal Dibayar</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {list.map((data, i) => (
+                    <tr key={i}>
+                      <td data-cell="No">{i + 1}</td>
+                      <td data-cell="Deskripsi">{data.description}</td>
+                      <td data-cell="Periode">{data.periode}</td>
+                      <td data-cell="Status">
+                        {" "}
+                        {data.paid_id != 0 ? (
+                          <span>Sudah Bayar</span>
+                        ) : (
+                          <span>Belum Bayar</span>
+                        )}
+                      </td>
+                      <td data-cell="Tanggal">{data.paid_date}</td>
+                      <td data-cell="Action" className="tdd">
+                        <button
+                          className="edit1"
+                          type="submit"
+                          onClick={() => {
+                            setShowEdit(true);
+                            getById(data.id);
+                          }}
+                        >
+                          <a>
+                            {" "}
+                            <i className="fas fa-edit"></i>
+                          </a>{" "}
+                        </button>
+                        <button
+                          className="edit1"
+                          onClick={() => deleteData(data.id)}
+                          style={{ background: "red", color: "white" }}
+                        >
+                          <i className="fas fa-trash-alt"></i>
+                        </button>
+                        {data.paid_id != 0 ? (
+                          <button
+                            className="edit1"
+                            type="submit"
+                            onClick={() => putUnpaid(data.id)}
+                            style={{ background: "green", color: "white" }}
+                          >
+                            Terbayar
+                          </button>
+                        ) : (
+                          <button
+                            className="edit1"
+                            onClick={() => {
+                              setShowEditSudahByr(true);
+                              getByIdSudahByr(data.id);
+                            }}
+                            style={{ background: "green", color: "white" }}
+                          >
+                            Bayar
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-
-      <Modal show={showAdd} onHide={!showAdd}>
-        <form onSubmit={add}>
-          <Modal.Header style={{ background: "#526D82" }}>
-            <Modal.Title style={{ color: "white" }}>Modal Add</Modal.Title>
-          </Modal.Header>
-          <Modal.Body style={{ color: "black" }}>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Deskripsi :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-align-justify" />
-              </CInputGroupText>
-              <CFormInput
+         <Modal show={showAdd} onHide={!showAdd}>
+         <form onSubmit={add}>
+           <Modal.Header style={{ background: "#526D82" }}>
+             <Modal.Title style={{ color: "white" }}>Modal Add</Modal.Title>
+           </Modal.Header>
+           <Modal.Body style={{ color: "black" }}>
+             <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+               Deskripsi :
+             </label>
+             <CInputGroup className="mb-3">
+               <CInputGroupText>
+                 <FontAwesomeIcon icon="fas fa-align-justify" />
+               </CInputGroupText>
+               <CFormInput
                 placeholder="Deskripsi"
                 autoComplete="Deskripsi"
                 type="text"
@@ -669,7 +962,7 @@ function LihatTagihanByMember() {
           </Modal.Footer>
         </form>
       </Modal>
-    </>
+    </div>
   );
 }
 
