@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import gambarEmail from "../../../assets/images/email.png"
-import "../../../css/ForgotPassword.css"
+import "../../../views/css/ForgotPassword.css"
 
 export default function ResetPassword() {
   const [email, setEmail] = useState();

@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import "../css/ListDataSiswa.css"
+import "../views/css/ListDataSiswa.css"
 
 function LihatTagihanByMember() {
   const [unique_id, setUnique_id] = useState("");
@@ -196,7 +196,7 @@ function LihatTagihanByMember() {
       setShowEdit(false);
       Swal.fire({
         icon: "success",
-        title: "Data berhasil diedit",
+        title: "Berhasil dibayar",
         showConfirmButton: false,
       });
       })
@@ -209,32 +209,65 @@ function LihatTagihanByMember() {
     }
   };
 
+  // const putUnpaid = async (id) => {
+  //   // e.preventDefault();
+  //   // e.persist();
+  //   console.log(id);
+
+  //   const data = {
+  //   }
+
+  //   try {
+  //     await axios.put(
+  //       `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${id}/unpaid`, data,{
+  //         headers: {"auth-tgh": `jwt ${localStorage.getItem("token")}`},
+  //       });
+  //     // alert("Success")
+  //     setShowEdit(false);
+  //     Swal.fire({
+  //       icon: "success",
+  //       title: "Data berhasil diedit",
+  //       showConfirmButton: false,
+  //     });
+  //     setTimeout(() => {
+  //       window.location.reload();
+  //     }, 1500);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
   const putUnpaid = async (id) => {
-    // e.preventDefault();
-    // e.persist();
-    console.log(id);
-
-    const data = {
-    }
-
-    try {
-      await axios.put(
-        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${id}/unpaid`, data,{
-          headers: {"auth-tgh": `jwt ${localStorage.getItem("token")}`},
-        });
-      // alert("Success")
-      setShowEdit(false);
-      Swal.fire({
-        icon: "success",
-        title: "Data berhasil diedit",
-        showConfirmButton: false,
+    Swal.fire({
+      title: "Yakin ingin membatalkan pembayaran ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+      cancelButtonText: "Cencel",
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          axios
+          .put(`https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${id}/unpaid`, {}, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+            },
+          })
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Membatalkan Pembayaran",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+              window.location.reload();
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   // const [idd2, setId2] = useState(0);
@@ -523,7 +556,7 @@ function LihatTagihanByMember() {
       <Modal show={showEdit} onHide={!showEdit}>
         <form onSubmit={put}>
           <Modal.Header style={{ background: "#526D82" }}>
-            <Modal.Title style={{ color: "white" }}>Modal Edit</Modal.Title>
+            <Modal.Title style={{ color: "white" }}>Modal Edit Pembayaran</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{ color: "black" }}>
             <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
@@ -589,7 +622,7 @@ function LihatTagihanByMember() {
       <Modal show={showEditSudahByr} onHide={!showEditSudahByr}>
         <form onSubmit={putSudahByr}>
           <Modal.Header style={{ background: "#526D82" }}>
-            <Modal.Title style={{ color: "white" }}>Modal Edit</Modal.Title>
+            <Modal.Title style={{ color: "white" }}>Modal Pembayaran</Modal.Title>
           </Modal.Header>
           <Modal.Body style={{ color: "black" }}>
             <label style={{ fontWeight: "bold", marginLeft: "4px" }}>

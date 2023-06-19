@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../css/ListDataSiswa.css";
+import "../views/css/ListDataSiswa.css";
 import axios from "axios";
 import { Button, Modal } from "react-bootstrap";
 import { CButton, CFormInput, CInputGroup, CInputGroupText } from "@coreui/react";
@@ -8,6 +8,7 @@ import { cilUser } from "@coreui/icons";
 import Swal from "sweetalert2";
 // import ReactPaginate from "react-paginate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReactPaginate from "react-paginate";
 
 
 function LIstDataSIswa() {
@@ -22,26 +23,34 @@ function LIstDataSIswa() {
   // const [show2, setShow2] = useState(false);
   // const [show3, setShow3] = useState(false);
   // const [pages, setPages] = useState(0);
-
+  const [listData, setListData] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
   const getAll = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/customer/member`, {
+      .get(`https://api.byrtagihan.com/api/customer/member?page=${page}&limit=${limit}&name=${listData}`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
-        // setPages(res.data.data.total_page);
+        setTotalPages(res.data.pagination.total_page);
+        setPage(res.data.pagination.page);
+        console.log(res.data.pagination.total_page);
         setList(res.data.data);
-        // console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
   };
 
+  const changePage = ({selected}) => {
+    setPage(selected)
+  }
+
   const [idd, setId] = useState(0);
   const getById = async (id) => {
     await axios
-      .get("https://api.byrtagihan.com/api/customer/member/" + id, {
+      .get(`https://api.byrtagihan.com/api/customer/member/` + id, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -160,7 +169,7 @@ function LIstDataSIswa() {
 
   useEffect(() => {
     getAll(0);
-  }, []);
+  }, [page, listData]);
 
   return (
     <div
@@ -195,7 +204,23 @@ function LIstDataSIswa() {
       <p className="listTagihan">
         List data siswa
       </p>
-      <CButton onClick={() => setShow(true)}>Tambah Data</CButton>
+        <div
+        style={{
+          background: "#526D82",
+          borderTopRightRadius: "10px",
+          borderTopLeftRadius: "10px",
+          display: "flex",
+          justifyContent: "space-between"
+        }}>
+        <CFormInput
+          type="search"
+          style={{ marginBottom: "2px", width: "30%", width:"20em", marginRight:"14px", marginTop:"1px" }}
+          placeholder="search data"
+          value={listData}
+          onChange={(e) => setListData(e.target.value)}
+        />
+        <CButton onClick={() => setShow(true)}>Tambah Data</CButton>
+        </div>
     </div>
 <div className="table-container">
     <table className="table table1 border responsive-3">
@@ -406,6 +431,24 @@ function LIstDataSIswa() {
         </Modal.Footer>
       </form>
     </Modal>
+    <ReactPaginate
+        breakLabel="..."
+        nextLabel="next >"
+        onPageChange={changePage}
+        pageRangeDisplayed={5}
+        pageCount={totalPages}
+        previousLabel="< previous"
+        renderOnZeroPageCount={null}
+        marginPagesDisplayed={2}
+        containerClassName="pagination justify-content-center"
+        pageClassName="page-item"
+        pageLinkClassName="page-link"
+        previousClassName="page-item"
+        previousLinkClassName="page-link"
+        nextClassName="page-item"
+        nextLinkClassName="page-link"
+        activeClassName="active"
+      />
   </div>
   );
 }
