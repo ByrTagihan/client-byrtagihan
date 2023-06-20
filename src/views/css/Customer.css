@@ -1,14 +1,18 @@
-.dropdown {
-    background: white;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid gray;
+.inputSearch {
+    margin-bottom: 2px;
+    width: 20em;
+    margin-right: 14px;
+    margin-top: 1px;
 }
-.dropdown:empty {
-    border: none;
+.inputSearch1 {
+    display: none;
 }
-.dropdown-row {
-    cursor: pointer;
-    text-align: center;
-    margin: 2px 0;
-} 
+@media(max-width: 700px) {
+    .inputSearch {
+        display:none;
+    }
+    .inputSearch1 {
+        margin-bottom: 10px;
+        display: flex;
+    }
+ }

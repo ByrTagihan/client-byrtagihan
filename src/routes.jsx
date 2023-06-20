@@ -33,10 +33,20 @@ const TambahPayment = React.lazy(() =>
 );
 const EditPayment = React.lazy(() => import("./views/pages/user/EditPayment"));
 const CrudPayment = React.lazy(() => import("./views/pages/user/CrudPayment"));
-const CrudTransaction = React.lazy(() => import("./views/pages/user/CrudTransaction"));
-const TambahTransaction = React.lazy(() => import("./views/pages/user/TambahTransaction"));
-const EditTransaction = React.lazy(() => import("./views/pages/user/EditTransaction"));
+const CrudTransaction = React.lazy(() =>
+  import("./views/pages/user/CrudTransaction")
+);
+const TambahTransaction = React.lazy(() =>
+  import("./views/pages/user/TambahTransaction")
+);
+const EditTransaction = React.lazy(() =>
+  import("./views/pages/user/EditTransaction")
+);
 const Profile = React.lazy(() => import("./views/pages/profile/Profile"));
+const UserCustomer = React.lazy(() => import("./views/pages/user/customer/Customer"));
+const userChannel = React.lazy(() => import("./views/pages/user/channel/Channel"));
+const UserMessage = React.lazy(() => import("./views/pages/mesage/Mesage"));
+const DashboardUser = React.lazy(() => import("./views/dashboard/DashboardUser"));
 
 const CoreUIIcons = React.lazy(() =>
   import("./views/icons/coreui-icons/CoreUIIcons")
@@ -44,6 +54,7 @@ const CoreUIIcons = React.lazy(() =>
 const Flags = React.lazy(() => import("./views/icons/flags/Flags"));
 const Brands = React.lazy(() => import("./views/icons/brands/Brands"));
 const Tagihan = React.lazy(() => import("./pages/Tagihan"));
+const EditUserCustomer = React.lazy(() => import("./views/pages/user/customer/EditCustomer"));
 const LihatTagihanMember = React.lazy(() =>
   import("./pages/LihatTagihanByMember")
 );
@@ -101,8 +112,16 @@ const routes = [
   { path: "/tambahPayment", name: "Tambah Payment", element: TambahPayment },
   { path: "/editPayment/:id", name: "Edit Payment", element: EditPayment },
   { path: "/transaction", name: "Transaction", element: CrudTransaction },
-  { path: "/tambahTransaction", name: "Tambah Tagihan", element: TambahTransaction },
-  { path: "/editTransaction/:id", name: "Edit Transaction", element: EditTransaction },
+  {
+    path: "/tambahTransaction",
+    name: "Tambah Tagihan",
+    element: TambahTransaction,
+  },
+  {
+    path: "/editTransaction/:id",
+    name: "Edit Transaction",
+    element: EditTransaction,
+  },
 
   { path: "/forms/range", name: "Range", element: Range },
   { path: "/icons", exact: true, name: "Icons", element: CoreUIIcons },
@@ -111,12 +130,17 @@ const routes = [
   { path: "/icons/brands", name: "Brands", element: Brands },
   { path: "/reset", name: "Reset", element: ResetPassword },
   { path: "/listdatasiswa", name: "ListDataSiswa", element: LIstDataSIswa },
+  { path: "/userCustomer", name: "UserCustomer", element: UserCustomer },
+  { path: "/userChannel", name: "UserChannel", element: userChannel },
+  { path: "/mesage", name: "UserMessage", element: UserMessage },
+  { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
   {
     path: "/Editlistdatasiswa/:id",
     name: "EditListDataSiswa",
     element: EditListSiswa,
   },
   { path: "/datatagihan/:id", name: "dataTagihan", element: Tagihan },
+  { path: "/editUserCustomer/:id", name: "Edit User Customer", element: EditUserCustomer },
   {
     path: "/lihattagihanmember/:id",
     name: "dataTagihan",

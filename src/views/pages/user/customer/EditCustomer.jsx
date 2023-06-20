@@ -175,7 +175,7 @@ function EditCustomer() {
             marginLeft: "30px",
           }}
         >
-          <a href="/#/user/customer" style={{ color: "white" }}>
+          <a href="/#/userCustomer" style={{ color: "white" }}>
             {" "}
             Cancelled
           </a>
