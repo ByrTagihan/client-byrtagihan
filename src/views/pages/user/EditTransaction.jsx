@@ -66,7 +66,7 @@ function EditTransaction() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "member" ? (
+      {localStorage.getItem("type_token") === "user" ? (
         <div className="card mb-3">
           <div className="card-header bg-transparent">
             <h5>Edit Transaction</h5>
