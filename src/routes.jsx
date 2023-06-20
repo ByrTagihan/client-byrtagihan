@@ -7,7 +7,7 @@ const Dashboard = React.lazy(() => import("./views/dashboard/Dashboard"));
 const DashboardMember = React.lazy(() =>
   import("./views/dashboard/DashboardMember")
 );
-const LIstDataSIswa = React.lazy(() => import("./pages/LIstDataSIswa"));
+const LIstDataSIswa = React.lazy(() => import("./views/pages/tagihan1/LIstDataSIswa"));
 const EditListSiswa = React.lazy(() => import("./edit/ListDataSiswaEdit"));
 const GantiPasswordCustomer = React.lazy(() =>
   import("./views/pages/profile/GantiPasswordCustomer")
@@ -45,6 +45,7 @@ const EditTransaction = React.lazy(() =>
 const Profile = React.lazy(() => import("./views/pages/profile/Profile"));
 const UserCustomer = React.lazy(() => import("./views/pages/user/customer/Customer"));
 const userChannel = React.lazy(() => import("./views/pages/user/channel/Channel"));
+const UserTemplate = React.lazy(() => import("./views/pages/user/template/Template"));
 const UserMessage = React.lazy(() => import("./views/pages/mesage/Mesage"));
 const DashboardUser = React.lazy(() => import("./views/dashboard/DashboardUser"));
 
@@ -56,7 +57,7 @@ const Brands = React.lazy(() => import("./views/icons/brands/Brands"));
 const Tagihan = React.lazy(() => import("./pages/Tagihan"));
 const EditUserCustomer = React.lazy(() => import("./views/pages/user/customer/EditCustomer"));
 const LihatTagihanMember = React.lazy(() =>
-  import("./pages/LihatTagihanByMember")
+  import("./views/pages/tagihan1/LihatTagihanByMember")
 );
 
 const routes = [
@@ -132,6 +133,7 @@ const routes = [
   { path: "/listdatasiswa", name: "ListDataSiswa", element: LIstDataSIswa },
   { path: "/userCustomer", name: "UserCustomer", element: UserCustomer },
   { path: "/userChannel", name: "UserChannel", element: userChannel },
+  { path: "/UserTemplate", name: "UserTemplate", element: UserTemplate },
   { path: "/mesage", name: "UserMessage", element: UserMessage },
   { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
   {

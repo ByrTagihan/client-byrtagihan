@@ -23,18 +23,21 @@ function Channel() {
   const [name, setName] = useState("");
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [totalPage, setTotalPage] = useState(0);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(2);
   const [channel, setChannel] = useState("");
   const [query, setQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('id');
   const getAllData = async () => {
     await axios
-      .get(`${API_DUMMY}/user/channel?name=${channel}`, {
+      .get(`${API_DUMMY}/user/channel?page=${currentPage}`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
-        // setTotalPage(res.data.pagination.total_page);
+        setTotalPages(res.data.pagination.total_page);
         // setPage(res.data.pagination.page);
         // console.log(res.data.pagination.total_page);
         setUserChannel(res.data.data);
@@ -42,6 +45,42 @@ function Channel() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+  };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSort = (event) => {
+    setSortBy(event.target.value);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const filteredUserChannel = userChannel.filter((bill) =>
+    bill.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const sortedUserChannel = filteredUserChannel.sort((a, b) => {
+    if (sortBy === 'name') {
+      return a.name.localeCompare(b.name);
+    } else {
+      return a[sortBy] - b[sortBy];
+    }
+  });
+  
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <li key={i} className={"page-item " + (currentPage === i  ? 'active' : '')}  aria-current="page" onClick={() => handlePageChange(i)}>
+          <a class="page-link">{i}</a>
+        </li>
+      );
+    }
+    return pageNumbers;
   };
 
   const add = async (e) => {
@@ -398,8 +437,7 @@ function Channel() {
                 <CFormInput
                   type="search"
                   placeholder="search data"
-                  value={channel}
-                  onChange={(e) => setChannel(e.target.value)}
+                  value={searchTerm} onChange={handleSearch}        
                 />
               </div>
               <div className="col">
@@ -423,7 +461,7 @@ function Channel() {
                 </tr>
               </thead>
               <tbody>
-                {userChannel.map((data, i) => (
+                {sortedUserChannel.map((data, i) => (
                   <tr key={i}>
                     <th data-cell="No" scope="row">
                       {i + 1}
@@ -463,6 +501,15 @@ function Channel() {
                 ))}
               </tbody>
             </table>
+      <ul class="pagination float-end">
+            <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
+              <a class="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
+            </li>
+            {getPageNumbers()}
+            <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
+              <a class="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
+            </li>
+          </ul>
           </div>
         </div>
       </div>

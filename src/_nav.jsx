@@ -92,6 +92,11 @@ const _nav = [
         component: CNavItem,
         name: 'Message',
         to: '/mesage',
+      },
+      {
+        component: CNavItem,
+        name: 'Template',
+        to: '/UserTemplate',
       }
     ],
   },

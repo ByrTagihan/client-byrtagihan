@@ -96,37 +96,84 @@ function Customer() {
   //     });
   // };
 
-  const [limit, setLimit] = useState(3);
-  const [pages, setPages] = useState(0);
+  
+  const [filteredCountries, setFilteredCountries] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('id');
+  // const getAllData1 = async () => {
+  //   const response = await axios.get(
+  //     `${API_DUMMY}/user/customer?name=${customer}?pages=${currentPage}`,
+  //     {
+  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+  //     }
+  //   );
+  //   setUserCustomer1(response.data.data);
+  //   // setPagee(response.data.pagination.page);
+  //   setTotalPages(response.data.pagination.total_page);
+  //   // console.log(response.data.pagination.page);
+  //   // console.log("total " + response.data.pagination.total_page);
+  // };
+
   const getAllData1 = async () => {
-    const response = await axios.get(
-      `${API_DUMMY}/user/customer?name=${customer}`,
-      {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      }
-    );
-    setUserCustomer1(response.data.data);
-    // setPagee(response.data.pagination.page);
-    // setPages(response.data.pagination.total_page);
-    // console.log(response.data.pagination.page);
-    // console.log("total " + response.data.pagination.total_page);
+    await axios
+      .get(
+        `${API_DUMMY}/user/customer?pages=${currentPage}`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      )
+      .then((res) => {
+        setTotalPages(res.data.pagination.total_page);
+        setUserCustomer1(res.data.data);
+        console.log(res.data.data);
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
+      });
   };
 
-  const changePage = ({ selected }) => {
-    setPagee(selected);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
   };
 
-  const [query, setQuery] = useState("");
-
-  const searchData = (e) => {
-    e.preventDefault();
-    setPagee(1);
-    setCustomer(query);
+  const handleSort = (event) => {
+    setSortBy(event.target.value);
   };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const filteredUserCustomer = userCustomer1.filter((bill) =>
+    bill.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const sortedUserCustomer = filteredUserCustomer.sort((a, b) => {
+    if (sortBy === 'name') {
+      return a.name.localeCompare(b.name);
+    } else {
+      return a[sortBy] - b[sortBy];
+    }
+  });
 
   useEffect(() => {
-    getAllData1(0);
-  }, [pagee, customer]);
+    getAllData1();
+  }, [currentPage, searchTerm, sortBy]);
+
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <li key={i} className={"page-item " + (currentPage === i  ? 'active' : '')}  aria-current="page" onClick={() => handlePageChange(i)}>
+          <a class="page-link">{i}</a>
+        </li>
+      );
+    }
+    return pageNumbers;
+  };
 
   const add = async (e) => {
     e.preventDefault();
@@ -428,24 +475,32 @@ function Customer() {
     <div>
       <div className="row">
         <div className="col" xs={12}>
+        <div className='inputSearch1'>
+              <CFormInput
+                type="search"
+                placeholder="search data"
+                value={searchTerm} onChange={handleSearch} 
+              />
+            </div>
           <div className="card mb-4">
             <div className="card-header">
-              <div className="row">
+              <div style={{display:"flex"}}>
                 <div className="col">
                   <h4>Customer</h4>
                 </div>
-                <div className="col" style={{marginLeft:"50%"}}>
-                <CFormInput
+            <div style={{display:"flex", justifyContent:"center", gap:"10px"}}>
+                <div>
+                <CFormInput className="inputSearch"
                   type="search"
                   placeholder="search data"
-                  value={customer}
-                  onChange={(e) => setCustomer(e.target.value)}
+                  value={searchTerm} onChange={handleSearch} 
                 />
               </div>
-                <div className="col">
+                <div>
                   <button onClick={() => setShow(true)} className="btn btn-primary">
                     <FontAwesomeIcon icon="fa-plus" /> Tambah Data
                   </button>
+                </div>
                 </div>
               </div>
             </div>
@@ -462,7 +517,7 @@ function Customer() {
                   </tr>
                 </thead>
                 <tbody>
-                  {userCustomer1.map((data, i) => (
+                  {sortedUserCustomer.map((data, i) => (
                     <tr key={i}>
                       <td scope="row" data-cell="No">{i + 1}</td>
                       <td data-cell="Email">{data.email}</td>
@@ -497,6 +552,15 @@ function Customer() {
                   ))}
                 </tbody>
               </table>
+      <ul class="pagination float-end">
+            <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
+              <a class="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
+            </li>
+            {getPageNumbers()}
+            <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
+              <a class="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
+            </li>
+          </ul>
             </div>
           </div>
         </div>
