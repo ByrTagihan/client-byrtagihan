@@ -86,10 +86,38 @@ function Profile() {
     }
   };
 
+  const [file, setFile] = useState("");
+
+  const Post = async (e) => {
+    e.preventDefault();
+    const data = {
+      data: file,
+    };
+    await axios
+      .put(`https://api.byrtagihan.com/api/files`, data, {
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+        },
+      })
+      .then(() => {
+        // navigate("/payment");
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Edit foto",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="allProfile">
       <div className="box1">
         <h4 className="textProfile">Profile Customer</h4>
+
         <div style={{ padding: "10px" }}>
           <img style={{ width: "20rem" }} src={profile.picture} alt="" />
         </div>
@@ -137,15 +165,18 @@ function Profile() {
             />
           </CInputGroup>
 
-          <CInputGroup className="mb-3">
-            <CFormInput
-              autoComplete="picture"
-              placeholder="link picture"
-              onChange={(e) => setPicture(e.target.value)}
-              value={picture}
-              type="text"
-            />
-          </CInputGroup>
+          <CForm onSubmit={Post}>
+            <CInputGroup className="mb-3">
+              <CFormInput
+                autoComplete="picture"
+                placeholder="link picture"
+                onChange={(e) => setFile(e.target.files[0])}
+                // value={file}
+                type="file"
+              />{" "}
+              <button type="submit">Post</button>
+            </CInputGroup>
+          </CForm>
 
           <CRow>
             <CCol xs={6}>
