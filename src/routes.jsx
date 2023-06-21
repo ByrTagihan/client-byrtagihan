@@ -28,10 +28,7 @@ const AddTagihan = React.lazy(() => import("./views/pages/tagihan/AddTagihan"));
 const EditTagihan = React.lazy(() =>
   import("./views/pages/tagihan/EditTagihan")
 );
-const TambahPayment = React.lazy(() =>
-  import("./views/pages/user/TambahPayment")
-);
-const EditPayment = React.lazy(() => import("./views/pages/user/EditPayment"));
+
 const CrudPayment = React.lazy(() => import("./views/pages/user/CrudPayment"));
 const CrudTransaction = React.lazy(() =>
   import("./views/pages/user/CrudTransaction")
@@ -110,8 +107,6 @@ const routes = [
   { path: "/edittagihan/:id", name: "Edit Tagihan", element: EditTagihan },
 
   { path: "/payment", name: "Payment", element: CrudPayment },
-  { path: "/tambahPayment", name: "Tambah Payment", element: TambahPayment },
-  { path: "/editPayment/:id", name: "Edit Payment", element: EditPayment },
   { path: "/transaction", name: "Transaction", element: CrudTransaction },
   {
     path: "/tambahTransaction",

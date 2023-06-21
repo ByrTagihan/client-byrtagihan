@@ -8,13 +8,62 @@ import { API_DUMMY } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 
 function Tagihan() {
-  const [dataMenu, setDataMenu] = useState([]);
+  const [bills, setBills] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('id');
+  
   const [visible, setVisible] = useState(false);
   const [paidId, setPaidId] = useState(0);
   const [paidDate, setPaidDate] = useState("");
   const [paidAmount, setPaidAmount] = useState(0);
 
   let navigate = useNavigate();
+
+  useEffect(() => {
+    fetchBills();
+  }, [currentPage, searchTerm, sortBy]);
+
+  const fetchBills = async () => {
+    try {
+      const response = await fetch(`${API_DUMMY}/customer/bill?page=${currentPage}`, {
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await response.json();
+      setBills(data.data);
+      setTotalPages(data.pagination.total_page);
+    } catch (error) {
+      console.error('Error fetching bills:', error);
+    }
+  };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSort = (event) => {
+    setSortBy(event.target.value);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const filteredBills = bills.filter((bill) =>
+    bill.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const sortedBills = filteredBills.sort((a, b) => {
+    if (sortBy === 'description') {
+      return a.description.localeCompare(b.description);
+    } else {
+      return a[sortBy] - b[sortBy];
+    }
+  });
+
 
   const bayarTagihan = async (e) => {
     e.preventDefault();
@@ -52,8 +101,8 @@ function Tagihan() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yakin",
-      cancelButtonText: "Cencel",
+      confirmButtonText: "Iya",
+      cancelButtonText: "Tidak",
     })
       .then((result) => {
         if (result.isConfirmed) {
@@ -77,10 +126,18 @@ function Tagihan() {
         console.log(err);
       });
   };
-  useEffect(() => {
-    getAllData("customer/bill", setDataMenu);
-  }, []);
-
+  
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <li key={i} className={"page-item " + (currentPage === i  ? 'active' : '')}  aria-current="page" onClick={() => handlePageChange(i)}>
+          <a class="page-link">{i}</a>
+        </li>
+      );
+    }
+    return pageNumbers;
+  };
   return (
     <div>
       <div className="row">
@@ -101,10 +158,22 @@ function Tagihan() {
               </div>
             </div>
             <div className="card-body">
+            <div className="row">
+                <div className="col">
+                <select className="form-select" value={sortBy} onChange={handleSort} style={{width: "40%"}}>
+                <option value="id">Sort by ID</option>
+                <option value="description">Sort by Description</option>
+                <option value="amount">Sort by Amount</option>
+                </select>
+                </div>
+                <div className="col">
+                <input type="text" class="form-control float-end" placeholder="Search by desc" value={searchTerm} onChange={handleSearch} style={{width: "40%"}}/>
+                </div>
+              </div>
               <table className="table">
                 <thead className="text-center">
                   <tr>
-                    <th scope="col">Id</th>
+                    <th scope="col" >Id</th>
                     <th scope="col">Nama Murid</th>
                     <th scope="col">Description</th>
                     <th scope="col">Period</th>
@@ -116,8 +185,8 @@ function Tagihan() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {dataMenu.map((data, i) => (
-                    <tr key={i}>
+                  {sortedBills.map((data) => (
+                    <tr key={data.id}>
                       <th scope="row">{data.id}</th>
                       <td>{data.member_name}</td>
                       <td>{data.description}</td>
@@ -144,7 +213,7 @@ function Tagihan() {
                           type="button"
                           className="btn btn-danger me-2"
                           onClick={() =>
-                            deleteData(data.id, "customer/bill", setDataMenu)
+                            deleteData(data.id, "customer/bill", setBills)
                           }
                         >
                           <FontAwesomeIcon icon="fa-trash" />
@@ -178,6 +247,17 @@ function Tagihan() {
                 </tbody>
               </table>
             </div>
+          </div>
+          <div>
+          <ul class="pagination float-end">
+            <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
+              <a class="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
+            </li>
+            {getPageNumbers()}
+            <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
+              <a class="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
+            </li>
+          </ul>
           </div>
           <CModal visible={visible} onClose={() => setVisible(false)}>
             <form onSubmit={bayarTagihan}>
