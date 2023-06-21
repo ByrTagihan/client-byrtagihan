@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import "../views/css/ListDataSiswa.css";
+import "../../../views/css/ListDataSiswa.css";
 
 function LihatTagihanByMember() {
   const [unique_id, setUnique_id] = useState("");

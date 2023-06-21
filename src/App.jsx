@@ -4,7 +4,7 @@ import './scss/style.scss'
 import ResetPassword from './views/pages/reset/ForgotPasswor'
 import PrivateRoute from './utils/PrivateRoute'
 import ForgotPasswordSiswa from './views/pages/reset/ForgotPasswordSiswa'
-import KonfirmasiPassword from './pages/KonfirmasiPassword'
+import KonfirmasiPassword from './views/pages/reset/KonfirmasiPassword'
 // import LIstDataSIswa from './pages/LIstDataSIswa'
 
 const loading = (
