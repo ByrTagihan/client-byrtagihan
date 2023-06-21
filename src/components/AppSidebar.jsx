@@ -54,6 +54,11 @@ const AppSidebar = () => {
     });
   };
 
+  const customer = () => {
+    if (localStorage.getItem("type_token" != "customer")) {
+      <span style={{display:"none"}}></span>
+    }
+  }
 
   return (
     <CSidebar

@@ -14,7 +14,6 @@ import Swal from "sweetalert2";
 // import ReactPaginate from "react-paginate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactPaginate from "react-paginate";
-import DataTable from "react-data-table-component";
 
 function LIstDataSIswa() {
   const [name, setName] = useState("");
@@ -194,7 +193,7 @@ function LIstDataSIswa() {
   const put = async (e) => {
     e.preventDefault();
     e.persist();
-
+  
     const data = {
       password: password,
     };

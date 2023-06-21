@@ -43,7 +43,7 @@ function EditCustomer() {
           timer: 1500,
         });
         setTimeout(() => {
-          navigate("/#/userCustomer");
+          navigate("/userCustomer");
           window.location.reload();
         }, 1500);
       })
