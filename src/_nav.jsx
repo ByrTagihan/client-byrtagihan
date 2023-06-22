@@ -66,7 +66,7 @@ const _nav = [
     component: CNavItem,
     name: 'Siswa',
     to: '/listdatasiswa',
-    icon:<CIcon icon={cilUser} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
@@ -82,7 +82,12 @@ const _nav = [
         component: CNavItem,
         name: 'Customer',
         to: '/userCustomer',
-      }, 
+      },
+      {
+        component: CNavItem,
+        name: 'Member',
+        to: '/userMember',
+      },
       {
         component: CNavItem,
         name: 'Channel',
@@ -95,7 +100,7 @@ const _nav = [
       }
     ],
   },
-  
+
   // {
   //   component: CNavGroup,
   //   name: 'Buttons',

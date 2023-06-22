@@ -205,7 +205,7 @@ function Member() {
     }, []);
 
     return (
-        <div>
+        <div className='mb-5'>
             <CCard>
                 <CCardBody>
                     <div className='d-flex justify-content-between'>
@@ -240,7 +240,7 @@ function Member() {
                                                 <i className="fas fa-edit" style={{ color: 'white' }}></i>
                                             </CButton>
                                             {" "}
-                                            <CButton onClick={() => Delete(mem.id)}>
+                                            <CButton onClick={() => Delete(mem.id)} className='btn-danger'>
                                                 <i className="fas fa-trash-alt" style={{ color: 'white' }}></i>
                                             </CButton>
                                         </CTableDataCell>
