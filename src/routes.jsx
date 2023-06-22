@@ -42,6 +42,7 @@ const EditTransaction = React.lazy(() =>
 const Profile = React.lazy(() => import("./views/pages/profile/Profile"));
 const UserCustomer = React.lazy(() => import("./views/pages/user/customer/Customer"));
 const userChannel = React.lazy(() => import("./views/pages/user/channel/Channel"));
+const userMember = React.lazy(() => import("./views/pages/user/member/Member"));
 const UserTemplate = React.lazy(() => import("./views/pages/user/template/Template"));
 const UserMessage = React.lazy(() => import("./views/pages/mesage/Mesage"));
 const DashboardUser = React.lazy(() => import("./views/dashboard/DashboardUser"));
@@ -105,7 +106,6 @@ const routes = [
   { path: "/tagihan", name: "Tagihan", element: ListTagihan },
   { path: "/addtagihan", name: "Tambah Tagihan", element: AddTagihan },
   { path: "/edittagihan/:id", name: "Edit Tagihan", element: EditTagihan },
-
   { path: "/payment", name: "Payment", element: CrudPayment },
   { path: "/transaction", name: "Transaction", element: CrudTransaction },
   {
@@ -127,6 +127,7 @@ const routes = [
   { path: "/reset", name: "Reset", element: ResetPassword },
   { path: "/listdatasiswa", name: "ListDataSiswa", element: LIstDataSIswa },
   { path: "/userCustomer", name: "UserCustomer", element: UserCustomer },
+  { path: "/userMember", name: "UserMember", element: userMember },
   { path: "/userChannel", name: "UserChannel", element: userChannel },
   { path: "/UserTemplate", name: "UserTemplate", element: UserTemplate },
   { path: "/mesage", name: "UserMessage", element: UserMessage },
