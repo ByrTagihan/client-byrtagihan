@@ -91,6 +91,7 @@ function Tagihan() {
           })}
         </tbody>
       </table>
+      
       <Modal show={show} onHide={!show}>
         <form>
           <Modal.Header>

@@ -200,7 +200,7 @@ function DashboardUser() {
         </div>
       </div>
 
-      <div
+      {/* <div
         style={{
             marginTop:"20px",
           border: "1px solid gray",
@@ -249,9 +249,55 @@ function DashboardUser() {
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
 
-      <div
+<div className="row">
+      <div className="col" xs={12}>
+        <div className="card mb-4">
+          <div className="card-header">
+            <div className="row">
+              <div className="col">
+                <h4>Organization</h4>
+              </div>
+            </div>
+          </div>
+          <div className="card-body table-container">
+            <table className="table responsive-3 table1">
+              <thead>
+                <tr>
+                <th scope="col">No</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Email</th>
+                <th scope="col">Provinsi</th>
+                <th scope="col">Balance</th>
+                <th scope="col">Bank Account Number</th>
+                <th scope="col">Bank Account Name</th>
+                <th scope="col">Nama Bank</th>
+                </tr>
+              </thead>
+              <tbody>
+              {organization.map((data, index) => {
+                    return (
+              <tr key={index}>
+                <td data-cell="Id">{index + 1}</td>
+                <td data-cell="Name">{data.name}</td>
+                <td data-cell="Email">{data.email}</td>
+                <td data-cell="Provinsi">{data.provinsi}</td>
+                <td data-cell="Provinsi">{data.balance}</td>
+                <td data-cell="Create Date">{data.bank_account_number}</td>
+                <td data-cell="Update Date">{data.bank_account_name}</td>
+                <td data-cell="Update Date">{data.bank_name}</td>
+              </tr>
+                    )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      {/* <div
         style={{
             marginTop:"20px",
           border: "1px solid gray",
@@ -277,8 +323,6 @@ function DashboardUser() {
                 <th scope="col">Name</th>
                 <th scope="col">Periode</th>
                 <th scope="col">Amount</th>
-                {/* <th scope="col">Create date</th>
-                <th scope="col">Update date</th> */}
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -290,17 +334,55 @@ function DashboardUser() {
                 <td data-cell="Nama">{data.organization_name}</td>
                 <td data-cell="Periode">{data.periode}</td>
                 <td data-cell="Amount">{data.amount}</td>
-                {/* <td data-cell="Create Date">{data.created_date}</td>
-                <td data-cell="Update date">{data.updated_date}</td> */}
               </tr>
                     )
                 })}
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
 
-      <div
+<div className="row">
+      <div className="col" xs={12}>
+        <div className="card mb-4">
+          <div className="card-header">
+            <div className="row">
+              <div className="col">
+                <h4>Payment</h4>
+              </div>
+            </div>
+          </div>
+          <div className="card-body table-container">
+            <table className="table responsive-3 table1">
+              <thead>
+                <tr>
+                <th scope="col">No</th>
+                <th scope="col">Deskripsi</th>
+                <th scope="col">Name</th>
+                <th scope="col">Periode</th>
+                <th scope="col">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {payment.map((data, index) => {
+                    return (
+              <tr key={index}>
+                <td data-cell="Id">{index + 1}</td>
+                <td data-cell="Deskripsi">{data.description}</td>
+                <td data-cell="Nama">{data.organization_name}</td>
+                <td data-cell="Periode">{data.periode}</td>
+                <td data-cell="Amount">{data.amount}</td>
+              </tr>
+                    )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      {/* <div
         style={{
             marginTop:"20px",
           border: "1px solid gray",
@@ -325,8 +407,6 @@ function DashboardUser() {
                 <th scope="col">Deskripsi</th>
                 <th scope="col">Name</th>
                 <th scope="col">Amount</th>
-                {/* <th scope="col">Create date</th>
-                <th scope="col">Update date</th> */}
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -337,18 +417,53 @@ function DashboardUser() {
                 <td data-cell="Deskripsi">{data.description}</td>
                 <td data-cell="Nama">{data.organization_name}</td>
                 <td data-cell="Amount">{data.amount}</td>
-                {/* <td data-cell="Create date">{data.created_date}</td>
-                <td data-cell="Update date">{data.updated_date}</td> */}
               </tr>
                     )
                 })}
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
 
-      
-      <div
+<div className="row">
+      <div className="col" xs={12}>
+        <div className="card mb-4">
+          <div className="card-header">
+            <div className="row">
+              <div className="col">
+                <h4>Transaction</h4>
+              </div>
+            </div>
+          </div>
+          <div className="card-body table-container">
+            <table className="table responsive-3 table1">
+              <thead>
+                <tr>
+                <th scope="col">No</th>
+                <th scope="col">Deskripsi</th>
+                <th scope="col">Name</th>
+                <th scope="col">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {transaction.map((data, index) => {
+                    return (
+              <tr key={index}>
+                <td data-cell="Id">{index + 1}</td>
+                <td data-cell="Deskripsi">{data.description}</td>
+                <td data-cell="Nama">{data.organization_name}</td>
+                <td data-cell="Amount">{data.amount}</td>
+              </tr>
+                    )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      {/* <div
         style={{
             marginTop:"20px",
           border: "1px solid gray",
@@ -374,8 +489,6 @@ function DashboardUser() {
                 <th scope="col">Email</th>
                 <th scope="col">Last login</th>
                 <th scope="col">No Hp</th>
-                {/* <th scope="col">Create date</th>
-                <th scope="col">Update date</th> */}
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -387,15 +500,53 @@ function DashboardUser() {
                 <td data-cell="Nama">{data.email}</td>
                 <td data-cell="Last Login">{data.last_login}</td>
                 <td data-cell="Last Login">{data.hp}</td>
-                {/* <td data-cell="Created date">{data.created_date}</td>
-                <td data-cell="Update date">{data.updated_date}</td> */}
               </tr>
                     )
                 })}
             </tbody>
           </table>
         </div>
+      </div> */}
+
+<div className="row">
+      <div className="col" xs={12}>
+        <div className="card mb-4">
+          <div className="card-header">
+            <div className="row">
+              <div className="col">
+                <h4>Transaction</h4>
+              </div>
+            </div>
+          </div>
+          <div className="card-body table-container">
+            <table className="table responsive-3 table1">
+              <thead>
+                <tr>
+                <th scope="col">No</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Email</th>
+                <th scope="col">Last login</th>
+                <th scope="col">No Hp</th>
+                </tr>
+              </thead>
+              <tbody>
+                {customer.map((data, index) => {
+                    return (
+              <tr key={index}>
+                <td data-cell="Id">{index + 1}</td>
+                <td data-cell="Nama">{data.name}</td>
+                <td data-cell="Nama">{data.email}</td>
+                <td data-cell="Last Login">{data.last_login}</td>
+                <td data-cell="Last Login">{data.hp}</td>
+              </tr>
+                    )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
+    </div>
     </>
   );
 }

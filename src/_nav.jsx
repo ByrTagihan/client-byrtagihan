@@ -23,11 +23,7 @@ const _nav = [
     component: CNavItem,
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    badge: {
-      color: 'info',
-      text: 'NEW',
-    },
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />
   },
   // {localStorage.getItem("type_token" === "customer") ? (
   {
@@ -97,6 +93,21 @@ const _nav = [
         component: CNavItem,
         name: 'Message',
         to: '/mesage',
+      },
+      {
+        component: CNavItem,
+        name: 'Template',
+        to: '/UserTemplate',
+      },
+      {
+        component: CNavItem,
+        name: 'Transaction',
+        to: '/transaction',
+      },
+      {
+        component: CNavItem,
+        name: 'Payment',
+        to: '/payment',
       }
     ],
   },

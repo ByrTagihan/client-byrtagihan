@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import { act } from "react-dom/test-utils";
 import "../../../../views/css/EditUserCustomer.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function EditCustomer() {
   const [name, setName] = useState("");
@@ -15,6 +15,7 @@ function EditCustomer() {
   const [active, setActive] = useState("");
   const [organization_id, setOrganization_id] = useState("");
   const param = useParams();
+  const navigate = useNavigate()
 
   const update = async (e) => {
     e.preventDefault();
@@ -24,7 +25,7 @@ function EditCustomer() {
       hp: hp,
       password: password,
       active: active,
-      organization_id: organization_id,
+      organization_id: memberId,
     };
     console.log(req);
 
@@ -42,7 +43,7 @@ function EditCustomer() {
           timer: 1500,
         });
         setTimeout(() => {
-          navigate("/#/userCustomer");
+          navigate("/userCustomer");
           window.location.reload();
         }, 1500);
       })
@@ -53,27 +54,136 @@ function EditCustomer() {
 
   useEffect(() => {
     axios
-      .get("https://api.byrtagihan.com/api/user/customer/" + param.id, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      .get(`${API_DUMMY}/user/customer/` + param.id, {
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+        },
       })
-      .then((response) => {
-        const user_customer = response.data.data;
-        setName(user_customer.name);
-        setHp(user_customer.hp);
-        setAddress(user_customer.address);
-        setPassword(user_customer.password);
-        setActive(user_customer.active);
-        setOrganization_id(user_customer.organization_id);
-        console.log(response.data.data);
+      .then((res) => {
+        const response = res.data.data;
+        axios
+          .get(`${API_DUMMY}/user/organization`, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((ress) => {
+            const user_customer = ress.data.data;
+            setName(response.name);
+            setHp(response.hp);
+            setAddress(response.address);                             
+            setPassword(response.password);
+            setActive(response.active);
+            // setValue(
+            //   `Id = ${user_customer.id}, Email = ${user_customer.email}, Nama = ${user_customer.name}`
+            // );
+            console.log(ress.data.data);
+          });
       })
       .catch((error) => {
-        alert("Terjadi Kesalahan " + error);
+        console.log(error);
       });
-  }, [param.id]);
+  }, []);
+
+  const [suggestions, setSuggestions] = useState([]);
+  const [suggestionIndex, setSuggestionIndex] = useState(0);
+  const [suggestionsActive, setSuggestionsActive] = useState(false);
+  const [value, setValue] = useState("");
+  const [memberId, setMemberId] = useState(0);
+
+  const handleChange = async (e) => {
+    const query = e.target.value;
+    setValue(query);
+
+    try {
+      const response = await fetch(
+        `${API_DUMMY}/user/organization?name=${query}`,
+        {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (query.length > 0 && response.ok) {
+        const res = await response.json();
+        setSuggestions(res.data);
+        setSuggestionsActive(true);
+      } else {
+        setSuggestionsActive(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onKeyDown = (keyEvent) => {
+    if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+      keyEvent.preventDefault();
+    }
+  };
+
+  const handleClick = (e, id) => {
+    setSuggestions([]);
+    setValue(e.target.innerText);
+    setMemberId(id);
+    setSuggestionsActive(false);
+  };
+
+  const handleKeyDown = (e) => {
+    // UP ARROW
+    if (e.keyCode === 38) {
+      if (suggestionIndex === 0) {
+        return;
+      }
+      setSuggestionIndex(suggestionIndex - 1);
+    }
+    // DOWN ARROW
+    else if (e.keyCode === 40) {
+      if (suggestionIndex - 1 === suggestions.length) {
+        return;
+      }
+      setSuggestionIndex(suggestionIndex + 1);
+    }
+    // ENTER
+    else if (e.keyCode === 13) {
+      setValue(
+        `Id = ${suggestions[suggestionIndex].id}, Email =${suggestions[suggestionIndex].email}, Nama = ${suggestions[suggestionIndex].name}`
+      );
+      setMemberId(suggestions[suggestionIndex].id);
+      setSuggestionIndex(0);
+      setSuggestionsActive(false);
+    }
+  };
+
+  const Suggestions = () => {
+    return (
+      <div
+        className="card border-secondary border-top-0"
+        style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
+      >
+        <ul className="list-group list-group-flush">
+          {suggestions.map((data, index) => (
+            <li
+              className={
+                index === suggestionIndex
+                  ? " list-group-item  list-group-item-action active"
+                  : "list-group-item  list-group-item-action"
+              }
+              key={index}
+              onClick={(e) => handleClick(e, data.id)}
+            >
+              Id = {data.id}, Email = {data.email}, Nama = {data.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
 
   return (
     <div style={{ padding: "10px", borderRadius: "20px" }}>
-      <form onSubmit={update}>
+      <form onSubmit={update} onKeyDown={onKeyDown}>
         <div>
           <p
             style={{
@@ -150,11 +260,13 @@ function EditCustomer() {
               Organization_id :
             </label>
             <input
-              type="number"
+              type="text"
               className="form-control inputOrganization_id"
-              value={organization_id}
-              onChange={(e) => setOrganization_id(e.target.value)}
+              value={value}
+              onKeyDown={handleKeyDown}
+              onChange={handleChange}
             />
+            {suggestionsActive && <Suggestions />}
           </div>
         </div>
         <button
@@ -175,7 +287,7 @@ function EditCustomer() {
             marginLeft: "30px",
           }}
         >
-          <a href="/#/user/customer" style={{ color: "white" }}>
+          <a href="/#/userCustomer" style={{ color: "white" }}>
             {" "}
             Cancelled
           </a>

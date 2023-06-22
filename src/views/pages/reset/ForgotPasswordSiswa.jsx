@@ -17,15 +17,16 @@ import "../../../css/ForgotPasswordSiswa.css";
 // import { useNavigate } from "react-router";
 
 function ForgotPasswordSiswa() {
-  const [unique_id, setUniqueId] = useState();
+  const [unique_id, setUniqueId] = useState("");
   // const navigate = useNavigate();
 
   const Add = (e) => {
     e.preventDefault();
+    const data = {
+      unique_id: unique_id
+    }
     axios
-      .post("https://api.byrtagihan.com/api/member/forgot_password", {
-        unique_id: unique_id,
-      })
+      .post("https://api.byrtagihan.com/api/member/forgot_password", data)
       .then((res) => {
         console.log(res);
         Swal.fire({
