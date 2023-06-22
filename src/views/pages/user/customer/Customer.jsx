@@ -15,7 +15,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal } from "react-bootstrap";
-import ReactPaginate from "react-paginate";
+// import ReactPaginate from "react-paginate"; Aku hapus ya fat :)
 
 function Customer() {
   const [userCustomer, setUserCustomer] = useState([]);
