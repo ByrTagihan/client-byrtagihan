@@ -21,7 +21,7 @@
     justify-content: center;
     gap: 5px;
     width: 100%;
-    padding-right: 50px;
+    /* padding-right: 60px; */
 }
 .table-container {
     max-width: 100%;
@@ -29,7 +29,7 @@
 }
 .table1 {
     text-align: center;
-    background: #9DB2BF;
+    background: none;
 }
 .edit1 {
     padding: 2px 10px 2px 10px;
@@ -47,76 +47,29 @@ tbody {
     margin-top: 5px;
     margin-bottom: 8px;
 }
-.bok {
-    display: flex;
-    justify-content: space-around;
+.inputSearch {
+    margin-bottom: 2px;
+    width: 20em;
+    margin-right: 14px;
+    margin-top: 1px;
 }
-.bok2 {
-    display: flex;
-    justify-content: space-around;
-    padding: 16px;
-    margin-top: 25px;
-}
-.bok1 {
-    width: 30%;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-.bok3 {
-    display: flex;
-    justify-content: space-between;
-    background: #213555;
-    color: white;
-    padding: 5px;
-    padding-bottom: 0;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-}
-.bok3 p {
-    font-weight: bold;
-    padding-top: 2px;
-}
-.bok3 svg {
-    margin-top: 5px;
-    font-size: 20px;
-}
-.bok3 i {
-    margin-top: 5px;
-    font-size: 20px;
-}
-.jumlah {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    background: white;
-    border-bottom-left-radius: 10px;
-    border-bottom-Right-radius: 10px;
-}
-.jumlah svg {
-    font-size: 25px;
-    margin-top: 10px;
-}
-
-.jumlah p {
-    font-size: 25px;
-    margin-top: 6px;
+.inputSearch1 {
+    display: none;
 }
 @media(max-width: 600px) {
-    .bok {
-        display: block;
+    .inputSearch {
+        display:none;
     }
-    .bok1 {
-        width: 100%;
-        margin-top: 20px;
-    }
-    .bok2 {
-        display: block;
+    .inputSearch1 {
+        margin-bottom: 10px;
+        display: flex;
     }
     .listTagihan{
         font-size: 15px;
     }
     .tdd{
         justify-content: left;
-        padding-right: none;
+        /* padding-right: none; */
     }
     tbody {
         text-align: left;
@@ -138,6 +91,41 @@ tbody {
    .responsive-3 {
         width: 100%;
     } 
+    /* .responsive-3 thead th.column-primary {
+        width: 100%;
+    }  */
+ 
+    /* .responsive-3 thead th.column-primary {
+        display:none;
+    } */
+
+    /* .responsive-3 th {
+        display: block;
+        width: auto;
+        text-align: justify;
+        border-right: 1px solid #e1edff;
+    }
+     
+    .responsive-3 td {
+        display: block;
+        width: auto;
+        text-align: justify;
+        border-right: 1px solid #e1edff;
+    }
+    .responsive-3 thead th::before {
+        text-transform: uppercase;
+        font-weight: bold;
+        content: attr(data-header);
+    }
+    .responsive-3 thead th:first-child span {
+        display: none;
+    }
+    .responsive-3 td::before {
+        float: left;
+        text-transform: uppercase;
+        font-weight: bold;
+        content: attr(data-header);
+    } */
     th {
         display: none;
     }

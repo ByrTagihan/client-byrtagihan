@@ -4,27 +4,26 @@ import { useParams } from "react-router-dom";
 
 function DashboardMember() {
   const [list, setList] = useState([]);
-  const [memberList, setMemberList] = useState([]);
+  // const [paid_amount, setPaidAmount] = useState([]);
+  // const [memberList, setMemberList] = useState([]);
   const param = useParams();
   const [show, setShow] = useState(false);
 
   const getAll = async () => {
     await axios
-      .get(
-        `https://api.byrtagihan.com/api/member/bill`,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
+      .get(`https://api.byrtagihan.com/api/member/bill`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
       .then((res) => {
         setList(res.data.data);
+        // setPaidAmount(res.data.data.paid_amount)
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
   };
   // const getMemberAll = async () => {
-  //   await axios 
+  //   await axios
   //     .get(`https://api.byrtagihan.com/api/customer/member`, {
   //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
   //     })
@@ -44,8 +43,6 @@ function DashboardMember() {
 
   return (
     <div>
-      {/* <h3>Dashboard Member</h3> */}
-
       <div
         style={{
           display: "flex",
@@ -72,7 +69,7 @@ function DashboardMember() {
               textAlign: "center",
             }}
           >
-            Jumlah Member All
+            All Member
           </p>
           <i
             style={{ marginLeft: "5rem", marginTop: "5px", fontSize: "30px" }}
@@ -85,7 +82,7 @@ function DashboardMember() {
               marginTop: "-2rem",
             }}
           >
-            {memberList.length}
+            {/* {memberList.length} */} 0
           </p>
         </div>
 
@@ -107,13 +104,13 @@ function DashboardMember() {
               textAlign: "center",
             }}
           >
-            Tagihan Siswa
+            Student Bills
           </p>
-
           <i
             style={{ marginLeft: "5rem", marginTop: "5px", fontSize: "30px" }}
-            className="fa-solid fa-money-bill"
+            class="fa-solid fa-money-bill-trend-up"
           ></i>
+
           <p
             style={{
               fontSize: "25px",
@@ -143,11 +140,11 @@ function DashboardMember() {
               textAlign: "center",
             }}
           >
-            Jumlah Member
+            Total per Bulan
           </p>
           <i
             style={{ marginLeft: "5rem", marginTop: "5px", fontSize: "30px" }}
-            className="fa-solid fa-user"
+            className="fa-solid fa-money-bill"
           ></i>
           <p
             style={{
@@ -156,12 +153,12 @@ function DashboardMember() {
               marginTop: "-2rem",
             }}
           >
-            15
+            {/* {paid_amount.paid_amount} */}
           </p>
         </div>
       </div>
 
-      <h3 style={{fontWeight: "bold"}}>Tagihan</h3>
+      <h3 style={{ fontWeight: "bold" }}>List Tagihan</h3>
 
       <div style={{ marginTop: "2rem" }}>
         <table className="table border" style={{ textAlign: "center" }}>
@@ -175,7 +172,8 @@ function DashboardMember() {
               <th scope="col">Organization Name</th>
               <th scope="col">Periode</th>
               <th scope="col">Member Name</th>
-              <th scope="col">Paid Id</th>
+              <th scope="col">Date</th>
+              <th scope="col">Nominal</th>
             </tr>
           </thead>
           <tbody className="bg-white" style={{ textAlign: "center" }}>
@@ -187,7 +185,8 @@ function DashboardMember() {
                   <td>{data.organization_name}</td>
                   <td>{data.periode}</td>
                   <td>{data.member_name}</td>
-                  <td>{data.paid_id}</td>
+                  <td>{data.paid_date}</td>
+                  <td>{data.paid_amount}</td>
                 </tr>
               );
             })}

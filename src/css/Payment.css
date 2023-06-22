@@ -1,0 +1,44 @@
+* {
+    padding: 0;
+    margin: 0;
+  }
+
+
+  @media(max-width: 600px) {
+    .texttt{
+        font-size: 20px;
+    }
+    tbody {
+        text-align: left;
+    }
+   
+    .td {
+        padding-right: none;
+        display: flex;
+        justify-content: left;
+    }
+   .responsive-3 {
+        width: 100%;
+    } 
+   
+    th {
+        display: none;
+    }
+    td {
+        display: grid;
+        gap: 0.5rem;
+        grid-template-columns: 15ch auto;
+        padding: 0.75em 1rem;
+    }
+    td:first-child{
+        padding-top: 2rem;
+    }
+   
+    td::before{
+        content: attr(data-cell) "  : ";
+        font-weight: bold;
+    }
+    th{
+        font-weight: bold;
+    }
+}

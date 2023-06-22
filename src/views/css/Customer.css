@@ -1,0 +1,18 @@
+.inputSearch {
+    margin-bottom: 2px;
+    width: 20em;
+    margin-right: 14px;
+    margin-top: 1px;
+}
+.inputSearch1 {
+    display: none;
+}
+@media(max-width: 700px) {
+    .inputSearch {
+        display:none;
+    }
+    .inputSearch1 {
+        margin-bottom: 10px;
+        display: flex;
+    }
+ }

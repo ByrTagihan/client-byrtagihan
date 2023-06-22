@@ -18,18 +18,14 @@ import {
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 import { useNavigate } from 'react-router-dom';
 
-
 const _nav = [
   {
     component: CNavItem,
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    badge: {
-      color: 'info',
-      text: 'NEW',
-    },
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />
   },
+  // {localStorage.getItem("type_token" === "customer") ? (
   {
     component: CNavItem,
     name: 'Dashboard Member',
@@ -42,6 +38,10 @@ const _nav = [
     to: '/dashboardUser',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
+  // ):(
+  //   <></>
+  // )},
+
   {
     component: CNavTitle,
     name: 'Menu',
@@ -62,90 +62,56 @@ const _nav = [
     component: CNavItem,
     name: 'Siswa',
     to: '/listdatasiswa',
-    icon:<CIcon icon={cilUser} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
-  // {
-  //   component: CNavTitle,
-  //   name: 'Components',
-  // },
-  // {
-  //   component: CNavGroup,
-  //   name: 'Base',
-  //   to: '/base',
-  //   icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-  //   items: [
-  //     {
-  //       component: CNavItem,
-  //       name: 'Accordion',
-  //       to: '/base/accordion',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Breadcrumb',
-  //       to: '/base/breadcrumbs',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Cards',
-  //       to: '/base/cards',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Carousel',
-  //       to: '/base/carousels',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Collapse',
-  //       to: '/base/collapses',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'List group',
-  //       to: '/base/list-groups',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Navs & Tabs',
-  //       to: '/base/navs',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Pagination',
-  //       to: '/base/paginations',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Placeholders',
-  //       to: '/base/placeholders',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Popovers',
-  //       to: '/base/popovers',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Progress',
-  //       to: '/base/progress',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Spinners',
-  //       to: '/base/spinners',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Tables',
-  //       to: '/base/tables',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Tooltips',
-  //       to: '/base/tooltips',
-  //     },
-  //   ],
-  // },
+  {
+    component: CNavTitle,
+    name: 'Menu User',
+  },
+  {
+    component: CNavGroup,
+    name: 'User',
+    to: '/User',
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Customer',
+        to: '/userCustomer',
+      },
+      {
+        component: CNavItem,
+        name: 'Member',
+        to: '/userMember',
+      },
+      {
+        component: CNavItem,
+        name: 'Channel',
+        to: '/userChannel',
+      },
+      {
+        component: CNavItem,
+        name: 'Message',
+        to: '/mesage',
+      },
+      {
+        component: CNavItem,
+        name: 'Template',
+        to: '/UserTemplate',
+      },
+      {
+        component: CNavItem,
+        name: 'Transaction',
+        to: '/transaction',
+      },
+      {
+        component: CNavItem,
+        name: 'Payment',
+        to: '/payment',
+      }
+    ],
+  },
+
   // {
   //   component: CNavGroup,
   //   name: 'Buttons',

@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import "../css/editListDataSiswa.css"
+import "../views/css/editListDataSiswa.css"
 
 function ListDataSiswaEdit() {
   const [name, setName] = useState("");
@@ -135,9 +135,10 @@ function ListDataSiswaEdit() {
         <button type="submit" style={{marginTop:"49px", backgroundColor:"#213555", color:"white"}}>
           Save
         </button>
-        <button style={{marginTop:"49px", backgroundColor:"#213555", color:"white", marginLeft:"30px"}}>
-       <a href="/#/listdatasiswa" style={{color: "white"}}> Cancelled</a>
+        <Link to ="/listdatasiswa">
+        <button style={{marginTop:"49px", backgroundColor:"#213555", color:"white", marginLeft:"30px"}}>Cancelled
         </button>
+        </Link>
       </form>
     </div>
   );
