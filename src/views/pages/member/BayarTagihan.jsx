@@ -108,7 +108,7 @@ function BayarTagihan() {
                                     setChannel_id(e.target.value.toString())
                                 }>
 
-                                <option >Pilih metode pembayaran</option>
+                                <option>Pilih metode pembayaran</option>
                                 {channel.map((chan, i) => {
                                     return (
                                         <option value={chan.id} key={i}>{chan.name}</option>
@@ -131,17 +131,25 @@ function BayarTagihan() {
                 <CCard>
                     <CListGroup flush>
                         <CListGroupItem>
-                            <h4>Pembayaran</h4>
+                            <h3>Pembayaran</h3>
                         </CListGroupItem>
-                        <CListGroupItem className='d-flex justify-content-between'><p>Total pembayaran: </p>Rp.{bayar.amount}</CListGroupItem>
-                        <CListGroupItem className='d-flex justify-content-between'><p>Jatuh tempo pada: </p>{bayar.va_expired_date}</CListGroupItem>
                         <CListGroupItem>
-                            <div className='d-flex justify-content-between'><p>Bank: </p>{bayar.channel_name}</div>
-                            <div className='d-flex justify-content-between'><p>NO.Rekening: </p>{bayar.va_number}</div>
+                            <p>Rincian: </p>
+                            {bayar.descriptions.map((desc, index) => (
+                                <ul key={index} className="ms-5">
+                                    <p className='d-flex justify-content-between'><li>{desc.description}: <b className='text-primary'>Rp.{desc.amount}</b></li></p>
+                                </ul>
+                            ))}
+                        </CListGroupItem>
+                        <CListGroupItem className='d-flex justify-content-between'><p>Total pembayaran: </p><b className='text-primary'>Rp.{bayar.descriptions.reduce((total, item) => total + item.amount, 0)}</b></CListGroupItem>
+                        <CListGroupItem className='d-flex justify-content-between'><p>Jatuh tempo pada: </p><b className='text-primary'>{bayar.va_expired_date}</b></CListGroupItem>
+                        <CListGroupItem>
+                            <div className='d-flex justify-content-between'><p>Bank: </p><b className='text-primary'>{bayar.channel_name}</b></div>
+                            <div className='d-flex justify-content-between'><p>NO.Rekening: </p><b className='text-primary'>{bayar.va_number}</b></div>
                         </CListGroupItem>
                         <CAccordion flush>
                             <CAccordionItem itemKey={1}>
-                                <CAccordionHeader>Petunjuk Transfer</CAccordionHeader>
+                                <CAccordionHeader><p>Petunjuk Transfer</p></CAccordionHeader>
                                 <CAccordionBody>
                                     <p>1. Pilih Transfer Virtual Account Billing.</p>
                                     <p>2. Pilih Rekening Debet lalu masukkan nomor Virtual Account <b className='text-primary'>{bayar.va_number}</b>.</p>
@@ -150,7 +158,7 @@ function BayarTagihan() {
                                 </CAccordionBody>
                             </CAccordionItem>
                         </CAccordion>
-                        <CListGroupItem className='text-center'><CButton>Oke</CButton></CListGroupItem>
+                        <CListGroupItem className='text-center'><CButton className='gap-2 col-4 mx-auto' onClick={() => navigate(`/listTagihanMember`)}>Oke</CButton></CListGroupItem>
                     </CListGroup>
                 </CCard>
             )}

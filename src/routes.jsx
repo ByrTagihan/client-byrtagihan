@@ -63,8 +63,10 @@ const LihatTagihanMember = React.lazy(() => import('./pages/LihatTagihanByMember
 const ListTagihanMember = React.lazy(() => import("./views/pages/member/ListTagihan"))
 const BayarTagihan = React.lazy(() => import("./views/pages/member/BayarTagihan"))
 const UserCustomer = React.lazy(() => import('./views/pages/user/customer/Customer'))
+const UserMember = React.lazy(() => import('./views/pages/user/member/Member'))
 const UserChannel = React.lazy(() => import('./views/pages/user/channel/Channel'))
 const EditUserCustomer = React.lazy(() => import('./views/pages/user/customer/EditCustomer'))
+const EditUserMember = React.lazy(() => import('./views/pages/user/member/EditMember'))
 
 // Notifications
 // const Alerts = React.lazy(() => import('./views/notifications/alerts/Alerts'))
@@ -100,6 +102,8 @@ const routes = [
   { path: '/listTagihanMember', name: 'List Tagihan', element: ListTagihanMember },
   { path: '/bayarTagihan/:id', name: 'Bayar Tagihan', element: BayarTagihan },
   { path: '/editUserCustomer/:id', name: 'Edit User Customer', element: EditUserCustomer },
+  { path: '/editUserMember/:id', name: 'Edit User Member', element: EditUserMember },
+  { path: '/userMember', name: 'User Member', element: UserMember },
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
   // { path: '/theme/typography', name: 'Typography', element: Typography },
