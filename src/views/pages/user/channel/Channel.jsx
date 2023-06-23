@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../../utils/baseURL";
-import ReactPaginate from "react-paginate";
+// import ReactPaginate from "react-paginate"; Aku hapus ya fat :)
 
 function Channel() {
   const [userChannel, setUserChannel] = useState([]);

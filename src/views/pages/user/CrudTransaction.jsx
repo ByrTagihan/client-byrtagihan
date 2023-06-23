@@ -1,30 +1,32 @@
-import { CFormInput } from "@coreui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../../../css/Transaction.css";
 
 function CrudTransaction() {
-  const [list, setList] = useState([]);
-  const [total_page, setTotal_Page] = useState([]);
+  const [total_page, setTotal_Page] = useState(1);
+  const [transaction, setTransaction] = useState("");
 
-  const [search, setSearch] = useState("");
   let navigate = useNavigate();
 
-  const getAll = async (page = 0) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("id");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [bills, setBills] = useState([]);
+
+  const getAll = async () => {
     await axios
       .get(
-        `https://api.byrtagihan.com/api/user/transaction?page=${page}&limit=3&query=${search}`,
+        `https://api.byrtagihan.com/api/user/transaction?page=${currentPage}&limit=10&name=${transaction}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
       )
       .then((res) => {
         setTotal_Page(res.data.pagination.total_page);
-        setList(res.data.data);
+        setBills(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -33,7 +35,7 @@ function CrudTransaction() {
 
   useEffect(() => {
     getAll(0);
-  }, []);
+  }, [currentPage, searchTerm, sortBy]);
 
   const Delete = async (id) => {
     Swal.fire({
@@ -62,6 +64,42 @@ function CrudTransaction() {
     });
   };
 
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= total_page; i++) {
+      pageNumbers.push(
+        <li
+          key={i}
+          className={"page-item " + (currentPage === i ? "active" : "")}
+          aria-current="page"
+          onClick={() => handlePageChange(i)}
+        >
+          <a class="page-link">{i}</a>
+        </li>
+      );
+    }
+    return pageNumbers;
+  };
+
+  const filteredBills = bills.filter((bill) =>
+    bill.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const sortedBills = filteredBills.sort((a, b) => {
+    if (sortBy === "description") {
+      return a.description.localeCompare(b.description);
+    } else {
+      return a[sortBy] - b[sortBy];
+    }
+  });
   return (
     <div>
       {/* {localStorage.getItem("type_token") === "user" ? ( */}
@@ -71,71 +109,44 @@ function CrudTransaction() {
             <div className="card-header">
               <div className="row">
                 <div className="col">
-                  <h4 style={{ position: "absolute", marginBottom: "4em" }}>
-                    Transaction
-                  </h4>
+                  <h4 className="textt">Transaction</h4>
                 </div>
 
                 <div style={{ display: "flex" }}>
-                  <form>
-                    <CFormInput
-                      type="search"
-                      onChange={(e) => setSearch(e.target.value)}
-                      value={search}
-                      placeholder="Search Description"
-                      style={{ width: "20em", marginLeft: "37em" }}
-                    />
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        getAll();
-                      }}
-                      type="submit"
-                    >
-                      Search
-                    </button>
-                  </form>
+                  <input
+                    type="text"
+                    class="form-control float-end"
+                    placeholder="Search description"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    style={{ width: "30%", marginLeft: "37em" }}
+                  />
 
-                  {localStorage.getItem("type_token") === "member" ? (
-                    <>
-                      <div className="col">
-                        <Link to="/tambahtransaction">
-                          <button className="btn btn-primary float-end">
-                            <FontAwesomeIcon icon="fa-plus" /> Tambah
-                          </button>
-                        </Link>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="col">
-                      <Link to="/tambahtransaction">
-                        <button
-                          disabled={true}
-                          className="btn btn-primary float-end"
-                        >
-                          <FontAwesomeIcon icon="fa-plus" /> Tambah
-                        </button>
-                      </Link>
-                    </div>
-                  )}
+                  <div className="col">
+                    <Link to="/tambahtransaction">
+                      <button className="btn btn-primary float-end">
+                        <FontAwesomeIcon icon="fa-plus" /> Tambah
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="card-body">
-              <table className="table">
+              <table className="table  table1 responsive-3">
                 <thead className="text-center">
                   <tr>
                     <th scope="col">No</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Organization Name</th>
+                    <th scope="col">Organization</th>
                     <th scope="col">Nominal</th>
                     <th scope="col">Create Date</th>
                     <th scope="col">Update Date</th>
 
-                    <th disabled={true} scope="col">
+                    {/* <th disabled={true} scope="col">
                       Action
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody
@@ -143,108 +154,86 @@ function CrudTransaction() {
                   className="bg-white"
                   style={{ textAlign: "center" }}
                 >
-                  {list
-                    // .filter((item) => {
-                    //   return search.toLowerCase() === ""
-                    //     ? item
-                    //     : item.description.toLowerCase().includes(search);
-                    // })
-                    .map((item, index) => {
-                      return (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{item.description}</td>
-                          <td>{item.organization_name}</td>
-                          <td>{item.amount}</td>
-                          <td>{item.created_date}</td>
-                          <td>{item.updated_date}</td>
+                  {sortedBills.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td data-cell="No">{index + 1}</td>
+                        <td data-cell="Description">{item.description}</td>
+                        <td data-cell="Organization">
+                          {item.organization_name}
+                        </td>
+                        <td data-cell="Nominal">{item.amount}</td>
+                        <td data-cell="Create Date">{item.created_date}</td>
+                        <td data-cell="Update Date">{item.updated_date}</td>
 
-                          <td>
-                            {localStorage.getItem("type_token") === "member" ? (
-                              <>
-                                <button
-                                  onClick={() =>
-                                    navigate(`/editTransaction/${data.id}`)
-                                  }
-                                  type="button"
-                                  className="btn btn-primary me-2"
-                                >
-                                  <FontAwesomeIcon icon="fa-edit" />
-                                </button>
-                              </>
-                            ) : (
-                              <button
-                                disabled={true}
-                                onClick={() =>
-                                  navigate(`/editTransaction/${data.id}`)
-                                }
-                                type="button"
-                                className="btn btn-primary me-2"
-                              >
-                                <FontAwesomeIcon icon="fa-edit" />
-                              </button>
-                            )}
+                        <td>
+                          <button
+                            onClick={() =>
+                              navigate(`/editTransaction/${item.id}`)
+                            }
+                            type="button"
+                            className="btn btn-primary me-2"
+                          >
+                            <FontAwesomeIcon icon="fa-edit" />
+                          </button>
 
-                            {localStorage.getItem("type_token") === "member" ? (
-                              <>
-                                <button
-                                  onClick={() => Delete(data.id)}
-                                  type="button"
-                                  className="btn btn-danger me-2"
-                                >
-                                  <FontAwesomeIcon
-                                    style={{ color: "white" }}
-                                    icon="fa-trash"
-                                  />
-                                </button>
-                              </>
-                            ) : (
-                              <button
-                                disabled={true}
-                                onClick={() => Delete(data.id)}
-                                type="button"
-                                className="btn btn-danger me-2"
-                              >
-                                <FontAwesomeIcon
-                                  style={{ color: "white" }}
-                                  icon="fa-trash"
-                                />
-                              </button>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
+                          <button
+                            onClick={() => Delete(item.id)}
+                            type="button"
+                            className="btn btn-danger me-2"
+                          >
+                            <FontAwesomeIcon
+                              style={{ color: "white" }}
+                              icon="fa-trash"
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
 
               {/* Pagination */}
-              <ReactPaginate
-                previousLabel="previous"
-                nextLabel="next"
-                breakLabel="..."
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                pageCount={total_page}
-                pageRangeDisplayed={4}
-                marginPagesDisplayed={2}
-                onPageChange={(e) => getAll(e.selected)}
-                containerClassName="pagination justify-content-center"
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                activeClassName="active"
-              />
+              <div>
+                <ul class="pagination float-end">
+                  <li
+                    className={
+                      "page-item " + (currentPage === 1 ? "disabled" : "")
+                    }
+                    disabled={currentPage === 1}
+                  >
+                    <a
+                      class="page-link"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                      Previous
+                    </a>
+                  </li>
+                  {getPageNumbers()}
+                  <li
+                    className={
+                      "page-item " +
+                      (currentPage === total_page ? "disabled" : "")
+                    }
+                    disabled={currentPage === total_page}
+                  >
+                    <a
+                      class="page-link"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
       {/* ) : (
         <></>
-      )} */}
+       )}  */}
     </div>
   );
 }

@@ -80,7 +80,12 @@ const _nav = [
         component: CNavItem,
         name: 'Customer',
         to: '/userCustomer',
-      }, 
+      },
+      {
+        component: CNavItem,
+        name: 'Member',
+        to: '/userMember',
+      },
       {
         component: CNavItem,
         name: 'Channel',
@@ -95,10 +100,20 @@ const _nav = [
         component: CNavItem,
         name: 'Template',
         to: '/UserTemplate',
+      },
+      {
+        component: CNavItem,
+        name: 'Transaction',
+        to: '/transaction',
+      },
+      {
+        component: CNavItem,
+        name: 'Payment',
+        to: '/payment',
       }
     ],
   },
-  
+
   // {
   //   component: CNavGroup,
   //   name: 'Buttons',

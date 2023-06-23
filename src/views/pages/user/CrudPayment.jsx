@@ -1,19 +1,25 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import "../../../css/Payment.css";
 
 function CrudPayment() {
-  const [list, setList] = useState([]);
   const [total_page, setTotal_Page] = useState([]);
+  const [page, setPage] = useState(1);
   let navigate = useNavigate();
 
-  const getAll = async (page = 1) => {
+  const [payment, setPayment] = useState("");
+
+  const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("id");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [list, setList] = useState([]);
+
+  const getAll = async () => {
     await axios
       .get(
-        `https://api.byrtagihan.com/api/user/payment?page=${page}&limit=10`,
+        `https://api.byrtagihan.com/api/user/payment?page=${currentPage}&limit=10&name=${payment}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -29,7 +35,7 @@ function CrudPayment() {
 
   useEffect(() => {
     getAll(0);
-  }, []);
+  }, [currentPage, search, sortBy]);
 
   const Delete = async (id) => {
     Swal.fire({
@@ -58,6 +64,42 @@ function CrudPayment() {
     });
   };
 
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= total_page; i++) {
+      pageNumbers.push(
+        <li
+          key={i}
+          className={"page-item " + (currentPage === i ? "active" : "")}
+          aria-current="page"
+          onClick={() => handlePageChange(i)}
+        >
+          <a class="page-link">{i}</a>
+        </li>
+      );
+    }
+    return pageNumbers;
+  };
+
+  const filteredList = list.filter((list) =>
+    list.description.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const sortedList = filteredList.sort((a, b) => {
+    if (sortBy === "description") {
+      return a.description.localeCompare(b.description);
+    } else {
+      return a[sortBy] - b[sortBy];
+    }
+  });
   return (
     <div>
       <div className="row">
@@ -66,112 +108,50 @@ function CrudPayment() {
             <div className="card-header">
               <div className="row">
                 <div className="col">
-                  <h4>Payment</h4>
-                </div>
-                {localStorage.getItem("type_token") === "member" ? (
-                  <>
+                  <div style={{ display: "flex" }}>
                     <div className="col">
-                      <Link to="/tambahpayment">
-                        <button className="btn btn-primary float-end">
-                          <FontAwesomeIcon icon="fa-plus" /> Tambah
-                        </button>
-                      </Link>
+                      <h4 className="textt">Payment</h4>
                     </div>
-                  </>
-                ) : (
-                  <div className="col">
-                    <Link to="/tambahpayment">
-                      <button
-                        disabled={true}
-                        className="btn btn-primary float-end"
-                      >
-                        <FontAwesomeIcon icon="fa-plus" /> Tambah
-                      </button>
-                    </Link>
+
+                    <input
+                      type="text"
+                      class="form-control float-end"
+                      placeholder="Search description"
+                      value={search}
+                      onChange={handleSearch}
+                      style={{ width: "30%", marginLeft: "40em" }}
+                    />
                   </div>
-                )}
+                </div>
               </div>
             </div>
 
             <div className="card-body">
-              <table className="table">
+              <table className="table  table1 responsive-3">
                 <thead className="text-center">
                   <tr>
                     <th scope="col">No</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Organization Name</th>
+                    <th scope="col">Organization</th>
                     <th scope="col">Periode</th>
                     <th scope="col">Nominal</th>
                     <th scope="col">Create Date</th>
                     <th scope="col">Update Date</th>
-                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white" style={{ textAlign: "center" }}>
                   {list.map((data, index) => {
                     return (
                       <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{data.description}</td>
-                        <td>{data.organization_name}</td>
-                        <td>{data.periode}</td>
-                        <td>{data.amount}</td>
-                        <td>{data.created_date}</td>
-                        <td>{data.updated_date}</td>
-
-                        <td>
-                          {localStorage.getItem("type_token") === "member" ? (
-                            <>
-                              <button
-                                onClick={() =>
-                                  navigate(`/editTransaction/${data.id}`)
-                                }
-                                type="button"
-                                className="btn btn-primary me-2"
-                              >
-                                <FontAwesomeIcon icon="fa-edit" />
-                              </button>
-                            </>
-                          ) : (
-                            <button
-                              disabled={true}
-                              onClick={() =>
-                                navigate(`/editTransaction/${data.id}`)
-                              }
-                              type="button"
-                              className="btn btn-primary me-2"
-                            >
-                              <FontAwesomeIcon icon="fa-edit" />
-                            </button>
-                          )}
-
-                          {localStorage.getItem("type_token") === "member" ? (
-                            <>
-                              <button
-                                onClick={() => Delete(data.id)}
-                                type="button"
-                                className="btn btn-danger me-2"
-                              >
-                                <FontAwesomeIcon
-                                  style={{ color: "white" }}
-                                  icon="fa-trash"
-                                />
-                              </button>
-                            </>
-                          ) : (
-                            <button
-                              disabled={true}
-                              onClick={() => Delete(data.id)}
-                              type="button"
-                              className="btn btn-danger me-2"
-                            >
-                              <FontAwesomeIcon
-                                style={{ color: "white" }}
-                                icon="fa-trash"
-                              />
-                            </button>
-                          )}
+                        <td data-cell="No">{index + 1}</td>
+                        <td data-cell="Description">{data.description}</td>
+                        <td data-cell="Organization">
+                          {data.organization_name}
                         </td>
+                        <td data-cell="Periode">{data.periode}</td>
+                        <td data-cell="Nominal">{data.amount}</td>
+                        <td data-cell="Create Date">{data.created_date}</td>
+                        <td data-cell="Update Date">{data.updated_date}</td>
                       </tr>
                     );
                   })}
@@ -179,25 +159,38 @@ function CrudPayment() {
               </table>
 
               {/* Pagination */}
-              <ReactPaginate
-                previousLabel="previous"
-                nextLabel="next"
-                breakLabel="..."
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                pageCount={total_page}
-                pageRangeDisplayed={4}
-                marginPagesDisplayed={2}
-                onPageChange={(e) => getAll(e.selected)}
-                containerClassName="pagination justify-content-center"
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                activeClassName="active"
-              />
+              <div>
+                <ul class="pagination float-end">
+                  <li
+                    className={
+                      "page-item " + (currentPage === 1 ? "disabled" : "")
+                    }
+                    disabled={currentPage === 1}
+                  >
+                    <a
+                      class="page-link"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                      Previous
+                    </a>
+                  </li>
+                  {getPageNumbers()}
+                  <li
+                    className={
+                      "page-item " +
+                      (currentPage === total_page ? "disabled" : "")
+                    }
+                    disabled={currentPage === total_page}
+                  >
+                    <a
+                      class="page-link"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

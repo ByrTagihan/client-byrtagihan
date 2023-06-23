@@ -11,9 +11,8 @@ import {
 import CIcon from "@coreui/icons-react";
 import { cilUser } from "@coreui/icons";
 import Swal from "sweetalert2";
-// import ReactPaginate from "react-paginate";
+// import ReactPaginate from "react-paginate"; Aku hapus ya fat :)
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ReactPaginate from "react-paginate";
 
 function LIstDataSIswa() {
   const [name, setName] = useState("");
