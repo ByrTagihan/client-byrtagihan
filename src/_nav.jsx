@@ -23,25 +23,23 @@ const _nav = [
     component: CNavItem,
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    roles: ["customer"]
   },
-  // {localStorage.getItem("type_token" === "customer") ? (
   {
     component: CNavItem,
     name: 'Dashboard Member',
     to: '/dashboardMember',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    roles:["member"]
   },
   {
     component: CNavItem,
     name: 'Dashboard User',
     to: '/dashboardUser',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    roles:["user"]
   },
-  // ):(
-  //   <></>
-  // )},
-
   {
     component: CNavTitle,
     name: 'Menu',
@@ -57,22 +55,26 @@ const _nav = [
     name: 'Tagihan',
     to: '/tagihan',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    roles:["customer"]
   },
   {
     component: CNavItem,
     name: 'Siswa',
     to: '/listdatasiswa',
     icon:<CIcon icon={cilUser} customClassName="nav-icon" />,
+    roles:["customer"]
   },
   {
     component: CNavTitle,
     name: 'Menu User',
+    roles:["user", "customer"]
   },
   {
     component: CNavGroup,
     name: 'User',
     to: '/User',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    roles:["user", "customer"],
     items: [
       {
         component: CNavItem,

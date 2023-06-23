@@ -162,15 +162,6 @@ function Channel() {
     getAllData(0);
   }, [page, channel]);
 
-  const changePage = ({ selected }) => {
-    setPage(selected);
-  };
-
-  const searchData = (e) => {
-    e.preventDefault();
-    setPage(1);
-    setChannel(query);
-  };
 
   const deleteE = async (id) => {
     Swal.fire({
@@ -200,255 +191,29 @@ function Channel() {
     });
   };
   return (
-    // <>
-
-    // <CFormInput className="inputSearch1"
-    //       type="search"
-    //       placeholder="search data"
-    //       value={channel}
-    //       onChange={(e) => setChannel(e.target.value)}
-    //     />
-    // <div
-    //   style={{
-    //     border: "1px solid gray",
-    //     color: "white",
-    //     background: "#526D82",
-    //     borderRadius: "10px",
-    //     marginBottom: "30px",
-    //   }}
-    // >
-    //   <div
-    //     style={{
-    //       background: "#526D82",
-    //       borderTopRightRadius: "10px",
-    //       borderTopLeftRadius: "10px",
-    //       display: "flex",
-    //       justifyContent: "space-between",
-    //       padding: "5px",
-    //     }}
-    //   >
-    //     <p className="listTagihan">User/Channel</p>
-    //     <div
-    //     style={{
-    //       background: "#526D82",
-    //       borderTopRightRadius: "10px",
-    //       borderTopLeftRadius: "10px",
-    //       display: "flex",
-    //       justifyContent: "space-between"
-    //     }}>
-    //   <CFormInput className="inputSearch"
-    //       type="search"
-    //       placeholder="search data"
-    //       value={channel}
-    //       onChange={(e) => setChannel(e.target.value)}
-    //     />
-    //     <CButton onClick={() => setShow(true)}>Tambah Data</CButton>
-    //     </div>
-    //   </div>
-    //   <div className="table-container">
-    //     <table className="table table1 border responsive-3">
-    //       <thead className="thead-dark" style={{ color: "black" }}>
-    //         <tr>
-    //           <th scope="col">No</th>
-    //           <th scope="col">Nama Bank</th>
-    //           <th scope="col">Active</th>
-    //         </tr>
-    //       </thead>
-    //       <tbody className="bg-white ">
-    //         {userChannel.map((data, index) => {
-    //           return (
-    //             <tr key={index}>
-    //               <td data-cell="Id">{index + 1}</td>
-    //               <td data-cell="Nama Bank">{data.name}</td>
-    //               <td data-cell="Active">
-    //                 {data.active === true ? (
-    //                   <span>true</span>
-    //                 ):(
-    //                   <span>false</span>
-    //                 )}
-    //               </td>
-    //               <td data-cell="Action" className="tdd">
-    //                 <button
-    //                   className="edit1"
-    //                   type="button"
-    //                   style={{ background: "blue" }}
-    //                   onClick={() => {
-    //                     setShowEdit(true);
-    //                     getById(data.id);
-    //                   }}
-    //                 >
-    //                   {" "}
-    //                   <i className="fas fa-edit"></i>
-    //                 </button>
-    //                 <button
-    //                 onClick={() => deleteE(data.id)}
-    //                   className="edit1"
-    //                   style={{ background: "red", color: "white" }}
-    //                 >
-    //                   <i className="fas fa-trash-alt"></i>
-    //                 </button>
-    //               </td>
-    //             </tr>
-    //           );
-    //         })}
-    //       </tbody>
-    //     </table>
-    //   </div>
-
-    //   {/* modal add */}
-    //   <Modal show={show} onHide={!show}>
-    //     <form onSubmit={add}>
-    //       <Modal.Header style={{ background: "#526D82" }}>
-    //         <Modal.Title style={{ color: "white" }}>Modal Add</Modal.Title>
-    //       </Modal.Header>
-    //       <Modal.Body style={{ color: "black" }}>
-    //         <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-    //           Name :
-    //         </label>
-    //         <CInputGroup className="mb-3">
-    //           <CInputGroupText>
-    //             <FontAwesomeIcon icon="fas fa-file-signature" />
-    //           </CInputGroupText>
-    //           <CFormInput
-    //             placeholder="Name"
-    //             autoComplete="Name"
-    //             type="text"
-    //             value={name}
-    //             required
-    //             onChange={(e) => setName(e.target.value)}
-    //           />
-    //         </CInputGroup>
-    //         <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-    //           Active :
-    //         </label>
-    //         <CInputGroup className="mb-3">
-    //           <CInputGroupText>
-    //             <FontAwesomeIcon icon="fas fa-map-marker-alt" />
-    //           </CInputGroupText>
-    //           <CFormInput
-    //             //   placeholder="Adress"
-    //             //   autoComplete="Adress"
-    //             type="text"
-    //             value={activeTrue}
-    //             required
-    //             onChange={(e) => setActiveTrue(e.target.value)}
-    //           />
-    //         </CInputGroup>
-    //       </Modal.Body>
-    //       <Modal.Footer>
-    //         <CButton variant="secondary" onClick={() => setShow(false)}>
-    //           Close
-    //         </CButton>
-    //         <CButton
-    //           className="btn btn-primary"
-    //           variant="primary"
-    //           type="submit"
-    //         >
-    //           Save Changes
-    //         </CButton>
-    //       </Modal.Footer>
-    //     </form>
-    //   </Modal>
-
-    //   {/* modal edit */}
-    //   <Modal show={showEdit} onHide={!showEdit}>
-    //     <form onSubmit={put}>
-    //       <Modal.Header style={{ background: "#526D82" }}>
-    //         <Modal.Title style={{ color: "white" }}>Modal Edit</Modal.Title>
-    //       </Modal.Header>
-    //       <Modal.Body style={{ color: "black" }}>
-    //         <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-    //           Name :
-    //         </label>
-    //         <CInputGroup className="mb-3">
-    //           <CInputGroupText>
-    //             <FontAwesomeIcon icon="fas fa-file-signature" />
-    //           </CInputGroupText>
-    //           <CFormInput
-    //             placeholder="Name"
-    //             autoComplete="Name"
-    //             type="text"
-    //             value={name}
-    //             required
-    //             onChange={(e) => setName(e.target.value)}
-    //           />
-    //         </CInputGroup>
-    //         <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-    //           Active :
-    //         </label>
-    //         <CInputGroup className="mb-3">
-    //           <CInputGroupText>
-    //             <FontAwesomeIcon icon="fas fa-map-marker-alt" />
-    //           </CInputGroupText>
-    //           <CFormInput
-    //             //   placeholder="Adress"
-    //             //   autoComplete="Adress"
-    //             type="text"
-    //             value={activeFalse}
-    //             required
-    //             onChange={(e) => setActiveFalse(e.target.value)}
-    //           />
-    //         </CInputGroup>
-    //       </Modal.Body>
-    //       <Modal.Footer>
-    //         <CButton variant="secondary" onClick={() => setShowEdit(false)}>
-    //           Close
-    //         </CButton>
-    //         <CButton
-    //           className="btn btn-primary"
-    //           variant="primary"
-    //           type="submit"
-    //         >
-    //           Save Changes
-    //         </CButton>
-    //       </Modal.Footer>
-    //     </form>
-    //   </Modal>
-    //   {/* <ReactPaginate
-    //       breakLabel="..."
-    //       nextLabel="next >"
-    //       onPageChange={changePage}
-    //       pageRangeDisplayed={5}
-    //       pageCount={totalPage}
-    //       previousLabel="< previous"
-    //       renderOnZeroPageCount={null}
-    //       marginPagesDisplayed={2}
-    //       containerClassName="pagination justify-content-center"
-    //       pageClassName="page-item"
-    //       pageLinkClassName="page-link"
-    //       previousClassName="page-item"
-    //       previousLinkClassName="page-link"
-    //       nextClassName="page-item"
-    //       nextLinkClassName="page-link"
-    //       activeClassName="active"
-    //     /> */}
-
-    // </div>
-    // </>
     <div className="row">
       <div className="col" xs={12}>
         <div className="card mb-4">
           <div className="card-header">
-            <div className="row">
-              <div className="col">
-                <h4>Channel</h4>
-              </div>
-              <div className="col" style={{marginLeft:"50%"}}>
-                <CFormInput
+          <div style={{display:"flex"}}>
+                <div className="col">
+                  <h4>Channel</h4>
+                </div>
+            <div style={{display:"flex", justifyContent:"center", gap:"10px"}}>
+                <div>
+                <CFormInput className="inputSearch"
                   type="search"
                   placeholder="search data"
-                  value={searchTerm} onChange={handleSearch}        
+                  value={searchTerm} onChange={handleSearch} 
                 />
               </div>
-              <div className="col">
-                <button
-                  onClick={() => setShow(true)}
-                  className="btn btn-primary float-end"
-                >
-                  <FontAwesomeIcon icon="fa-plus" /> Tambah Data
-                </button>
+                <div>
+                  <button onClick={() => setShow(true)} className="btn btn-primary">
+                    <FontAwesomeIcon icon="fa-plus" /> Tambah Data
+                  </button>
+                </div>
+                </div>
               </div>
-            </div>
           </div>
           <div className="card-body table-container">
             <table className="table responsive-3 table1">
