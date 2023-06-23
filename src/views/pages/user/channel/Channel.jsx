@@ -24,16 +24,21 @@ function Channel() {
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(2);
+  const [limit, setLimit] = useState(10);
   const [channel, setChannel] = useState("");
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('id');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("id");
+  const [sortedList, setSortedList] = useState([]);
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: "ascending",
+  });
   const getAllData = async () => {
     await axios
-      .get(`${API_DUMMY}/user/channel?page=${currentPage}`, {
+      .get(`${API_DUMMY}/user/channel?page=${currentPage}&limit=${limit}`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -51,8 +56,102 @@ function Channel() {
     setSearchTerm(event.target.value);
   };
 
-  const handleSort = (event) => {
-    setSortBy(event.target.value);
+  const handleSort = (key) => {
+    let direction = "ascending";
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "ascending"
+    ) {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  useEffect(() => {
+    let sortedData = [...userChannel];
+    if (sortConfig !== null) {
+      sortedData.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    if (searchTerm !== "") {
+      sortedData = sortedData.filter((data) => {
+        return (
+          data.unique_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          data.hp.toString().includes(searchTerm) ||
+          data.address.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      });
+    }
+    setSortedList(sortedData);
+  }, [sortConfig, searchTerm, userChannel]);
+
+  const handleChangeLimit = (event) => {
+    setLimit(event.target.value);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+    const displayedPages = [];
+
+    if (totalPages <= 5) {
+      displayedPages.push(...pageNumbers);
+    } else {
+      if (currentPage <= 3) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
+      } else if (currentPage >= totalPages - 2) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
+      } else {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(currentPage - 2, currentPage + 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
+      }
+    }
+
+    return displayedPages.map((page) =>
+      page === "dot" ? (
+        <span
+          className="border"
+          key="dot"
+          style={{
+            width: "40px",
+            textAlign: "center",
+            borderRight: "none",
+            borderLeft: "none",
+          }}
+        >
+          ...
+        </span>
+      ) : (
+        <li
+          key={page}
+          onClick={() => handlePageChange(page)}
+          className={"page-item " + (currentPage === page ? "active" : "")}
+        >
+          <a class="page-link">{page}</a>
+        </li>
+      )
+    );
   };
 
   const handlePageChange = (page) => {
@@ -64,24 +163,24 @@ function Channel() {
   );
 
   const sortedUserChannel = filteredUserChannel.sort((a, b) => {
-    if (sortBy === 'name') {
+    if (sortBy === "name") {
       return a.name.localeCompare(b.name);
     } else {
       return a[sortBy] - b[sortBy];
     }
   });
-  
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <li key={i} className={"page-item " + (currentPage === i  ? 'active' : '')}  aria-current="page" onClick={() => handlePageChange(i)}>
-          <a class="page-link">{i}</a>
-        </li>
-      );
-    }
-    return pageNumbers;
-  };
+
+  // const getPageNumbers = () => {
+  //   const pageNumbers = [];
+  //   for (let i = 1; i <= totalPages; i++) {
+  //     pageNumbers.push(
+  //       <li key={i} className={"page-item " + (currentPage === i  ? 'active' : '')}  aria-current="page" onClick={() => handlePageChange(i)}>
+  //         <a class="page-link">{i}</a>
+  //       </li>
+  //     );
+  //   }
+  //   return pageNumbers;
+  // };
 
   const add = async (e) => {
     e.preventDefault();
@@ -160,8 +259,7 @@ function Channel() {
   };
   useEffect(() => {
     getAllData(0);
-  }, [page, channel]);
-
+  }, [page, channel, searchTerm, sortBy, limit]);
 
   const deleteE = async (id) => {
     Swal.fire({
@@ -195,25 +293,48 @@ function Channel() {
       <div className="col" xs={12}>
         <div className="card mb-4">
           <div className="card-header">
-          <div style={{display:"flex"}}>
-                <div className="col">
-                  <h4>Channel</h4>
-                </div>
-            <div style={{display:"flex", justifyContent:"center", gap:"10px"}}>
-                <div>
-                <CFormInput className="inputSearch"
-                  type="search"
-                  placeholder="search data"
-                  value={searchTerm} onChange={handleSearch} 
-                />
+            <div style={{ display: "flex" }}>
+              <div className="col">
+                <h4>Channel</h4>
               </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "10px",
+                }}
+              >
+                <div className="col">
+                  <select
+                    className="form-select"
+                    value={limit}
+                    onChange={handleChangeLimit}
+                  >
+                    <option value="1">Show 1 Entries</option>
+                    <option value="10">Show 10 Entries</option>
+                    <option value="100">Show 100 Entries</option>
+                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                  </select>
+                </div>
                 <div>
-                  <button onClick={() => setShow(true)} className="btn btn-primary">
+                  <CFormInput
+                    className="inputSearch"
+                    type="search"
+                    placeholder="search data"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                  />
+                </div>
+                <div>
+                  <button
+                    onClick={() => setShow(true)}
+                    className="btn btn-primary"
+                  >
                     <FontAwesomeIcon icon="fa-plus" /> Tambah Data
                   </button>
                 </div>
-                </div>
               </div>
+            </div>
           </div>
           <div className="card-body table-container">
             <table className="table responsive-3 table1">
@@ -266,15 +387,33 @@ function Channel() {
                 ))}
               </tbody>
             </table>
-      <ul class="pagination float-end">
-            <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
-              <a class="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
-            </li>
-            {getPageNumbers()}
-            <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
-              <a class="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
-            </li>
-          </ul>
+            <ul class="pagination float-end">
+              <li
+                className={"page-item " + (currentPage === 1 ? "disabled" : "")}
+                disabled={currentPage === 1}
+              >
+                <a
+                  class="page-link"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                >
+                  Previous
+                </a>
+              </li>
+              {renderPageNumbers()}
+              <li
+                className={
+                  "page-item " + (currentPage === totalPages ? "disabled" : "")
+                }
+                disabled={currentPage === totalPages}
+              >
+                <a
+                  class="page-link"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                >
+                  Next
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

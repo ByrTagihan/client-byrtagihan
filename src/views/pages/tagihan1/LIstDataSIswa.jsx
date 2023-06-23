@@ -28,12 +28,12 @@ function LIstDataSIswa() {
   // const [pages, setPages] = useState(0);
   const [listData, setListData] = useState("");
   // const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(10);
   const [isLoaded, setIsLoaded] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState("id");
+  const [limit, setLimit] = useState(10);
   const [sortedList, setSortedList] = useState([]);
   const [sortConfig, setSortConfig] = useState({
     key: null,
@@ -44,7 +44,7 @@ function LIstDataSIswa() {
   const getAll = async () => {
     await axios
       .get(
-        `https://api.byrtagihan.com/api/customer/member?page=${currentPage}`,
+        `https://api.byrtagihan.com/api/customer/member?page=${currentPage}&limit=${limit}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -109,17 +109,17 @@ function LIstDataSIswa() {
     setCurrentPage(page);
   };
 
-  const filteredListDataSiswa = list.filter((bill) =>
-    bill.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredListDataSiswa = list.filter((bill) =>
+  //   bill.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
-  const sortedListDataSiswa = filteredListDataSiswa.sort((a, b) => {
-    if (sortBy === "name") {
-      return a.name.localeCompare(b.name);
-    } else {
-      return a[sortBy] - b[sortBy];
-    }
-  });
+  // const sortedListDataSiswa = filteredListDataSiswa.sort((a, b) => {
+  //   if (sortBy === "name") {
+  //     return a.name.localeCompare(b.name);
+  //   } else {
+  //     return a[sortBy] - b[sortBy];
+  //   }
+  // });
 
   // const handlePageChange = page => {
   //   getAll(page, limit)
@@ -129,15 +129,19 @@ function LIstDataSIswa() {
   //   setLimit(newPerPage);
   // }
 
-  const handleFilter = (e) => {
-    const newData = filteredCountries.filter((row) =>
-      row.name.toLowerCase().includes(e.target.value.toLowerCase())
-    );
-    setList(newData);
-  };
+  // const handleFilter = (e) => {
+  //   const newData = filteredCountries.filter((row) =>
+  //     row.name.toLowerCase().includes(e.target.value.toLowerCase())
+  //   );
+  //   setList(newData);
+  // };
 
-  const changePage = ({ selected }) => {
-    setPage(selected);
+  // const changePage = ({ selected }) => {
+  //   setPage(selected);
+  // };
+
+  const handleChangeLimit = (event) => {
+    setLimit(event.target.value);
   };
 
   const [idd, setId] = useState(0);
@@ -262,25 +266,63 @@ function LIstDataSIswa() {
 
   useEffect(() => {
     getAll();
-  }, [currentPage, searchTerm, sortBy]);
+  }, [currentPage, searchTerm, sortBy, limit]);
 
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <li
-          key={i}
-          className={"page-item " + (currentPage === i ? "active" : "")}
-          aria-current="page"
-          onClick={() => handlePageChange(i)}
-        >
-          <a class="page-link">{i}</a>
-        </li>
-      );
+  const renderPageNumbers = () => {
+    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+    const displayedPages = [];
+
+    if (totalPages <= 5) {
+      displayedPages.push(...pageNumbers);
+    } else {
+      if (currentPage <= 3) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
+      } else if (currentPage >= totalPages - 2) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
+      } else {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(currentPage - 2, currentPage + 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
+      }
     }
-    return pageNumbers;
-  };
 
+    return displayedPages.map((page) =>
+      page === "dot" ? (
+        <span
+          className="border"
+          key="dot"
+          style={{
+            width: "40px",
+            textAlign: "center",
+            borderRight: "none",
+            borderLeft: "none",
+          }}
+        >
+          ...
+        </span>
+      ) : (
+        <li
+          key={page}
+          onClick={() => handlePageChange(page)}
+          className={"page-item " + (currentPage === page ? "active" : "")}
+        >
+          <a class="page-link">{page}</a>
+        </li>
+      )
+    );
+  };
   return (
     <div>
       <div className="row">
@@ -290,6 +332,18 @@ function LIstDataSIswa() {
               <div className="row">
                 <div className="col">
                   <h4>List Data Siswa</h4>
+                </div>
+                <div className="col">
+                  <select
+                    className="form-select"
+                    value={limit}
+                    onChange={handleChangeLimit}
+                  >
+                    <option value="1">Show 1 Entries</option>
+                    <option value="10">Show 10 Entries</option>
+                    <option value="100">Show 100 Entries</option>
+                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                  </select>
                 </div>
                 <div className="col">
                   <CFormInput
@@ -446,40 +500,24 @@ function LIstDataSIswa() {
                     );
                   })}
                 </tbody>
-                <div>
-                  {/* <DataTable
-                  columns={columns}
-                  data={list}
-                  pagination
-                  paginationServer 
-                  paginationTotalRows={totalPages}
-                  onChangePage={handlePageChange}
-                  onChangeRowsPerPage={handlePerRowsChange}
-                  paginationPerPage={5}
-                  paginationRowsPerPageOptions={[5, 15, 25, 50]}
-                  paginationComponentOptions={{
-                    rowsPerPageText: 'Records per page:',
-                    rangeSeparatorText: 'out of',
-                  }}
-                /> */}
-                </div>
+                <div></div>
               </table>
               <ul class="pagination float-end">
-                <li style={{cursor:"pointer"}}
+                <li
                   className={
-                    "page-item" + (currentPage === 1 ? "disabled" : "")
+                    "page-item " + (currentPage === 1 ? "disabled" : "")
                   }
                   disabled={currentPage === 1}
                 >
-                  <a style={{cursor:"pointer"}}
+                  <a
                     class="page-link"
                     onClick={() => handlePageChange(currentPage - 1)}
                   >
                     Previous
                   </a>
                 </li>
-                {getPageNumbers()}
-                <li style={{cursor:"pointer"}}
+                {renderPageNumbers()}
+                <li
                   className={
                     "page-item " +
                     (currentPage === totalPages ? "disabled" : "")
