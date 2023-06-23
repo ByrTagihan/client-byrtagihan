@@ -165,18 +165,18 @@ function Profile() {
             />
           </CInputGroup>
 
-          <CForm onSubmit={Post}>
+          {/* <CForm onSubmit={Post}> */}
             <CInputGroup className="mb-3">
               <CFormInput
                 autoComplete="picture"
                 placeholder="link picture"
-                onChange={(e) => setFile(e.target.files[0])}
+                onChange={(e) => setPicture(e.target.value)}
                 // value={file}
-                type="file"
-              />{" "}
-              <button type="submit">Post</button>
+                type="link"
+              />
+              {/* <button type="submit">Post</button> */}
             </CInputGroup>
-          </CForm>
+          {/* </CForm> */}
 
           <CRow>
             <CCol xs={6}>
