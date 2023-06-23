@@ -14,7 +14,7 @@ function CrudPayment() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("id");
   const [currentPage, setCurrentPage] = useState(1);
-  const [list, setList] = useState([]);
+  const [bills, setBills] = useState([]);
 
   const getAll = async () => {
     await axios
@@ -26,7 +26,7 @@ function CrudPayment() {
       )
       .then((res) => {
         setTotal_Page(res.data.pagination.total_page);
-        setList(res.data.data);
+        setBills(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -89,11 +89,11 @@ function CrudPayment() {
     return pageNumbers;
   };
 
-  const filteredList = list.filter((list) =>
-    list.description.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredBills = bills.filter((bill) =>
+  bill.description.toLowerCase().includes(search.toLowerCase())
+);
 
-  const sortedList = filteredList.sort((a, b) => {
+  const sortedBills = filteredBills.sort((a, b) => {
     if (sortBy === "description") {
       return a.description.localeCompare(b.description);
     } else {
@@ -140,7 +140,7 @@ function CrudPayment() {
                   </tr>
                 </thead>
                 <tbody className="bg-white" style={{ textAlign: "center" }}>
-                  {list.map((data, index) => {
+                  {sortedBills.map((data, index) => {
                     return (
                       <tr key={index}>
                         <td data-cell="No">{index + 1}</td>
