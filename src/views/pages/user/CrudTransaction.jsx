@@ -144,9 +144,9 @@ function CrudTransaction() {
                     <th scope="col">Create Date</th>
                     <th scope="col">Update Date</th>
 
-                    {/* <th disabled={true} scope="col">
+                    <th  scope="col">
                       Action
-                    </th> */}
+                    </th>
                   </tr>
                 </thead>
                 <tbody
@@ -166,7 +166,7 @@ function CrudTransaction() {
                         <td data-cell="Create Date">{item.created_date}</td>
                         <td data-cell="Update Date">{item.updated_date}</td>
 
-                        <td>
+                        <td data-cell="Action">
                           <button
                             onClick={() =>
                               navigate(`/editTransaction/${item.id}`)
