@@ -9,7 +9,7 @@ function Mesage() {
 
   const getAll = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/user/message`, {
+      .get(`https://api.byrtagihan.com/api/user/message?limit=170`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {

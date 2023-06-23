@@ -6,6 +6,7 @@ import { useState } from "react";
 import { act } from "react-dom/test-utils";
 import "../../../../views/css/EditUserCustomer.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { CFormInput } from "@coreui/react";
 
 function EditCustomer() {
   const [name, setName] = useState("");
@@ -148,7 +149,7 @@ function EditCustomer() {
     // ENTER
     else if (e.keyCode === 13) {
       setValue(
-        `Id = ${suggestions[suggestionIndex].id}, Email =${suggestions[suggestionIndex].email}, Nama = ${suggestions[suggestionIndex].name}`
+        `Id = ${suggestions[suggestionIndex].id}, Email = ${suggestions[suggestionIndex].email}, Nama = ${suggestions[suggestionIndex].name}`
       );
       setMemberId(suggestions[suggestionIndex].id);
       setSuggestionIndex(0);
@@ -159,25 +160,26 @@ function EditCustomer() {
   const Suggestions = () => {
     return (
       <div
-        className="card border-secondary border-top-0"
-        style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
-      >
-        <ul className="list-group list-group-flush">
-          {suggestions.map((data, index) => (
-            <li
-              className={
-                index === suggestionIndex
-                  ? " list-group-item  list-group-item-action active"
-                  : "list-group-item  list-group-item-action"
-              }
-              key={index}
-              onClick={(e) => handleClick(e, data.id)}
-            >
-              Id = {data.id}, Email = {data.email}, Nama = {data.name}
-            </li>
-          ))}
-        </ul>
-      </div>
+      className="card border-secondary border-top-0"
+      style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
+    >
+      <ul className="list-group list-group-flush">
+        {suggestions.map((data, index) => (
+          <li
+            className={
+              index === suggestionIndex
+                ? " list-group-item  list-group-item-action active"
+                : "list-group-item  list-group-item-action"
+            }
+            key={index}
+            onClick={(e)=> handleClick(e, data.id)}
+          >
+            Id = {data.id}, Email = {data
+            .email}, Nama = {data.name}
+          </li>
+        ))}
+      </ul>
+    </div>
     );
   };
 
@@ -259,12 +261,22 @@ function EditCustomer() {
             <label className="form-label" style={{ fontWeight: "bold" }}>
               Organization_id :
             </label>
-            <input
+            {/* <CFormInput
               type="text"
               className="form-control inputOrganization_id"
               value={value}
               onKeyDown={handleKeyDown}
               onChange={handleChange}
+            /> */}
+              <CFormInput
+              type="text"
+              className="form-control"
+              autoComplete="off"
+              // className="form-control inputActive"
+              value={value}
+              onKeyDown={handleKeyDown}
+              onChange={handleChange}
+              required
             />
             {suggestionsActive && <Suggestions />}
           </div>
