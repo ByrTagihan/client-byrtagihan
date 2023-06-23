@@ -17,6 +17,7 @@ import {
 } from "@coreui/react";
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
+import { API_DUMMY } from '../../../../utils/baseURL';
 
 function BayarTagihan() {
     const [channel, setChannel] = useState([]);
@@ -38,7 +39,7 @@ function BayarTagihan() {
 
     const GetChannel = async () => {
         try {
-            const { data, status } = await axios.get(`https://api.byrtagihan.com/api/member/channel`, {
+            const { data, status } = await axios.get(`${API_DUMMY}/member/channel`, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             })
             if (status === 200) {
@@ -59,7 +60,7 @@ function BayarTagihan() {
             };
             // console.log(data);
             await axios.post(
-                `https://api.byrtagihan.com/api/member/bill/${id}/payment`,
+                `${API_DUMMY}/member/bill/${id}/payment`,
                 data,
                 {
                     headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },

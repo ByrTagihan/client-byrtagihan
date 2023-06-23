@@ -15,6 +15,7 @@ import "../../views/css/DashboardUser.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import { API_DUMMY } from "../../utils/baseURL";
 
 function DashboardUser() {
     const [organization, setOrganization] = useState([]);
@@ -25,7 +26,7 @@ function DashboardUser() {
     
   const getAllOrganization = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/user/organization`, {
+      .get(`${API_DUMMY}/user/organization`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -40,7 +41,7 @@ function DashboardUser() {
 
   const getAllPayment = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/user/payment`, {
+      .get(`${API_DUMMY}/user/payment`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -55,7 +56,7 @@ function DashboardUser() {
 
   const getAllTransaction = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/user/transaction`, {
+      .get(`${API_DUMMY}/user/transaction`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -70,7 +71,7 @@ function DashboardUser() {
 
   const getAllCustomer = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/user/customer`, {
+      .get(`${API_DUMMY}/user/customer`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -85,7 +86,7 @@ function DashboardUser() {
 
   const getAllChannel = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/user/customer`, {
+      .get(`${API_DUMMY}/user/customer`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {

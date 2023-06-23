@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import "../../../css/Profile.css";
+import { API_DUMMY } from "../../../utils/baseURL";
 
 function Profile() {
   const [show, setShow] = useState(false);
@@ -34,7 +35,7 @@ function Profile() {
 
   const get = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/customer/profile`, {
+      .get(`${API_DUMMY}/customer/profile`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -60,7 +61,7 @@ function Profile() {
 
     try {
       await axios.put(
-        `https://api.byrtagihan.com/api/customer/profile`,
+        `${API_DUMMY}/customer/profile`,
         {
           name: name,
           hp: hp,
@@ -94,7 +95,7 @@ function Profile() {
       data: file,
     };
     await axios
-      .put(`https://api.byrtagihan.com/api/files`, data, {
+      .put(`${API_DUMMY}/files`, data, {
         headers: {
           "auth-tgh": `jwt ${localStorage.getItem("token")}`,
         },

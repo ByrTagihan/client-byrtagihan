@@ -1,10 +1,10 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { API_DUMMY } from "../../../utils/baseURL";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API_DUMMY } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
 
-function EditTagihan() {
+function AddTagihan() {
   const [memberId, setMemberId] = useState(0);
   const [desc, setDesc] = useState("");
   const [periode, setPeriode] = useState("");
@@ -13,11 +13,10 @@ function EditTagihan() {
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const [suggestionsActive, setSuggestionsActive] = useState(false);
   const [value, setValue] = useState("");
-  const { id } = useParams();
 
   let navigate = useNavigate();
 
-  const updateTagihan = async (e) => {
+  const addTagihan = async (e) => {
     e.preventDefault();
     const req = {
       member_id: memberId,
@@ -25,19 +24,17 @@ function EditTagihan() {
       periode: periode,
       amount: amount,
     };
-    console.log(req);
-
     await axios
-      .put(`${API_DUMMY}/customer/bill/${id}`, req, {
+      .post(`${API_DUMMY}/customer/bill`, req, {
         headers: {
           "auth-tgh": `jwt ${localStorage.getItem("token")}`,
         },
       })
       .then(() => {
-        // navigate("/tagihan");
+        navigate("/customerBill");
         Swal.fire({
           icon: "success",
-          title: "Berhasil Mengubah",
+          title: "Berhasil DiTambahkan",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -119,11 +116,12 @@ function EditTagihan() {
         style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
       >
         <ul className="list-group list-group-flush">
-          {suggestions.map((data, index) => (
+          {suggestions.length != 0 ? (<>
+            {suggestions.map((data, index) => (
             <li
               className={
                 index === suggestionIndex
-                  ? " list-group-item  list-group-item-action active"
+                  ? "list-group-item  list-group-item-action active"
                   : "list-group-item  list-group-item-action"
               }
               key={index}
@@ -131,57 +129,33 @@ function EditTagihan() {
             >
               NIK = {data.unique_id}, Nama = {data.name}
             </li>
-          ))}
+          ))}</>) : (<>
+            <li
+              className="list-group-item "
+            >
+              Member Tidak Ditemukan 
+            </li></>)}
         </ul>
       </div>
     );
   };
 
-  useEffect(() => {
-    axios
-      .get(`${API_DUMMY}/customer/bill/${id}`, {
-        headers: {
-          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        const response = res.data.data;
-        axios
-          .get(`${API_DUMMY}/customer/member/${response.member_id}`, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-            },
-          })
-          .then((ress) => {
-            const users = ress.data.data;
-            setValue(`NIK = ${users.unique_id}, Nama = ${users.name}`);
-            setDesc(response.description);
-            setPeriode(response.periode);
-            setAmount(response.amount);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
   return (
     <div>
       <div className="card mb-3">
-        <div className="card-header bg-transparent">Edit Tagihan</div>
+        <div className="card-header bg-transparent">Tambah Tagihan</div>
         <div className="card-body">
-          <form onSubmit={updateTagihan} onKeyDown={onKeyDown}>
+          <form onSubmit={addTagihan} onKeyDown={onKeyDown}>
             <div className="mb-3 autocomplete">
               <label className="form-label">Member</label>
               <input
                 id="number_id"
                 type="text"
                 className="form-control"
-                autoComplete="off"
                 value={value}
+                autoComplete="off"
                 onKeyDown={handleKeyDown}
                 onChange={handleChange}
-                disabled
                 required
               />
               {suggestionsActive && <Suggestions />}
@@ -192,7 +166,6 @@ function EditTagihan() {
                 id="description"
                 type="text"
                 className="form-control"
-                value={desc}
                 onChange={(e) => setDesc(e.target.value)}
                 required
               />
@@ -203,7 +176,6 @@ function EditTagihan() {
                 id="amount"
                 type="number"
                 className="form-control"
-                value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 required
               />
@@ -214,7 +186,6 @@ function EditTagihan() {
                 id="periode"
                 type="date"
                 className="form-control"
-                value={periode}
                 onChange={(e) => setPeriode(e.target.value)}
                 required
               />
@@ -223,7 +194,7 @@ function EditTagihan() {
               type="button"
               className="btn btn-secondary float-start"
               onClick={() => {
-                navigate("/tagihan");
+                navigate("/customerBill");
               }}
             >
               Close
@@ -238,4 +209,4 @@ function EditTagihan() {
   );
 }
 
-export default EditTagihan;
+export default AddTagihan;

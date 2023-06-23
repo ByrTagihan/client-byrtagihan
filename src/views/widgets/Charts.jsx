@@ -14,6 +14,7 @@ import CIcon from '@coreui/icons-react'
 import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { API_DUMMY } from '../../utils/baseURL'
 
 const Charts = () => {
 
@@ -21,7 +22,7 @@ const Charts = () => {
   
     const getAll = async () => {
       await axios
-        .get(`https://api.byrtagihan.com/api/member/bill`, {
+        .get(`${API_DUMMY}/member/bill`, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         })
         .then((res) => {

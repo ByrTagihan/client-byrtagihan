@@ -1,17 +1,18 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import "../../../css/Payment.css";
+import "../../../../css/Transaction.css";
+import { API_DUMMY } from "../../../../utils/baseURL";
 
-function CrudPayment() {
-  const [total_page, setTotal_Page] = useState([]);
-  const [page, setPage] = useState(1);
+function CrudTransaction() {
+  const [total_page, setTotal_Page] = useState(1);
+  const [transaction, setTransaction] = useState("");
+
   let navigate = useNavigate();
 
-  const [payment, setPayment] = useState("");
-
-  const [search, setSearch] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("id");
   const [currentPage, setCurrentPage] = useState(1);
   const [bills, setBills] = useState([]);
@@ -19,7 +20,7 @@ function CrudPayment() {
   const getAll = async () => {
     await axios
       .get(
-        `https://api.byrtagihan.com/api/user/payment?page=${currentPage}&limit=10&name=${payment}`,
+        `${API_DUMMY}/user/transaction?page=${currentPage}&limit=10&name=${transaction}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -35,7 +36,7 @@ function CrudPayment() {
 
   useEffect(() => {
     getAll(0);
-  }, [currentPage, search, sortBy]);
+  }, [currentPage, searchTerm, sortBy]);
 
   const Delete = async (id) => {
     Swal.fire({
@@ -48,7 +49,7 @@ function CrudPayment() {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete("https://api.byrtagihan.com/api/user/payment/" + id, {
+        axios.delete(`${API_DUMMY}/user/transaction/` + id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         });
         Swal.fire({
@@ -59,13 +60,13 @@ function CrudPayment() {
         console.log(id);
       }
       setTimeout(() => {
-        // window.location.reload();
+        window.location.reload();
       }, 1500);
     });
   };
 
   const handleSearch = (event) => {
-    setSearch(event.target.value);
+    setSearchTerm(event.target.value);
   };
 
   const handlePageChange = (page) => {
@@ -90,8 +91,8 @@ function CrudPayment() {
   };
 
   const filteredBills = bills.filter((bill) =>
-  bill.description.toLowerCase().includes(search.toLowerCase())
-);
+    bill.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const sortedBills = filteredBills.sort((a, b) => {
     if (sortBy === "description") {
@@ -102,25 +103,32 @@ function CrudPayment() {
   });
   return (
     <div>
+      {/* {localStorage.getItem("type_token") === "user" ? ( */}
       <div className="row">
         <div className="col" xs={12}>
           <div className="card mb-4">
             <div className="card-header">
               <div className="row">
                 <div className="col">
-                  <div style={{ display: "flex" }}>
-                    <div className="col">
-                      <h4 className="textt">Payment</h4>
-                    </div>
+                  <h4 className="textt">Transaction</h4>
+                </div>
 
-                    <input
-                      type="text"
-                      class="form-control float-end"
-                      placeholder="Search description"
-                      value={search}
-                      onChange={handleSearch}
-                      style={{ width: "30%", marginLeft: "40em" }}
-                    />
+                <div style={{ display: "flex" }}>
+                  <input
+                    type="text"
+                    class="form-control float-end"
+                    placeholder="Search description"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    style={{ width: "30%", marginLeft: "37em" }}
+                  />
+
+                  <div className="col">
+                    <Link to="/tambahtransaction">
+                      <button className="btn btn-primary float-end">
+                        <FontAwesomeIcon icon="fa-plus" /> Tambah
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -133,25 +141,54 @@ function CrudPayment() {
                     <th scope="col">No</th>
                     <th scope="col">Description</th>
                     <th scope="col">Organization</th>
-                    <th scope="col">Periode</th>
                     <th scope="col">Nominal</th>
                     <th scope="col">Create Date</th>
                     <th scope="col">Update Date</th>
+
+                    <th  scope="col">
+                      Action
+                    </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white" style={{ textAlign: "center" }}>
-                  {sortedBills.map((data, index) => {
+                <tbody
+                  id="myTable"
+                  className="bg-white"
+                  style={{ textAlign: "center" }}
+                >
+                  {sortedBills.map((item, index) => {
                     return (
                       <tr key={index}>
                         <td data-cell="No">{index + 1}</td>
-                        <td data-cell="Description">{data.description}</td>
+                        <td data-cell="Description">{item.description}</td>
                         <td data-cell="Organization">
-                          {data.organization_name}
+                          {item.organization_name}
                         </td>
-                        <td data-cell="Periode">{data.periode}</td>
-                        <td data-cell="Nominal">{data.amount}</td>
-                        <td data-cell="Create Date">{data.created_date}</td>
-                        <td data-cell="Update Date">{data.updated_date}</td>
+                        <td data-cell="Nominal">{item.amount}</td>
+                        <td data-cell="Create Date">{item.created_date}</td>
+                        <td data-cell="Update Date">{item.updated_date}</td>
+
+                        <td data-cell="Action">
+                          <button
+                            onClick={() =>
+                              navigate(`/editTransaction/${item.id}`)
+                            }
+                            type="button"
+                            className="btn btn-primary me-2"
+                          >
+                            <FontAwesomeIcon icon="fa-edit" />
+                          </button>
+
+                          <button
+                            onClick={() => Delete(item.id)}
+                            type="button"
+                            className="btn btn-danger me-2"
+                          >
+                            <FontAwesomeIcon
+                              style={{ color: "white" }}
+                              icon="fa-trash"
+                            />
+                          </button>
+                        </td>
                       </tr>
                     );
                   })}
@@ -195,8 +232,11 @@ function CrudPayment() {
           </div>
         </div>
       </div>
+      {/* ) : (
+        <></>
+       )}  */}
     </div>
   );
 }
 
-export default CrudPayment;
+export default CrudTransaction;

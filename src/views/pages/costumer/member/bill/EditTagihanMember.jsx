@@ -8,6 +8,7 @@ import {
     CInputGroupText,
     CRow,
   } from "@coreui/react";
+import { API_DUMMY } from "../../../../../utils/baseURL";
   
   
   function EditTagihanMember() {
@@ -18,7 +19,7 @@ import {
     
         try {
           await axios.put(
-            `https://api.byrtagihan.com/api/customer/member/9/bill/7`,  {
+            `${API_DUMMY}/customer/member/9/bill/7`,  {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
               }
           );

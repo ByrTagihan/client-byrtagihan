@@ -14,6 +14,7 @@ import axios from "axios";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import "../../../css/ForgotPasswordSiswa.css";
+import { API_DUMMY } from "../../../utils/baseURL";
 // import { useNavigate } from "react-router";
 
 function ForgotPasswordSiswa() {
@@ -26,7 +27,7 @@ function ForgotPasswordSiswa() {
       unique_id: unique_id
     }
     axios
-      .post("https://api.byrtagihan.com/api/member/forgot_password", data)
+      .post(`${API_DUMMY}/member/forgot_password`, data)
       .then((res) => {
         console.log(res);
         Swal.fire({

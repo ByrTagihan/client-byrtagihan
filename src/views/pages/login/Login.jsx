@@ -19,6 +19,7 @@ import { cilLockLocked, cilUser } from "@coreui/icons";
 import axios from "axios";
 import "./../../../views/css/Login.css";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/baseURL";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -46,7 +47,7 @@ const Login = () => {
     try {
       if (type_token === "admin Sekolah") {
         const { data, status } = await axios.post(
-          "https://api.byrtagihan.com/api/customer/login",
+          `${API_DUMMY}/customer/login`,
           {
             email: email,
             password: password,
@@ -71,7 +72,7 @@ const Login = () => {
         }
       } else if (type_token === "guru") {
         const { data, status } = await axios.post(
-          "https://api.byrtagihan.com/api/user/login",
+          `${API_DUMMY}/user/login`,
           {
             email: email,
             password: password,
@@ -94,7 +95,7 @@ const Login = () => {
         }
       } else if (type_token === "siswa") {
         const { data, status } = await axios.post(
-          "https://api.byrtagihan.com/api/member/login",
+          `${API_DUMMY}/member/login`,
           {
             unique_id: unique_id,
             password: password,

@@ -12,6 +12,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../../../utils/baseURL";
 
 function TambahTagihanMember() {
   const param = useParams();
@@ -31,7 +32,7 @@ function TambahTagihanMember() {
 
     try {
       await axios.post(
-        `https://api.byrtagihan.com/api/customer/member/9/bill`,
+        `${API_DUMMY}/customer/member/9/bill`,
         data,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },

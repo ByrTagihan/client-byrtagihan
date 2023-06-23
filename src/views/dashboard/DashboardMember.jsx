@@ -15,6 +15,7 @@ import { getStyle } from "@coreui/utils";
 import { CChartBar, CChartLine } from "@coreui/react-chartjs";
 import CIcon from "@coreui/icons-react";
 import { cilArrowBottom, cilArrowTop, cilOptions } from "@coreui/icons";
+import { API_DUMMY } from "../../utils/baseURL";
 
 function DashboardMember() {
   const [list, setList] = useState([]);
@@ -25,7 +26,7 @@ function DashboardMember() {
 
   const getAll = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/member/bill`, {
+      .get(`${API_DUMMY}/member/bill`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -39,7 +40,7 @@ function DashboardMember() {
   };
   const getMemberchannel = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/member/channel`, {
+      .get(`${API_DUMMY}/member/channel`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {

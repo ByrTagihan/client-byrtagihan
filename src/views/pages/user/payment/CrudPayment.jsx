@@ -1,17 +1,18 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import "../../../css/Transaction.css";
+import "../../../../css/Payment.css";
+import { API_DUMMY } from "../../../../utils/baseURL";
 
-function CrudTransaction() {
-  const [total_page, setTotal_Page] = useState(1);
-  const [transaction, setTransaction] = useState("");
-
+function CrudPayment() {
+  const [total_page, setTotal_Page] = useState([]);
+  const [page, setPage] = useState(1);
   let navigate = useNavigate();
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [payment, setPayment] = useState("");
+
+  const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("id");
   const [currentPage, setCurrentPage] = useState(1);
   const [bills, setBills] = useState([]);
@@ -19,7 +20,7 @@ function CrudTransaction() {
   const getAll = async () => {
     await axios
       .get(
-        `https://api.byrtagihan.com/api/user/transaction?page=${currentPage}&limit=10&name=${transaction}`,
+        `${API_DUMMY}/user/payment?page=${currentPage}&limit=10&name=${payment}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -35,7 +36,7 @@ function CrudTransaction() {
 
   useEffect(() => {
     getAll(0);
-  }, [currentPage, searchTerm, sortBy]);
+  }, [currentPage, search, sortBy]);
 
   const Delete = async (id) => {
     Swal.fire({
@@ -48,7 +49,7 @@ function CrudTransaction() {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete("https://api.byrtagihan.com/api/user/transaction/" + id, {
+        axios.delete(`${API_DUMMY}/user/payment/` + id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         });
         Swal.fire({
@@ -59,13 +60,13 @@ function CrudTransaction() {
         console.log(id);
       }
       setTimeout(() => {
-        window.location.reload();
+        // window.location.reload();
       }, 1500);
     });
   };
 
   const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
+    setSearch(event.target.value);
   };
 
   const handlePageChange = (page) => {
@@ -90,8 +91,8 @@ function CrudTransaction() {
   };
 
   const filteredBills = bills.filter((bill) =>
-    bill.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  bill.description.toLowerCase().includes(search.toLowerCase())
+);
 
   const sortedBills = filteredBills.sort((a, b) => {
     if (sortBy === "description") {
@@ -102,32 +103,25 @@ function CrudTransaction() {
   });
   return (
     <div>
-      {/* {localStorage.getItem("type_token") === "user" ? ( */}
       <div className="row">
         <div className="col" xs={12}>
           <div className="card mb-4">
             <div className="card-header">
               <div className="row">
                 <div className="col">
-                  <h4 className="textt">Transaction</h4>
-                </div>
+                  <div style={{ display: "flex" }}>
+                    <div className="col">
+                      <h4 className="textt">Payment</h4>
+                    </div>
 
-                <div style={{ display: "flex" }}>
-                  <input
-                    type="text"
-                    class="form-control float-end"
-                    placeholder="Search description"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    style={{ width: "30%", marginLeft: "37em" }}
-                  />
-
-                  <div className="col">
-                    <Link to="/tambahtransaction">
-                      <button className="btn btn-primary float-end">
-                        <FontAwesomeIcon icon="fa-plus" /> Tambah
-                      </button>
-                    </Link>
+                    <input
+                      type="text"
+                      class="form-control float-end"
+                      placeholder="Search description"
+                      value={search}
+                      onChange={handleSearch}
+                      style={{ width: "30%", marginLeft: "40em" }}
+                    />
                   </div>
                 </div>
               </div>
@@ -140,54 +134,25 @@ function CrudTransaction() {
                     <th scope="col">No</th>
                     <th scope="col">Description</th>
                     <th scope="col">Organization</th>
+                    <th scope="col">Periode</th>
                     <th scope="col">Nominal</th>
                     <th scope="col">Create Date</th>
                     <th scope="col">Update Date</th>
-
-                    <th  scope="col">
-                      Action
-                    </th>
                   </tr>
                 </thead>
-                <tbody
-                  id="myTable"
-                  className="bg-white"
-                  style={{ textAlign: "center" }}
-                >
-                  {sortedBills.map((item, index) => {
+                <tbody className="bg-white" style={{ textAlign: "center" }}>
+                  {sortedBills.map((data, index) => {
                     return (
                       <tr key={index}>
                         <td data-cell="No">{index + 1}</td>
-                        <td data-cell="Description">{item.description}</td>
+                        <td data-cell="Description">{data.description}</td>
                         <td data-cell="Organization">
-                          {item.organization_name}
+                          {data.organization_name}
                         </td>
-                        <td data-cell="Nominal">{item.amount}</td>
-                        <td data-cell="Create Date">{item.created_date}</td>
-                        <td data-cell="Update Date">{item.updated_date}</td>
-
-                        <td data-cell="Action">
-                          <button
-                            onClick={() =>
-                              navigate(`/editTransaction/${item.id}`)
-                            }
-                            type="button"
-                            className="btn btn-primary me-2"
-                          >
-                            <FontAwesomeIcon icon="fa-edit" />
-                          </button>
-
-                          <button
-                            onClick={() => Delete(item.id)}
-                            type="button"
-                            className="btn btn-danger me-2"
-                          >
-                            <FontAwesomeIcon
-                              style={{ color: "white" }}
-                              icon="fa-trash"
-                            />
-                          </button>
-                        </td>
+                        <td data-cell="Periode">{data.periode}</td>
+                        <td data-cell="Nominal">{data.amount}</td>
+                        <td data-cell="Create Date">{data.created_date}</td>
+                        <td data-cell="Update Date">{data.updated_date}</td>
                       </tr>
                     );
                   })}
@@ -231,11 +196,8 @@ function CrudTransaction() {
           </div>
         </div>
       </div>
-      {/* ) : (
-        <></>
-       )}  */}
     </div>
   );
 }
 
-export default CrudTransaction;
+export default CrudPayment;

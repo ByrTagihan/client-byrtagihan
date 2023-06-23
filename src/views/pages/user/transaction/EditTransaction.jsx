@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../../utils/baseURL";
 
 function EditTransaction() {
   const [amount, setAmount] = useState(0);
@@ -23,7 +24,7 @@ function EditTransaction() {
     console.log(data);
 
     await axios
-      .put(`https://api.byrtagihan.com/api/user/transaction/` + param.id, data, {
+      .put(`${API_DUMMY}/user/transaction/` + param.id, data, {
         headers: {
           "auth-tgh": `jwt ${localStorage.getItem("token")}`,
         },
@@ -47,7 +48,7 @@ function EditTransaction() {
 
   useEffect(() => {
     axios
-      .get("https://api.byrtagihan.com/api/user/transaction/" + param.id, {
+      .get(`${API_DUMMY}/user/transaction/` + param.id, {
         headers: {
           "auth-tgh": `jwt ${localStorage.getItem("token")}`,
         },

@@ -1,10 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { API_DUMMY } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 
-function AddTagihan() {
+function EditTagihan() {
   const [memberId, setMemberId] = useState(0);
   const [desc, setDesc] = useState("");
   const [periode, setPeriode] = useState("");
@@ -13,10 +13,11 @@ function AddTagihan() {
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const [suggestionsActive, setSuggestionsActive] = useState(false);
   const [value, setValue] = useState("");
+  const { id } = useParams();
 
   let navigate = useNavigate();
 
-  const addTagihan = async (e) => {
+  const updateTagihan = async (e) => {
     e.preventDefault();
     const req = {
       member_id: memberId,
@@ -24,17 +25,19 @@ function AddTagihan() {
       periode: periode,
       amount: amount,
     };
+    console.log(req);
+
     await axios
-      .post(`${API_DUMMY}/customer/bill`, req, {
+      .put(`${API_DUMMY}/customer/bill/${id}`, req, {
         headers: {
           "auth-tgh": `jwt ${localStorage.getItem("token")}`,
         },
       })
       .then(() => {
-        navigate("/tagihan");
+        // navigate("/customerBill");
         Swal.fire({
           icon: "success",
-          title: "Berhasil DiTambahkan",
+          title: "Berhasil Mengubah",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -116,12 +119,11 @@ function AddTagihan() {
         style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
       >
         <ul className="list-group list-group-flush">
-          {suggestions.length != 0 ? (<>
-            {suggestions.map((data, index) => (
+          {suggestions.map((data, index) => (
             <li
               className={
                 index === suggestionIndex
-                  ? "list-group-item  list-group-item-action active"
+                  ? " list-group-item  list-group-item-action active"
                   : "list-group-item  list-group-item-action"
               }
               key={index}
@@ -129,33 +131,57 @@ function AddTagihan() {
             >
               NIK = {data.unique_id}, Nama = {data.name}
             </li>
-          ))}</>) : (<>
-            <li
-              className="list-group-item "
-            >
-              Member Tidak Ditemukan 
-            </li></>)}
+          ))}
         </ul>
       </div>
     );
   };
 
+  useEffect(() => {
+    axios
+      .get(`${API_DUMMY}/customer/bill/${id}`, {
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        const response = res.data.data;
+        axios
+          .get(`${API_DUMMY}/customer/member/${response.member_id}`, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((ress) => {
+            const users = ress.data.data;
+            setValue(`NIK = ${users.unique_id}, Nama = ${users.name}`);
+            setDesc(response.description);
+            setPeriode(response.periode);
+            setAmount(response.amount);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <div>
       <div className="card mb-3">
-        <div className="card-header bg-transparent">Tambah Tagihan</div>
+        <div className="card-header bg-transparent">Edit Tagihan</div>
         <div className="card-body">
-          <form onSubmit={addTagihan} onKeyDown={onKeyDown}>
+          <form onSubmit={updateTagihan} onKeyDown={onKeyDown}>
             <div className="mb-3 autocomplete">
               <label className="form-label">Member</label>
               <input
                 id="number_id"
                 type="text"
                 className="form-control"
-                value={value}
                 autoComplete="off"
+                value={value}
                 onKeyDown={handleKeyDown}
                 onChange={handleChange}
+                disabled
                 required
               />
               {suggestionsActive && <Suggestions />}
@@ -166,6 +192,7 @@ function AddTagihan() {
                 id="description"
                 type="text"
                 className="form-control"
+                value={desc}
                 onChange={(e) => setDesc(e.target.value)}
                 required
               />
@@ -176,6 +203,7 @@ function AddTagihan() {
                 id="amount"
                 type="number"
                 className="form-control"
+                value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 required
               />
@@ -186,6 +214,7 @@ function AddTagihan() {
                 id="periode"
                 type="date"
                 className="form-control"
+                value={periode}
                 onChange={(e) => setPeriode(e.target.value)}
                 required
               />
@@ -194,7 +223,7 @@ function AddTagihan() {
               type="button"
               className="btn btn-secondary float-start"
               onClick={() => {
-                navigate("/tagihan");
+                navigate("/customerBill");
               }}
             >
               Close
@@ -209,4 +238,4 @@ function AddTagihan() {
   );
 }
 
-export default AddTagihan;
+export default EditTagihan;

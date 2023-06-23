@@ -11,7 +11,7 @@ import {
   CInputGroup,
   CInputGroupText,
 } from "@coreui/react";
-import { AppSidebar } from "../../../components";
+import { AppSidebar } from "../../../../components";
 import axios from "axios";
 import Swal from 'sweetalert2';
 
@@ -48,7 +48,7 @@ function CustomerOrganization() {
 
   const get = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/customer/organization`, {
+      .get(`${API_DUMMY}/customer/organization`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -93,7 +93,7 @@ function CustomerOrganization() {
     };
 
     try {
-      await axios.put(`https://api.byrtagihan.com/api/customer/organization`, data, {
+      await axios.put(`${API_DUMMY}/customer/organization`, data, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       });
       setShow(false);

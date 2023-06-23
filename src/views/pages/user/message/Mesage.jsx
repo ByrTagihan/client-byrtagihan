@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import "../../../views/css/ListDataSiswa.css";
+import "../../../../views/css/ListDataSiswa.css";
 import { CButton } from "@coreui/react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../../utils/baseURL";
 
 function Mesage() {
   const [message, setMessage] = useState([]);
 
   const getAll = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/user/message?limit=170`, {
+      .get(`${API_DUMMY}/user/message?limit=170`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {

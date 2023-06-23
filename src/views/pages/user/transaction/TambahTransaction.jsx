@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../../utils/baseURL";
 
 function TambahTransaction() {
   const [amount, setAmount] = useState(0);
@@ -31,7 +32,7 @@ function TambahTransaction() {
       amount: amount,
     };
     await axios
-      .post(`https://api.byrtagihan.com/api/user/transaction`, data, {
+      .post(`${API_DUMMY}/user/transaction`, data, {
         headers: {
           "auth-tgh": `jwt ${localStorage.getItem("token")}`,
         },
@@ -56,7 +57,7 @@ function TambahTransaction() {
 
     try {
       const response = await fetch(
-        `https://api.byrtagihan.com/api/customer/member?name=${query}`,
+        `${API_DUMMY}/customer/member?name=${query}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -149,7 +150,7 @@ function TambahTransaction() {
 
     try {
       const response = await fetch(
-        `https://api.byrtagihan.com/api/customer/member?organization_name=${query2}&page=2`,
+        `${API_DUMMY}/customer/member?organization_name=${query2}&page=2`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }

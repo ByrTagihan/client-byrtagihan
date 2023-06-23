@@ -13,6 +13,7 @@ import {
 } from "@coreui/react";
 import axios from "axios";
 import { useNavigate, useParams } from 'react-router-dom';
+import { API_DUMMY } from '../../../../utils/baseURL';
 
 function ListTagihan() {
     const [bill, setBill] = useState([]);
@@ -27,7 +28,7 @@ function ListTagihan() {
     // Function get
     const get = async () => {
         try {
-            const { data, status } = await axios.get(`https://api.byrtagihan.com/api/member/bill`, {
+            const { data, status } = await axios.get(`${API_DUMMY}/member/bill`, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             })
             if (status === 200) {

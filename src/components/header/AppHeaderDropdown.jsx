@@ -23,6 +23,7 @@ import {
 import CIcon from "@coreui/icons-react";
 import { useState } from "react";
 import axios from "axios";
+import { API_DUMMY } from "../../utils/baseURL";
 
 import avatar8 from "./../../views/avatars/8.jpg";
 
@@ -39,7 +40,7 @@ const AppHeaderDropdown = () => {
 
   const getAll = async () => {
     await axios
-      .get("https://api.byrtagihan.com/api/customer/profile", {
+      .get(`${API_DUMMY}/customer/profile`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -52,7 +53,7 @@ const AppHeaderDropdown = () => {
 
   const getAllTransaction = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/user/transaction?limit=10000`, {
+      .get(`${API_DUMMY}/user/transaction?limit=10000`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -65,7 +66,7 @@ const AppHeaderDropdown = () => {
 
   const getAllMessage = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/user/message`, {
+      .get(`${API_DUMMY}/user/message`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -80,7 +81,7 @@ const AppHeaderDropdown = () => {
 
   const getAllPayment = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/user/payment?limit=10000`, {
+      .get(`${API_DUMMY}/user/payment?limit=10000`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -93,7 +94,7 @@ const AppHeaderDropdown = () => {
 
   const getAllChannel = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/user/channel?limit=10000`, {
+      .get(`${API_DUMMY}/user/channel?limit=10000`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {

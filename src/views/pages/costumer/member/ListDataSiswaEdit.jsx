@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../views/css/editListDataSiswa.css"
+import { API_DUMMY } from "../../../../utils/baseURL";
 
 function ListDataSiswaEdit() {
   const [name, setName] = useState("");
@@ -15,7 +16,7 @@ function ListDataSiswaEdit() {
 
   useEffect(() => {
     axios
-      .get("https://api.byrtagihan.com/api/customer/member/" + param.id, {
+      .get(`${API_DUMMY}/customer/member/` + param.id, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((response) => {
@@ -51,7 +52,7 @@ function ListDataSiswaEdit() {
         // console.log(data);
         try {
           await axios.put(
-            `https://api.byrtagihan.com/api/customer/member/` + param.id, data,
+            `${API_DUMMY}/customer/member/` + param.id, data,
             {
               headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             }
@@ -65,7 +66,7 @@ function ListDataSiswaEdit() {
           });
         // alert("success")
           setTimeout(() => {
-            navigate("/listdatasiswa")
+            navigate("/customerMember")
             window.location.reload();
           }, 1500);
         } catch (err) {
@@ -135,7 +136,7 @@ function ListDataSiswaEdit() {
         <button type="submit" style={{marginTop:"49px", backgroundColor:"#213555", color:"white"}}>
           Save
         </button>
-        <Link to ="/listdatasiswa">
+        <Link to ="/customerMember">
         <button style={{marginTop:"49px", backgroundColor:"#213555", color:"white", marginLeft:"30px"}}>Cancelled
         </button>
         </Link>

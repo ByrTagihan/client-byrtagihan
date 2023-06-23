@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { deleteData, getAllData } from "../../../utils/controller";
+import { deleteData, getAllData } from "../../../../utils/controller";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import { CModal } from "@coreui/react";
 import axios from "axios";
-import { API_DUMMY, API_URL } from "../../../utils/baseURL";
+import { API_DUMMY, API_URL } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
 
 function Tagihan() {

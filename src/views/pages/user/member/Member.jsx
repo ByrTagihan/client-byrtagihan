@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { API_DUMMY } from '../../../../utils/baseURL';
 
 function Member() {
     const [member, setMember] = useState([]);
@@ -31,7 +32,7 @@ function Member() {
     // Function get
     const get = async () => {
         try {
-            const { data, status } = await axios.get(`https://api.byrtagihan.com/api/user/member`, {
+            const { data, status } = await axios.get(`${API_DUMMY}/user/member`, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             })
             if (status === 200) {
@@ -55,7 +56,7 @@ function Member() {
             cancelButtonText: "Batal",
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`https://api.byrtagihan.com/api/user/member/${id}`, {
+                axios.delete(`${API_DUMMY}/user/member/${id}`, {
                     headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
                 });
                 Swal.fire({
@@ -86,7 +87,7 @@ function Member() {
 
         try {
             const response = await axios.post(
-                "https://api.byrtagihan.com/api/user/member",
+                `${API_DUMMY}/user/member`,
                 data,
                 {
                     headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -117,7 +118,7 @@ function Member() {
 
     const GetOrganization = async () => {
         try {
-            const { data, status } = await axios.get(`https://api.byrtagihan.com/api/user/organization`, {
+            const { data, status } = await axios.get(`${API_DUMMY}/user/organization`, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             })
             if (status === 200) {
@@ -131,7 +132,7 @@ function Member() {
 
     const GetCostumer = async () => {
         try {
-            const { data, status } = await axios.get(`https://api.byrtagihan.com/api/user/customer`, {
+            const { data, status } = await axios.get(`${API_DUMMY}/user/customer`, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             })
             if (status === 200) {

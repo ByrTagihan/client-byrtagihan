@@ -16,6 +16,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 import "../../../css/GantiPasswordCustomer.css"
+import { API_DUMMY } from "../../../utils/baseURL";
 
 
 const GantiPasswordCustomer = () => {
@@ -36,7 +37,7 @@ const GantiPasswordCustomer = () => {
 
     try {
       await axios
-        .put(`https://api.byrtagihan.com/api/customer/password`, data, {
+        .put(`${API_DUMMY}/customer/password`, data, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         })
         .then((res) => {

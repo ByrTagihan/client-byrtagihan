@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../../views/css/ListDataSiswa.css";
+import "../../../../views/css/ListDataSiswa.css";
 import axios from "axios";
 import { Button, Modal } from "react-bootstrap";
 import {
@@ -13,6 +13,7 @@ import { cilUser } from "@coreui/icons";
 import Swal from "sweetalert2";
 // import ReactPaginate from "react-paginate"; Aku hapus ya fat :)
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { API_DUMMY } from "../../../../utils/baseURL";
 
 function LIstDataSIswa() {
   const [name, setName] = useState("");
@@ -44,7 +45,7 @@ function LIstDataSIswa() {
   const getAll = async () => {
     await axios
       .get(
-        `https://api.byrtagihan.com/api/customer/member?page=${currentPage}&limit=${limit}`,
+        `${API_DUMMY}/customer/member?page=${currentPage}&limit=${limit}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -147,7 +148,7 @@ function LIstDataSIswa() {
   const [idd, setId] = useState(0);
   const getById = async (id) => {
     await axios
-      .get(`https://api.byrtagihan.com/api/customer/member/` + id, {
+      .get(`${API_DUMMY}/customer/member/` + id, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -174,7 +175,7 @@ function LIstDataSIswa() {
 
     try {
       await axios.put(
-        `https://api.byrtagihan.com/api/customer/member/${idd}/password`,
+        `${API_DUMMY}/customer/member/${idd}/password`,
         data,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -248,7 +249,7 @@ function LIstDataSIswa() {
       cancelButtonText: "Cencel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete("https://api.byrtagihan.com/api/customer/member/" + id, {
+        axios.delete(`${API_DUMMY}/customer/member/` + id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         });
         Swal.fire({
@@ -351,7 +352,7 @@ function LIstDataSIswa() {
                     style={{
                       marginBottom: "2px",
                       width: "30%",
-                      width: "20em",
+                      // width: "20em",
                       marginRight: "14px",
                       marginTop: "1px",
                     }}

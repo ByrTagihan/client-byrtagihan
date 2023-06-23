@@ -273,7 +273,7 @@ function Channel() {
       cancelButtonText: "Cencel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`https://api.byrtagihan.com/api/user/channel/` + id, {
+        axios.delete(`${API_DUMMY}/user/channel/` + id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         });
         Swal.fire({
