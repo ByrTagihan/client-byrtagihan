@@ -26,7 +26,6 @@ function Customer() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [active, setActive] = useState("");
-  const [organization, setOrganization] = useState("");
 
   const deleteE = async (id) => {
     Swal.fire({
@@ -55,71 +54,23 @@ function Customer() {
       }, 1500);
     });
   };
-
-  const [pagee, setPagee] = useState(1);
-  const [customer, setCustomer] = useState("");
-  // const [limit, setLimit] = useState(0);
-  // const [startIndex, setStartIndex] = useState();
-  // const [lastIndex, setLastIndex] = useState();
-  // const getAllData = async (pages = 0, limit = 2) => {
-  //   await axios
-  //     .get(
-  //       `${API_DUMMY}/user/customer?page=${pages}&limit=${limit}&name=${customer}`,
-  //       {
-  //         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //       }
-  //     )
-  //     .then((res) => {
-  //       setPagee(res.data.pagination.total_page);
-  //       console.log(res.data.pagination.total_page);
-  //       setUserCustomer(res.data.data);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
   const [userCustomer1, setUserCustomer1] = useState([]);
-  // const getAllData1 = async (pages = 0, limit = 2) => {
-  //   await axios
-  //     .get(
-  //       `${API_DUMMY}/user/customer?page=${pages}&limit=${limit}&name=${customer}`,
-  //       {
-  //         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //       }
-  //     )
-  //     .then((res) => {
-  //       setPagee(res.data.pagination.total_page);
-  //       setUserCustomer1(res.data.data);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
-
-  
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('id');
-  // const getAllData1 = async () => {
-  //   const response = await axios.get(
-  //     `${API_DUMMY}/user/customer?name=${customer}?pages=${currentPage}`,
-  //     {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     }
-  //   );
-  //   setUserCustomer1(response.data.data);
-  //   // setPagee(response.data.pagination.page);
-  //   setTotalPages(response.data.pagination.total_page);
-  //   // console.log(response.data.pagination.page);
-  //   // console.log("total " + response.data.pagination.total_page);
-  // };
+  const [sortedList, setSortedList] = useState([]);
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: "ascending",
+  });
+  const [limit, setLimit] = useState(10);
 
   const getAllData1 = async () => {
     await axios
       .get(
-        `${API_DUMMY}/user/customer?pages=${currentPage}`,
+        `${API_DUMMY}/user/customer?pages=${currentPage}&limit=${limit}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -139,40 +90,104 @@ function Customer() {
     setSearchTerm(event.target.value);
   };
 
-  const handleSort = (event) => {
-    setSortBy(event.target.value);
+  const handleSort = (key) => {
+    let direction = "ascending";
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "ascending"
+    ) {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
   };
+
+  useEffect(() => {
+    let sortedData = [...userCustomer1];
+    if (sortConfig !== null) {
+      sortedData.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    if (searchTerm !== "") {
+      sortedData = sortedData.filter((data) => {
+        return (
+          data.unique_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          data.hp.toString().includes(searchTerm) ||
+          data.address.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      });
+    }
+    setSortedList(sortedData);
+  }, [sortConfig, searchTerm, userCustomer1]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+  const handleChangeLimit = (event) => {
+    setLimit(parseInt(event.target.value));
+  };
+
+
 
   const filteredUserCustomer = userCustomer1.filter((bill) =>
     bill.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const sortedUserCustomer = filteredUserCustomer.sort((a, b) => {
-    if (sortBy === 'name') {
-      return a.name.localeCompare(b.name);
-    } else {
-      return a[sortBy] - b[sortBy];
-    }
-  });
+  // const sortedUserCustomer = filteredUserCustomer.sort((a, b) => {
+  //   if (sortBy === 'name') {
+  //     return a.name.localeCompare(b.name);
+  //   } else {
+  //     return a[sortBy] - b[sortBy];
+  //   }
+  // });
 
   useEffect(() => {
     getAllData1();
-  }, [currentPage, searchTerm, sortBy]);
+  }, [currentPage, searchTerm, sortBy, limit]);
 
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <li key={i} className={"page-item " + (currentPage === i  ? 'active' : '')}  aria-current="page" onClick={() => handlePageChange(i)}>
-          <a class="page-link">{i}</a>
-        </li>
-      );
+const renderPageNumbers = () => {
+    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+    const displayedPages = [];
+
+    if (totalPages <= 5) {
+      displayedPages.push(...pageNumbers);
+    } else {
+      if (currentPage <= 3) {
+        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+      } else if (currentPage >= totalPages - 2) {
+        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
+      } else {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          'dot',
+          ...pageNumbers.slice(currentPage - 2, currentPage + 1),
+          'dot',
+          ...pageNumbers.slice(totalPages - 1)
+        );
+      }
     }
-    return pageNumbers;
+
+    return displayedPages.map((page) =>
+      page === 'dot' ? (
+        <span className="border" key="dot" style={{ width:"40px", textAlign:"center", borderRight:"none", borderLeft:"none"}}>...</span>
+      ) : (
+        <li
+          key={page}
+          onClick={() => handlePageChange(page)}
+          className={"page-item " + (currentPage === page  ? 'active' : '')}
+        >
+           <a class="page-link">{page}</a>
+        </li>
+      )
+    );
   };
 
   const add = async (e) => {
@@ -225,7 +240,15 @@ function Customer() {
                 <div className="col">
                   <h4>Customer</h4>
                 </div>
-            <div style={{display:"flex", justifyContent:"center", gap:"10px"}}>
+            <div style={{display:"flex", justifyContent:"center", gap:"5px"}}>
+                <div className="col">
+                  <select className="form-select" value={limit} onChange={handleChangeLimit}>
+                  <option value="1">Show 1 Entries</option>
+                  <option value="10">Show 10 Entries</option>
+                  <option value="100">Show 100 Entries</option>
+                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                  </select>
+                </div>
                 <div>
                 <CFormInput className="inputSearch"
                   type="search"
@@ -245,16 +268,71 @@ function Customer() {
               <table className="table responsive-3 table1">
                 <thead>
                   <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Hp</th>
-                    <th scope="col">Active</th>
+                    <th scope="col" onClick={() => handleSort("no")}>
+                      No{" "}
+                      {sortConfig && sortConfig.key === "no" && (
+                        <FontAwesomeIcon
+                          icon={
+                            sortConfig.direction === "ascending"
+                              ? "fa-sort-up"
+                              : "fa-sort-down"
+                          }
+                        />
+                      )}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("email")}>
+                      Email{" "}
+                      {sortConfig && sortConfig.key === "email" && (
+                        <FontAwesomeIcon
+                          icon={
+                            sortConfig.direction === "ascending"
+                              ? "fa-sort-up"
+                              : "fa-sort-down"
+                          }
+                        />
+                      )}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("nama")}>
+                      Nama{" "}
+                      {sortConfig && sortConfig.key === "nama" && (
+                        <FontAwesomeIcon
+                          icon={
+                            sortConfig.direction === "ascending"
+                              ? "fa-sort-up"
+                              : "fa-sort-down"
+                          }
+                        />
+                      )}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("hp")}>
+                      hp{" "}
+                      {sortConfig && sortConfig.key === "hp" && (
+                        <FontAwesomeIcon
+                          icon={
+                            sortConfig.direction === "ascending"
+                              ? "fa-sort-up"
+                              : "fa-sort-down"
+                          }
+                        />
+                      )}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("active")}>
+                      Active{" "}
+                      {sortConfig && sortConfig.key === "active" && (
+                        <FontAwesomeIcon
+                          icon={
+                            sortConfig.direction === "ascending"
+                              ? "fa-sort-up"
+                              : "fa-sort-down"
+                          }
+                        />
+                      )}
+                    </th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {sortedUserCustomer.map((data, i) => (
+                  {sortedList.map((data, i) => (
                     <tr key={i}>
                       <td scope="row" data-cell="No">{i + 1}</td>
                       <td data-cell="Email">{data.email}</td>
@@ -289,11 +367,12 @@ function Customer() {
                   ))}
                 </tbody>
               </table>
-      <ul class="pagination float-end">
+      
+              <ul class="pagination float-end">
             <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
               <a class="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
             </li>
-            {getPageNumbers()}
+            {renderPageNumbers()}
             <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
               <a class="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
             </li>
