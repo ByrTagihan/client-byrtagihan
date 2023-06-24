@@ -13,7 +13,6 @@ import { cilUser } from "@coreui/icons";
 import Swal from "sweetalert2";
 // import ReactPaginate from "react-paginate"; Aku hapus ya fat :)
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { API_DUMMY } from "../../../../utils/baseURL";
 
 function LIstDataSIswa() {
   const [name, setName] = useState("");
@@ -45,7 +44,7 @@ function LIstDataSIswa() {
   const getAll = async () => {
     await axios
       .get(
-        `${API_DUMMY}/customer/member?page=${currentPage}&limit=${limit}`,
+        `https://api.byrtagihan.com/api/customer/member?page=${currentPage}&limit=${limit}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -63,10 +62,6 @@ function LIstDataSIswa() {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
-
-  // const handleSort = (event) => {
-  //   setSortBy(event.target.value);
-  // };
 
   const handleSort = (key) => {
     let direction = "ascending";
@@ -148,7 +143,7 @@ function LIstDataSIswa() {
   const [idd, setId] = useState(0);
   const getById = async (id) => {
     await axios
-      .get(`${API_DUMMY}/customer/member/` + id, {
+      .get(`https://api.byrtagihan.com/api/customer/member/` + id, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -175,7 +170,7 @@ function LIstDataSIswa() {
 
     try {
       await axios.put(
-        `${API_DUMMY}/customer/member/${idd}/password`,
+        `https://api.byrtagihan.com/api/customer/member/${idd}/password`,
         data,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -249,7 +244,7 @@ function LIstDataSIswa() {
       cancelButtonText: "Cencel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`${API_DUMMY}/customer/member/` + id, {
+        axios.delete("https://api.byrtagihan.com/api/customer/member/" + id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         });
         Swal.fire({
@@ -328,13 +323,22 @@ function LIstDataSIswa() {
     <div>
       <div className="row">
         <div className="col" xs={12}>
-          <div className="card mb-4">
-            <div className="card-header">
-              <div className="row">
-                <div className="col">
-                  <h4>List Data Siswa</h4>
+                <div className="inputSearch1">
+                  <CFormInput
+                    type="search"
+                    style={{
+                      marginBottom: "2px",
+                      width: "30%",
+                      width: "20em",
+                      marginRight: "14px",
+                      marginTop: "1px",
+                    }}
+                    placeholder="search data"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                  />
                 </div>
-                <div className="col">
+                <div className="inputSearch1">
                   <select
                     className="form-select"
                     value={limit}
@@ -346,21 +350,38 @@ function LIstDataSIswa() {
                     {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
                   </select>
                 </div>
+          <div className="card mb-4">
+            <div className="card-header">
+              <div style={{display:"flex"}}>
                 <div className="col">
+                  <h4>List Data Siswa</h4>
+                </div>
+                <div style={{display:"flex", justifyContent:"center", gap:"10px"}}>
+                <div className="inputSearch">
+                  <select
+                    className="form-select"
+                    value={limit}
+                    onChange={handleChangeLimit}
+                  >
+                    <option value="1">Show 1 Entries</option>
+                    <option value="10">Show 10 Entries</option>
+                    <option value="100">Show 100 Entries</option>
+                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                  </select>
+                </div>
+                <div className="inputSearch">
                   <CFormInput
                     type="search"
                     style={{
                       marginBottom: "2px",
                       width: "30%",
-                      // width: "20em",
+                      width: "20em",
                       marginRight: "14px",
                       marginTop: "1px",
                     }}
                     placeholder="search data"
                     value={searchTerm}
                     onChange={handleSearch}
-                    // value={channel}
-                    // onChange={(e) => setChannel(e.target.value)}
                   />
                 </div>
                 <div className="col">
@@ -370,6 +391,7 @@ function LIstDataSIswa() {
                   >
                     <FontAwesomeIcon icon="fa-plus" /> Tambah Data
                   </button>
+                </div>
                 </div>
               </div>
             </div>

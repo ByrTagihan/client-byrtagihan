@@ -69,7 +69,7 @@ function EditCustomer() {
             },
           })
           .then((ress) => {
-            const user_customer = ress.data.data;
+            // const user_customer = ress.data.data;
             setName(response.name);
             setHp(response.hp);
             setAddress(response.address);                             
@@ -78,7 +78,8 @@ function EditCustomer() {
             // setValue(
             //   `Id = ${user_customer.id}, Email = ${user_customer.email}, Nama = ${user_customer.name}`
             // );
-            console.log(ress.data.data);
+            console.log(response.address);
+            console.log( res.data.data);
           });
       })
       .catch((error) => {

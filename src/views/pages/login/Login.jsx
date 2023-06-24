@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import gambar from "../../../assets/images/byrtagihan1.png";
 import { Form, Link, useNavigate } from "react-router-dom";
 import {
@@ -19,7 +19,6 @@ import { cilLockLocked, cilUser } from "@coreui/icons";
 import axios from "axios";
 import "./../../../views/css/Login.css";
 import Swal from "sweetalert2";
-import { API_DUMMY } from "../../../utils/baseURL";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -47,7 +46,7 @@ const Login = () => {
     try {
       if (type_token === "admin Sekolah") {
         const { data, status } = await axios.post(
-          `${API_DUMMY}/customer/login`,
+          "https://api.byrtagihan.com/api/customer/login",
           {
             email: email,
             password: password,
@@ -72,7 +71,7 @@ const Login = () => {
         }
       } else if (type_token === "guru") {
         const { data, status } = await axios.post(
-          `${API_DUMMY}/user/login`,
+          "https://api.byrtagihan.com/api/user/login",
           {
             email: email,
             password: password,
@@ -95,7 +94,7 @@ const Login = () => {
         }
       } else if (type_token === "siswa") {
         const { data, status } = await axios.post(
-          `${API_DUMMY}/member/login`,
+          "https://api.byrtagihan.com/api/member/login",
           {
             unique_id: unique_id,
             password: password,
@@ -122,6 +121,10 @@ const Login = () => {
       console.log(error);
     }
   };
+
+   useEffect(() => {
+    setUnique_id(""); // Reset unique_id when type_token changes
+  }, [type_token]);
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center div">
@@ -156,11 +159,12 @@ const Login = () => {
                 style={{ background: "white", color: "black" }}
                 aria-label="Default select example"
                 onChange={(e) => setType_token(e.target.value)}
+                defaultValue="siswa" // Menambahkan defaultValue dengan nilai "siswa"
               >
                 <option>Select Roles</option>
                 <option value="guru">guru</option>
                 <option value="admin Sekolah">admin Sekolah</option>
-                <option value="siswa" selected>
+                <option value="siswa">
                   siswa
                 </option>
               </select>

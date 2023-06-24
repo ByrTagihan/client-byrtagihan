@@ -70,7 +70,7 @@ function Customer() {
   const getAllData1 = async () => {
     await axios
       .get(
-        `${API_DUMMY}/user/customer?pages=${currentPage}&limit=${limit}`,
+        `${API_DUMMY}/user/customer?page=${currentPage}&limit=${limit}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -118,10 +118,11 @@ function Customer() {
     if (searchTerm !== "") {
       sortedData = sortedData.filter((data) => {
         return (
-          data.unique_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
           data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          data.hp.toString().includes(searchTerm) ||
-          data.address.toLowerCase().includes(searchTerm.toLowerCase())
+          // data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          data.email.toLowerCase().includes(searchTerm) ||
+          data.hp.toString().includes(searchTerm.toLowerCase()) ||
+          data.active.toString().includes(searchTerm.toLowerCase()) 
         );
       });
     }
@@ -153,7 +154,7 @@ function Customer() {
     getAllData1();
   }, [currentPage, searchTerm, sortBy, limit]);
 
-const renderPageNumbers = () => {
+  const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     const displayedPages = [];
 
@@ -161,30 +162,49 @@ const renderPageNumbers = () => {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
 
     return displayedPages.map((page) =>
-      page === 'dot' ? (
-        <span className="border" key="dot" style={{ width:"40px", textAlign:"center", borderRight:"none", borderLeft:"none"}}>...</span>
+      page === "dot" ? (
+        <span
+          className="border"
+          key="dot"
+          style={{
+            width: "40px",
+            textAlign: "center",
+            borderRight: "none",
+            borderLeft: "none",
+          }}
+        >
+          ...
+        </span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item " + (currentPage === page  ? 'active' : '')}
+          className={"page-item " + (currentPage === page ? "active" : "")}
         >
-           <a class="page-link">{page}</a>
+          <a class="page-link">{page}</a>
         </li>
       )
     );
@@ -230,10 +250,18 @@ const renderPageNumbers = () => {
         <div className='inputSearch1'>
               <CFormInput
                 type="search"
-                placeholder="search data"
+                placeholder="search Nama"
                 value={searchTerm} onChange={handleSearch} 
               />
             </div>
+                <div className="inputSearch1">
+                  <select className="form-select" value={limit} onChange={handleChangeLimit}>
+                  <option value="1">Show 1 Entries</option>
+                  <option value="10">Show 10 Entries</option>
+                  <option value="100">Show 100 Entries</option>
+                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                  </select>
+                </div>
           <div className="card mb-4">
             <div className="card-header">
               <div style={{display:"flex"}}>
@@ -241,7 +269,7 @@ const renderPageNumbers = () => {
                   <h4>Customer</h4>
                 </div>
             <div style={{display:"flex", justifyContent:"center", gap:"5px"}}>
-                <div className="col">
+                <div className="inputSearch">
                   <select className="form-select" value={limit} onChange={handleChangeLimit}>
                   <option value="1">Show 1 Entries</option>
                   <option value="10">Show 10 Entries</option>
@@ -367,16 +395,36 @@ const renderPageNumbers = () => {
                   ))}
                 </tbody>
               </table>
-      
               <ul class="pagination float-end">
-            <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
-              <a class="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
-            </li>
-            {renderPageNumbers()}
-            <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
-              <a class="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
-            </li>
-          </ul>
+                <li
+                  className={
+                    "page-item " + (currentPage === 1 ? "disabled" : "")
+                  }
+                  disabled={currentPage === 1}
+                >
+                  <a
+                    class="page-link"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                  >
+                    Previous
+                  </a>
+                </li>
+                {renderPageNumbers()}
+                <li
+                  className={
+                    "page-item " +
+                    (currentPage === totalPages ? "disabled" : "")
+                  }
+                  disabled={currentPage === totalPages}
+                >
+                  <a
+                    class="page-link"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                  >
+                    Next
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

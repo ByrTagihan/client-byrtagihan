@@ -16,7 +16,8 @@ import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
-import { logo } from '../assets/brand/logo'
+// import Gambar from "../assets/images/branding-identity-corporate-b-logo-vector-design-template_460848-13934-removebg-preview.png";
+import {logo} from "../assets/brand/logo"
 
 const AppHeader = () => {
   const dispatch = useDispatch()
@@ -32,7 +33,9 @@ const AppHeader = () => {
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
         <CHeaderBrand className="mx-auto d-md-none" to="/">
-          <CIcon icon={logo} height={48} alt="Logo" />
+          {/* <CIcon icon={logo} height={48} alt="Logo" /> */}
+          {/* <img src="https://w7.pngwing.com/pngs/116/375/png-transparent-alphabet-writing-abjad-konsonan-dan-vokal-letter-font-b-font-text-logo-writing-system.png" alt="gambar" style={{width:"20%"}}/> */}
+          <p style={{fontFamily:"sans-serif"}}>Bayar Tagihan</p>
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
