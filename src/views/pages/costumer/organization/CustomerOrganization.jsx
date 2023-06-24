@@ -14,6 +14,7 @@ import {
 import { AppSidebar } from "../../../../components";
 import axios from "axios";
 import Swal from 'sweetalert2';
+import { API_DUMMY } from "../../../../utils/baseURL";
 
 function CustomerOrganization() {
   const [show, setShow] = useState(false);
