@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Charts from "../widgets/Charts";
 import {
   CRow,
   CCol,
@@ -604,7 +603,7 @@ function DashboardMember() {
           </tbody>
         </table>
       </div>
-    <br />
+      <br />
       <h3 style={{ fontWeight: "bold" }}>Channel</h3>
 
       <div style={{ marginTop: "1rem" }}>

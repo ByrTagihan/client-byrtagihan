@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { CButton, CCol, CForm, CFormInput } from "@coreui/react";
+import { CButton, CCol, CForm, CFormInput, CFormSelect } from "@coreui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -12,6 +12,7 @@ function TambahTransaction() {
   const [organization_id, setOrganizationId] = useState("");
   const [member_id, setMemberId] = useState("");
 
+  const [organization, setOrganization] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [suggestions2, setSuggestions2] = useState([]);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
@@ -236,6 +237,27 @@ function TambahTransaction() {
       </div>
     );
   };
+
+  const GetOrganization = async () => {
+    try {
+      const { data, status } = await axios.get(
+        `${API_DUMMY}/user/transaction`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      );
+      if (status === 200) {
+        setOrganization(data.data);
+        // console.log(data.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    GetOrganization();
+  }, []);
   return (
     <div>
       {/* {localStorage.getItem("type_token") === "user" ? ( */}
@@ -266,14 +288,22 @@ function TambahTransaction() {
               />
             </CCol>
             <CCol md={6}>
-              <CFormInput
-                type="number"
-                id="organizationId"
-                onChange={(e) => setOrganizationId(e.target.value)}
-                placeholder="Organization..."
+              <CFormSelect
+                aria-label="Default select example"
+                value={organization_id}
                 label="Organization"
-                required
-              />
+                onChange={(e) => setOrganizationId(e.target.value.toString())}
+              >
+                <option>Pilih Organization</option>{" "}
+                {organization.map((cos, i) => {
+                  return (
+                    <option value={cos.id} key={i}>
+                      {cos.organization_name}
+                    </option>
+                  );
+                })}
+              </CFormSelect>
+            </CCol>
 
               {/* <CFormInput
                 id="organization_id"
@@ -287,8 +317,8 @@ function TambahTransaction() {
                 onChange={handleChange2}
                 required
               /> */}
-              {suggestionsActive2 && <Suggestions2 />}
-            </CCol>
+              {/* {suggestionsActive2 && <Suggestions2 />} */}
+           
             <CCol md={6}>
               <CFormInput
                 id="number_id"

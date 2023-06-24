@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../../../../css/Transaction.css";
 import { API_DUMMY } from "../../../../utils/baseURL";
+import { CFormInput } from "@coreui/react";
 
 function CrudTransaction() {
   const [total_page, setTotal_Page] = useState(1);
@@ -16,11 +17,13 @@ function CrudTransaction() {
   const [sortBy, setSortBy] = useState("id");
   const [currentPage, setCurrentPage] = useState(1);
   const [bills, setBills] = useState([]);
+  const [limit, setLimit] = useState("10");
+  const [sortDirection, setSortDirection] = useState("asc");
 
   const getAll = async () => {
     await axios
       .get(
-        `${API_DUMMY}/user/transaction?page=${currentPage}&limit=10&name=${transaction}`,
+        `${API_DUMMY}/user/transaction?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -36,7 +39,7 @@ function CrudTransaction() {
 
   useEffect(() => {
     getAll(0);
-  }, [currentPage, searchTerm, sortBy]);
+  }, [currentPage, limit, searchTerm, sortBy, sortDirection]);
 
   const Delete = async (id) => {
     Swal.fire({
@@ -73,34 +76,77 @@ function CrudTransaction() {
     setCurrentPage(page);
   };
 
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= total_page; i++) {
-      pageNumbers.push(
-        <li
-          key={i}
-          className={"page-item " + (currentPage === i ? "active" : "")}
-          aria-current="page"
-          onClick={() => handlePageChange(i)}
-        >
-          <a class="page-link">{i}</a>
-        </li>
-      );
-    }
-    return pageNumbers;
-  };
-
   const filteredBills = bills.filter((bill) =>
     bill.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const sortedBills = filteredBills.sort((a, b) => {
-    if (sortBy === "description") {
-      return a.description.localeCompare(b.description);
-    } else {
+  const sortedBills = bills.sort((a, b) => {
+    if (sortDirection === "asc") {
       return a[sortBy] - b[sortBy];
+    } else {
+      return b[sortBy] - a[sortBy];
     }
   });
+
+  // untuk limit
+
+  const handleLimit = (event) => {
+    setLimit(event.target.value);
+  };
+
+  const handleSort = (column) => {
+    if (column === sortBy) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(column);
+      setSortDirection("asc");
+    }
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
+    const displayedPages = [];
+
+    if (total_page <= 5) {
+      displayedPages.push(...pageNumbers);
+    } else {
+      if (currentPage <= 3) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(total_page - 1)
+        );
+      } else if (currentPage >= total_page - 2) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(total_page - 5)
+        );
+      } else {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(currentPage - 2, currentPage + 1),
+          "dot",
+          ...pageNumbers.slice(total_page - 1)
+        );
+      }
+    }
+
+    return displayedPages.map((page) =>
+      page === "dot" ? (
+        <span key="dot">...</span>
+      ) : (
+        <li
+          key={page}
+          onClick={() => handlePageChange(page)}
+          className={"page-item " + (currentPage === page ? "active" : "")}
+        >
+          <a class="page-link">{page}</a>
+        </li>
+      )
+    );
+  };
   return (
     <div>
       {/* {localStorage.getItem("type_token") === "user" ? ( */}
@@ -113,49 +159,51 @@ function CrudTransaction() {
                   <h4 className="textt">Transaction</h4>
                 </div>
 
-                <div style={{ display: "flex" }}>
-                  <input
-                    type="text"
-                    class="form-control float-end"
-                    placeholder="Search description"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    style={{ width: "30%", marginLeft: "37em" }}
-                  />
-
-                  <div className="col">
-                    <Link to="/tambahtransaction">
-                      <button className="btn btn-primary float-end">
-                        <FontAwesomeIcon icon="fa-plus" /> Tambah
-                      </button>
-                    </Link>
-                  </div>
+                <div className="col">
+                  <Link to="/tambahtransaction">
+                    <button className="btn btn-primary float-end">
+                      <FontAwesomeIcon icon="fa-plus" /> Tambah
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
 
             <div className="card-body">
-              <table className="table  table1 responsive-3">
+            <div className="row">
+                <div className="col">
+                  <select
+                    className="choise form-select"
+                    value={limit}
+                    onChange={handleLimit}
+                    // style={{ width: "40%" }}
+                  >
+                    <option value="1">Show 1 Entries</option>
+                    <option value="10">Show 10 Entries</option>
+                    <option value="100">Show 100 Entries</option>
+                  </select>
+                </div>
+                <div className="col">
+                  <CFormInput
+                  // style={{ width: "50%", marginLeft: "15em" }}
+                    className="filter-data"
+                    type="search"
+                    placeholder="search data"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                  />
+                </div>
+              </div>
+              <table className="tabel-transaction table  table1 responsive-3">
                 <thead className="text-center">
-                  <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Organization</th>
-                    <th scope="col">Nominal</th>
-                    <th scope="col">Create Date</th>
-                    <th scope="col">Update Date</th>
-
-                    <th  scope="col">
-                      Action
-                    </th>
-                  </tr>
+             
                 </thead>
                 <tbody
                   id="myTable"
                   className="bg-white"
                   style={{ textAlign: "center" }}
                 >
-                  {sortedBills.map((item, index) => {
+                  {filteredBills.map((item, index) => {
                     return (
                       <tr key={index}>
                         <td data-cell="No">{index + 1}</td>
@@ -197,7 +245,7 @@ function CrudTransaction() {
 
               {/* Pagination */}
               <div>
-                <ul class="pagination float-end">
+              <ul class="pagination float-end">
                   <li
                     className={
                       "page-item " + (currentPage === 1 ? "disabled" : "")
@@ -211,7 +259,7 @@ function CrudTransaction() {
                       Previous
                     </a>
                   </li>
-                  {getPageNumbers()}
+                  {renderPageNumbers()}
                   <li
                     className={
                       "page-item " +

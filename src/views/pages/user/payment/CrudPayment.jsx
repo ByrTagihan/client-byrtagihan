@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../../../../css/Payment.css";
 import { API_DUMMY } from "../../../../utils/baseURL";
+import { CFormInput } from "@coreui/react";
 
 function CrudPayment() {
   const [total_page, setTotal_Page] = useState([]);
@@ -16,11 +17,13 @@ function CrudPayment() {
   const [sortBy, setSortBy] = useState("id");
   const [currentPage, setCurrentPage] = useState(1);
   const [bills, setBills] = useState([]);
+  const [limit, setLimit] = useState("10");
+  const [sortDirection, setSortDirection] = useState("asc");
 
   const getAll = async () => {
     await axios
       .get(
-        `${API_DUMMY}/user/payment?page=${currentPage}&limit=10&name=${payment}`,
+        `${API_DUMMY}/user/payment?page=${currentPage}&limit=${limit}&name=${payment}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${search}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -36,7 +39,7 @@ function CrudPayment() {
 
   useEffect(() => {
     getAll(0);
-  }, [currentPage, search, sortBy]);
+  }, [currentPage, limit, search, sortBy, sortDirection]);
 
   const Delete = async (id) => {
     Swal.fire({
@@ -73,75 +76,164 @@ function CrudPayment() {
     setCurrentPage(page);
   };
 
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= total_page; i++) {
-      pageNumbers.push(
-        <li
-          key={i}
-          className={"page-item " + (currentPage === i ? "active" : "")}
-          aria-current="page"
-          onClick={() => handlePageChange(i)}
-        >
-          <a class="page-link">{i}</a>
-        </li>
-      );
-    }
-    return pageNumbers;
-  };
+  
 
   const filteredBills = bills.filter((bill) =>
-  bill.description.toLowerCase().includes(search.toLowerCase())
-);
+    bill.description.toLowerCase().includes(search.toLowerCase())
+  );
 
-  const sortedBills = filteredBills.sort((a, b) => {
-    if (sortBy === "description") {
-      return a.description.localeCompare(b.description);
-    } else {
+  const sortedBills = bills.sort((a, b) => {
+    if (sortDirection === "asc") {
       return a[sortBy] - b[sortBy];
+    } else {
+      return b[sortBy] - a[sortBy];
     }
   });
+
+  // untuk limit
+
+  const handleLimit = (event) => {
+    setLimit(event.target.value);
+  };
+
+  const handleSort = (column) => {
+    if (column === sortBy) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(column);
+      setSortDirection("asc");
+    }
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
+    const displayedPages = [];
+
+    if (total_page <= 5) {
+      displayedPages.push(...pageNumbers);
+    } else {
+      if (currentPage <= 3) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(total_page - 1)
+        );
+      } else if (currentPage >= total_page - 2) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(total_page - 5)
+        );
+      } else {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(currentPage - 2, currentPage + 1),
+          "dot",
+          ...pageNumbers.slice(total_page - 1)
+        );
+      }
+    }
+
+    return displayedPages.map((page) =>
+      page === "dot" ? (
+        <span key="dot">...</span>
+      ) : (
+        <li
+          key={page}
+          onClick={() => handlePageChange(page)}
+          className={"page-item " + (currentPage === page ? "active" : "")}
+        >
+          <a class="page-link">{page}</a>
+        </li>
+      )
+    );
+  };
   return (
     <div>
       <div className="row">
         <div className="col" xs={12}>
           <div className="card mb-4">
             <div className="card-header">
-              <div className="row">
+              <div style={{ height: "2.4em" }} className="row">
                 <div className="col">
                   <div style={{ display: "flex" }}>
                     <div className="col">
                       <h4 className="textt">Payment</h4>
                     </div>
-
-                    <input
-                      type="text"
-                      class="form-control float-end"
-                      placeholder="Search description"
-                      value={search}
-                      onChange={handleSearch}
-                      style={{ width: "30%", marginLeft: "40em" }}
-                    />
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="card-body">
-              <table className="table  table1 responsive-3">
+            <div className="two row">
+                <div className="col">
+                  <select
+                    className="pilih form-select"
+                    value={limit}
+                    onChange={handleLimit}
+                   
+                  >
+                    <option className="option-select" value="1">Show 1 Entries</option>
+                    <option className="option-select" value="10">Show 10 Entries</option>
+                    <option className="option-select" value="100">Show 100 Entries</option>
+                  </select>
+                </div>
+                <div className="col">
+                  <CFormInput
+                    className="filter-data"
+                    type="search"
+                    placeholder="search data"
+                    value={search}
+                    onChange={handleSearch}
+                  />
+                </div>
+              </div>
+              <table  className="tabel-payment table table1 responsive-3">
                 <thead className="text-center">
-                  <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Organization</th>
-                    <th scope="col">Periode</th>
-                    <th scope="col">Nominal</th>
-                    <th scope="col">Create Date</th>
-                    <th scope="col">Update Date</th>
+                <tr>
+                    <th scope="col" onClick={() => handleSort("id")}>
+                      No{" "}
+                      {sortBy === "id" && (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("description")}>
+                      Description{" "}
+                      {sortBy === "description" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th
+                      scope="col"
+                      onClick={() => handleSort("organization_name")}
+                    >
+                      Organization Name{" "}
+                      {sortBy === "organization_name" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("periode")}>
+                      Periode{" "}
+                      {sortBy === "periode" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("amount")}>
+                      Nominal{" "}
+                      {sortBy === "amount" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("created_date")}>
+                      Create Date{" "}
+                      {sortBy === "created_date" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("updated_date")}>
+                      Update Date{" "}
+                      {sortBy === "updated_date" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white" style={{ textAlign: "center" }}>
-                  {sortedBills.map((data, index) => {
+                  {filteredBills.map((data, index) => {
                     return (
                       <tr key={index}>
                         <td data-cell="No">{index + 1}</td>
@@ -161,7 +253,7 @@ function CrudPayment() {
 
               {/* Pagination */}
               <div>
-                <ul class="pagination float-end">
+              <ul class="pagination float-end">
                   <li
                     className={
                       "page-item " + (currentPage === 1 ? "disabled" : "")
@@ -175,7 +267,7 @@ function CrudPayment() {
                       Previous
                     </a>
                   </li>
-                  {getPageNumbers()}
+                  {renderPageNumbers()}
                   <li
                     className={
                       "page-item " +
