@@ -164,23 +164,37 @@ const AppHeaderDropdown = () => {
         <CDropdownHeader className="bg-light fw-semibold py-2">
           Settings
         </CDropdownHeader>
-        <CDropdownItem href="/#/profile">
-          <CIcon icon={cilUser} className="me-2" />
-          Profile
-        </CDropdownItem>
+        {localStorage.getItem("type_token") === "customer" ? (
+          <CDropdownItem href="/#/customerProfile">
+            <CIcon icon={cilUser} className="me-2" />
+            Profile
+          </CDropdownItem>
+        ) : (
+          <></>
+        )}
+
+        {localStorage.getItem("type_token") === "user" ? (
+          <CDropdownItem href="/#/userProfile">
+            <CIcon icon={cilUser} className="me-2" />
+            Profile
+          </CDropdownItem>
+        ) : (
+          <></>
+        )}
+
         <CDropdownItem href="#">
           <CIcon icon={cilSettings} className="me-2" />
           Settings
         </CDropdownItem>
         {/* {localStorage.getItem(
           "type_token" === "user" ? ( */}
-            <CDropdownItem href="/#/payment">
-              <CIcon icon={cilCreditCard} className="me-2" />
-              Payments
-              <CBadge color="secondary" className="ms-2">
-                {list.length}
-              </CBadge>
-            </CDropdownItem>
+        <CDropdownItem href="/#/payment">
+          <CIcon icon={cilCreditCard} className="me-2" />
+          Payments
+          <CBadge color="secondary" className="ms-2">
+            {list.length}
+          </CBadge>
+        </CDropdownItem>
         {/* //   ) : (
         //     <></>
         //   )
