@@ -149,7 +149,7 @@ function ListTagihan() {
                         <CCardBody className='d-flex justify-content-between'>
                             <CFormCheck id="flexCheckDefault" onChange={handleSelectAll} checked={selectAll} label="Pilih semua" />
                             <p>Total Pembayaran: Rp.{selectedBills.reduce((total, bil) => total + bil.amount, 0)}</p>
-                            <CButton>Bayar Semua</CButton>
+                            <CButton onClick={() => navigate(`/bayarSemuaTagihan`)}>Bayar Semua</CButton>
                         </CCardBody>
                     </CCard>
                 </div>

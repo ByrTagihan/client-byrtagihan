@@ -46,6 +46,10 @@ const userMember = React.lazy(() => import("./views/pages/user/member/Member"));
 const UserTemplate = React.lazy(() => import("./views/pages/user/template/Template"));
 const UserMessage = React.lazy(() => import("./views/pages/mesage/Mesage"));
 const DashboardUser = React.lazy(() => import("./views/dashboard/DashboardUser"));
+const ListTagihanMember = React.lazy(() => import("./views/pages/member/ListTagihan"));
+const BayarTagihan = React.lazy(() => import("./views/pages/member/BayarTagihan"));
+const BayarSemuaTagihan = React.lazy(() => import("./views/pages/member/BayarSemuaTagihan"));
+const EditUserMember = React.lazy(() => import("./views/pages/user/member/EditMember"));
 
 const CoreUIIcons = React.lazy(() =>
   import("./views/icons/coreui-icons/CoreUIIcons")
@@ -126,6 +130,9 @@ const routes = [
   { path: "/icons/brands", name: "Brands", element: Brands },
   { path: "/reset", name: "Reset", element: ResetPassword },
   { path: "/listdatasiswa", name: "ListDataSiswa", element: LIstDataSIswa },
+  { path: "/listTagihanMember", name: "List Tagihan", element: ListTagihanMember },
+  { path: "/bayarTagihan/:id", name: "Bayar Tagihan", element: BayarTagihan },
+  { path: "/bayarSemuaTagihan", name: "Bayar Tagihan", element: BayarSemuaTagihan },
   { path: "/userCustomer", name: "UserCustomer", element: UserCustomer },
   { path: "/userMember", name: "UserMember", element: userMember },
   { path: "/userChannel", name: "UserChannel", element: userChannel },
@@ -139,6 +146,7 @@ const routes = [
   },
   { path: "/datatagihan/:id", name: "dataTagihan", element: Tagihan },
   { path: "/editUserCustomer/:id", name: "Edit User Customer", element: EditUserCustomer },
+  { path: "/editUserMember/:id", name: "Edit User Member", element: EditUserMember },
   {
     path: "/lihattagihanmember/:id",
     name: "dataTagihan",
