@@ -51,6 +51,7 @@ const UserMessage = React.lazy(() =>
 
 //Member Section
 const userMember = React.lazy(() => import("./views/pages/user/member/Member"));
+const EditUserMember = React.lazy(() => import("./views/pages/user/member/EditMember"));
 
 //Template Section
 const UserTemplate = React.lazy(() =>
@@ -116,6 +117,7 @@ const ListTagihanMember = React.lazy(() =>
 const BayarTagihan = React.lazy(() =>
   import("./views/pages/member/bill/BayarTagihan")
 );
+const BayarSemuaTagihan = React.lazy(() => import("./views/pages/member/BayarSemuaTagihan"));
 
 //Member Role
 const MemberChannel = React.lazy(() =>
@@ -155,6 +157,7 @@ const routes = [
   { path: "/userChannel", name: "UserChannel", element: userChannel },
   { path: "/mesage", name: "UserMessage", element: UserMessage },
   { path: "/userMember", name: "UserMember", element: userMember },
+  { path: "/editUserMember/:id", name: "Edit User Member", element: EditUserMember },
   { path: "/UserTemplate", name: "UserTemplate", element: UserTemplate },
   //================================================================
   //Customer
@@ -208,6 +211,7 @@ const routes = [
     element: ListTagihanMember,
   },
   { path: "/bayarTagihan/:id", name: "Bayar Tagihan", element: BayarTagihan },
+  { path: "/bayarSemuaTagihan", name: "Bayar Tagihan", element: BayarSemuaTagihan },
   { path: "/memberChannel", name: "Channel", element: MemberChannel },
 ];
 

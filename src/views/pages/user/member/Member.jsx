@@ -1,6 +1,7 @@
-import { CCard, CCardBody, CTable, CTableRow, CTableHead, CTableBody, CTableHeaderCell, CTableDataCell, CButton, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter, CFormLabel, CCol, CFormInput, CInputGroup, CForm, CFormSelect, CInputGroupText } from '@coreui/react';
+import { CCard, CCardHeader, CCardBody, CTable, CTableRow, CTableHead, CTableBody, CTableHeaderCell, CTableDataCell, CButton, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter, CFormLabel, CCol, CFormInput, CInputGroup, CForm, CFormSelect, CInputGroupText, } from '@coreui/react';
 import axios from 'axios';
 import React from 'react'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +23,7 @@ function Member() {
     const [passwordType, setPasswordType] = useState("password");
     const [passwordIcon, setPasswordIcon] = useState("fa-solid fa-eye-slash");
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+    const [total_page, setTotal_Page] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortBy, setSortBy] = useState('id');
     const [selectedMember, setSelectedMember] = useState([]);
@@ -136,6 +137,7 @@ function Member() {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             })
             if (status === 200) {
+                setTotal_Page(data.pagination.total_page);
                 setCostumer(data.data);
                 // console.log(data.data);
             }
@@ -154,44 +156,24 @@ function Member() {
         setPasswordIcon("fa-solid fa-eye-slash");
     };
 
-    const handleSelectAll = () => {
-        if (selectAll) {
-            setSelectedMember([]);
-        } else {
-            setSelectedMember(member);
-        }
-        setSelectAll(!selectAll);
-    };
-
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
-    };
-
-    const handleSort = (event) => {
-        setSortBy(event.target.value);
     };
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
 
-    // const filteredBills = member.filter((member) =>
-    //     member.description.toLowerCase().includes(searchTerm.toLowerCase())
-    // );
-
-    // const sortedBills = filteredBills.sort((a, b) => {
-    //     if (sortBy === 'description') {
-    //         return a.description.localeCompare(b.description);
-    //     } else {
-    //         return a[sortBy] - b[sortBy];
-    //     }
-    // });
-
     const getPageNumbers = () => {
         const pageNumbers = [];
-        for (let i = 1; i <= totalPages; i++) {
+        for (let i = 1; i <= total_page; i++) {
             pageNumbers.push(
-                <li key={i} className={"page-item " + (currentPage === i ? 'active' : '')} aria-current="page" onClick={() => handlePageChange(i)}>
+                <li
+                    key={i}
+                    className={"page-item " + (currentPage === i ? "active" : "")}
+                    aria-current="page"
+                    onClick={() => handlePageChange(i)}
+                >
                     <a className="page-link">{i}</a>
                 </li>
             );
@@ -199,27 +181,55 @@ function Member() {
         return pageNumbers;
     };
 
+    const filteredMember = member.filter((member) => {
+        if (member && member.description && searchTerm) {
+            return member.description.toLowerCase().includes(searchTerm.toLowerCase())
+        }
+        return false;
+    })
+
+    const sortedMember = filteredMember.sort((a, b) => {
+        if (sortBy === "description") {
+            return a.description.localeCompare(b.description);
+        } else {
+            return a[sortBy] - b[sortBy];
+        }
+    });
+
     useEffect(() => {
         get();
         GetOrganization();
         GetCostumer();
-    }, []);
+    }, [currentPage, searchTerm, sortBy]);
 
     return (
         <div className='mb-5'>
             <CCard>
-                <CCardBody>
+                <CCardHeader>
                     <div className='d-flex justify-content-between'>
                         <h4>Siswa</h4>
-                        <CButton onClick={() => setVisible(!visible)}>Tambah data</CButton>
+                        <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
+                            <div>
+                                <CFormInput className="inputSearch"
+                                    type="search"
+                                    placeholder="search data"
+                                    value={searchTerm} onChange={handleSearch}
+                                />
+                            </div>
+                            <CButton onClick={() => setVisible(!visible)}>
+                                <FontAwesomeIcon icon="fa-plus" />
+                                Tambah data
+                            </CButton>
+                        </div>
                     </div>
-                    <br />
-                    <CTable bordered>
+                </CCardHeader>
+                <CCardBody>
+                    <CTable>
                         <CTableHead>
                             <CTableRow>
                                 <CTableHeaderCell scope="col">No</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Nama</CTableHeaderCell>
-                                <CTableHeaderCell scope="col">id</CTableHeaderCell>
+                                <CTableHeaderCell scope="col">Unique_id</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Sekolah</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">Alamat</CTableHeaderCell>
                                 <CTableHeaderCell scope="col">No.Hp</CTableHeaderCell>
@@ -250,15 +260,39 @@ function Member() {
                             })}
                         </CTableBody>
                     </CTable>
-                    <ul className="pagination float-end">
-                        <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
-                            <a className="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
-                        </li>
-                        {getPageNumbers()}
-                        <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
-                            <a className="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
-                        </li>
-                    </ul>
+                    {/* Pagination */}
+                    <div>
+                        <ul className="pagination float-end">
+                            <li
+                                className={
+                                    "page-item " + (currentPage === 1 ? "disabled" : "")
+                                }
+                                disabled={currentPage === 1}
+                            >
+                                <a
+                                    className="page-link"
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                >
+                                    Previous
+                                </a>
+                            </li>
+                            {getPageNumbers()}
+                            <li
+                                className={
+                                    "page-item " +
+                                    (currentPage === total_page ? "disabled" : "")
+                                }
+                                disabled={currentPage === total_page}
+                            >
+                                <a
+                                    className="page-link"
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                >
+                                    Next
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </CCardBody>
             </CCard>
 
