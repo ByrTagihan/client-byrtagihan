@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import "../views/css/editListDataSiswa.css"
+import '../../../../views/css/editListDataSiswa.css'
 import { API_DUMMY } from "../../../../utils/baseURL";
 
 function ListDataSiswaEdit() {

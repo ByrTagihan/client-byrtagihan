@@ -84,10 +84,7 @@ function Channel() {
     if (searchTerm !== "") {
       sortedData = sortedData.filter((data) => {
         return (
-          data.unique_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          data.hp.toString().includes(searchTerm) ||
-          data.address.toLowerCase().includes(searchTerm.toLowerCase())
+          data.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
       });
     }
@@ -259,7 +256,7 @@ function Channel() {
   };
   useEffect(() => {
     getAllData(0);
-  }, [page, channel, searchTerm, sortBy, limit]);
+  }, [currentPage, channel, searchTerm, sortBy, limit]);
 
   const deleteE = async (id) => {
     Swal.fire({
@@ -273,7 +270,7 @@ function Channel() {
       cancelButtonText: "Cencel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`${API_DUMMY}/user/channel/` + id, {
+        axios.delete(`https://api.byrtagihan.com/api/user/channel/` + id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         });
         Swal.fire({
@@ -291,6 +288,27 @@ function Channel() {
   return (
     <div className="row">
       <div className="col" xs={12}>
+                <div>
+                  <CFormInput
+                    className="inputSearch1"
+                    type="search"
+                    placeholder="search data"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                  />
+                </div>
+                <div className="inputSearch1">
+                  <select
+                    className="form-select"
+                    value={limit}
+                    onChange={handleChangeLimit}
+                  >
+                    <option value="1">Show 1 Entries</option>
+                    <option value="10">Show 10 Entries</option>
+                    <option value="100">Show 100 Entries</option>
+                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                  </select>
+                </div>
         <div className="card mb-4">
           <div className="card-header">
             <div style={{ display: "flex" }}>
@@ -304,7 +322,7 @@ function Channel() {
                   gap: "10px",
                 }}
               >
-                <div className="col">
+                <div className="inputSearch">
                   <select
                     className="form-select"
                     value={limit}
@@ -340,14 +358,51 @@ function Channel() {
             <table className="table responsive-3 table1">
               <thead>
                 <tr>
-                  <th scope="col">No</th>
+                  {/* <th scope="col">No</th>
                   <th scope="col">Nama Bank</th>
                   <th scope="col">Active</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">Action</th> */}
+                    <th scope="col" onClick={() => handleSort("no")}>
+                      No{" "}
+                      {sortConfig && sortConfig.key === "no" && (
+                        <FontAwesomeIcon
+                          icon={
+                            sortConfig.direction === "ascending"
+                              ? "fa-sort-up"
+                              : "fa-sort-down"
+                          }
+                        />
+                      )}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("nama_bank")}>
+                      Nama Bank{" "}
+                      {sortConfig && sortConfig.key === "nama_bank" && (
+                        <FontAwesomeIcon
+                          icon={
+                            sortConfig.direction === "ascending"
+                              ? "fa-sort-up"
+                              : "fa-sort-down"
+                          }
+                        />
+                      )}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("active")}>
+                      Active{" "}
+                      {sortConfig && sortConfig.key === "active" && (
+                        <FontAwesomeIcon
+                          icon={
+                            sortConfig.direction === "ascending"
+                              ? "fa-sort-up"
+                              : "fa-sort-down"
+                          }
+                        />
+                      )}
+                    </th>
+                    <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {sortedUserChannel.map((data, i) => (
+                {sortedList.map((data, i) => (
                   <tr key={i}>
                     <th data-cell="No" scope="row">
                       {i + 1}
