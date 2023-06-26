@@ -1,19 +1,28 @@
 import React from "react";
 import CIcon from "@coreui/icons-react";
 import {
+  cibCircle,
+  cibMessenger,
+  cibSuperuser,
   cilAccountLogout,
   cilBell,
   cilCalculator,
   cilChartPie,
+  cilCreditCard,
   cilCursor,
   cilDescription,
+  cilDollar,
   cilDrop,
+  cilMoney,
   cilNotes,
   cilPencil,
   cilPuzzle,
   cilSpeedometer,
   cilStar,
   cilUser,
+  cilUserFemale,
+  cilUserFollow,
+  cilUserPlus,
 } from "@coreui/icons";
 import { CNavGroup, CNavItem, CNavTitle } from "@coreui/react";
 import { useNavigate } from "react-router-dom";
@@ -49,63 +58,63 @@ const _nav = [
     component: CNavItem,
     name: "Organization",
     to: "/userOrganization",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilUserFemale} customClassName="nav-icon" />,
     roles: ["user"],
   },
   {
     component: CNavItem,
     name: "Payment",
     to: "/payment",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilDollar} customClassName="nav-icon" />,
     roles: ["user"],
   },
   {
     component: CNavItem,
     name: "Transaction",
     to: "/transaction",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
     roles: ["user"],
   },
   {
     component: CNavItem,
     name: "Customer",
     to: "/userCustomer",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cibSuperuser} customClassName="nav-icon" />,
     roles: ["user"],
   },
   {
     component: CNavItem,
     name: "Channel",
     to: "/userChannel",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
     roles: ["user"],
   },
   {
     component: CNavItem,
     name: "Message",
     to: "/mesage",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cibMessenger} customClassName="nav-icon" />,
     roles: ["user"],
   },
   {
     component: CNavItem,
     name: "Member",
     to: "/userMember",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
     roles: ["user"],
   },
   {
     component: CNavItem,
     name: "Template",
     to: "/UserTemplate",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cibCircle} customClassName="nav-icon" />,
     roles: ["user"],
   },
   {
     component: CNavItem,
     name: "Profile",
     to: "/userProfile",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cibSuperuser} customClassName="nav-icon" />,
     roles: ["user"],
   },
   //Customer Navigation
@@ -113,7 +122,7 @@ const _nav = [
     component: CNavItem,
     name: "Organization",
     to: "/customerOrganization",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilUserFollow} customClassName="nav-icon" />,
     roles: ["customer"],
   },
   {
@@ -127,7 +136,7 @@ const _nav = [
     component: CNavItem,
     name: "Bill",
     to: "/customerBill",
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
     roles: ["customer"],
   },
   {
@@ -159,55 +168,55 @@ const _nav = [
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
     roles: ["member"],
   },
-  {
-    component: CNavTitle,
-    name: "Menu User",
-    roles: ["user", "customer"],
-  },
-  {
-    component: CNavGroup,
-    name: "User",
-    to: "/User",
-    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-    roles: ["user", "customer"],
-    items: [
-      {
-        component: CNavItem,
-        name: "Customer",
-        to: "/userCustomer",
-      },
-      {
-        component: CNavItem,
-        name: "Member",
-        to: "/userMember",
-      },
-      {
-        component: CNavItem,
-        name: "Channel",
-        to: "/userChannel",
-      },
-      {
-        component: CNavItem,
-        name: "Message",
-        to: "/mesage",
-      },
-      {
-        component: CNavItem,
-        name: "Template",
-        to: "/UserTemplate",
-      },
-      {
-        component: CNavItem,
-        name: "Transaction",
-        to: "/transaction",
-      },
-      {
-        component: CNavItem,
-        name: "Payment",
-        to: "/payment",
-      },
-    ],
-  },
+  // {
+  //   component: CNavTitle,
+  //   name: "Menu User",
+  //   roles: ["user", "customer"],
+  // },
+  // {
+  //   component: CNavGroup,
+  //   name: "User",
+  //   to: "/User",
+  //   icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+  //   roles: ["user", "customer"],
+  //   items: [
+  //     {
+  //       component: CNavItem,
+  //       name: "Customer",
+  //       to: "/userCustomer",
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: "Member",
+  //       to: "/userMember",
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: "Channel",
+  //       to: "/userChannel",
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: "Message",
+  //       to: "/mesage",
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: "Template",
+  //       to: "/UserTemplate",
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: "Transaction",
+  //       to: "/transaction",
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: "Payment",
+  //       to: "/payment",
+  //     },
+  //   ],
+  // },
 ];
 
 export default _nav;

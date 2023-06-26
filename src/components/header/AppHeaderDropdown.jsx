@@ -38,18 +38,18 @@ const AppHeaderDropdown = () => {
   const [channel, setChannel] = useState([]);
   const [channell, setChannell] = useState("");
 
-  const getAll = async () => {
-    await axios
-      .get(`${API_DUMMY}/customer/profile`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        setFoto(res.data.data);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-  };
+  // const getAll = async () => {
+  //   await axios
+  //     .get(`${API_DUMMY}/customer/profile`, {
+  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+  //     })
+  //     .then((res) => {
+  //       setFoto(res.data.data);
+  //     })
+  //     .catch((error) => {
+  //       alert("Terjadi Kesalahan" + error);
+  //     });
+  // };
 
   const getAllTransaction = async () => {
     await axios
@@ -106,7 +106,7 @@ const AppHeaderDropdown = () => {
   };
 
   useEffect(() => {
-    getAll();
+    // getAll();
     getAllPayment();
     getAllTransaction();
     getAllMessage();
