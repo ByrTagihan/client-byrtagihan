@@ -48,7 +48,7 @@ const _nav = [
   {
     component: CNavItem,
     name: "Organization",
-    to: "/userOrganization",
+    to: "/tableOrganization",
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
     roles: ["user"],
   },
