@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,10 +5,15 @@ import Swal from "sweetalert2";
 import "../../../../css/Transaction.css";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import { CFormInput } from "@coreui/react";
+import {
+  cilPencil,
+  cilPlus,
+  cilTrash,
+} from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
 
 function CrudTransaction() {
   const [total_page, setTotal_Page] = useState(1);
-  const [transaction, setTransaction] = useState("");
 
   let navigate = useNavigate();
 
@@ -88,8 +92,6 @@ function CrudTransaction() {
     }
   });
 
-  // untuk limit
-
   const handleLimit = (event) => {
     setLimit(event.target.value);
   };
@@ -162,7 +164,7 @@ function CrudTransaction() {
                 <div className="col">
                   <Link to="/tambahtransaction">
                     <button className="btn btn-primary float-end">
-                      <FontAwesomeIcon icon="fa-plus" /> Tambah
+                      <CIcon icon={cilPlus} className="color-q" /> Tambah
                     </button>
                   </Link>
                 </div>
@@ -170,7 +172,7 @@ function CrudTransaction() {
             </div>
 
             <div className="card-body">
-            <div className="row">
+              <div className="row">
                 <div className="col">
                   <select
                     className="choise form-select"
@@ -184,7 +186,7 @@ function CrudTransaction() {
                 </div>
                 <div className="col">
                   <CFormInput
-                  // style={{ width: "50%", marginLeft: "15em" }}
+                    // style={{ width: "50%", marginLeft: "15em" }}
                     className="filter-data-t"
                     type="search"
                     placeholder="search data"
@@ -195,8 +197,8 @@ function CrudTransaction() {
               </div>
               <table className="tabel-transaction table  table1 responsive-3">
                 <thead className="text-center">
-                <tr>
-                <th scope="col" onClick={() => handleSort("id")}>
+                  <tr>
+                    <th scope="col" onClick={() => handleSort("id")}>
                       No{" "}
                       {sortBy === "id" && (sortDirection === "asc" ? "▲" : "▼")}
                     </th>
@@ -229,7 +231,7 @@ function CrudTransaction() {
                         (sortDirection === "asc" ? "▲" : "▼")}
                     </th>
                     <th>Action</th>
-                </tr>
+                  </tr>
                 </thead>
                 <tbody
                   id="myTable"
@@ -248,7 +250,7 @@ function CrudTransaction() {
                         <td data-cell="Create Date">{item.created_date}</td>
                         <td data-cell="Update Date">{item.updated_date}</td>
 
-                        <td data-cell="Update Date">
+                        <td data-cell="Action">
                           <button
                             onClick={() =>
                               navigate(`/editTransaction/${item.id}`)
@@ -256,7 +258,7 @@ function CrudTransaction() {
                             type="button"
                             className="edit btn btn-primary me-2"
                           >
-                            <FontAwesomeIcon icon="fa-edit" />
+                            <CIcon icon={cilPencil} className="color-q" />
                           </button>
 
                           <button
@@ -264,10 +266,7 @@ function CrudTransaction() {
                             type="button"
                             className="hapus btn btn-danger me-2"
                           >
-                            <FontAwesomeIcon
-                              style={{ color: "white" }}
-                              icon="fa-trash"
-                            />
+                            <CIcon icon={cilTrash} style={{color: "white"}} />
                           </button>
                         </td>
                       </tr>
@@ -278,7 +277,7 @@ function CrudTransaction() {
 
               {/* Pagination */}
               <div>
-              <ul class="pagination float-end">
+                <ul class="pagination float-end">
                   <li
                     className={
                       "page-item " + (currentPage === 1 ? "disabled" : "")

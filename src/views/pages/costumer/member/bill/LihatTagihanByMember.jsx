@@ -1,12 +1,10 @@
-import { cilUser } from "@coreui/icons";
+import { cilBook, cilDescription, cilMoney, cilNotes, cilPencil, cilPlus, cilTrash, cilUser } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import {
-  CButton,
   CFormInput,
   CInputGroup,
   CInputGroupText,
 } from "@coreui/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
@@ -441,7 +439,7 @@ function LihatTagihanByMember() {
                     onClick={() => setShowAdd(true)}
                     className="btn btn-primary float-end"
                   >
-                    <FontAwesomeIcon icon="fa-plus" /> Tambah Data
+                    <CIcon icon={cilPlus} /> Tambah Data
                   </button>
                 </div>
                 </div>
@@ -462,61 +460,31 @@ function LihatTagihanByMember() {
                     <th scope="col" onClick={() => handleSort("no")}>
                       No{" "}
                       {sortConfig && sortConfig.key === "no" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("keterangan")}>
                       Keterangan{" "}
                       {sortConfig && sortConfig.key === "keterangan" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("periode")}>
                       Periode{" "}
                       {sortConfig && sortConfig.key === "periode" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("status")}>
                       status{" "}
                       {sortConfig && sortConfig.key === "status" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("tanggal_dibayar")}>
                       Tanggal Dibayar{" "}
                       {sortConfig && sortConfig.key === "tanggal_dibayar" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col">Action</th>
@@ -548,7 +516,7 @@ function LihatTagihanByMember() {
                         >
                           <a>
                             {" "}
-                            <i className="fas fa-edit"></i>
+                            <CIcon icon={cilPencil} />
                           </a>{" "}
                         </button>
                         <button
@@ -556,7 +524,7 @@ function LihatTagihanByMember() {
                           onClick={() => deleteData(data.id)}
                           style={{ background: "red", color: "white" }}
                         >
-                          <i className="fas fa-trash-alt"></i>
+                          <CIcon icon={cilTrash} />
                         </button>
                         {data.paid_id != 0 ? (
                           <button
@@ -629,7 +597,7 @@ function LihatTagihanByMember() {
              </label>
              <CInputGroup className="mb-3">
                <CInputGroupText>
-                 <FontAwesomeIcon icon="fas fa-align-justify" />
+                <CIcon icon={cilDescription}/>
                </CInputGroupText>
                <CFormInput
                 placeholder="Deskripsi"
@@ -645,7 +613,7 @@ function LihatTagihanByMember() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-table" />
+               <CIcon icon={cilNotes}/>
               </CInputGroupText>
               <CFormInput
                 placeholder="periode"
@@ -661,7 +629,7 @@ function LihatTagihanByMember() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-sort-amount-up-alt" />
+                <CIcon icon={cilMoney}/>
               </CInputGroupText>
               <CFormInput
                 placeholder="Amount"
@@ -696,7 +664,7 @@ function LihatTagihanByMember() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-align-justify" />
+                <CIcon icon={cilDescription}/>
               </CInputGroupText>
               <CFormInput
                 placeholder="Deskripsi"
@@ -712,7 +680,7 @@ function LihatTagihanByMember() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-table" />
+                <CIcon icon={cilNotes}/>
               </CInputGroupText>
               <CFormInput
                 placeholder="periode"
@@ -728,7 +696,7 @@ function LihatTagihanByMember() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-sort-amount-up-alt" />
+                <CIcon icon={cilMoney}/>
               </CInputGroupText>
               <CFormInput
                 placeholder="Amount"
@@ -762,7 +730,7 @@ function LihatTagihanByMember() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-table" />
+               <CIcon icon={cilBook}/>
               </CInputGroupText>
               <CFormInput
                 placeholder="Paid Date"
@@ -777,7 +745,7 @@ function LihatTagihanByMember() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-table" />
+                <CIcon icon={cilBook}/>
               </CInputGroupText>
               <CFormInput
                 placeholder="Paid Amount"

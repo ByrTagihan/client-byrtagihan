@@ -9,10 +9,11 @@ import "../../../../views/css/ListDataSiswa.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../../utils/baseURL";
+import { cilCheck, cilPencil, cilPlus, cilTrash, cilUser } from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
 // import ReactPaginate from "react-paginate"; Aku hapus ya fat :)
 
 function Channel() {
@@ -348,7 +349,7 @@ function Channel() {
                     onClick={() => setShow(true)}
                     className="btn btn-primary"
                   >
-                    <FontAwesomeIcon icon="fa-plus" /> Tambah Data
+                    <CIcon icon={cilPlus} /> Tambah Data
                   </button>
                 </div>
               </div>
@@ -365,37 +366,19 @@ function Channel() {
                     <th scope="col" onClick={() => handleSort("no")}>
                       No{" "}
                       {sortConfig && sortConfig.key === "no" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("nama_bank")}>
                       Nama Bank{" "}
                       {sortConfig && sortConfig.key === "nama_bank" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("active")}>
                       Active{" "}
                       {sortConfig && sortConfig.key === "active" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col">Action</th>
@@ -427,14 +410,14 @@ function Channel() {
                           }}
                         >
                           {" "}
-                          <i className="fas fa-edit"></i>
+                          <CIcon icon={cilPencil} />
                         </button>
                         <button
                           onClick={() => deleteE(data.id)}
                           className="edit1"
                           style={{ background: "red", color: "white" }}
                         >
-                          <i className="fas fa-trash-alt"></i>
+                          <CIcon icon={cilTrash} />
                         </button>
                       </div>
                     </td>
@@ -484,7 +467,7 @@ function Channel() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-file-signature" />
+              <CIcon icon={cilUser} />
               </CInputGroupText>
               <CFormInput
                 placeholder="Name"
@@ -500,7 +483,7 @@ function Channel() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-map-marker-alt" />
+              <CIcon icon={cilCheck} />
               </CInputGroupText>
               <CFormInput
                 //   placeholder="Adress"
@@ -539,7 +522,7 @@ function Channel() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-file-signature" />
+                <CIcon icon={cilUser}/>
               </CInputGroupText>
               <CFormInput
                 placeholder="Name"
@@ -555,7 +538,7 @@ function Channel() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-map-marker-alt" />
+                <CIcon icon={cilCheck}/>
               </CInputGroupText>
               <CFormInput
                 //   placeholder="Adress"
