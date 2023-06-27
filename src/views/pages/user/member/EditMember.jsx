@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CCard, CCardBody, CForm, CRow, CFormLabel, CCol, CFormInput, CInputGroup, CButton } from '@coreui/react'
 import Swal from 'sweetalert2';
+import { API_DUMMY } from '../../../../utils/baseURL';
 
 function EditMember() {
     const [member, setMember] = useState([])
@@ -29,13 +30,13 @@ function EditMember() {
         };
 
         try {
-            await axios.put(`https://api.byrtagihan.com/api/user/member/${id}`, data, {
+            await axios.put(`${API_DUMMY}/user/member/${id}`, data, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             });
             setShow(false);
             Swal.fire({
                 icon: "success",
-                title: "berhasil Update Data Siswa",
+                title: "Berhasil Update Data Siswa",
                 showConfirmButton: false,
                 timer: 1500,
             });
@@ -50,7 +51,7 @@ function EditMember() {
 
     const get = async () => {
         await axios
-            .get(`https://api.byrtagihan.com/api/user/member/${id}`, {
+            .get(`${API_DUMMY}/user/member/${id}`, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             })
             .then((res) => {

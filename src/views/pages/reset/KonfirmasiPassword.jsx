@@ -1,5 +1,4 @@
 import { CFormInput, CInputGroup, CInputGroupText } from "@coreui/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
 function KonfirmasiPassword() {

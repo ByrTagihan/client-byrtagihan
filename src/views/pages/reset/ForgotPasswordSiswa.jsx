@@ -9,11 +9,13 @@ import {
 } from "@coreui/react";
 import React from "react";
 import gambarEmail from "../../../assets/images/handphone.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import "../../../css/ForgotPasswordSiswa.css";
+import { API_DUMMY } from "../../../utils/baseURL";
+import CIcon from "@coreui/icons-react";
+import { cilMobile } from "@coreui/icons";
 // import { useNavigate } from "react-router";
 
 function ForgotPasswordSiswa() {
@@ -26,7 +28,7 @@ function ForgotPasswordSiswa() {
       unique_id: unique_id
     }
     axios
-      .post("https://api.byrtagihan.com/api/member/forgot_password", data)
+      .post(`${API_DUMMY}/member/forgot_password`, data)
       .then((res) => {
         console.log(res);
         Swal.fire({
@@ -61,7 +63,7 @@ function ForgotPasswordSiswa() {
                 <br />
                 <CInputGroup className="mb-3">
                   <CInputGroupText>
-                    <FontAwesomeIcon icon="fa-solid fa-mobile" />
+                    <CIcon icon={cilMobile}/>
                   </CInputGroupText>
                   <CFormInput
                     placeholder="No Handphone"

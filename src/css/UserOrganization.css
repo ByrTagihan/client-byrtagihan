@@ -1,0 +1,79 @@
+.textt {
+    position: absolute;
+    margin-bottom: 4em;
+  }
+  .shows {
+    width: 40%;
+  }
+  .filter-data {
+    width: 50%;
+    margin-left: 13.8em;
+  }
+  .tabel-organization {
+    margin-top: 1em;
+  }
+  .filter-data-o {
+    width: 50%;
+    margin-left: 16.5em;
+  }
+  
+  @media (max-width: 600px) {
+    .textt {
+      font-size: 20px;
+    }
+  
+    .shows {
+      width: 80%;
+      margin-left: 5px;
+    }
+    .filter-data-o {
+      width: 100%;
+      margin-left: 0;
+    }
+    .tabel-organization {
+      margin-top: 0;
+    }
+    .edit {
+      margin-left: 9.5em;
+      position: absolute;
+    }
+    .hapus {
+      margin-left: 4.5em;
+      width: 2.8em;
+      position: relative;
+    }
+    tbody {
+      text-align: left;
+    }
+    .option-select {
+      font-size: 12px;
+    }
+  
+    .td {
+      padding-right: none;
+      display: flex;
+      justify-content: left;
+    }
+    .responsive-3 {
+      width: 100%;
+    }
+  
+    th {
+      display: none;
+    }
+    td {
+      display: grid;
+      gap: 0.5rem;
+      grid-template-columns: 15ch auto;
+      padding: 0.75em 1rem;
+    }
+    td:first-child {
+      padding-top: 2rem;
+    }
+  
+    td::before {
+      content: attr(data-cell) "  : ";
+      font-weight: bold;
+    }
+  }
+  

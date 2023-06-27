@@ -21,6 +21,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import gambarEmail from "../../../assets/images/email.png";
 import "../../../views/css/ForgotPassword.css";
+import { API_DUMMY } from "../../../utils/baseURL";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState();
@@ -31,7 +32,7 @@ export default function ResetPassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://api.byrtagihan.com/api/member/forgot_password", {
+      .post(`${API_DUMMY}/member/forgot_password`, {
         email,
         unique_id,
         // email: email,

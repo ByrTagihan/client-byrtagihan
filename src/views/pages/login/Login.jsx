@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import gambar from "../../../assets/images/byrtagihan1.png";
 import { Form, Link, useNavigate } from "react-router-dom";
 import {
@@ -24,7 +25,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [type_token, setType_token] = useState("");
+  const [type_token, setType_token] = useState("siswa");
   const [unique_id, setUnique_id] = useState("");
   const [passwordType, setPasswordType] = useState("password");
   const [passwordIcon, setPasswordIcon] = useState("fa-solid fa-eye-slash");
@@ -54,17 +55,17 @@ const Login = () => {
         );
         // Jika respon 200/ ok
         if (status === 200) {
-          // Swal.fire({
-          //   icon: "success",
-          //   title:  "Successfully logged in",
-          //   showConfirmButton: false,
-          //   timer: 1500,
-          // });
-          alert("Successfully logged in Customer");
+          Swal.fire({
+            icon: "success",
+            title:  "Successfully logged in",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          // alert("Successfully logged in Customer");
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
-          navigate("/dashboard");
+          navigate("/dashboardCustomer");
           setTimeout(() => {
             window.location.reload();
           }, 1500);
@@ -87,7 +88,7 @@ const Login = () => {
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
-          navigate("/dashboard");
+          navigate("/dashboardUser");
           setTimeout(() => {
             window.location.reload();
           }, 1500);
@@ -110,7 +111,7 @@ const Login = () => {
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
-          navigate("/dashboard");
+          navigate("/dashboardMember");
           setTimeout(() => {
             window.location.reload();
           }, 1500);
@@ -120,6 +121,15 @@ const Login = () => {
       alert("username/Password No Valid");
       console.log(error);
     }
+  };
+
+   useEffect(() => {
+    setUnique_id(""); // Reset unique_id when type_token changes
+  }, [type_token]);
+
+  const [selectedOption, setSelectedOption] = useState('');
+  const handleOptionChange = (event) => {
+    setType_token(event.target.value);
   };
 
   return (
@@ -150,19 +160,52 @@ const Login = () => {
               >
                 Sign In to your account
               </p>
-              <select
+              {/* <select
                 className="selectt"
                 style={{ background: "white", color: "black" }}
                 aria-label="Default select example"
                 onChange={(e) => setType_token(e.target.value)}
+                defaultValue="siswa" // Menambahkan defaultValue dengan nilai "siswa"
               >
                 <option>Select Roles</option>
                 <option value="guru">guru</option>
                 <option value="admin Sekolah">admin Sekolah</option>
-                <option value="siswa" selected>
+                <option value="siswa">
                   siswa
                 </option>
-              </select>
+              </select> */}
+                <div style={{display:"flex", justifyContent:"space-around", marginBottom:"20px"}}>
+      <label>
+        <input
+          type="radio"
+          value="siswa"
+          checked={type_token === 'siswa'}
+          onChange={handleOptionChange}
+
+        />
+        Siswa
+      </label>
+      <label>
+        <input
+          type="radio"
+          value="admin Sekolah"
+          checked={type_token === 'admin Sekolah'}
+          onChange={handleOptionChange}
+
+        />
+        Admin sekolah
+      </label>
+      <label>
+        <input
+          type="radio"
+          value="guru"
+          checked={type_token === 'guru'}
+          onChange={handleOptionChange}
+
+        />
+        Guru
+      </label>
+    </div>
               {type_token === "guru" ? (
                 <>
                   <CInputGroup className="mb-3">
