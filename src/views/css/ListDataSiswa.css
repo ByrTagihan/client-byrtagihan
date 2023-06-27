@@ -18,7 +18,7 @@
 }
 .tdd {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     gap: 5px;
     width: 100%;
     /* padding-right: 60px; */
@@ -28,7 +28,7 @@
     overflow-x: auto;
 }
 .table1 {
-    text-align: center;
+    text-align: left;
     background: none;
 }
 .edit1 {
@@ -38,7 +38,7 @@
     font-size: 15px;
 }
 tbody {
-    text-align: center;
+    text-align: left;
 }
 .listTagihan {
     margin-left: 4px;
