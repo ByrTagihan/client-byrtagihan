@@ -133,7 +133,7 @@ function Organization() {
 
                 <div className="col">
                   <CFormInput
-                  style={{marginLeft: "15.5em"}}
+                  style={{marginLeft: "14em"}}
                     className="filter-data"
                     type="search"
                     placeholder="search data"

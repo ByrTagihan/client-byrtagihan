@@ -14,7 +14,7 @@ import {
 import axios from "axios";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../../utils/baseURL";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function UserOrganization() {
   const [show, setShow] = useState(false);
@@ -33,10 +33,9 @@ function UserOrganization() {
   const [bank_account_name, setBank_account_name] = useState("");
   const [bank_name, setBank_name] = useState("");
   const param = useParams();
-
+  const navigate = useNavigate();
 
   const [organization, setOrganization] = useState({
-    // id: "",
     name: "",
     address: "",
     hp: "",
@@ -95,24 +94,27 @@ function UserOrganization() {
       bank_account_name: bank_account_name,
       bank_name: bank_name,
     };
-    // console.log(data);
 
     try {
-      await axios.put(`${API_DUMMY}/user/organization/` + param.id, {
-        name: name,
-        address: address,
-        hp: hp,
-        email: email,
-        city: city,
-        provinsi: provinsi,
-        customer_id: customer_id,
-        bank_account_number: bank_account_number,
-        bank_account_name: bank_account_name,
-        bank_name: bank_name,
-      }, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      });
-      setShow(false);
+      await axios.put(
+        `${API_DUMMY}/user/organization/` + param.id,
+        {
+          name: name,
+          address: address,
+          hp: hp,
+          email: email,
+          city: city,
+          provinsi: provinsi,
+          customer_id: customer_id,
+          bank_account_number: bank_account_number,
+          bank_account_name: bank_account_name,
+          bank_name: bank_name,
+        },
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      );
+      setShow(false);  navigate("/tableOrganization");
       Swal.fire({
         icon: "success",
         title: "berhasil mengedit",
@@ -120,6 +122,7 @@ function UserOrganization() {
         timer: 1500,
       });
       setTimeout(() => {
+      
         window.location.reload();
       }, 1500);
     } catch (error) {
@@ -188,7 +191,7 @@ function UserOrganization() {
                 />
               </CCol>
             </CRow>
-         
+
             <CRow className="mb-3">
               <CFormLabel className="col-sm-2 col-form-label text-dark">
                 Hp
