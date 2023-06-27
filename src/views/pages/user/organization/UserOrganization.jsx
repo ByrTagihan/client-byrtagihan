@@ -20,6 +20,12 @@ function UserOrganization() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
+  const [customer_id, setCustomer_id] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [suggestionIndex, setSuggestionIndex] = useState(0);
+  const [suggestionsActive, setSuggestionsActive] = useState(false);
+  const [value, setValue] = useState("");
+
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -27,7 +33,6 @@ function UserOrganization() {
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [provinsi, setProvinsi] = useState("");
-  const [customer_id, setCustomer_id] = useState("");
   const [balance, setBalance] = useState("");
   const [bank_account_number, setBank_account_number] = useState("");
   const [bank_account_name, setBank_account_name] = useState("");
@@ -114,7 +119,8 @@ function UserOrganization() {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
       );
-      setShow(false);  navigate("/tableOrganization");
+      setShow(false);
+      navigate("/tableOrganization");
       Swal.fire({
         icon: "success",
         title: "berhasil mengedit",
@@ -122,7 +128,6 @@ function UserOrganization() {
         timer: 1500,
       });
       setTimeout(() => {
-      
         window.location.reload();
       }, 1500);
     } catch (error) {
@@ -134,11 +139,105 @@ function UserOrganization() {
     get();
   }, []);
 
+  const onKeyDown = (keyEvent) => {
+    if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+      keyEvent.preventDefault();
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    // UP ARROW
+    if (e.keyCode === 38) {
+      if (suggestionIndex === 0) {
+        return;
+      }
+      setSuggestionIndex(suggestionIndex - 1);
+    }
+    // DOWN ARROW
+    else if (e.keyCode === 40) {
+      if (suggestionIndex - 1 === suggestions.length) {
+        return;
+      }
+      setSuggestionIndex(suggestionIndex + 1);
+    }
+    // ENTER
+    else if (e.keyCode === 13) {
+      setValue(` ${suggestions[suggestionIndex].name}`);
+      setCustomer_id(suggestions[suggestionIndex].id);
+      setSuggestionIndex(0);
+      setSuggestionsActive(false);
+    }
+  };
+
+  const handleClick = (e, id) => {
+    setSuggestions([]);
+    setValue(e.target.innerText);
+    setCustomer_id(id);
+    setSuggestionsActive(false);
+  };
+
+  const Suggestions = () => {
+    return (
+      <div
+        className="card border-secondary border-top-0"
+        style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
+      >
+        <ul className="list-group list-group-flush">
+          {suggestions.length != 0 ? (
+            <>
+              {suggestions.map((data, index) => (
+                <li
+                  className={
+                    index === suggestionIndex
+                      ? "list-group-item  list-group-item-action active"
+                      : "list-group-item  list-group-item-action"
+                  }
+                  key={index}
+                  onClick={(e) => handleClick(e, data.id)}
+                >
+                  {data.name}
+                </li>
+              ))}
+            </>
+          ) : (
+            <>
+              <li className="list-group-item ">Customer Tidak Ditemukan</li>
+            </>
+          )}
+        </ul>
+      </div>
+    );
+  };
+
+  const handleChange = async (e) => {
+    const query = e.target.value;
+    setValue(query);
+
+    try {
+      const response = await fetch(
+        `${API_DUMMY}/user/organization?name=${query}`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      );
+
+      if (query.length > 0 && response.ok) {
+        const res = await response.json();
+        setSuggestions(res.data);
+        setSuggestionsActive(true);
+      } else {
+        setSuggestionsActive(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div>
       <CCard className="mb-4">
         <CCardBody>
-          <CForm onSubmit={Put}>
+          <CForm onKeyDown={onKeyDown} onSubmit={Put}>
             <CRow className="mb-3">
               <CFormLabel className="col-sm-2 col-form-label text-dark">
                 Id
@@ -152,30 +251,35 @@ function UserOrganization() {
                 />
               </CCol>
             </CRow>
-            <CInputGroup className="mb-3">
+
+            <CRow className="mb-3">
               <CFormLabel className="col-sm-2 col-form-label text-dark">
-                Nama
+                Name
               </CFormLabel>
               <CCol sm={10}>
                 <CFormInput
-                  placeholder="nama"
-                  autoComplete="nama"
+                  placeholder="Name"
+                  autoComplete="name"
                   onChange={(e) => setName(e.target.value)}
                   value={name}
                 />
               </CCol>
-            </CInputGroup>
+            </CRow>
             <CRow className="mb-3">
               <CFormLabel className="col-sm-2 col-form-label text-dark">
                 Customer Id
               </CFormLabel>
               <CCol sm={10}>
                 <CFormInput
-                  placeholder="customer Id"
-                  autoComplete="customerId"
-                  onChange={(e) => setCustomer_id(e.target.value)}
-                  value={customer_id}
+                  id="customer_id"
+                  type="text"
+                  onKeyDown={handleKeyDown}
+                  onChange={handleChange}
+                  value={value}
+                  placeholder="Customer Id..."
+                  required
                 />
+                {suggestionsActive && <Suggestions />}
               </CCol>
             </CRow>
             <CRow className="mb-3">

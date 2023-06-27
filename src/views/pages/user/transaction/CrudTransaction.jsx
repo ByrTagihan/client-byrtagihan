@@ -185,7 +185,7 @@ function CrudTransaction() {
                 <div className="col">
                   <CFormInput
                   // style={{ width: "50%", marginLeft: "15em" }}
-                    className="filter-data"
+                    className="filter-data-t"
                     type="search"
                     placeholder="search data"
                     value={searchTerm}

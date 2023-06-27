@@ -5,9 +5,9 @@
   .pilih {
     width: 40%;
   }
-  .filter-data {
+  .filter-data-p {
     width: 50%;
-    margin-left: 13.8em;
+    margin-left: 15em;
   }
 
   .tabel-payment {
@@ -25,7 +25,7 @@
       .tabel-payment {
         margin-top: 0;
       }
-      .filter-data {
+      .filter-data-p {
         width: 100%;
         margin-left: 0;
       }

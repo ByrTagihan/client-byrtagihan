@@ -7,12 +7,17 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function TambahOrganization() {
+  const [customer_id, setCustomer_id] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [suggestionIndex, setSuggestionIndex] = useState(0);
+  const [suggestionsActive, setSuggestionsActive] = useState(false);
+  const [value, setValue] = useState("");
+
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [hp, setHp] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
-  const [customer_id, setCustomer_id] = useState("");
   const [provinsi, setProvinsi] = useState("");
   const [balance, setBalance] = useState("");
   const [bank_account_number, setBank_account_number] = useState("");
@@ -54,6 +59,100 @@ function TambahOrganization() {
         console.log(error);
       });
   };
+
+  const onKeyDown = (keyEvent) => {
+    if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+      keyEvent.preventDefault();
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    // UP ARROW
+    if (e.keyCode === 38) {
+      if (suggestionIndex === 0) {
+        return;
+      }
+      setSuggestionIndex(suggestionIndex - 1);
+    }
+    // DOWN ARROW
+    else if (e.keyCode === 40) {
+      if (suggestionIndex - 1 === suggestions.length) {
+        return;
+      }
+      setSuggestionIndex(suggestionIndex + 1);
+    }
+    // ENTER
+    else if (e.keyCode === 13) {
+      setValue(` ${suggestions[suggestionIndex].name}`);
+      setCustomer_id(suggestions[suggestionIndex].id);
+      setSuggestionIndex(0);
+      setSuggestionsActive(false);
+    }
+  };
+
+  const handleClick = (e, id) => {
+    setSuggestions([]);
+    setValue(e.target.innerText);
+    setCustomer_id(id);
+    setSuggestionsActive(false);
+  };
+
+  const Suggestions = () => {
+    return (
+      <div
+        className="card border-secondary border-top-0"
+        style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
+      >
+        <ul className="list-group list-group-flush">
+          {suggestions.length != 0 ? (
+            <>
+              {suggestions.map((data, index) => (
+                <li
+                  className={
+                    index === suggestionIndex
+                      ? "list-group-item  list-group-item-action active"
+                      : "list-group-item  list-group-item-action"
+                  }
+                  key={index}
+                  onClick={(e) => handleClick(e, data.id)}
+                >
+                  {data.name}
+                </li>
+              ))}
+            </>
+          ) : (
+            <>
+              <li className="list-group-item ">Customer Tidak Ditemukan</li>
+            </>
+          )}
+        </ul>
+      </div>
+    );
+  };
+
+  const handleChange = async (e) => {
+    const query = e.target.value;
+    setValue(query);
+
+    try {
+      const response = await fetch(
+        `${API_DUMMY}/user/organization?name=${query}`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      );
+
+      if (query.length > 0 && response.ok) {
+        const res = await response.json();
+        setSuggestions(res.data);
+        setSuggestionsActive(true);
+      } else {
+        setSuggestionsActive(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div>
       <div className="card mb-3">
@@ -61,7 +160,7 @@ function TambahOrganization() {
           <h5>Tambah transaction</h5>
         </div>
         <div className="card-body">
-          <CForm onSubmit={Post} className="row g-3">
+          <CForm onSubmit={Post} onKeyDown={onKeyDown} className="row g-3">
             <CCol xs={12}>
               <CFormInput
                 id="name"
@@ -77,10 +176,14 @@ function TambahOrganization() {
                 id="customer_id"
                 label="Customer_id"
                 type="text"
-                onChange={(e) => setCustomer_id(e.target.value)}
+                // onChange={(e) => setCustomer_id(e.target.value)}
+                onKeyDown={handleKeyDown}
+                onChange={handleChange}
+                value={value}
                 placeholder="Customer Id..."
                 required
               />
+              {suggestionsActive && <Suggestions />}
             </CCol>
             <CCol md={12}>
               <CFormInput

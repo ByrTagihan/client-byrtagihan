@@ -9,12 +9,12 @@
     width: 50%;
     margin-left: 13.8em;
   }
-  .two {
-    margin-bottom: 15px;
-  }
-  
-  .tabel-transaction {
+  .tabel-organization {
     margin-top: 1em;
+  }
+  .filter-data-o {
+    width: 50%;
+    margin-left: 16.5em;
   }
   
   @media (max-width: 600px) {
@@ -26,11 +26,11 @@
       width: 80%;
       margin-left: 5px;
     }
-    .filter-data {
+    .filter-data-o {
       width: 100%;
       margin-left: 0;
     }
-    .tabel-transaction {
+    .tabel-organization {
       margin-top: 0;
     }
     .edit {
@@ -41,9 +41,6 @@
       margin-left: 4.5em;
       width: 2.8em;
       position: relative;
-    }
-    .two {
-      margin-bottom: 0px;
     }
     tbody {
       text-align: left;

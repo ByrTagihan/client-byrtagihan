@@ -163,8 +163,7 @@ function Organization() {
                
                 <div className="col">
                   <CFormInput
-                    // style={{ marginLeft: "14em" }}
-                    className="filter-data"
+                    className="filter-data-o"
                     type="search"
                     placeholder="search data"
                     value={searchTerm}
@@ -173,7 +172,7 @@ function Organization() {
                 </div>
               </div>
               </div>
-              <table className="table responsive-3 table1">
+              <table className="tabel-organization table responsive-3 table1">
                 <thead>
                   <tr>
                     <th scope="col">No</th>
