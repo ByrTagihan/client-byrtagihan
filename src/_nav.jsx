@@ -63,9 +63,9 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: "Payment",
-    to: "/payment",
-    icon: <CIcon icon={cilDollar} customClassName="nav-icon" />,
+    name: "Organization",
+    to: "/tableOrganization",
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
     roles: ["user"],
   },
   {

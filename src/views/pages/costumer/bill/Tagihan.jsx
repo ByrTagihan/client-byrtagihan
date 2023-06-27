@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { deleteData, getAllData } from "../../../../utils/controller";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import { CModal } from "@coreui/react";
 import axios from "axios";
 import { API_DUMMY, API_URL } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
+import { cilPencil, cilPlus, cilTrash } from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
 
 function Tagihan() {
   const [bills, setBills] = useState([]);
@@ -212,7 +213,7 @@ function Tagihan() {
                 <div className="col">
                   <Link to="/addtagihan">
                     <button className="btn btn-primary float-end">
-                      <FontAwesomeIcon icon="fa-plus" /> Tambah Tagihan
+                    <CIcon icon={cilPlus} /> Tambah Tagihan
                     </button>
                   </Link>
                 </div>
@@ -268,7 +269,7 @@ function Tagihan() {
                           className="btn btn-primary me-2"
                           onClick={() => navigate(`/edittagihan/${data.id}`)}
                         >
-                          <FontAwesomeIcon icon="fa-edit" />
+                          <CIcon icon={cilPencil} />
                         </button>
                         <button
                           type="button"
@@ -277,7 +278,7 @@ function Tagihan() {
                             deleteData(data.id, "customer/bill", setBills)
                           }
                         >
-                          <FontAwesomeIcon icon="fa-trash" />
+                          <CIcon icon={cilTrash} style={{color: "white"}}/>
                         </button>
                         {data.paid_id != 0 ? (
                           <button

@@ -13,9 +13,27 @@ import "../../../../views/css/ListDataSiswa.css";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal } from "react-bootstrap";
-// import ReactPaginate from "react-paginate"; Aku hapus ya fat :)
+import {
+  cibGmail,
+  cilAddressBook,
+  cilArrowCircleTop,
+  cilArrowTop,
+  cilCheck,
+  cilLockLocked,
+  cilMobile,
+  cilPencil,
+  cilPhone,
+  cilPlus,
+  cilSortAlphaDown,
+  cilSortAlphaUp,
+  cilSortAscending,
+  cilSortDescending,
+  cilTerminal,
+  cilTrash,
+  cilUser,
+} from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
 
 function Customer() {
   const [userCustomer, setUserCustomer] = useState([]);
@@ -58,8 +76,8 @@ function Customer() {
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('id');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("id");
   const [sortedList, setSortedList] = useState([]);
   const [sortConfig, setSortConfig] = useState({
     key: null,
@@ -69,12 +87,9 @@ function Customer() {
 
   const getAllData1 = async () => {
     await axios
-      .get(
-        `${API_DUMMY}/user/customer?page=${currentPage}&limit=${limit}`,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
+      .get(`${API_DUMMY}/user/customer?page=${currentPage}&limit=${limit}`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
       .then((res) => {
         setTotalPages(res.data.pagination.total_page);
         setUserCustomer1(res.data.data);
@@ -84,7 +99,6 @@ function Customer() {
         alert("Terjadi Kesalahan" + error);
       });
   };
-
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -121,7 +135,8 @@ function Customer() {
           data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           // data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           data.email.toLowerCase().includes(searchTerm) ||
-          data.hp.toString().includes(searchTerm.toLowerCase())
+          data.hp.toString().includes(searchTerm.toLowerCase()) ||
+          data.active.toString().includes(searchTerm.toLowerCase())
         );
       });
     }
@@ -134,8 +149,6 @@ function Customer() {
   const handleChangeLimit = (event) => {
     setLimit(parseInt(event.target.value));
   };
-
-
 
   const filteredUserCustomer = userCustomer1.filter((bill) =>
     bill.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -246,48 +259,68 @@ function Customer() {
     <div>
       <div className="row">
         <div className="col" xs={12}>
-        <div className='inputSearch1'>
-              <CFormInput
-                type="search"
-                placeholder="search Nama"
-                value={searchTerm} onChange={handleSearch} 
-              />
-            </div>
-                <div className="inputSearch1">
-                  <select className="form-select" value={limit} onChange={handleChangeLimit}>
-                  <option value="1">Show 1 Entries</option>
-                  <option value="10">Show 10 Entries</option>
-                  <option value="100">Show 100 Entries</option>
-                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-                  </select>
-                </div>
+          <div className="inputSearch1">
+            <CFormInput
+              type="search"
+              placeholder="search Nama"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+          <div className="inputSearch1">
+            <select
+              className="form-select"
+              value={limit}
+              onChange={handleChangeLimit}
+            >
+              <option value="1">Show 1 Entries</option>
+              <option value="10">Show 10 Entries</option>
+              <option value="100">Show 100 Entries</option>
+              {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+            </select>
+          </div>
           <div className="card mb-4">
             <div className="card-header">
-              <div style={{display:"flex"}}>
+              <div style={{ display: "flex" }}>
                 <div className="col">
                   <h4>Customer</h4>
                 </div>
-            <div style={{display:"flex", justifyContent:"center", gap:"5px"}}>
-                <div className="inputSearch">
-                  <select className="form-select" value={limit} onChange={handleChangeLimit}>
-                  <option value="1">Show 1 Entries</option>
-                  <option value="10">Show 10 Entries</option>
-                  <option value="100">Show 100 Entries</option>
-                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-                  </select>
-                </div>
-                <div>
-                <CFormInput className="inputSearch"
-                  type="search"
-                  placeholder="search data"
-                  value={searchTerm} onChange={handleSearch} 
-                />
-              </div>
-                <div>
-                  <button onClick={() => setShow(true)} className="btn btn-primary">
-                    <FontAwesomeIcon icon="fa-plus" /> Tambah Data
-                  </button>
-                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "5px",
+                  }}
+                >
+                  <div className="inputSearch">
+                    <select
+                      className="form-select"
+                      value={limit}
+                      onChange={handleChangeLimit}
+                    >
+                      <option value="1">Show 1 Entries</option>
+                      <option value="10">Show 10 Entries</option>
+                      <option value="100">Show 100 Entries</option>
+                      {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                    </select>
+                  </div>
+                  <div>
+                    <CFormInput
+                      className="inputSearch"
+                      type="search"
+                      placeholder="search data"
+                      value={searchTerm}
+                      onChange={handleSearch}
+                    />
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => setShow(true)}
+                      className="btn btn-primary"
+                    >
+                      <CIcon icon={cilPlus} /> Tambah Data
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -298,61 +331,31 @@ function Customer() {
                     <th scope="col" onClick={() => handleSort("no")}>
                       No{" "}
                       {sortConfig && sortConfig.key === "no" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("email")}>
                       Email{" "}
                       {sortConfig && sortConfig.key === "email" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("nama")}>
                       Nama{" "}
                       {sortConfig && sortConfig.key === "nama" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("hp")}>
                       hp{" "}
                       {sortConfig && sortConfig.key === "hp" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("active")}>
                       Active{" "}
                       {sortConfig && sortConfig.key === "active" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col">Action</th>
@@ -361,33 +364,35 @@ function Customer() {
                 <tbody>
                   {sortedList.map((data, i) => (
                     <tr key={i}>
-                      <td scope="row" data-cell="No">{i + 1}</td>
+                      <td scope="row" data-cell="No">
+                        {i + 1}
+                      </td>
                       <td data-cell="Email">{data.email}</td>
                       <td data-cell="Name">{data.name}</td>
                       <td data-cell="Hp">{data.hp}</td>
                       <td data-cell="Active">{data.active}</td>
                       <td data-cell="Action">
                         <div className="tdd">
-                        <button
-                          className="edit1"
-                          type="button"
-                          style={{ background: "blue" }}
-                        >
-                          <a
-                            href={"/#/editUserCustomer/" + data.id}
-                            style={{ color: "white" }}
+                          <button
+                            className="edit1"
+                            type="button"
+                            style={{ background: "blue" }}
                           >
-                            {" "}
-                            <i className="fas fa-edit"></i>
-                          </a>{" "}
-                        </button>
-                        <button
-                          className="edit1"
-                          onClick={() => deleteE(data.id)}
-                          style={{ background: "red", color: "white" }}
-                        >
-                          <i className="fas fa-trash-alt"></i>
-                        </button>
+                            <a
+                              href={"/#/editUserCustomer/" + data.id}
+                              style={{ color: "white" }}
+                            >
+                              {" "}
+                              <CIcon icon={cilPencil} />
+                            </a>{" "}
+                          </button>
+                          <button
+                            className="edit1"
+                            onClick={() => deleteE(data.id)}
+                            style={{ background: "red", color: "white" }}
+                          >
+                            <CIcon icon={cilTrash} />
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -430,122 +435,122 @@ function Customer() {
       </div>
 
       <Modal show={show} onHide={!show}>
-           <form onSubmit={add}>
-             <Modal.Header style={{ background: "#526D82" }}>
-               <Modal.Title style={{ color: "white" }}>Modal Add</Modal.Title>
-             </Modal.Header>
-             <Modal.Body style={{ color: "black" }}>
-               <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-                 Name :
-               </label>
-               <CInputGroup className="mb-3">
-                 <CInputGroupText>
-                   <FontAwesomeIcon icon="fas fa-file-signature" />
-                 </CInputGroupText>
-                 <CFormInput
-                  placeholder="Name"
-                  autoComplete="Name"
-                  type="text"
-                  value={name}
-                  required
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </CInputGroup>
-              <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-                hp :
-              </label>
-              <CInputGroup className="mb-3">
-                <CInputGroupText>
-                  <FontAwesomeIcon icon="fas fa-mobile" />
-                </CInputGroupText>
-                <CFormInput
-                  placeholder="hp"
-                  autoComplete="hp"
-                  type="number"
-                  value={hp}
-                  required
-                  onChange={(e) => setHp(e.target.value)}
-                />
-              </CInputGroup>
-              <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-                Adress :
-              </label>
-              <CInputGroup className="mb-3">
-                <CInputGroupText>
-                  <FontAwesomeIcon icon="fas fa-map-marker-alt" />
-                </CInputGroupText>
-                <CFormInput
-                  placeholder="Adress"
-                  autoComplete="Adress"
-                  type="text"
-                  value={address}
-                  required
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-              </CInputGroup>
-              <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-                Password :
-              </label>
-              <CInputGroup className="mb-3">
-                <CInputGroupText>
-                  <FontAwesomeIcon icon="fas fa-unlock-alt" />
-                </CInputGroupText>
-                <CFormInput
-                  placeholder="Password"
-                  autoComplete="Password"
-                  type="password"
-                  value={password}
-                  required
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </CInputGroup>
-              <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-                Email :
-              </label>
-              <CInputGroup className="mb-3">
-                <CInputGroupText>
-                  <FontAwesomeIcon icon="fas fa-at" />
-                </CInputGroupText>
-                <CFormInput
-                  placeholder="email"
-                  autoComplete="email"
-                  type="email"
-                  value={email}
-                  required
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </CInputGroup>
-              <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-                Active :
-              </label>
-              <CInputGroup className="mb-3">
-                <CInputGroupText>
-                  <FontAwesomeIcon icon="fas fa-check-square" />
-                </CInputGroupText>
-                <CFormInput
-                  placeholder="Active"
-                  autoComplete="Active"
-                  type="text"
-                  value={active}
-                  required
-                  onChange={(e) => setActive(e.target.value)}
-                />
-              </CInputGroup>
-            </Modal.Body>
-            <Modal.Footer>
-              <CButton variant="secondary" onClick={() => setShow(false)}>
-                Close
-              </CButton>
-              <CButton
-                className="btn btn-primary"
-                variant="primary"
-                type="submit"
-              >
-                Save Changes
-              </CButton>
-            </Modal.Footer>
-          </form>
-        </Modal>
+        <form onSubmit={add}>
+          <Modal.Header style={{ background: "#526D82" }}>
+            <Modal.Title style={{ color: "white" }}>Modal Add</Modal.Title>
+          </Modal.Header>
+          <Modal.Body style={{ color: "black" }}>
+            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+              Name :
+            </label>
+            <CInputGroup className="mb-3">
+              <CInputGroupText>
+              <CIcon icon={cilUser} />
+              </CInputGroupText>
+              <CFormInput
+                placeholder="Name"
+                autoComplete="Name"
+                type="text"
+                value={name}
+                required
+                onChange={(e) => setName(e.target.value)}
+              />
+            </CInputGroup>
+            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+              hp :
+            </label>
+            <CInputGroup className="mb-3">
+              <CInputGroupText>
+              <CIcon icon={cilPhone} />
+              </CInputGroupText>
+              <CFormInput
+                placeholder="hp"
+                autoComplete="hp"
+                type="number"
+                value={hp}
+                required
+                onChange={(e) => setHp(e.target.value)}
+              />
+            </CInputGroup>
+            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+              Adress :
+            </label>
+            <CInputGroup className="mb-3">
+              <CInputGroupText>
+              <CIcon icon={cilAddressBook} />
+              </CInputGroupText>
+              <CFormInput
+                placeholder="Adress"
+                autoComplete="Adress"
+                type="text"
+                value={address}
+                required
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </CInputGroup>
+            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+              Password :
+            </label>
+            <CInputGroup className="mb-3">
+              <CInputGroupText>
+              <CIcon icon={cilLockLocked} />
+              </CInputGroupText>
+              <CFormInput
+                placeholder="Password"
+                autoComplete="Password"
+                type="password"
+                value={password}
+                required
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </CInputGroup>
+            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+              Email :
+            </label>
+            <CInputGroup className="mb-3">
+              <CInputGroupText>
+              <CIcon icon={cibGmail} />
+              </CInputGroupText>
+              <CFormInput
+                placeholder="email"
+                autoComplete="email"
+                type="email"
+                value={email}
+                required
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </CInputGroup>
+            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+              Active :
+            </label>
+            <CInputGroup className="mb-3">
+              <CInputGroupText>
+              <CIcon icon={cilCheck} />
+              </CInputGroupText>
+              <CFormInput
+                placeholder="Active"
+                autoComplete="Active"
+                type="text"
+                value={active}
+                required
+                onChange={(e) => setActive(e.target.value)}
+              />
+            </CInputGroup>
+          </Modal.Body>
+          <Modal.Footer>
+            <CButton variant="secondary" onClick={() => setShow(false)}>
+              Close
+            </CButton>
+            <CButton
+              className="btn btn-primary"
+              variant="primary"
+              type="submit"
+            >
+              Save Changes
+            </CButton>
+          </Modal.Footer>
+        </form>
+      </Modal>
     </div>
   );
 }
