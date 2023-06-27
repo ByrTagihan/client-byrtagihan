@@ -1,36 +1,33 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import "../../../../css/Transaction.css";
 import { API_DUMMY } from "../../../../utils/baseURL";
+import Swal from "sweetalert2";
 import { CFormInput } from "@coreui/react";
+import "../../../../css/UserOrganization.css"
 
-function CrudTransaction() {
-  const [total_page, setTotal_Page] = useState(1);
-  const [transaction, setTransaction] = useState("");
-
-  let navigate = useNavigate();
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("id");
+function Organization() {
+  const [list, setList] = useState([]);
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const [bills, setBills] = useState([]);
+  const [total_page, setTotal_Page] = useState(1);
   const [limit, setLimit] = useState("10");
-  const [sortDirection, setSortDirection] = useState("asc");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getAll = async () => {
     await axios
       .get(
-        `${API_DUMMY}/user/transaction?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
+        `${API_DUMMY}/user/organization?page=${currentPage}&limit=${limit}&search=${searchTerm}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
       )
       .then((res) => {
         setTotal_Page(res.data.pagination.total_page);
-        setBills(res.data.data);
+        setList(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -39,69 +36,23 @@ function CrudTransaction() {
 
   useEffect(() => {
     getAll(0);
-  }, [currentPage, limit, searchTerm, sortBy, sortDirection]);
+  }, [currentPage, limit,searchTerm]);
 
-  const Delete = async (id) => {
-    Swal.fire({
-      title: "Anda Ingin Menghapus Data?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Delete",
-      cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios.delete(`${API_DUMMY}/user/transaction/` + id, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Menghapus",
-          showConfirmButton: false,
-        });
-        console.log(id);
-      }
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    });
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const filteredBills = bills.filter((bill) =>
-    bill.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const sortedBills = bills.sort((a, b) => {
-    if (sortDirection === "asc") {
-      return a[sortBy] - b[sortBy];
-    } else {
-      return b[sortBy] - a[sortBy];
-    }
-  });
-
-  // untuk limit
-
   const handleLimit = (event) => {
     setLimit(event.target.value);
   };
 
-  const handleSort = (column) => {
-    if (column === sortBy) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    } else {
-      setSortBy(column);
-      setSortDirection("asc");
-    }
-  };
+  const filteredBills = list.filter((bill) =>
+    bill.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
@@ -147,20 +98,46 @@ function CrudTransaction() {
       )
     );
   };
+
+  const Delete = async (id) => {
+    Swal.fire({
+      title: "Anda Ingin Menghapus Data?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`${API_DUMMY}/user/organization/` + id, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Menghapus",
+          showConfirmButton: false,
+        });
+        console.log(id);
+      }
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    });
+  };
   return (
     <div>
-      {/* {localStorage.getItem("type_token") === "user" ? ( */}
       <div className="row">
         <div className="col" xs={12}>
           <div className="card mb-4">
             <div className="card-header">
               <div className="row">
                 <div className="col">
-                  <h4 className="textt">Transaction</h4>
+                  <h4 className="textt">Organization</h4>
                 </div>
 
                 <div className="col">
-                  <Link to="/tambahtransaction">
+                  <Link to="/tambahOrganization">
                     <button className="btn btn-primary float-end">
                       <FontAwesomeIcon icon="fa-plus" /> Tambah
                     </button>
@@ -170,10 +147,11 @@ function CrudTransaction() {
             </div>
 
             <div className="card-body">
-            <div className="row">
+              <div className="row">
+              <div className="row">
                 <div className="col">
                   <select
-                    className="choise form-select"
+                    className="shows form-select"
                     value={limit}
                     onChange={handleLimit}
                   >
@@ -182,10 +160,10 @@ function CrudTransaction() {
                     <option value="100">Show 100 Entries</option>
                   </select>
                 </div>
+               
                 <div className="col">
                   <CFormInput
-                  // style={{ width: "50%", marginLeft: "15em" }}
-                    className="filter-data-t"
+                    className="filter-data-o"
                     type="search"
                     placeholder="search data"
                     value={searchTerm}
@@ -193,65 +171,47 @@ function CrudTransaction() {
                   />
                 </div>
               </div>
-              <table className="tabel-transaction table  table1 responsive-3">
-                <thead className="text-center">
-                <tr>
-                <th scope="col" onClick={() => handleSort("id")}>
-                      No{" "}
-                      {sortBy === "id" && (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("description")}>
-                      Description{" "}
-                      {sortBy === "description" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th
-                      scope="col"
-                      onClick={() => handleSort("organization_name")}
-                    >
-                      Organization Name{" "}
-                      {sortBy === "organization_name" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("amount")}>
-                      Nominal{" "}
-                      {sortBy === "amount" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>{" "}
-                    <th scope="col" onClick={() => handleSort("created_date")}>
-                      Create Date{" "}
-                      {sortBy === "created_date" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("updated_date")}>
-                      Update Date{" "}
-                      {sortBy === "updated_date" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
+              </div>
+              <table className="tabel-organization table responsive-3 table1">
+                <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Alamat</th>
+                    <th scope="col">No Hp</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Kota</th>
+                    <th scope="col">Provinsi</th>
+                    <th scope="col">Saldo</th>
+                    <th scope="col">No Rekening</th>
+                    <th scope="col">Nama Rekening</th>
+                    <th scope="col">Nama Bank</th>
                     <th>Action</th>
-                </tr>
+                  </tr>
                 </thead>
-                <tbody
-                  id="myTable"
-                  className="bg-white"
-                  style={{ textAlign: "center" }}
-                >
-                  {filteredBills.map((item, index) => {
+                <tbody>
+                  {filteredBills.map((data, index) => {
                     return (
                       <tr key={index}>
-                        <td data-cell="No">{index + 1}</td>
-                        <td data-cell="Description">{item.description}</td>
-                        <td data-cell="Organization">
-                          {item.organization_name}
+                        <td data-cell="Id">{index + 1}</td>
+                        <td data-cell="Name">{data.name}</td>
+                        <td data-cell="Address">{data.address}</td>
+                        <td data-cell="HP">{data.hp}</td>
+                        <td data-cell="Email">{data.email}</td>
+                        <td data-cell="City">{data.city}</td>
+                        <td data-cell="Provinsi">{data.provinsi}</td>
+                        <td data-cell="Provinsi">{data.balance}</td>
+                        <td data-cell="Create Date">
+                          {data.bank_account_number}
                         </td>
-                        <td data-cell="Nominal">{item.amount}</td>
-                        <td data-cell="Create Date">{item.created_date}</td>
-                        <td data-cell="Update Date">{item.updated_date}</td>
-
                         <td data-cell="Update Date">
+                          {data.bank_account_name}
+                        </td>
+                        <td data-cell="Update Date">{data.bank_name}</td>
+                        <td data-cell="Action">
                           <button
                             onClick={() =>
-                              navigate(`/editTransaction/${item.id}`)
+                              navigate(`/userOrganization/${data.id}`)
                             }
                             type="button"
                             className="edit btn btn-primary me-2"
@@ -260,7 +220,7 @@ function CrudTransaction() {
                           </button>
 
                           <button
-                            onClick={() => Delete(item.id)}
+                            onClick={() => Delete(data.id)}
                             type="button"
                             className="hapus btn btn-danger me-2"
                           >
@@ -278,7 +238,7 @@ function CrudTransaction() {
 
               {/* Pagination */}
               <div>
-              <ul class="pagination float-end">
+                <ul class="pagination float-end">
                   <li
                     className={
                       "page-item " + (currentPage === 1 ? "disabled" : "")
@@ -313,11 +273,8 @@ function CrudTransaction() {
           </div>
         </div>
       </div>
-      {/* ) : (
-        <></>
-       )}  */}
     </div>
   );
 }
 
-export default CrudTransaction;
+export default Organization;

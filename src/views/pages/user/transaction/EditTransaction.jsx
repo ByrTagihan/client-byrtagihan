@@ -21,7 +21,6 @@ function EditTransaction() {
       periode: periode,
       amount: amount,
     };
-    console.log(data);
 
     await axios
       .put(`${API_DUMMY}/user/transaction/` + param.id, data, {

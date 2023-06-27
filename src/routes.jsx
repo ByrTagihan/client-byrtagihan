@@ -14,6 +14,12 @@ const UserProfile = React.lazy(() => import("./views/pages/user/UserProfile"));
 const UserOrganization = React.lazy(() =>
   import("./views/pages/user/organization/UserOrganization")
 );
+const Organization = React.lazy(() =>
+  import("./views/pages/user/organization/Organization")
+);
+const TambahOrganization = React.lazy(() =>
+  import("./views/pages/user/organization/TambahOrganization")
+);
 
 //Payment Section
 const CrudPayment = React.lazy(() =>
@@ -133,10 +139,21 @@ const routes = [
   //User
   { path: "/userProfile", name: "Dashboard User", element: UserProfile },
   {
-    path: "/userOrganization",
-    name: "Dashboard User",
+    path: "/userOrganization/:id",
+    name: "User Organization",
     element: UserOrganization,
   },
+  {
+    path: "/tableOrganization",
+    name: "User Organization",
+    element: Organization,
+  },
+  {
+    path: "/tambahOrganization",
+    name: "Tambah Organization",
+    element: TambahOrganization,
+  },
+
   { path: "/payment", name: "Payment", element: CrudPayment },
   { path: "/transaction", name: "Transaction", element: CrudTransaction },
   {

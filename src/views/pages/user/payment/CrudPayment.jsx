@@ -182,7 +182,7 @@ function CrudPayment() {
                 </div>
                 <div className="col">
                   <CFormInput
-                    className="filter-data"
+                    className="filter-data-p"
                     type="search"
                     placeholder="search data"
                     value={search}
