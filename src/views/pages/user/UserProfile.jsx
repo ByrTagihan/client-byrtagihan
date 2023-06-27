@@ -37,11 +37,12 @@ const [picture, setPicture] = useState("");
           const profil = res.data.data[0];
           setHp(profil.hp);
           setName(profil.name);
-          setEmail(profil.email);
+          setProfile({ ...profil, email: profil.email });
           setAddress(profil.address);
           setPicture(profile.picture);
+          setProfile({ ...profil, id: profil.id }); 
           console.log(res.data.data[0]);
-          console.log(profil.name);
+          console.log({ ...profil, id: profil.id });
         })
         .catch((error) => {
           alert("Terjadi Kesalahan" + error);

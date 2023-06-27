@@ -65,7 +65,7 @@ const Login = () => {
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
-          navigate("/dashboard");
+          navigate("/dashboardCustomer");
           setTimeout(() => {
             window.location.reload();
           }, 1500);

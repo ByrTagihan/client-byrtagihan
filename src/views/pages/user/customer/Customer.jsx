@@ -121,8 +121,7 @@ function Customer() {
           data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           // data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           data.email.toLowerCase().includes(searchTerm) ||
-          data.hp.toString().includes(searchTerm.toLowerCase()) ||
-          data.active.toString().includes(searchTerm.toLowerCase()) 
+          data.hp.toString().includes(searchTerm.toLowerCase())
         );
       });
     }
