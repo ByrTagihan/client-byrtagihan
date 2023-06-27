@@ -543,7 +543,6 @@ function DashboardUser() {
                     type="search"
                     style={{
                       marginBottom: "2px",
-                      width: "30%",
                       width: "20em",
                       marginRight: "14px",
                       marginTop: "1px",
@@ -693,7 +692,6 @@ function DashboardUser() {
                     type="search"
                     style={{
                       marginBottom: "2px",
-                      width: "30%",
                       width: "20em",
                       marginRight: "14px",
                       marginTop: "1px",
@@ -817,7 +815,6 @@ function DashboardUser() {
                     type="search"
                     style={{
                       marginBottom: "2px",
-                      width: "30%",
                       width: "20em",
                       marginRight: "14px",
                       marginTop: "1px",

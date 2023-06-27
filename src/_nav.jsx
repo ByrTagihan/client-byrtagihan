@@ -38,7 +38,7 @@ const _nav = [
   {
     component: CNavItem,
     name: "Dashboard Customer",
-    to: "/dashboard",
+    to: "/dashboardCustomer",
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
     roles: ["customer"],
   },
@@ -57,15 +57,15 @@ const _nav = [
   {
     component: CNavItem,
     name: "Organization",
-    to: "/tableOrganization",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    to: "/userOrganization",
+    icon: <CIcon icon={cilUserFemale} customClassName="nav-icon" />,
     roles: ["user"],
   },
   {
     component: CNavItem,
-    name: "Payment",
-    to: "/payment",
-    icon: <CIcon icon={cilDollar} customClassName="nav-icon" />,
+    name: "Organization",
+    to: "/tableOrganization",
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
     roles: ["user"],
   },
   {
@@ -168,55 +168,6 @@ const _nav = [
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
     roles: ["member"],
   },
-  // {
-  //   component: CNavTitle,
-  //   name: "Menu User",
-  //   roles: ["user", "customer"],
-  // },
-  // {
-  //   component: CNavGroup,
-  //   name: "User",
-  //   to: "/User",
-  //   icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-  //   roles: ["user", "customer"],
-  //   items: [
-  //     {
-  //       component: CNavItem,
-  //       name: "Customer",
-  //       to: "/userCustomer",
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: "Member",
-  //       to: "/userMember",
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: "Channel",
-  //       to: "/userChannel",
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: "Message",
-  //       to: "/mesage",
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: "Template",
-  //       to: "/UserTemplate",
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: "Transaction",
-  //       to: "/transaction",
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: "Payment",
-  //       to: "/payment",
-  //     },
-  //   ],
-  // },
 ];
 
 export default _nav;

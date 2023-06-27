@@ -1,3 +1,4 @@
+
 import React from "react";
 // import Login from './pages/Login'
 // import Register from './pages/Register'
@@ -13,12 +14,6 @@ const UserProfile = React.lazy(() => import("./views/pages/user/UserProfile"));
 //Organization Section
 const UserOrganization = React.lazy(() =>
   import("./views/pages/user/organization/UserOrganization")
-);
-const Organization = React.lazy(() =>
-  import("./views/pages/user/organization/Organization")
-);
-const TambahOrganization = React.lazy(() =>
-  import("./views/pages/user/organization/TambahOrganization")
 );
 
 //Payment Section
@@ -66,7 +61,8 @@ const UserTemplate = React.lazy(() =>
 
 //================================================
 //Customer Role
-const Dashboard = React.lazy(() => import("./views/dashboard/Dashboard"));
+const Dashboard = React.lazy(() => import("./views/dashboard/DashboardTes"));
+const DashboardTes = React.lazy(() => import("./views/dashboard/DashboardTes"));
 const Profile = React.lazy(() => import("./views/pages/costumer/Profile"));
 const GantiPasswordCustomer = React.lazy(() =>
   import("./views/pages/costumer/GantiPasswordCustomer")
@@ -139,21 +135,10 @@ const routes = [
   //User
   { path: "/userProfile", name: "Dashboard User", element: UserProfile },
   {
-    path: "/userOrganization/:id",
-    name: "User Organization",
+    path: "/userOrganization",
+    name: "Dashboard User",
     element: UserOrganization,
   },
-  {
-    path: "/tableOrganization",
-    name: "User Organization",
-    element: Organization,
-  },
-  {
-    path: "/tambahOrganization",
-    name: "Tambah Organization",
-    element: TambahOrganization,
-  },
-
   { path: "/payment", name: "Payment", element: CrudPayment },
   { path: "/transaction", name: "Transaction", element: CrudTransaction },
   {
@@ -179,8 +164,9 @@ const routes = [
   { path: "/UserTemplate", name: "UserTemplate", element: UserTemplate },
   //================================================================
   //Customer
-  { path: "/dashboard", name: "Dashboard", element: Dashboard },
+  { path: "/dashboardCustomer", name: "Dashboard", element: Dashboard },
   { path: "/customerProfile", name: "Profile", element: Profile },
+  { path: "/dashboardTes", name: "Dashboard Tes", element: DashboardTes },
   {
     path: "/gantiPasswordCustomer",
     name: "Ganti Password Customer",
