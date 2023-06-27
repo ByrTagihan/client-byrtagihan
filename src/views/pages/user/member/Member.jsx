@@ -1,12 +1,13 @@
 import { CCard, CCardHeader, CCardBody, CTable, CTableRow, CTableHead, CTableBody, CTableHeaderCell, CTableDataCell, CButton, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter, CFormLabel, CCol, CFormInput, CInputGroup, CForm, CFormSelect, CInputGroupText, } from '@coreui/react';
 import axios from 'axios';
 import React from 'react'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { API_DUMMY } from '../../../../utils/baseURL';
+import CIcon from '@coreui/icons-react';
+import { cilPencil, cilPlus, cilTrash } from '@coreui/icons';
 
 function Member() {
     const [member, setMember] = useState([]);
@@ -266,7 +267,7 @@ function Member() {
                                 />
                             </div>
                             <CButton onClick={() => setVisible(!visible)}>
-                                <FontAwesomeIcon icon="fa-plus" />
+                               <CIcon icon={cilPlus}/>
                                 Tambah data
                             </CButton>
                         </div>
@@ -297,11 +298,11 @@ function Member() {
                                         <CTableDataCell>{mem.hp}</CTableDataCell>
                                         <CTableDataCell>
                                             <CButton onClick={() => navigate(`/editUserMember/${mem.id}`)}>
-                                                <i className="fas fa-edit" style={{ color: 'white' }}></i>
+                                            <CIcon icon={cilPencil} style={{ color: 'white' }}/> 
                                             </CButton>
                                             {" "}
                                             <CButton onClick={() => Delete(mem.id)} className='btn-danger'>
-                                                <i className="fas fa-trash-alt" style={{ color: 'white' }}></i>
+                                            <CIcon icon={cilTrash} style={{ color: 'white' }}/> 
                                             </CButton>
                                         </CTableDataCell>
                                     </CTableRow>

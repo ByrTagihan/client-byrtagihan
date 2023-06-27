@@ -1,0 +1,60 @@
+.limit-channel {
+  width: 40%;
+  margin-bottom: 1em;
+}
+.search-channel {
+  width: 50%;
+  margin-left: 15.5em;
+  margin-bottom: 1em;
+}
+@media (max-width: 600px) {
+  .textt {
+    font-size: 20px;
+  }
+
+  .shows {
+    width: 80%;
+    margin-left: 5px;
+  }
+  .search-channel {
+    width: 100%;
+    margin-left: 0;
+  }
+  .limit-channel {
+    width: 80%;
+    margin-left: 0;
+  }
+  tbody {
+    text-align: left;
+  }
+  .option-select {
+    font-size: 12px;
+  }
+
+  .td {
+    padding-right: none;
+    display: flex;
+    justify-content: left;
+  }
+  .responsive-3 {
+    width: 100%;
+  }
+
+  th {
+    display: none;
+  }
+  td {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 15ch auto;
+    padding: 0.75em 1rem;
+  }
+  td:first-child {
+    padding-top: 2rem;
+  }
+
+  td::before {
+    content: attr(data-cell) "  : ";
+    font-weight: bold;
+  }
+}

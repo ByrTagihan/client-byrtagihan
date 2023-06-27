@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
@@ -8,6 +7,8 @@ import { API_DUMMY } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { CFormInput } from "@coreui/react";
 import "../../../../css/UserOrganization.css"
+import { cilPencil, cilPlus, cilTrash } from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
 
 function Organization() {
   const [list, setList] = useState([]);
@@ -139,7 +140,7 @@ function Organization() {
                 <div className="col">
                   <Link to="/tambahOrganization">
                     <button className="btn btn-primary float-end">
-                      <FontAwesomeIcon icon="fa-plus" /> Tambah
+                    <CIcon icon={cilPlus}/> Tambah
                     </button>
                   </Link>
                 </div>
@@ -216,7 +217,7 @@ function Organization() {
                             type="button"
                             className="edit btn btn-primary me-2"
                           >
-                            <FontAwesomeIcon icon="fa-edit" />
+                           <CIcon icon={cilPencil} />
                           </button>
 
                           <button
@@ -224,10 +225,7 @@ function Organization() {
                             type="button"
                             className="hapus btn btn-danger me-2"
                           >
-                            <FontAwesomeIcon
-                              style={{ color: "white" }}
-                              icon="fa-trash"
-                            />
+                          <CIcon icon={cilTrash} style={{color: "white"}}/>
                           </button>
                         </td>
                       </tr>
