@@ -130,6 +130,7 @@ const routes = [
   //================================================================
   //User
   { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
+  //User
   { path: "/userProfile", name: "Dashboard User", element: UserProfile },
   {
     path: "/userOrganization",

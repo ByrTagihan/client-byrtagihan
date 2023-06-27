@@ -20,6 +20,7 @@ function EditCustomer() {
 
   const update = async (e) => {
     e.preventDefault();
+    
     const req = {
       name: name,
       address: address,
@@ -234,20 +235,20 @@ function EditCustomer() {
               className="form-control inputHp"
             />
           </div>
-          <div>
-            <label className="form-label" style={{ fontWeight: "bold" }}>
-              Password :
-            </label>
-            <input
-              type="password"
-              className="form-control inputPassword"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+            {/* <div>
+              <label className="form-label" style={{ fontWeight: "bold" }}>
+                Password :
+              </label>
+              <input
+                type="password"
+                className="form-control inputPassword"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div> */}
         </div>
         <div className="box">
-          <div>
+          {/* <div>
             <label className="form-label" style={{ fontWeight: "bold" }}>
               Active :
             </label>
@@ -257,7 +258,7 @@ function EditCustomer() {
               value={active}
               onChange={(e) => setActive(e.target.value)}
             />
-          </div>
+          </div> */}
           <div>
             <label className="form-label" style={{ fontWeight: "bold" }}>
               Organization_id :

@@ -51,7 +51,7 @@ const AppSidebar = () => {
           timer: 1500,
         });
         //Untuk munuju page selanjutnya
-        navigate("/login");
+        navigate("/");
         setTimeout(() => {
           window.location.reload();
         }, 1500);
