@@ -12,6 +12,9 @@ const DashboardUser = React.lazy(() =>
 const UserProfile = React.lazy(() => import("./views/pages/user/UserProfile"));
 
 //Organization Section
+const Organization = React.lazy(() =>
+  import("./views/pages/user/organization/Organization")
+);
 const UserOrganization = React.lazy(() =>
   import("./views/pages/user/organization/UserOrganization")
 );
@@ -135,7 +138,12 @@ const routes = [
   //User
   { path: "/userProfile", name: "Dashboard User", element: UserProfile },
   {
-    path: "/userOrganization",
+    path: "/tableOrganization",
+    name: "User Organization",
+    element: Organization,
+  },
+  {
+    path: "/userOrganization:id",
     name: "Dashboard User",
     element: UserOrganization,
   },
