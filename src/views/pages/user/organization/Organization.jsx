@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { CFormInput } from "@coreui/react";
+import "../../../../css/UserOrganization.css"
 
 function Organization() {
   const [list, setList] = useState([]);
@@ -35,7 +36,7 @@ function Organization() {
 
   useEffect(() => {
     getAll(0);
-  }, [currentPage, searchTerm]);
+  }, [currentPage, limit,searchTerm]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -45,9 +46,13 @@ function Organization() {
     setSearchTerm(event.target.value);
   };
 
+  const handleLimit = (event) => {
+    setLimit(event.target.value);
+  };
+
   const filteredBills = list.filter((bill) =>
-  bill.name.toLowerCase().includes(searchTerm.toLowerCase())
-);
+    bill.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
@@ -132,16 +137,6 @@ function Organization() {
                 </div>
 
                 <div className="col">
-                  <CFormInput
-                  style={{marginLeft: "14em"}}
-                    className="filter-data"
-                    type="search"
-                    placeholder="search data"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                  />
-                </div>
-                <div className="col">
                   <Link to="/tambahOrganization">
                     <button className="btn btn-primary float-end">
                       <FontAwesomeIcon icon="fa-plus" /> Tambah
@@ -153,28 +148,30 @@ function Organization() {
 
             <div className="card-body">
               <div className="row">
-                {/* <div className="col">
+              <div className="row">
+                <div className="col">
                   <select
-                    className="choise form-select"
+                    className="shows form-select"
                     value={limit}
                     onChange={handleLimit}
-                    // style={{ width: "40%" }}
                   >
                     <option value="1">Show 1 Entries</option>
                     <option value="10">Show 10 Entries</option>
                     <option value="100">Show 100 Entries</option>
                   </select>
-                </div> */}
-                {/* <div className="col">
+                </div>
+               
+                <div className="col">
                   <CFormInput
-                  // style={{ width: "50%", marginLeft: "15em" }}
+                    // style={{ marginLeft: "14em" }}
                     className="filter-data"
                     type="search"
                     placeholder="search data"
                     value={searchTerm}
                     onChange={handleSearch}
                   />
-                </div> */}
+                </div>
+              </div>
               </div>
               <table className="table responsive-3 table1">
                 <thead>
@@ -218,7 +215,7 @@ function Organization() {
                               navigate(`/userOrganization/${data.id}`)
                             }
                             type="button"
-                            className="btn btn-primary me-2"
+                            className="edit btn btn-primary me-2"
                           >
                             <FontAwesomeIcon icon="fa-edit" />
                           </button>
@@ -226,7 +223,7 @@ function Organization() {
                           <button
                             onClick={() => Delete(data.id)}
                             type="button"
-                            className="btn btn-danger me-2"
+                            className="hapus btn btn-danger me-2"
                           >
                             <FontAwesomeIcon
                               style={{ color: "white" }}

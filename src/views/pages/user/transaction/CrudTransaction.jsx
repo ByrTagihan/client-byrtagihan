@@ -176,7 +176,6 @@ function CrudTransaction() {
                     className="choise form-select"
                     value={limit}
                     onChange={handleLimit}
-                    // style={{ width: "40%" }}
                   >
                     <option value="1">Show 1 Entries</option>
                     <option value="10">Show 10 Entries</option>
@@ -249,13 +248,13 @@ function CrudTransaction() {
                         <td data-cell="Create Date">{item.created_date}</td>
                         <td data-cell="Update Date">{item.updated_date}</td>
 
-                        <td >
+                        <td data-cell="Update Date">
                           <button
                             onClick={() =>
                               navigate(`/editTransaction/${item.id}`)
                             }
                             type="button"
-                            className="btn btn-primary me-2"
+                            className="edit btn btn-primary me-2"
                           >
                             <FontAwesomeIcon icon="fa-edit" />
                           </button>
@@ -263,7 +262,7 @@ function CrudTransaction() {
                           <button
                             onClick={() => Delete(item.id)}
                             type="button"
-                            className="btn btn-danger me-2"
+                            className="hapus btn btn-danger me-2"
                           >
                             <FontAwesomeIcon
                               style={{ color: "white" }}
