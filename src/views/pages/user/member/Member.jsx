@@ -26,6 +26,8 @@ function Member() {
     const [total_page, setTotal_Page] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortBy, setSortBy] = useState('id');
+    const [limit, setLimit] = useState("10");
+    const [sortDirection, setSortDirection] = useState("asc");
     const [selectedMember, setSelectedMember] = useState([]);
     const [visible, setVisible] = useState(false)
     const navigate = useNavigate();
@@ -33,15 +35,17 @@ function Member() {
     // Function get
     const get = async () => {
         try {
-            const { data, status } = await axios.get(`${API_DUMMY}/user/member`, {
+            const { data, status } = await axios.get(`${API_DUMMY}/user/member?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             })
             if (status === 200) {
                 setMember(data.data);
+                setTotal_Page(data.pagination.total_page);
+                // console.log(data.pagination.total_page);
                 // console.log(data.data);
             }
         } catch (err) {
-            console.log(err);
+            alert("Terjadi Kesalahan" + err);
         }
     };
 
@@ -137,7 +141,6 @@ function Member() {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             })
             if (status === 200) {
-                setTotal_Page(data.pagination.total_page);
                 setCostumer(data.data);
                 // console.log(data.data);
             }
@@ -164,43 +167,89 @@ function Member() {
         setCurrentPage(page);
     };
 
-    const getPageNumbers = () => {
-        const pageNumbers = [];
-        for (let i = 1; i <= total_page; i++) {
-            pageNumbers.push(
-                <li
-                    key={i}
-                    className={"page-item " + (currentPage === i ? "active" : "")}
-                    aria-current="page"
-                    onClick={() => handlePageChange(i)}
-                >
-                    <a className="page-link">{i}</a>
-                </li>
-            );
-        }
-        return pageNumbers;
-    };
+    // const filteredMembers = member.filter((mem) => {
+    //     if (mem.description) {
+    //         return mem.description.toLowerCase().includes(searchTerm.toLowerCase());
+    //     }
+    //     return false;
+    // });
 
-    const filteredMember = member.filter((member) => {
-        if (member && member.description && searchTerm) {
-            return member.description.toLowerCase().includes(searchTerm.toLowerCase())
-        }
-        return false;
-    })
+    const filteredMembers = member.filter((member) =>
+        member.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
-    const sortedMember = filteredMember.sort((a, b) => {
-        if (sortBy === "description") {
-            return a.description.localeCompare(b.description);
-        } else {
+    const sortedMember = member.sort((a, b) => {
+        if (sortDirection === "asc") {
             return a[sortBy] - b[sortBy];
+        } else {
+            return b[sortBy] - a[sortBy];
         }
     });
 
+    // untuk limit
+    const handleLimit = (event) => {
+        setLimit(event.target.value);
+    };
+
+    const handleSort = (column) => {
+        if (column === sortBy) {
+            setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+        } else {
+            setSortBy(column);
+            setSortDirection("asc");
+        }
+    };
+
+    const renderPageNumbers = () => {
+        const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
+        const displayedPages = [];
+
+        if (total_page <= 5) {
+            displayedPages.push(...pageNumbers);
+        } else {
+            if (currentPage <= 3) {
+                displayedPages.push(
+                    ...pageNumbers.slice(0, 5),
+                    "dot",
+                    ...pageNumbers.slice(total_page - 1)
+                );
+            } else if (currentPage >= total_page - 2) {
+                displayedPages.push(
+                    ...pageNumbers.slice(0, 1),
+                    "dot",
+                    ...pageNumbers.slice(total_page - 5)
+                );
+            } else {
+                displayedPages.push(
+                    ...pageNumbers.slice(0, 1),
+                    "dot",
+                    ...pageNumbers.slice(currentPage - 2, currentPage + 1),
+                    "dot",
+                    ...pageNumbers.slice(total_page - 1)
+                );
+            }
+        }
+
+        return displayedPages.map((page) =>
+            page === "dot" ? (
+                <span key="dot">...</span>
+            ) : (
+                <li
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={"page-item " + (currentPage === page ? "active" : "")}
+                >
+                    <a className="page-link">{page}</a>
+                </li>
+            )
+        );
+    };
+
     useEffect(() => {
-        get();
+        get(0);
         GetOrganization();
         GetCostumer();
-    }, [currentPage, searchTerm, sortBy]);
+    }, [currentPage, limit, searchTerm, sortBy, sortDirection]);
 
     return (
         <div className='mb-5'>
@@ -237,7 +286,7 @@ function Member() {
                             </CTableRow>
                         </CTableHead>
                         <CTableBody>
-                            {member.map((mem, index) => {
+                            {filteredMembers.map((mem, index) => {
                                 return (
                                     <CTableRow key={index}>
                                         <CTableHeaderCell scope="row">{index + 1}</CTableHeaderCell>
@@ -276,7 +325,7 @@ function Member() {
                                     Previous
                                 </a>
                             </li>
-                            {getPageNumbers()}
+                            {renderPageNumbers()}
                             <li
                                 className={
                                     "page-item " +
