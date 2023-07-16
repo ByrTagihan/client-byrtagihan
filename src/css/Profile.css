@@ -11,11 +11,19 @@
 .box1 {
     border-radius: 10px;
     width: 21.5rem;
-    height: 27rem;
+    height: 21rem;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
 }
-
+.boxProfile {
+    margin-left: 18%;
+    border-radius: 10px;
+    width: 40rem;
+    height: 25rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 30px;
+    margin-bottom: 15px;
+}
 .textProfile {
     text-align: center;
     padding: 10px;
@@ -24,9 +32,10 @@
 .box2 {
     border-radius: 10px;
     width: 40rem;
-    height: 27rem;
+    height: 21rem;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     padding: 30px;
+    margin-bottom: 15px;
 
 }
 

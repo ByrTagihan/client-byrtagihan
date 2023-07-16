@@ -395,31 +395,7 @@ function LihatTagihanByMember() {
     <div>
       <div className="row">
         <div className="col" xs={12}>
-          <div className="card mb-4">
-            <div className="card-header">
-              <div style={{ display: "flex" }}>
-                <div className="col">
-                  <h4>Lihat Tagihan By Member</h4>
-                </div>
-                <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "10px",
-                }}>
-                <div className="col">
-                  <select
-                    className="form-select"
-                    value={limit}
-                    onChange={handleChangeLimit}
-                  >
-                    <option value="1">Show 1 Entries</option>
-                    <option value="10">Show 10 Entries</option>
-                    <option value="100">Show 100 Entries</option>
-                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-                  </select>
-                </div>
-                <div className="col">
+                <div className="inputSearch1">
                   <CFormInput
                     type="search"
                     style={{
@@ -433,6 +409,30 @@ function LihatTagihanByMember() {
                     onChange={handleSearch}
                   />
                 </div>
+                <div className="inputSearch1">
+                  <select
+                    className="form-select"
+                    value={limit}
+                    onChange={handleChangeLimit}
+                  >
+                    <option value="1">Show 1 Entries</option>
+                    <option value="10">Show 10 Entries</option>
+                    <option value="100">Show 100 Entries</option>
+                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                  </select>
+                </div>
+          <div className="card mb-4">
+            <div className="card-header">
+              <div style={{ display: "flex" }}>
+                <div className="col">
+                  <h4>Lihat Tagihan By Member</h4>
+                </div>
+                <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "10px",
+                }}>
                 <div className="col">
                   <button
                     onClick={() => setShowAdd(true)}
@@ -445,6 +445,34 @@ function LihatTagihanByMember() {
               </div>
             </div>
             <div className="card-body table-container">
+                <div style={{display:"flex", justifyContent:"space-between", gap:"10px"}}>
+                <div className="inputSearch">
+                  <select
+                    className="form-select"
+                    value={limit}
+                    onChange={handleChangeLimit}
+                  >
+                    <option value="1">Show 1 Entries</option>
+                    <option value="10">Show 10 Entries</option>
+                    <option value="100">Show 100 Entries</option>
+                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                  </select>
+                </div>
+                <div className="inputSearch">
+                  <CFormInput
+                    type="search"
+                    style={{
+                      marginBottom: "2px",
+                      width: "20em",
+                      marginRight: "14px",
+                      marginTop: "1px",
+                    }}
+                    placeholder="search data"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                  />
+                </div>
+                </div>
               <table className="table responsive-3 table1">
                 <thead>
                   {/* <tr>
@@ -530,9 +558,9 @@ function LihatTagihanByMember() {
                             className="edit1"
                             type="submit"
                             onClick={() => putUnpaid(data.id)}
-                            style={{ background: "green", color: "white" }}
+                            style={{ background: "red", color: "white" }}
                           >
-                            Terbayar
+                            Batal Bayar
                           </button>
                         ) : (
                           <button

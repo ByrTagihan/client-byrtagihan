@@ -207,10 +207,19 @@ const AppHeaderDropdown = () => {
           </CBadge>
         </CDropdownItem>
         <CDropdownDivider />
+        {localStorage.getItem("type_token") === "customer" ? (
         <CDropdownItem href="/#/gantiPasswordCustomer">
           <CIcon icon={cilLockLocked} className="me-2" />
           Ganti Password
         </CDropdownItem>
+        ): localStorage.getItem("type_token") === "member" ? (
+          <CDropdownItem href="/#/gantiPassMember">
+            <CIcon icon={cilLockLocked} className="me-2" />
+            Ganti Password
+          </CDropdownItem>
+        ):(
+          <></>
+        )}
       </CDropdownMenu>
     </CDropdown>
   );

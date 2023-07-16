@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import './scss/style.scss'
+import './css/Style.css'
 import ResetPassword from './views/pages/reset/ForgotPasswor'
 import PrivateRoute from './utils/PrivateRoute'
 import ForgotPasswordSiswa from './views/pages/reset/ForgotPasswordSiswa'
