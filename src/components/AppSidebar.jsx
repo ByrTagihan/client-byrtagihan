@@ -24,6 +24,7 @@ import Gambar from "../assets/images/branding-identity-corporate-b-logo-vector-d
 // import "../css/AppSidebar.css"
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import "../css/AppSidebar.css"
 
 const AppSidebar = () => {
   const userRole = localStorage.getItem("type_token"); 

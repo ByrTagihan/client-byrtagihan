@@ -5,10 +5,10 @@ import "../../../css/ListDataSiswa.css"
 
 function Bill() {
 
-    const [rekapBill, setRekapBill] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [sortedList, setSortedList] = useState([]);
-    const [sortConfig, setSortConfig] = useState({
+    const [bill, setBill] = useState([]);
+    const [searchTermBill, setSearchTermBill] = useState("");
+    const [sortedListBill, setSortedListBill] = useState([]);
+    const [sortConfigBill, setSortConfigBill] = useState({
       key: null,
       direction: "ascending",
     });
@@ -20,7 +20,7 @@ function Bill() {
       })
       .then((res) => {
         // setTotalPages(res.data.pagination.total_page);
-        setRekapBill(res.data.data);
+        setBill(res.data.data);
         console.log(res.data.data);
       })
       .catch((error) => {
@@ -32,38 +32,38 @@ function Bill() {
     getAll();
   }, []);
 
-  const handleSort = (key) => {
+  const handleSortBill = (key) => {
     let direction = "ascending";
     if (
-      sortConfig &&
-      sortConfig.key === key &&
-      sortConfig.direction === "ascending"
+      sortConfigBill &&
+      sortConfigBill.key === key &&
+      sortConfigBill.direction === "ascending"
     ) {
       direction = "descending";
     }
-    setSortConfig({ key, direction });
+    setSortConfigBill({ key, direction });
   };
 
   useEffect(() => {
-    let sortedData = [...rekapBill];
-    if (sortConfig !== null) {
+    let sortedData = [...bill];
+    if (sortConfigBill !== null) {
       sortedData.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === "ascending" ? -1 : 1;
+        if (a[sortConfigBill.key] < b[sortConfigBill.key]) {
+          return sortConfigBill.direction === "ascending" ? -1 : 1;
         }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === "ascending" ? 1 : -1;
+        if (a[sortConfigBill.key] > b[sortConfigBill.key]) {
+          return sortConfigBill.direction === "ascending" ? 1 : -1;
         }
         return 0;
       });
     }
-    if (searchTerm !== "") {
+    if (searchTermBill !== "") {
       sortedData = sortedData.filter((data) => {
-        return data.name.toLowerCase().includes(searchTerm.toLowerCase());
+        return data.name.toLowerCase().includes(searchTermBill.toLowerCase());
       });
     }
-    setSortedList(sortedData);
-  }, [sortConfig, searchTerm, rekapBill]);
+    setSortedListBill(sortedData);
+  }, [sortConfigBill, searchTermBill, bill]);
   return (
     <div className="row">
       <div className="col" xs={12}>
@@ -87,46 +87,46 @@ function Bill() {
             <table className="table responsive-3 table1">
               <thead>
                 <tr>
-                    <th scope="col" onClick={() => handleSort("no")}>
+                    <th scope="col" onClick={() => handleSortBill("no")}>
                       No{" "}
-                      {sortConfig && sortConfig.key === "no" && (
-                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
+                      {sortConfigBill && sortConfigBill.key === "no" && (
+                         (sortConfigBill.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
-                  <th scope="col" onClick={() => handleSort("periode")}>
+                  <th scope="col" onClick={() => handleSortBill("periode")}>
                     periode{" "}
-                    {sortConfig && sortConfig.key === "periode" && (
-                       (sortConfig.direction === 'ascending' ? '▲' : '▼')
+                    {sortConfigBill && sortConfigBill.key === "periode" && (
+                       (sortConfigBill.direction === 'ascending' ? '▲' : '▼')
                     )}
                   </th>
-                    <th scope="col" onClick={() => handleSort("count_bill")}>
+                    <th scope="col" onClick={() => handleSortBill("count_bill")}>
                       Count Bill{" "}
-                      {sortConfig && sortConfig.key === "count_bill" && (
-                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
+                      {sortConfigBill && sortConfigBill.key === "count_bill" && (
+                         (sortConfigBill.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
-                  <th scope="col" onClick={() => handleSort("total_bill")}>
+                  <th scope="col" onClick={() => handleSortBill("total_bill")}>
                     Total Bill{" "}
-                    {sortConfig && sortConfig.key === "total_bill" && (
-                       (sortConfig.direction === 'ascending' ? '▲' : '▼')
+                    {sortConfigBill && sortConfigBill.key === "total_bill" && (
+                       (sortConfigBill.direction === 'ascending' ? '▲' : '▼')
                     )}
                   </th>
-                  <th scope="col" onClick={() => handleSort("unpaid_bill")}>
+                  <th scope="col" onClick={() => handleSortBill("unpaid_bill")}>
                     Unpaid Bill{" "}
-                    {sortConfig && sortConfig.key === "unpaid_bill" && (
-                       (sortConfig.direction === 'ascending' ? '▲' : '▼')
+                    {sortConfigBill && sortConfigBill.key === "unpaid_bill" && (
+                       (sortConfigBill.direction === 'ascending' ? '▲' : '▼')
                     )}
                   </th>
-                  <th scope="col" onClick={() => handleSort("paid_bill")}>
+                  <th scope="col" onClick={() => handleSortBill("paid_bill")}>
                     Paid Bill{" "}
-                    {sortConfig && sortConfig.key === "paid_bill" && (
-                       (sortConfig.direction === 'ascending' ? '▲' : '▼')
+                    {sortConfigBill && sortConfigBill.key === "paid_bill" && (
+                       (sortConfigBill.direction === 'ascending' ? '▲' : '▼')
                     )}
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {sortedList.map((data, index) => {
+                {sortedListBill.map((data, index) => {
                   return (
                     <tr>
                       <td data-cell="Id" scope="row">

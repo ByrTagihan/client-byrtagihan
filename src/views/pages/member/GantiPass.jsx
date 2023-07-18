@@ -29,37 +29,51 @@ import CIcon from "@coreui/icons-react";
     const Put = async (e) => {
       e.preventDefault();
       e.persist();
-  
+    
+      if (new_password !== confirm_new_password) {
+        Swal.fire({
+          icon: "error",
+          title: "Konfirmasi password baru tidak sesuai",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return;
+      }
+    
       const data = {
         old_password: old_password,
         new_password: new_password,
         confirm_new_password: confirm_new_password,
       };
-  
+    
       try {
-        await axios
-          .put(`${API_DUMMY}/member/password`, data, {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-          })
-          .then((res) => {
-            console.log(res.data.code);
-            if (res.data.code === 200) {
-              Swal.fire({
-                icon: "success",
-                title: "Sukses mengedit password",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-            }
+        const response = await axios.put(`${API_DUMMY}/member/password`, data, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        });
+    
+        if (response.data.code === 200 & old_password === old_password) {
+          Swal.fire({
+            icon: "success",
+            title: "Sukses mengedit password",
+            showConfirmButton: false,
+            timer: 1500,
           });
-        setTimeout(() => {
-          navigate("/memberProfile");
-          window.location.reload();
-        }, 1500);
-      } catch (eror) {
+          setTimeout(() => {
+            navigate("/memberProfile");
+            window.location.reload();
+          }, 1500);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Password lama salah",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      } catch (error) {
         Swal.fire({
           icon: "error",
-          title: "Password lama tidak sesuai",
+          title: "Terjadi kesalahan",
           showConfirmButton: false,
           timer: 1500,
         });

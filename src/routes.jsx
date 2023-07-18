@@ -65,6 +65,7 @@ const UserTemplate = React.lazy(() =>
 //================================================
 //Customer Role
 const Dashboard = React.lazy(() => import("./views/dashboard/DashboardTes"));
+const DashboardCustomer = React.lazy(() => import("./views/dashboard/DashboardCustomer"));
 const DashboardTes = React.lazy(() => import("./views/dashboard/DashboardTes"));
 const Profile = React.lazy(() => import("./views/pages/costumer/Profile"));
 const GantiPasswordCustomer = React.lazy(() =>
@@ -192,6 +193,7 @@ const routes = [
   //================================================================
   //Customer
   { path: "/dashboardCustomer", name: "Dashboard", element: Dashboard },
+  { path: "/dashboardd", name: "Dashboard Customer", element: DashboardCustomer },
   { path: "/customerProfile", name: "Profile", element: Profile },
   { path: "/dashboardTes", name: "Dashboard Tes", element: DashboardTes },
   { path: "/CustomerRekapTransaction", name: "Customer Rekap Transaction", element: CustomerRekapTransaction },

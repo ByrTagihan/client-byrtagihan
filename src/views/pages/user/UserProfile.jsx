@@ -106,16 +106,16 @@ const [picture, setPicture] = useState("");
           </CInputGroup>
 
           {/* <CForm onSubmit={Post}> */}
-          <CInputGroup className="mb-3">
+          {/* <CInputGroup className="mb-3">
             <CFormInput
               autoComplete="picture"
               placeholder="link picture"
               onChange={(e) => setPicture(e.target.value)}
               // value={file}
-              type="text"
+              type="link"
             />
-            {/* <button type="submit">Post</button> */}
-          </CInputGroup>
+            <button type="submit">Post</button>
+          </CInputGroup> */}
           {/* </CForm> */}
 
           <CRow>
