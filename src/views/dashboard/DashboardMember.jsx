@@ -9,6 +9,7 @@ import {
   CDropdownItem,
   CDropdownToggle,
   CWidgetStatsA,
+  CFormInput,
 } from "@coreui/react";
 import { getStyle } from "@coreui/utils";
 import { CChartBar, CChartLine } from "@coreui/react-chartjs";
@@ -23,12 +24,26 @@ function DashboardMember() {
   const param = useParams();
   const [show, setShow] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState("10");
+  const [total_page, setTotal_Page] = useState(1);
+
+  const [searchChannel, setSearchChannel] = useState("");
+  const [currentChannel, setCurrentChannel] = useState(1);
+  const [limitChannel, setLimitChannel] = useState("10");
+  const [totalPage, setTotalPage] = useState(1);
+
   const getAll = async () => {
     await axios
-      .get(`${API_DUMMY}/member/bill`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+      .get(
+        `${API_DUMMY}/member/bill?page=${currentPage}&limit=${limit}&search=${searchTerm}`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      )
       .then((res) => {
+        setTotal_Page(res.data.pagination.total_page);
         setList(res.data.data);
         setAmount(res.data.data.amount);
         console.log(res.data.amount);
@@ -37,12 +52,75 @@ function DashboardMember() {
         alert("Terjadi Kesalahan" + error);
       });
   };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const filteredBills = list.filter((bill) =>
+    bill.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleLimit = (event) => {
+    setLimit(event.target.value);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
+    const displayedPages = [];
+
+    if (total_page <= 5) {
+      displayedPages.push(...pageNumbers);
+    } else {
+      if (currentPage <= 3) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(total_page - 1)
+        );
+      } else if (currentPage >= total_page - 2) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(total_page - 5)
+        );
+      } else {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(currentPage - 2, currentPage + 1),
+          "dot",
+          ...pageNumbers.slice(total_page - 1)
+        );
+      }
+    }
+
+    return displayedPages.map((page) =>
+      page === "dot" ? (
+        <span key="dot">...</span>
+      ) : (
+        <li
+          key={page}
+          onClick={() => handlePageChange(page)}
+          className={"page-item " + (currentPage === page ? "active" : "")}
+        >
+          <a class="page-link">{page}</a>
+        </li>
+      )
+    );
+  };
+
   const getMemberchannel = async () => {
     await axios
       .get(`${API_DUMMY}/member/channel`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
+        setTotalPage(res.data.pagination.totalPage);
         setmemberChannel(res.data.data);
       })
       .catch((error) => {
@@ -50,10 +128,74 @@ function DashboardMember() {
       });
   };
 
+  const handleSearchChannel = (event) => {
+    setSearchChannel(event.target.value);
+  };
+
+  const handlePageChannel = (page) => {
+    setCurrentChannel(page);
+  };
+
+  const filteredChannel = memberChannel.filter((bill) =>
+    bill.name.toLowerCase().includes(searchChannel.toLowerCase())
+  );
+
+  const handleLimitChannel = (event) => {
+    setLimitChannel(event.target.value);
+  };
+
+  const renderPageChannel = () => {
+    const pageNumbers = Array.from({ length: totalPage }, (_, i) => i + 1);
+    const displayedPages = [];
+
+    if (totalPage <= 5) {
+      displayedPages.push(...pageNumbers);
+    } else {
+      if (currentChannel <= 3) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPage - 1)
+        );
+      } else if (currentChannel >= totalPage - 2) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPage - 5)
+        );
+      } else {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(currentChannel - 2, currentChannel + 1),
+          "dot",
+          ...pageNumbers.slice(totalPage - 1)
+        );
+      }
+    }
+
+    return displayedPages.map((page) =>
+      page === "dot" ? (
+        <span key="dot">...</span>
+      ) : (
+        <li
+          key={page}
+          onClick={() => handlePageChannel(page)}
+          className={"page-item " + (currentChannel === page ? "active" : "")}
+        >
+          <a class="page-link">{page}</a>
+        </li>
+      )
+    );
+  };
+
   useEffect(() => {
     getAll(0);
+  }, [currentPage, limit, searchTerm]);
+
+  useEffect(() => {
     getMemberchannel(0);
-  }, []);
+  }, [currentChannel, limitChannel, searchChannel]);
 
   return (
     <div>
@@ -97,10 +239,10 @@ function DashboardMember() {
                 style={{ height: "70px" }}
                 data={{
                   labels: [
-                    // "January",
-                    // "February",
-                    // "March",
-                    // "April",
+                    "January",
+                    "February",
+                    "March",
+                    "April",
                     "May",
                     "June",
                     "July",
@@ -111,7 +253,7 @@ function DashboardMember() {
                       backgroundColor: "transparent",
                       borderColor: "rgba(255,255,255,.55)",
                       pointBackgroundColor: getStyle("--cui-primary"),
-                      data: [72, 59, 84],
+                      data: [72, 59, 84, 88],
                     },
                   ],
                 }}
@@ -568,8 +710,32 @@ function DashboardMember() {
         </div> */}
       </div>
 
-      <h3 style={{ fontWeight: "bold" }}>List Tagihan</h3>
-
+      <div style={{ display: "flex" }}>
+        <h3 style={{ fontWeight: "bold" }}>List Tagihan</h3>
+        <div className="row">
+          <div className="col">
+            <select
+              className="form-select"
+              style={{ width: "50%", marginLeft: "20em" }}
+              value={limit}
+              onChange={handleLimit}
+            >
+              <option value="1">Show 1 Entries</option>
+              <option value="10">Show 10 Entries</option>
+              <option value="100">Show 100 Entries</option>
+            </select>
+          </div>
+          <div className="col">
+            <CFormInput
+              style={{ width: "50%", marginLeft: "9em" }}
+              type="search"
+              placeholder="search data"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+        </div>
+      </div>
       <div style={{ marginTop: "1rem" }}>
         <table className="table border" style={{ textAlign: "center" }}>
           <thead
@@ -587,7 +753,7 @@ function DashboardMember() {
             </tr>
           </thead>
           <tbody className="bg-white" style={{ textAlign: "center" }}>
-            {list.map((data, index) => {
+            {filteredBills.map((data, index) => {
               return (
                 <tr key={index}>
                   <td>{index + 1}</td>
@@ -602,9 +768,68 @@ function DashboardMember() {
             })}
           </tbody>
         </table>
+
+        {/* Pagination List Tagihan */}
+        <div>
+          <ul class="pagination float-end">
+            <li
+              className={"page-item " + (currentPage === 1 ? "disabled" : "")}
+              disabled={currentPage === 1}
+            >
+              <a
+                class="page-link"
+                onClick={() => handlePageChange(currentPage - 1)}
+              >
+                Previous
+              </a>
+            </li>
+            {renderPageNumbers()}
+            <li
+              className={
+                "page-item " + (currentPage === total_page ? "disabled" : "")
+              }
+              disabled={currentPage === total_page}
+            >
+              <a
+                class="page-link"
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                Next
+              </a>
+            </li>
+          </ul>
+        </div>
+
       </div>
+
+
       <br />
-      <h3 style={{ fontWeight: "bold" }}>Channel</h3>
+      <div style={{ display: "flex" }}>
+        <h3 style={{ fontWeight: "bold" }}>Channel</h3>
+        <div className="row">
+          <div className="col">
+            <select
+              className="form-select"
+              style={{ width: "50%", marginLeft: "20em" }}
+              value={limitChannel}
+              onChange={handleLimitChannel}
+            >
+              <option value="1">Show 1 Entries</option>
+              <option value="10">Show 10 Entries</option>
+              <option value="100">Show 100 Entries</option>
+            </select>
+          </div>
+          <div className="col">
+            <CFormInput
+              style={{ width: "50%", marginLeft: "9em" }}
+              type="search"
+              placeholder="search data"
+              value={searchChannel}
+              onChange={handleSearchChannel}
+            />
+          </div>
+        </div>
+      </div>
 
       <div style={{ marginTop: "1rem" }}>
         <table className="table border" style={{ textAlign: "center" }}>
@@ -621,7 +846,7 @@ function DashboardMember() {
             </tr>
           </thead>
           <tbody className="bg-white" style={{ textAlign: "center" }}>
-            {memberChannel.map((data, index) => {
+            {filteredChannel.map((data, index) => {
               return (
                 <tr key={index}>
                   <td>{index + 1}</td>
@@ -640,6 +865,36 @@ function DashboardMember() {
             })}
           </tbody>
         </table>
+         {/* Pagination Channel */}
+         <div>
+          <ul class="pagination float-end">
+            <li
+              className={"page-item " + (currentChannel === 1 ? "disabled" : "")}
+              disabled={currentChannel === 1}
+            >
+              <a
+                class="page-link"
+                onClick={() => handlePageChannel(currentChannel - 1)}
+              >
+                Previous
+              </a>
+            </li>
+            {renderPageChannel()}
+            <li
+              className={
+                "page-item " + (currentChannel === totalPage ? "disabled" : "")
+              }
+              disabled={currentChannel === totalPage}
+            >
+              <a
+                class="page-link"
+                onClick={() => handlePageChannel(currentPage + 1)}
+              >
+                Next
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

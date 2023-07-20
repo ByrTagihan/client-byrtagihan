@@ -1,9 +1,240 @@
-import React from 'react'
+import React from "react";
+import { API_DUMMY } from "../../../../utils/baseURL";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
+import { CFormInput } from "@coreui/react";
+import "../css/memberChannel.css";
 
 function MemberChannel() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [list, setList] = useState([]);
+  const [limit, setLimit] = useState("10");
+  const [total_page, setTotal_Page] = useState(1);
+
+  const [sortBy, setSortBy] = useState("id");
+  const [sortDirection, setSortDirection] = useState("asc");
+
+  const getAll = async () => {
+    await axios
+      .get(
+        `${API_DUMMY}/member/channel?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      )
+      .then((res) => {
+        setTotal_Page(res.data.pagination.total_page);
+        setList(res.data.data);
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
+      });
+  };
+
+  useEffect(() => {
+    getAll(0);
+  }, [currentPage, limit, searchTerm, sortBy, sortDirection]);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const filteredBills = list.filter((bill) =>
+    bill.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleLimit = (event) => {
+    setLimit(event.target.value);
+  };
+
+  const handleSort = (column) => {
+    if (column === sortBy) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(column);
+      setSortDirection("asc");
+    }
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
+    const displayedPages = [];
+
+    if (total_page <= 5) {
+      displayedPages.push(...pageNumbers);
+    } else {
+      if (currentPage <= 3) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(total_page - 1)
+        );
+      } else if (currentPage >= total_page - 2) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(total_page - 5)
+        );
+      } else {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(currentPage - 2, currentPage + 1),
+          "dot",
+          ...pageNumbers.slice(total_page - 1)
+        );
+      }
+    }
+
+    return displayedPages.map((page) =>
+      page === "dot" ? (
+        <span key="dot">...</span>
+      ) : (
+        <li
+          key={page}
+          onClick={() => handlePageChange(page)}
+          className={"page-item " + (currentPage === page ? "active" : "")}
+        >
+          <a class="page-link">{page}</a>
+        </li>
+      )
+    );
+  };
   return (
-    <div>MemberChannel</div>
-  )
+    <div>
+      <div className="row">
+        <div className="col" xs={12}>
+          <div className="card mb-4">
+            <div className="card-header">
+              <div className="row">
+                <div className="col">
+                  <h4 className="textt">Channel</h4>
+                </div>
+              </div>
+            </div>
+
+            <div className="card-body">
+              <div className="row">
+                <div className="col">
+                  <select
+                    className="limit-channel form-select"
+                    value={limit}
+                    onChange={handleLimit}
+                  >
+                    <option value="1">Show 1 Entries</option>
+                    <option value="10">Show 10 Entries</option>
+                    <option value="100">Show 100 Entries</option>
+                  </select>
+                </div>
+                <div className="col">
+                  <CFormInput
+                    className="search-channel"
+                    type="search"
+                    placeholder="search data"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                  />
+                </div>
+              </div>
+              <table className="tabel-transaction table  table1 responsive-3">
+                <thead className="text-center">
+                  <tr>
+                    <th onClick={() => handleSort("id")}>
+                      No{" "}
+                      {sortBy === "id" && (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th onClick={() => handleSort("name")}>
+                      Name{" "}
+                      {sortBy === "name" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th onClick={() => handleSort("active")}>
+                      Active{" "}
+                      {sortBy === "active" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th onClick={() => handleSort("created_date")}>
+                      Created Date{" "}
+                      {sortBy === "created_date" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th onClick={() => handleSort("updated_date")}>
+                      Updated Date{" "}
+                      {sortBy === "updated_date" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  id="myTable"
+                  className="bg-white"
+                  style={{ textAlign: "center" }}
+                >
+                  {filteredBills.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td data-cell="No">{index + 1}</td>
+                        <td data-cell="Name">{item.name}</td>
+                        <td data-cell="Active">
+                          {item.active === true ? (
+                            <span>true</span>
+                          ) : (
+                            <span>false</span>
+                          )}
+                        </td>
+                        <td data-cell="Create Date">{item.created_date}</td>
+                        <td data-cell="Update Date">{item.updated_date}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+
+              {/* Pagination */}
+              <div>
+                <ul class="pagination float-end">
+                  <li
+                    className={
+                      "page-item " + (currentPage === 1 ? "disabled" : "")
+                    }
+                    disabled={currentPage === 1}
+                  >
+                    <a
+                      class="page-link"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                      Previous
+                    </a>
+                  </li>
+                  {renderPageNumbers()}
+                  <li
+                    className={
+                      "page-item " +
+                      (currentPage === total_page ? "disabled" : "")
+                    }
+                    disabled={currentPage === total_page}
+                  >
+                    <a
+                      class="page-link"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default MemberChannel
+export default MemberChannel;

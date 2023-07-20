@@ -9,10 +9,9 @@ import {
   CInputGroupText,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
-import { cilUser } from "@coreui/icons";
+import { cilAddressBook, cilLockLocked, cilLockUnlocked, cilMoney, cilPencil, cilPhone, cilPlus, cilTrash, cilUser } from "@coreui/icons";
 import Swal from "sweetalert2";
 // import ReactPaginate from "react-paginate"; Aku hapus ya fat :)
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function LIstDataSIswa() {
   const [name, setName] = useState("");
@@ -328,7 +327,6 @@ function LIstDataSIswa() {
                     type="search"
                     style={{
                       marginBottom: "2px",
-                      width: "30%",
                       width: "20em",
                       marginRight: "14px",
                       marginTop: "1px",
@@ -374,7 +372,6 @@ function LIstDataSIswa() {
                     type="search"
                     style={{
                       marginBottom: "2px",
-                      width: "30%",
                       width: "20em",
                       marginRight: "14px",
                       marginTop: "1px",
@@ -389,7 +386,7 @@ function LIstDataSIswa() {
                     onClick={() => setShow(true)}
                     className="btn btn-primary float-end"
                   >
-                    <FontAwesomeIcon icon="fa-plus" /> Tambah Data
+                    <CIcon icon={cilPlus} /> Tambah Data
                   </button>
                 </div>
                 </div>
@@ -402,61 +399,31 @@ function LIstDataSIswa() {
                     <th scope="col" onClick={() => handleSort("id")}>
                       Id{" "}
                       {sortConfig && sortConfig.key === "id" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("unique_id")}>
                       Nisn{" "}
                       {sortConfig && sortConfig.key === "unique_id" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("name")}>
                       Name{" "}
                       {sortConfig && sortConfig.key === "name" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("hp")}>
                       hp{" "}
                       {sortConfig && sortConfig.key === "hp" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("address")}>
                       Address{" "}
                       {sortConfig && sortConfig.key === "address" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col">Action</th>
@@ -485,7 +452,7 @@ function LIstDataSIswa() {
                                 href={"/#/Editlistdatasiswa/" + data.id}
                               >
                                 {" "}
-                                <i className="fas fa-edit"></i>
+                                <CIcon icon={cilPencil} />
                               </a>{" "}
                             </button>
                             <button
@@ -493,7 +460,7 @@ function LIstDataSIswa() {
                               onClick={() => deleteData(data.id)}
                               style={{ background: "red", color: "white" }}
                             >
-                              <i className="fas fa-trash-alt"></i>
+                              <CIcon icon={cilTrash} />
                             </button>
                             <button
                               className="edit1"
@@ -503,7 +470,7 @@ function LIstDataSIswa() {
                               }}
                               style={{ background: "orange", color: "white" }}
                             >
-                              <i className="fas fa-unlock-alt"></i>
+                             <CIcon icon={cilLockLocked} />
                             </button>
                             <button
                               className="edit1"
@@ -514,7 +481,7 @@ function LIstDataSIswa() {
                                 href={"/#/lihattagihanmember/" + data.id}
                               >
                                 {" "}
-                                <i className="fas fa-money-bill"></i>
+                                <CIcon icon={cilMoney} />
                               </a>
                             </button>
                           </div>
@@ -631,7 +598,7 @@ function LIstDataSIswa() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-file-signature" />
+                <CIcon icon={cilUser}/>
               </CInputGroupText>
               <CFormInput
                 placeholder="Name"
@@ -647,7 +614,7 @@ function LIstDataSIswa() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-mobile" />
+              <CIcon icon={cilPhone}/>
               </CInputGroupText>
               <CFormInput
                 placeholder="hp"
@@ -663,7 +630,7 @@ function LIstDataSIswa() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-map-marker-alt" />
+              <CIcon icon={cilAddressBook}/>
               </CInputGroupText>
               <CFormInput
                 placeholder="Adress"
@@ -679,7 +646,7 @@ function LIstDataSIswa() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <FontAwesomeIcon icon="fas fa-unlock-alt" />
+              <CIcon icon={cilLockLocked}/>
               </CInputGroupText>
               <CFormInput
                 placeholder="Password"

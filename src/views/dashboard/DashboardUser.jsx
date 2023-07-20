@@ -1,4 +1,4 @@
-import { cilPeople } from "@coreui/icons";
+import { cilDollar, cilMoney, cilPeople, cilSitemap, cilUser } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import {
   CAvatar,
@@ -10,7 +10,6 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from "@coreui/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import "../../views/css/DashboardUser.css";
 import { useState } from "react";
@@ -468,30 +467,30 @@ function DashboardUser() {
         <div className="bok1">
           <div className="bok3">
             <p>Organization</p>
-            <FontAwesomeIcon icon="fa-solid fa-sitemap" />
+            <CIcon icon={cilSitemap}/>
           </div>
           <div className="jumlah">
-            <FontAwesomeIcon icon="fa-solid fa-user" />
+            <CIcon icon={cilUser}/>
             <p>{organization.length}</p>
           </div>
         </div>
         <div className="bok1">
           <div className="bok3">
             <p>Payment</p>
-            <FontAwesomeIcon icon="fa-solid fa-dollar-sign" />
+            <CIcon icon={cilDollar}/>
           </div>
           <div className="jumlah">
-            <FontAwesomeIcon icon="fa-solid fa-user" />
+            <CIcon icon={cilUser}/>
             <p>{payment.length}</p>
           </div>
         </div>
         <div className="bok1">
           <div className="bok3">
             <p>Transaction</p>
-            <i className="fas fa-money-check-alt"></i>
+            <CIcon icon={cilMoney}/>
           </div>
           <div className="jumlah">
-            <FontAwesomeIcon icon="fa-solid fa-user" />
+            <CIcon icon={cilUser}/>
             <p>{transaction.length}</p>
           </div>
         </div>
@@ -503,7 +502,7 @@ function DashboardUser() {
             <i className="far fa-user"></i>
           </div>
           <div className="jumlah">
-            <FontAwesomeIcon icon="fa-solid fa-user" />
+            <CIcon icon={cilUser}/>
             <p>{customer.length}</p>
           </div>
         </div>
@@ -513,7 +512,7 @@ function DashboardUser() {
             <i className="fas fa-money-check"></i>
           </div>
           <div className="jumlah">
-            <FontAwesomeIcon icon="fa-solid fa-user" />
+            <CIcon icon={cilUser}/>
             <p>{channel.length}</p>
           </div>
         </div>
@@ -544,7 +543,6 @@ function DashboardUser() {
                     type="search"
                     style={{
                       marginBottom: "2px",
-                      width: "30%",
                       width: "20em",
                       marginRight: "14px",
                       marginTop: "1px",
@@ -564,97 +562,49 @@ function DashboardUser() {
                   <th scope="col" onClick={() => handleSortOrganization("no")}>
                       No{" "}
                       {sortConfigOrganization && sortConfigOrganization.key === "no" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigOrganization.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                       (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSortOrganization("nama")}>
                       Nama{" "}
                       {sortConfigOrganization && sortConfigOrganization.key === "nama" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigOrganization.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSortOrganization("email")}>
                       Email{" "}
                       {sortConfigOrganization && sortConfigOrganization.key === "email" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigOrganization.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSortOrganization("provinsi")}>
                       Provinsi{" "}
                       {sortConfigOrganization && sortConfigOrganization.key === "provinsi" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigOrganization.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSortOrganization("balance")}>
                       Balance{" "}
                       {sortConfigOrganization && sortConfigOrganization.key === "balance" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigOrganization.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSortOrganization("bank_acount_number")}>
                       Bank Acount Number{" "}
                       {sortConfigOrganization && sortConfigOrganization.key === "bank_acount_number" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigOrganization.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSortOrganization("bank_acount_name")}>
                       Bank Acount Name{" "}
                       {sortConfigOrganization && sortConfigOrganization.key === "bank_acount_name" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigOrganization.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSortOrganization("nama_bank")}>
                       Nama Bank{" "}
                       {sortConfigOrganization && sortConfigOrganization.key === "nama_bank" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigOrganization.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                   </tr>
@@ -742,7 +692,6 @@ function DashboardUser() {
                     type="search"
                     style={{
                       marginBottom: "2px",
-                      width: "30%",
                       width: "20em",
                       marginRight: "14px",
                       marginTop: "1px",
@@ -762,61 +711,31 @@ function DashboardUser() {
                   <th scope="col" onClick={() => handleSortPayment("no")}>
                       No{" "}
                       {sortConfigPayment && sortConfigPayment.key === "no" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigPayment.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                   <th scope="col" onClick={() => handleSortPayment("deskripsi")}>
                       Deskripsi{" "}
                       {sortConfigPayment && sortConfigPayment.key === "deskripsi" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigPayment.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                   <th scope="col" onClick={() => handleSortPayment("name")}>
                       Name{" "}
                       {sortConfigPayment && sortConfigPayment.key === "name" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigPayment.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                   <th scope="col" onClick={() => handleSortPayment("periode")}>
                       Periode{" "}
                       {sortConfigPayment && sortConfigPayment.key === "periode" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigPayment.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                   <th scope="col" onClick={() => handleSortPayment("amount")}>
                       Amount{" "}
                       {sortConfigPayment && sortConfigPayment.key === "amount" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigPayment.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                   </tr>
@@ -896,7 +815,6 @@ function DashboardUser() {
                     type="search"
                     style={{
                       marginBottom: "2px",
-                      width: "30%",
                       width: "20em",
                       marginRight: "14px",
                       marginTop: "1px",
@@ -916,49 +834,25 @@ function DashboardUser() {
                   <th scope="col" onClick={() => handleSortTransaction("no")}>
                       No{" "}
                       {sortConfigTransaction && sortConfigTransaction.key === "no" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigTransaction.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                   <th scope="col" onClick={() => handleSortTransaction("deskripsi")}>
                       Deskripsi{" "}
                       {sortConfigTransaction && sortConfigTransaction.key === "deskripsi" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigTransaction.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                   <th scope="col" onClick={() => handleSortTransaction("name")}>
                       Name{" "}
                       {sortConfigTransaction && sortConfigTransaction.key === "name" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigTransaction.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                   <th scope="col" onClick={() => handleSortTransaction("amount")}>
                       Amount{" "}
                       {sortConfigTransaction && sortConfigTransaction.key === "amount" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfigTransaction.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                        (sortDirection.direction === "ascending" ? "▲" : "▼")
                       )}
                     </th>
                   </tr>

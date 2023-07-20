@@ -1,5 +1,4 @@
 import { CFormInput } from "@coreui/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import "../../../../views/css/ListDataSiswa.css";
 import axios from "axios";
@@ -7,6 +6,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
+import { cilPencil, cilPlus, cilTrash } from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
 
 function Template() {
   const [listTemplate, setListTemplate] = useState([]);
@@ -250,7 +251,7 @@ function Template() {
                 </div>
                 <div className="">
                   <button className="btn btn-primary float-end">
-                    <FontAwesomeIcon icon="fa-plus" /> Tambah Data
+                  <CIcon icon={cilPlus} /> Tambah Data
                   </button>
                 </div>
               </div>
@@ -263,49 +264,25 @@ function Template() {
                     <th scope="col" onClick={() => handleSort("no")}>
                       No{" "}
                       {sortConfig && sortConfig.key === "no" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("nama")}>
                       Nama{" "}
                       {sortConfig && sortConfig.key === "nama" && (
-                        <FontAwesomeIcon
-                          icon={
-                            sortConfig.direction === "ascending"
-                              ? "fa-sort-up"
-                              : "fa-sort-down"
-                          }
-                        />
+                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                   <th scope="col" onClick={() => handleSort("created_date")}>
                     Created date{" "}
                     {sortConfig && sortConfig.key === "created_date" && (
-                      <FontAwesomeIcon
-                        icon={
-                          sortConfig.direction === "ascending"
-                            ? "fa-sort-up"
-                            : "fa-sort-down"
-                        }
-                      />
+                       (sortConfig.direction === 'ascending' ? '▲' : '▼')
                     )}
                   </th>
                   <th scope="col" onClick={() => handleSort("updated_date")}>
                     Updated date{" "}
                     {sortConfig && sortConfig.key === "updated_date" && (
-                      <FontAwesomeIcon
-                        icon={
-                          sortConfig.direction === "ascending"
-                            ? "fa-sort-up"
-                            : "fa-sort-down"
-                        }
-                      />
+                       (sortConfig.direction === 'ascending' ? '▲' : '▼')
                     )}
                   </th>
                   <th scope="col">Action</th>
@@ -334,14 +311,14 @@ function Template() {
                             // }}
                           >
                             {" "}
-                            <i className="fas fa-edit"></i>
+                            <CIcon icon={cilPencil} />
                           </button>
                           <button
                             onClick={() => deleteT(data.id)}
                             className="edit1"
                             style={{ background: "red", color: "white" }}
                           >
-                            <i className="fas fa-trash-alt"></i>
+                            <CIcon icon={cilTrash} />
                           </button>
                         </div>
                       </td>
@@ -380,115 +357,6 @@ function Template() {
           </div>
         </div>
       </div>
-
-      {/* <Modal show={show} onHide={!show}>
-      <form onSubmit={add}>
-        <Modal.Header style={{ background: "#526D82" }}>
-          <Modal.Title style={{ color: "white" }}>Modal Add</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{ color: "black" }}>
-          <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-            Name :
-          </label>
-          <CInputGroup className="mb-3">
-            <CInputGroupText>
-              <FontAwesomeIcon icon="fas fa-file-signature" />
-            </CInputGroupText>
-            <CFormInput
-              placeholder="Name"
-              autoComplete="Name"
-              type="text"
-              value={name}
-              required
-              onChange={(e) => setName(e.target.value)}
-            />
-          </CInputGroup>
-          <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-            Active :
-          </label>
-          <CInputGroup className="mb-3">
-            <CInputGroupText>
-              <FontAwesomeIcon icon="fas fa-map-marker-alt" />
-            </CInputGroupText>
-            <CFormInput
-              //   placeholder="Adress"
-              //   autoComplete="Adress"
-              type="text"
-              value={activeTrue}
-              required
-              onChange={(e) => setActiveTrue(e.target.value)}
-            />
-          </CInputGroup>
-        </Modal.Body>
-        <Modal.Footer>
-          <CButton variant="secondary" onClick={() => setShow(false)}>
-            Close
-          </CButton>
-          <CButton
-            className="btn btn-primary"
-            variant="primary"
-            type="submit"
-          >
-            Save Changes
-          </CButton>
-        </Modal.Footer>
-      </form>
-    </Modal>
-
-    {/* modal edit */}
-      {/* <Modal show={showEdit} onHide={!showEdit}>
-      <form onSubmit={put}>
-        <Modal.Header style={{ background: "#526D82" }}>
-          <Modal.Title style={{ color: "white" }}>Modal Edit</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{ color: "black" }}>
-          <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-            Name :
-          </label>
-          <CInputGroup className="mb-3">
-            <CInputGroupText>
-              <FontAwesomeIcon icon="fas fa-file-signature" />
-            </CInputGroupText>
-            <CFormInput
-              placeholder="Name"
-              autoComplete="Name"
-              type="text"
-              value={name}
-              required
-              onChange={(e) => setName(e.target.value)}
-            />
-          </CInputGroup>
-          <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-            Active :
-          </label>
-          <CInputGroup className="mb-3">
-            <CInputGroupText>
-              <FontAwesomeIcon icon="fas fa-map-marker-alt" />
-            </CInputGroupText>
-            <CFormInput
-              //   placeholder="Adress"
-              //   autoComplete="Adress"
-              type="text"
-              value={activeFalse}
-              required
-              onChange={(e) => setActiveFalse(e.target.value)}
-            />
-          </CInputGroup>
-        </Modal.Body>
-        <Modal.Footer>
-          <CButton variant="secondary" onClick={() => setShowEdit(false)}>
-            Close
-          </CButton>
-          <CButton
-            className="btn btn-primary"
-            variant="primary"
-            type="submit"
-          >
-            Save Changes
-          </CButton>
-        </Modal.Footer>
-      </form>
-    </Modal>  */}
     </div>
   );
 }
