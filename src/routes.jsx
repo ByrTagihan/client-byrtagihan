@@ -65,22 +65,12 @@ const UserTemplate = React.lazy(() =>
 //================================================
 //Customer Role
 const Dashboard = React.lazy(() => import("./views/dashboard/DashboardTes"));
-const DashboardCustomer = React.lazy(() => import("./views/dashboard/DashboardCustomer"));
+const DashboardCustomer = React.lazy(() => import("./views/dashboard/DashboardCoba2"));
 const DashboardTes = React.lazy(() => import("./views/dashboard/DashboardTes"));
 const Profile = React.lazy(() => import("./views/pages/costumer/Profile"));
 const GantiPasswordCustomer = React.lazy(() =>
   import("./views/pages/costumer/GantiPasswordCustomer")
 );
-const CustomerRekapTransaction = React.lazy(() =>
-  import("./views/pages/costumer/rekap/RekapTransaction")
-);
-const CustomerRekapBill = React.lazy(() =>
-  import("./views/pages/costumer/rekap/Bill")
-);
-const CustomerRekapTotal = React.lazy(() =>
-  import("./views/pages/costumer/rekap/Total")
-);
-
 //Organization Section
 const CustomerOrganization = React.lazy(() =>
   import("./views/pages/costumer/organization/CustomerOrganization")
@@ -123,12 +113,6 @@ const DashboardMember = React.lazy(() =>
 );
 const MemberProfile = React.lazy(() =>
   import("./views/pages/member/MemberProfile")
-);
-const MemberRekapTransaction = React.lazy(() =>
-  import("./views/pages/member/rekap/Transaction")
-);
-const MemberRekapBill = React.lazy(() =>
-  import("./views/pages/member/rekap/Bill")
 );
 const GantiPassMember = React.lazy(() =>
   import("./views/pages/member/GantiPass")
@@ -196,9 +180,6 @@ const routes = [
   { path: "/dashboardd", name: "Dashboard Customer", element: DashboardCustomer },
   { path: "/customerProfile", name: "Profile", element: Profile },
   { path: "/dashboardTes", name: "Dashboard Tes", element: DashboardTes },
-  { path: "/CustomerRekapTransaction", name: "Customer Rekap Transaction", element: CustomerRekapTransaction },
-  { path: "/CustomerRekapBill", name: "Customer Rekap Bill", element: CustomerRekapBill },
-  { path: "/CustomerRekapTotal", name: "Customer Rekap Total", element: CustomerRekapTotal },
   {
     path: "/gantiPasswordCustomer",
     name: "Ganti Password Customer",
@@ -248,9 +229,7 @@ const routes = [
   },
   { path: "/bayarTagihan/:id", name: "Bayar Tagihan", element: BayarTagihan },
   { path: "/bayarSemuaTagihan", name: "Bayar Tagihan", element: BayarSemuaTagihan },
-  { path: "/memberChannel", name: "Channel", element: MemberChannel },
-  { path: "/MemberRekapBill", name: "Customer Rekap Bill", element: MemberRekapBill },
-  { path: "/MemberRekapTransaction", name: "Customer Rekap Transaction", element: MemberRekapTransaction },
+  { path: "/memberChannel", name: "Channel", element: MemberChannel }
 ];
 
 export default routes;

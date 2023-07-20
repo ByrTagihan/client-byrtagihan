@@ -39,7 +39,7 @@ const _nav = [
   {
     component: CNavItem,
     name: "Dashboard Customer",
-    to: "/dashboardCustomer",
+    to: "/dashboardd",
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
     roles: ["customer"],
   },
@@ -138,27 +138,6 @@ const _nav = [
     name: "Profile",
     to: "/customerProfile",
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-    roles: ["customer"],
-  },
-  {
-    component: CNavItem,
-    name: "Rekap Transaction",
-    to: "/CustomerRekapTransaction",
-    icon: <CIcon icon={cilLibrary} customClassName="nav-icon" />,
-    roles: ["customer"],
-  },
-  {
-    component: CNavItem,
-    name: "Rekap Bill",
-    to: "/CustomerRekapBill",
-    icon: <CIcon icon={cilLibrary} customClassName="nav-icon" />,
-    roles: ["customer"],
-  },
-  {
-    component: CNavItem,
-    name: "Rekap Total",
-    to: "/CustomerRekapTotal",
-    icon: <CIcon icon={cilLibrary} customClassName="nav-icon" />,
     roles: ["customer"],
   },
   //Member Navigation

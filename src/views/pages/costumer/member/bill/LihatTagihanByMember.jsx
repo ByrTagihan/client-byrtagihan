@@ -58,7 +58,9 @@ function LihatTagihanByMember() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
-  }; const handleSearch = (event) => {
+  }; 
+  
+  const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
