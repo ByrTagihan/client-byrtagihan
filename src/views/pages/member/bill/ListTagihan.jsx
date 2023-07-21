@@ -33,6 +33,7 @@ function ListTagihan() {
             })
             if (status === 200) {
                 setBill(data.data);
+                setTotalPages(data.pagination.total_page);
             }
         } catch (err) {
             console.log(err);
@@ -85,8 +86,8 @@ function ListTagihan() {
     };
 
     useEffect(() => {
-        get();
-    }, []);
+        get(0);
+    }, [currentPage, searchTerm, sortBy]);
 
     return (
         <div>
@@ -129,7 +130,13 @@ function ListTagihan() {
                                                 <CTableDataCell>{bil.payment_id}</CTableDataCell>
                                                 <CTableDataCell>{bil.paid_date}</CTableDataCell>
                                                 <CTableDataCell>{bil.paid_amount}</CTableDataCell>
-                                                <CTableDataCell><CButton onClick={() => navigate(`/bayarTagihan/${bil.id}`)}>Bayar</CButton></CTableDataCell>
+                                                <CTableDataCell>
+                                                    {bil.paid_date ? (
+                                                        <CButton color='danger' onClick={() => navigate(`/bayarTagihan/${bil.id}`)}>Dibayar</CButton>
+                                                    ) : (
+                                                        <CButton onClick={() => navigate(`/bayarTagihan/${bil.id}`)}>Bayar</CButton>
+                                                    )}
+                                                </CTableDataCell>
                                             </CTableRow>
                                         )
                                     })}
@@ -150,7 +157,7 @@ function ListTagihan() {
                         <CCardBody className='d-flex justify-content-between'>
                             <CFormCheck id="flexCheckDefault" onChange={handleSelectAll} checked={selectAll} label="Pilih semua" />
                             <p>Total Pembayaran: Rp.{selectedBills.reduce((total, bil) => total + bil.amount, 0)}</p>
-                            <CButton onClick={() => navigate(`/bayarSemuaTagihan`)}>Bayar Semua</CButton>
+                            <CButton onClick={() => navigate(`/bayarSemuaTagihan`)} disabled={selectedBills.length === 0}>Bayar Semua</CButton>
                         </CCardBody>
                     </CCard>
                 </div>
