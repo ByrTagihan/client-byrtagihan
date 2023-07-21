@@ -354,7 +354,18 @@ function LIstDataSIswa() {
                 <div className="col">
                   <h4>List Data Siswa</h4>
                 </div>
-                <div style={{display:"flex", justifyContent:"center", gap:"10px"}}>
+                <div className="col">
+                  <button
+                    onClick={() => setShow(true)}
+                    className="btn btn-primary float-end"
+                  >
+                    <CIcon icon={cilPlus} /> Tambah Data
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="card-body table-container">
+                <div style={{display:"flex", justifyContent:"space-between", gap:"10px"}}>
                 <div className="inputSearch">
                   <select
                     className="form-select"
@@ -381,18 +392,7 @@ function LIstDataSIswa() {
                     onChange={handleSearch}
                   />
                 </div>
-                <div className="col">
-                  <button
-                    onClick={() => setShow(true)}
-                    className="btn btn-primary float-end"
-                  >
-                    <CIcon icon={cilPlus} /> Tambah Data
-                  </button>
                 </div>
-                </div>
-              </div>
-            </div>
-            <div className="card-body table-container">
               <table className="table table1 responsive-3">
                 <thead>
                   <tr>

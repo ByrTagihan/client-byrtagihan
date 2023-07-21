@@ -115,6 +115,8 @@ const AppHeaderDropdown = () => {
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
+          {/* <div className="header-nav nav-link"> */}
+          <CAvatar>
         {foto.picture ? (
           <img
             src={foto.picture}
@@ -128,6 +130,8 @@ const AppHeaderDropdown = () => {
             style={{ borderRadius: "100%", width: "2.5rem" }}
           />
         )}
+        </CAvatar> 
+        {/* </div> */}
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">
@@ -207,10 +211,19 @@ const AppHeaderDropdown = () => {
           </CBadge>
         </CDropdownItem>
         <CDropdownDivider />
+        {localStorage.getItem("type_token") === "customer" ? (
         <CDropdownItem href="/#/gantiPasswordCustomer">
           <CIcon icon={cilLockLocked} className="me-2" />
           Ganti Password
         </CDropdownItem>
+        ): localStorage.getItem("type_token") === "member" ? (
+          <CDropdownItem href="/#/gantiPassMember">
+            <CIcon icon={cilLockLocked} className="me-2" />
+            Ganti Password
+          </CDropdownItem>
+        ):(
+          <></>
+        )}
       </CDropdownMenu>
     </CDropdown>
   );
