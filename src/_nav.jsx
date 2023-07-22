@@ -1,3 +1,4 @@
+
 import React from "react";
 import CIcon from "@coreui/icons-react";
 import {
@@ -145,35 +146,21 @@ const _nav = [
     component: CNavItem,
     name: "Bill",
     to: "/listTagihanMember",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
     roles: ["member"],
   },
   {
     component: CNavItem,
     name: "Channel",
     to: "/memberChannel",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
     roles: ["member"],
   },
   {
     component: CNavItem,
     name: "Profile",
     to: "/memberProfile",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-    roles: ["member"],
-  },
-  {
-    component: CNavItem,
-    name: "Rekap Bill",
-    to: "/MemberRekapBill",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-    roles: ["member"],
-  },
-  {
-    component: CNavItem,
-    name: "Rekap Transaction",
-    to: "/MemberRekapTransaction",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
     roles: ["member"],
   },
 ];

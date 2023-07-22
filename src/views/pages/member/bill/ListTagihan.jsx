@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from 'react'
 import {
     CTable,
@@ -14,6 +16,7 @@ import {
 import axios from "axios";
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_DUMMY } from '../../../../utils/baseURL';
+import "../../../css/ListDataSiswa.css"
 
 function ListTagihan() {
     const [bill, setBill] = useState([]);
@@ -33,7 +36,6 @@ function ListTagihan() {
             })
             if (status === 200) {
                 setBill(data.data);
-                setTotalPages(data.pagination.total_page);
             }
         } catch (err) {
             console.log(err);
@@ -86,8 +88,8 @@ function ListTagihan() {
     };
 
     useEffect(() => {
-        get(0);
-    }, [currentPage, searchTerm, sortBy]);
+        get();
+    }, []);
 
     return (
         <div>
@@ -101,7 +103,7 @@ function ListTagihan() {
                 <div>
                     <CCard className='mb-5'>
                         <CCardBody>
-                            <CTable>
+                            <CTable className="table table1 responsive-3">
                                 <CTableHead>
                                     <CTableRow>
                                         <CTableHeaderCell scope="col">
@@ -123,20 +125,14 @@ function ListTagihan() {
                                             <CTableRow key={index}>
                                                 <CTableHeaderCell scope="row">
                                                 </CTableHeaderCell>
-                                                <CTableHeaderCell>{index + 1}</CTableHeaderCell>
-                                                <CTableDataCell>{bil.description}</CTableDataCell>
-                                                <CTableDataCell>{bil.periode}</CTableDataCell>
-                                                <CTableDataCell>{bil.amount}</CTableDataCell>
-                                                <CTableDataCell>{bil.payment_id}</CTableDataCell>
-                                                <CTableDataCell>{bil.paid_date}</CTableDataCell>
-                                                <CTableDataCell>{bil.paid_amount}</CTableDataCell>
-                                                <CTableDataCell>
-                                                    {bil.paid_date ? (
-                                                        <CButton color='danger' onClick={() => navigate(`/bayarTagihan/${bil.id}`)}>Dibayar</CButton>
-                                                    ) : (
-                                                        <CButton onClick={() => navigate(`/bayarTagihan/${bil.id}`)}>Bayar</CButton>
-                                                    )}
-                                                </CTableDataCell>
+                                                <CTableHeaderCell data-cell="No">{index + 1}</CTableHeaderCell>
+                                                <CTableDataCell data-cell="Deskripsi">{bil.description}</CTableDataCell>
+                                                <CTableDataCell data-cell="Periode">{bil.periode}</CTableDataCell>
+                                                <CTableDataCell data-cell="Nominal">{bil.amount}</CTableDataCell>
+                                                <CTableDataCell data-cell="Status">{bil.payment_id}</CTableDataCell>
+                                                <CTableDataCell data-cell="Tanggal Bayar">{bil.paid_date}</CTableDataCell>
+                                                <CTableDataCell data-cell="Nominal Bayar">{bil.paid_amount}</CTableDataCell>
+                                                <CTableDataCell data-cell="Action"><CButton onClick={() => navigate(`/bayarTagihan/${bil.id}`)}>Bayar</CButton></CTableDataCell>
                                             </CTableRow>
                                         )
                                     })}
@@ -157,7 +153,7 @@ function ListTagihan() {
                         <CCardBody className='d-flex justify-content-between'>
                             <CFormCheck id="flexCheckDefault" onChange={handleSelectAll} checked={selectAll} label="Pilih semua" />
                             <p>Total Pembayaran: Rp.{selectedBills.reduce((total, bil) => total + bil.amount, 0)}</p>
-                            <CButton onClick={() => navigate(`/bayarSemuaTagihan`)} disabled={selectedBills.length === 0}>Bayar Semua</CButton>
+                            <CButton onClick={() => navigate(`/bayarSemuaTagihan`)}>Bayar Semua</CButton>
                         </CCardBody>
                     </CCard>
                 </div>
