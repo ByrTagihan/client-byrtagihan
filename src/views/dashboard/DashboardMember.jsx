@@ -78,8 +78,6 @@ function DashboardMember() {
       });
   };
 
- 
-
   const getRecapBill = async () => {
     await axios
       .get(`${API_DUMMY}/member/report/recap/bill?limit=10000`, {
@@ -105,16 +103,11 @@ function DashboardMember() {
       });
   };
 
-
-
   const getRecapTransaction = async () => {
     await axios
-      .get(
-        `${API_DUMMY}/member/report/recap/transaction?limit=10000`,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
+      .get(`${API_DUMMY}/member/report/recap/transaction?limit=10000`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
       .then((res) => {
         if (Array.isArray(res.data.data)) {
           setRecapTransaction(res.data.data);
@@ -134,8 +127,6 @@ function DashboardMember() {
         alert("Terjadi Kesalahan" + error);
       });
   };
-
- 
 
   const getMemberchannel = async () => {
     await axios
@@ -179,21 +170,30 @@ function DashboardMember() {
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("id");
+  const [limit, setLimit] = useState("10");
   const navigate = useNavigate();
 
   // Function get
   const get = async () => {
-    try {
-      const { data, status } = await axios.get(`${API_DUMMY}/member/bill`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+    await axios
+      .get(
+        `${API_DUMMY}/member/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&search=${searchTerm}`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      )
+      .then((res) => {
+        setTotalPages(res.data.pagination.total_page);
+        setBill(res.data.data);
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
       });
-      if (status === 200) {
-        setBill(data.data);
-      }
-    } catch (err) {
-      console.log(err);
-    }
   };
+
+  useEffect(() => {
+    get(0);
+  }, [currentPage, limit, searchTerm]);
 
   const handleSelectAll = () => {
     if (selectAll) {
@@ -228,26 +228,50 @@ function DashboardMember() {
     }
   });
 
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <li
-          key={i}
-          className={"page-item " + (currentPage === i ? "active" : "")}
-          aria-current="page"
-          onClick={() => handlePageChange(i)}
-        >
-          <a className="page-link">{i}</a>
-        </li>
-      );
-    }
-    return pageNumbers;
-  };
+  const renderPageNumbers = () => {
+    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+    const displayedPages = [];
 
-  useEffect(() => {
-    get();
-  }, []);
+    if (totalPages <= 5) {
+      displayedPages.push(...pageNumbers);
+    } else {
+      if (currentPage <= 3) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
+      } else if (currentPage >= totalPages - 2) {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
+      } else {
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(currentPage - 2, currentPage + 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
+      }
+    }
+
+    return displayedPages.map((page) =>
+      page === "dot" ? (
+        <span key="dot">...</span>
+      ) : (
+        <li
+          key={page}
+          onClick={() => handlePageChange(page)}
+          className={"page-item " + (currentPage === page ? "active" : "")}
+        >
+          <a class="page-link">{page}</a>
+        </li>
+      )
+    );
+  };
 
   return (
     <div>
@@ -666,7 +690,6 @@ function DashboardMember() {
         }}
       ></div>
 
-     
       {bill.length === 0 ? (
         <div className="text-center">
           <img
@@ -751,36 +774,39 @@ function DashboardMember() {
                   })}
                 </CTableBody>
               </CTable>
-              <ul className="pagination float-end">
-                <li
-                  className={
-                    "page-item " + (currentPage === 1 ? "disabled" : "")
-                  }
-                  disabled={currentPage === 1}
-                >
-                  <a
-                    className="page-link"
-                    onClick={() => handlePageChange(currentPage - 1)}
+              {/* Pagination */}
+              <div>
+                <ul class="pagination float-end">
+                  <li
+                    className={
+                      "page-item " + (currentPage === 1 ? "disabled" : "")
+                    }
+                    disabled={currentPage === 1}
                   >
-                    Previous
-                  </a>
-                </li>
-                {getPageNumbers()}
-                <li
-                  className={
-                    "page-item " +
-                    (currentPage === totalPages ? "disabled" : "")
-                  }
-                  disabled={currentPage === totalPages}
-                >
-                  <a
-                    className="page-link"
-                    onClick={() => handlePageChange(currentPage + 1)}
+                    <a
+                      class="page-link"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                      Previous
+                    </a>
+                  </li>
+                  {renderPageNumbers()}
+                  <li
+                    className={
+                      "page-item " +
+                      (currentPage === totalPages ? "disabled" : "")
+                    }
+                    disabled={currentPage === totalPages}
                   >
-                    Next
-                  </a>
-                </li>
-              </ul>
+                    <a
+                      class="page-link"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </CCardBody>
           </CCard>
           <CCard>
