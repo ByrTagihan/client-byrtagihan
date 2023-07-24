@@ -269,7 +269,7 @@ function Member() {
                                 />
                             </div>
                             <CButton onClick={() => setVisible(!visible)}>
-                               <CIcon icon={cilPlus}/>
+                                <CIcon icon={cilPlus} />
                                 Tambah data
                             </CButton>
                         </div>
@@ -292,20 +292,29 @@ function Member() {
                             {filteredMembers.map((mem, index) => {
                                 return (
                                     <CTableRow key={index}>
-                                        <CTableHeaderCell data-cell = "No"  scope="row">{index + 1}</CTableHeaderCell>
-                                        <CTableDataCell data-cell = "Name" >{mem.name}</CTableDataCell>
-                                        <CTableDataCell data-cell = "Unique_Id" >{mem.unique_id}</CTableDataCell>
-                                        <CTableDataCell data-cell = "Sekolah" >{mem.organization_name}</CTableDataCell>
-                                        <CTableDataCell data-cell = "Alamat" >{mem.address}</CTableDataCell>
-                                        <CTableDataCell data-cell = "NO Hp" >{mem.hp}</CTableDataCell>
-                                        <CTableDataCell data-cell = "Action " >
-                                            <CButton onClick={() => navigate(`/editUserMember/${mem.id}`)}>
-                                            <CIcon icon={cilPencil} style={{ color: 'white' }}/> 
-                                            </CButton>
+                                        <CTableHeaderCell data-cell="No" scope="row">{index + 1}</CTableHeaderCell>
+                                        <CTableDataCell data-cell="Name" >{mem.name}</CTableDataCell>
+                                        <CTableDataCell data-cell="Unique_Id" >{mem.unique_id}</CTableDataCell>
+                                        <CTableDataCell data-cell="Sekolah" >{mem.organization_name}</CTableDataCell>
+                                        <CTableDataCell data-cell="Alamat" >{mem.address}</CTableDataCell>
+                                        <CTableDataCell data-cell="NO Hp" >{mem.hp}</CTableDataCell>
+                                        <CTableDataCell data-cell="Action " >
+                                            <button
+                                                onClick={() => navigate(`/editUserMember/${mem.id}`)}
+                                                className="edit1"
+                                                style={{ background: "blue" }}
+                                            >
+                                                {" "}
+                                                <CIcon icon={cilPencil} />
+                                            </button>
                                             {" "}
-                                            <CButton onClick={() => Delete(mem.id)} className='btn-danger'>
-                                            <CIcon icon={cilTrash} style={{ color: 'white' }}/> 
-                                            </CButton>
+                                            <button
+                                                onClick={() => Delete(mem.id)}
+                                                className="edit1"
+                                                style={{ background: "red", color: "white" }}
+                                            >
+                                                <CIcon icon={cilTrash} />
+                                            </button>
                                         </CTableDataCell>
                                     </CTableRow>
                                 )
