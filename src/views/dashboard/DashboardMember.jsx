@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import "../css/DashboardMember.css";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   CRow,
   CCol,
@@ -9,193 +10,244 @@ import {
   CDropdownItem,
   CDropdownToggle,
   CWidgetStatsA,
-  CFormInput,
+  CTable,
+  CTableHead,
+  CTableRow,
+  CTableHeaderCell,
+  CTableBody,
+  CTableDataCell,
+  CCard,
+  CCardBody,
+  CButton,
+  CFormCheck,
 } from "@coreui/react";
 import { getStyle } from "@coreui/utils";
 import { CChartBar, CChartLine } from "@coreui/react-chartjs";
 import CIcon from "@coreui/icons-react";
-import { cilArrowBottom, cilArrowTop, cilOptions } from "@coreui/icons";
+import { cilOptions } from "@coreui/icons";
 import { API_DUMMY } from "../../utils/baseURL";
 
 function DashboardMember() {
   const [list, setList] = useState([]);
-  const [amount, setAmount] = useState("");
+  const [recapBill, setRecapBill] = useState([]);
+  const [recapTransaction, setRecapTransaction] = useState([]);
   const [memberChannel, setmemberChannel] = useState([]);
+
   const param = useParams();
   const [show, setShow] = useState(false);
+  const [amount, setAmount] = useState("");
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [dataBulanan, setdataBulanan] = useState([]);
+  const [combinedData, setCombinedData] = useState([]);
+  const [dataChannel, setdataChannel] = useState([]);
+  const [totalChannel, setTotalChannel] = useState([]);
+  const [dataRecapBill, setDataRecapBill] = useState([]);
+  const [totalRecapBill, setTotalRecapBill] = useState([]);
+  const [dataRecapTransaction, setDataRecapTransaction] = useState([]);
+  const [totalRecapTransaction, setTotalRecapTransaction] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState("10");
-  const [total_page, setTotal_Page] = useState(1);
-
-  const [searchChannel, setSearchChannel] = useState("");
-  const [currentChannel, setCurrentChannel] = useState(1);
-  const [limitChannel, setLimitChannel] = useState("10");
-  const [totalPage, setTotalPage] = useState(1);
+  // const [limit, setLimit] = useState("100");
+  // const [limitChannel, setLimitChannel] = useState("100");
+  // const [limitRecapBill, setLimitRecapBill] = useState("100");
+  // const [limitRecapTransaction, setLimitRecapTransaction] = useState("100");
 
   const getAll = async () => {
     await axios
+      .get(`${API_DUMMY}/member/bill?limit=10000`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
+      .then((res) => {
+        if (Array.isArray(res.data.data)) {
+          setList(res.data.data);
+          setAmount(res.data.data.amount);
+
+          // Menghitung jumlah data bulanan
+          const dataBulanan = new Array(12).fill(0);
+          res.data.data.forEach((item) => {
+            const createdMonth = new Date(item.created_date).getMonth();
+            dataBulanan[createdMonth]++;
+          });
+          setdataBulanan(dataBulanan);
+          const combinedData = [...res.data.data];
+          setCombinedData(combinedData);
+        }
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
+      });
+  };
+
+ 
+
+  const getRecapBill = async () => {
+    await axios
+      .get(`${API_DUMMY}/member/report/recap/bill?limit=10000`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
+      .then((res) => {
+        if (Array.isArray(res.data.data)) {
+          setRecapBill(res.data.data);
+
+          // Menghitung jumlah data bulanan
+          const dataRecapBill = new Array(12).fill(0);
+          res.data.data.forEach((item) => {
+            const createdMonth = new Date(item.created_date).getMonth();
+            dataRecapBill[createdMonth]++;
+          });
+          setDataRecapBill(dataRecapBill);
+          const totalRecapBill = [...res.data.data];
+          setTotalRecapBill(totalRecapBill);
+        }
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
+      });
+  };
+
+
+
+  const getRecapTransaction = async () => {
+    await axios
       .get(
-        `${API_DUMMY}/member/bill?page=${currentPage}&limit=${limit}&search=${searchTerm}`,
+        `${API_DUMMY}/member/report/recap/transaction?limit=10000`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
       )
       .then((res) => {
-        setTotal_Page(res.data.pagination.total_page);
-        setList(res.data.data);
-        setAmount(res.data.data.amount);
-        console.log(res.data.amount);
+        if (Array.isArray(res.data.data)) {
+          setRecapTransaction(res.data.data);
+
+          // Menghitung jumlah data bulanan
+          const dataRecapTransaction = new Array(12).fill(0);
+          res.data.data.forEach((item) => {
+            const createdMonth = new Date(item.created_date).getMonth();
+            dataRecapTransaction[createdMonth]++;
+          });
+          setDataRecapTransaction(dataRecapTransaction);
+          const totalRecapTransaction = [...res.data.data];
+          setTotalRecapTransaction(totalRecapTransaction);
+        }
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+  };
+
+ 
+
+  const getMemberchannel = async () => {
+    await axios
+      .get(`${API_DUMMY}/member/channel?limit=10000`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
+      .then((res) => {
+        if (Array.isArray(res.data.data)) {
+          setmemberChannel(res.data.data);
+
+          // Menghitung jumlah data bulanan
+          const dataChannel = new Array(12).fill(0);
+          res.data.data.forEach((item) => {
+            const createdMonth = new Date(item.created_date).getMonth();
+            dataChannel[createdMonth]++;
+          });
+          setdataChannel(dataChannel);
+          const totalChannel = [...res.data.data];
+          setTotalChannel(totalChannel);
+        }
+      })
+      .catch((error) => {
+        // alert("Terjadi Kesalahan" + error);
+      });
+  };
+
+  const handleLimitChannel = (event) => {
+    setLimitChannel(event.target.value);
+  };
+
+  useEffect(() => {
+    getAll(0);
+    getMemberchannel(0);
+    getRecapBill(0);
+    getRecapTransaction(0);
+  }, []);
+
+  const [bill, setBill] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [selectedBills, setSelectedBills] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("id");
+  const navigate = useNavigate();
+
+  // Function get
+  const get = async () => {
+    try {
+      const { data, status } = await axios.get(`${API_DUMMY}/member/bill`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      });
+      if (status === 200) {
+        setBill(data.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedBills([]);
+    } else {
+      setSelectedBills(bill);
+    }
+    setSelectAll(!selectAll);
   };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
+  const handleSort = (event) => {
+    setSortBy(event.target.value);
+  };
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const filteredBills = list.filter((bill) =>
+  const filteredBills = bill.filter((bill) =>
     bill.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleLimit = (event) => {
-    setLimit(event.target.value);
-  };
-
-  const renderPageNumbers = () => {
-    const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
-    const displayedPages = [];
-
-    if (total_page <= 5) {
-      displayedPages.push(...pageNumbers);
+  const sortedBills = filteredBills.sort((a, b) => {
+    if (sortBy === "description") {
+      return a.description.localeCompare(b.description);
     } else {
-      if (currentPage <= 3) {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 5),
-          "dot",
-          ...pageNumbers.slice(total_page - 1)
-        );
-      } else if (currentPage >= total_page - 2) {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 1),
-          "dot",
-          ...pageNumbers.slice(total_page - 5)
-        );
-      } else {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 1),
-          "dot",
-          ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          "dot",
-          ...pageNumbers.slice(total_page - 1)
-        );
-      }
+      return a[sortBy] - b[sortBy];
     }
+  });
 
-    return displayedPages.map((page) =>
-      page === "dot" ? (
-        <span key="dot">...</span>
-      ) : (
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
         <li
-          key={page}
-          onClick={() => handlePageChange(page)}
-          className={"page-item " + (currentPage === page ? "active" : "")}
+          key={i}
+          className={"page-item " + (currentPage === i ? "active" : "")}
+          aria-current="page"
+          onClick={() => handlePageChange(i)}
         >
-          <a class="page-link">{page}</a>
+          <a className="page-link">{i}</a>
         </li>
-      )
-    );
-  };
-
-  const getMemberchannel = async () => {
-    await axios
-      .get(`${API_DUMMY}/member/channel`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        setTotalPage(res.data.pagination.totalPage);
-        setmemberChannel(res.data.data);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-  };
-
-  const handleSearchChannel = (event) => {
-    setSearchChannel(event.target.value);
-  };
-
-  const handlePageChannel = (page) => {
-    setCurrentChannel(page);
-  };
-
-  const filteredChannel = memberChannel.filter((bill) =>
-    bill.name.toLowerCase().includes(searchChannel.toLowerCase())
-  );
-
-  const handleLimitChannel = (event) => {
-    setLimitChannel(event.target.value);
-  };
-
-  const renderPageChannel = () => {
-    const pageNumbers = Array.from({ length: totalPage }, (_, i) => i + 1);
-    const displayedPages = [];
-
-    if (totalPage <= 5) {
-      displayedPages.push(...pageNumbers);
-    } else {
-      if (currentChannel <= 3) {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 5),
-          "dot",
-          ...pageNumbers.slice(totalPage - 1)
-        );
-      } else if (currentChannel >= totalPage - 2) {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 1),
-          "dot",
-          ...pageNumbers.slice(totalPage - 5)
-        );
-      } else {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 1),
-          "dot",
-          ...pageNumbers.slice(currentChannel - 2, currentChannel + 1),
-          "dot",
-          ...pageNumbers.slice(totalPage - 1)
-        );
-      }
+      );
     }
-
-    return displayedPages.map((page) =>
-      page === "dot" ? (
-        <span key="dot">...</span>
-      ) : (
-        <li
-          key={page}
-          onClick={() => handlePageChannel(page)}
-          className={"page-item " + (currentChannel === page ? "active" : "")}
-        >
-          <a class="page-link">{page}</a>
-        </li>
-      )
-    );
+    return pageNumbers;
   };
 
   useEffect(() => {
-    getAll(0);
-  }, [currentPage, limit, searchTerm]);
-
-  useEffect(() => {
-    getMemberchannel(0);
-  }, [currentChannel, limitChannel, searchChannel]);
+    get();
+  }, []);
 
   return (
     <div>
@@ -206,13 +258,10 @@ function DashboardMember() {
             color="primary"
             value={
               <>
-                {list.length}{" "}
-                <span className="fs-6 fw-normal">
-                  (-12.4% <CIcon icon={cilArrowBottom} />)
-                </span>
+                {list.length} <span className="fs-6 fw-normal"></span>
               </>
             }
-            title="Members"
+            title="Member"
             action={
               <CDropdown alignment="end">
                 <CDropdownToggle
@@ -246,116 +295,19 @@ function DashboardMember() {
                     "May",
                     "June",
                     "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
                   ],
                   datasets: [
                     {
-                      label: "amount of data ",
+                      label: "Member",
                       backgroundColor: "transparent",
                       borderColor: "rgba(255,255,255,.55)",
                       pointBackgroundColor: getStyle("--cui-primary"),
-                      data: [72, 59, 84, 88],
-                    },
-                  ],
-                }}
-                options={{
-                  plugins: {
-                    legend: {
-                      display: false,
-                    },
-                  },
-                  maintainAspectRatio: false,
-                  scales: {
-                    x: {
-                      grid: {
-                        display: false,
-                        drawBorder: false,
-                      },
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                    y: {
-                      min: 30,
-                      max: 89,
-                      display: false,
-                      grid: {
-                        display: false,
-                      },
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                  },
-                  elements: {
-                    line: {
-                      borderWidth: 1,
-                      tension: 0.4,
-                    },
-                    point: {
-                      radius: 4,
-                      hitRadius: 10,
-                      hoverRadius: 4,
-                    },
-                  },
-                }}
-              />
-            }
-          />
-        </CCol>
-        <CCol sm={6} lg={3}>
-          <CWidgetStatsA
-            className="mb-4"
-            color="info"
-            value={
-              <>
-                ${" "}
-                <span className="fs-6 fw-normal">
-                  (40.9% <CIcon icon={cilArrowTop} />)
-                </span>
-              </>
-            }
-            title="Amount"
-            action={
-              <CDropdown alignment="end">
-                <CDropdownToggle
-                  color="transparent"
-                  caret={false}
-                  className="p-0"
-                >
-                  <CIcon
-                    icon={cilOptions}
-                    className="text-high-emphasis-inverse"
-                  />
-                </CDropdownToggle>
-                <CDropdownMenu>
-                  <CDropdownItem>Action</CDropdownItem>
-                  <CDropdownItem>Another action</CDropdownItem>
-                  <CDropdownItem>Something else here...</CDropdownItem>
-                  <CDropdownItem disabled>Disabled action</CDropdownItem>
-                </CDropdownMenu>
-              </CDropdown>
-            }
-            chart={
-              <CChartLine
-                className="mt-3 mx-3"
-                style={{ height: "70px" }}
-                data={{
-                  labels: [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                  ],
-                  datasets: [
-                    {
-                      label: "amount of data ",
-                      backgroundColor: "transparent",
-                      borderColor: "rgba(255,255,255,.55)",
-                      pointBackgroundColor: getStyle("--cui-info"),
-                      data: [1, 18, 9, 17, 34, 22, 11],
+                      data: dataBulanan, // Menggunakan state monthlyData yang telah diubah
                     },
                   ],
                 }}
@@ -403,19 +355,113 @@ function DashboardMember() {
             }
           />
         </CCol>
+
+        <CCol sm={6} lg={3}>
+          <CWidgetStatsA
+            className="mb-4"
+            color="info"
+            value={<> {memberChannel.length} </>}
+            title="Channel"
+            action={
+              <CDropdown alignment="end">
+                <CDropdownToggle
+                  color="transparent"
+                  caret={false}
+                  className="p-0"
+                >
+                  <CIcon
+                    icon={cilOptions}
+                    className="text-high-emphasis-inverse"
+                  />
+                </CDropdownToggle>
+                <CDropdownMenu>
+                  <CDropdownItem>Action</CDropdownItem>
+                  <CDropdownItem>Another action</CDropdownItem>
+                  <CDropdownItem>Something else here...</CDropdownItem>
+                  <CDropdownItem disabled>Disabled action</CDropdownItem>
+                </CDropdownMenu>
+              </CDropdown>
+            }
+            chart={
+              <CChartLine
+                className="mt-3 mx-3"
+                style={{ height: "70px" }}
+                data={{
+                  labels: [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
+                  ],
+                  datasets: [
+                    {
+                      label: "amount of data ",
+                      backgroundColor: "transparent",
+                      borderColor: "rgba(255,255,255,.55)",
+                      pointBackgroundColor: getStyle("--cui-info"),
+                      data: dataChannel,
+                    },
+                  ],
+                }}
+                options={{
+                  plugins: {
+                    legend: {
+                      display: false,
+                    },
+                  },
+                  maintainAspectRatio: false,
+                  scales: {
+                    x: {
+                      grid: {
+                        display: false,
+                        drawBorder: false,
+                      },
+                      ticks: {
+                        display: false,
+                      },
+                    },
+                    y: {
+                      min: -9,
+                      max: 39,
+                      display: false,
+                      grid: {
+                        display: false,
+                      },
+                      ticks: {
+                        display: false,
+                      },
+                    },
+                  },
+                  elements: {
+                    line: {
+                      borderWidth: 1,
+                    },
+                    point: {
+                      radius: 4,
+                      hitRadius: 10,
+                      hoverRadius: 4,
+                    },
+                  },
+                }}
+              />
+            }
+          />
+        </CCol>
+
         <CCol sm={6} lg={3}>
           <CWidgetStatsA
             className="mb-4"
             color="warning"
-            value={
-              <>
-                {memberChannel.length}{" "}
-                <span className="fs-6 fw-normal">
-                  (84.7% <CIcon icon={cilArrowTop} />)
-                </span>
-              </>
-            }
-            title="Channel"
+            value={<>{recapBill.length} </>}
+            title="Recap Bill"
             action={
               <CDropdown alignment="end">
                 <CDropdownToggle
@@ -442,20 +488,25 @@ function DashboardMember() {
                 style={{ height: "70px" }}
                 data={{
                   labels: [
-                    // "January",
-                    // "February",
-                    // "March",
-                    // "April",
+                    "January",
+                    "February",
+                    "March",
+                    "April",
                     "May",
                     "June",
                     "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
                   ],
                   datasets: [
                     {
                       label: "amount of data ",
                       backgroundColor: "rgba(255,255,255,.2)",
                       borderColor: "rgba(255,255,255,.55)",
-                      data: [78, 81, 80],
+                      data: dataRecapBill,
                       fill: true,
                     },
                   ],
@@ -491,19 +542,13 @@ function DashboardMember() {
             }
           />
         </CCol>
+
         <CCol sm={6} lg={3}>
           <CWidgetStatsA
             className="mb-4"
             color="danger"
-            value={
-              <>
-                44K{" "}
-                <span className="fs-6 fw-normal">
-                  (-23.6% <CIcon icon={cilArrowBottom} />)
-                </span>
-              </>
-            }
-            title="Sessions"
+            value={<>{recapTransaction.length}</>}
+            title="Rekap Transaction"
             action={
               <CDropdown alignment="end">
                 <CDropdownToggle
@@ -525,7 +570,7 @@ function DashboardMember() {
               </CDropdown>
             }
             chart={
-              <CChartBar
+              <CChartLine
                 className="mt-3 mx-3"
                 style={{ height: "70px" }}
                 data={{
@@ -552,10 +597,7 @@ function DashboardMember() {
                       label: "amount of data",
                       backgroundColor: "rgba(255,255,255,.2)",
                       borderColor: "rgba(255,255,255,.55)",
-                      data: [
-                        78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84,
-                        67, 82,
-                      ],
+                      data: dataRecapTransaction,
                       barPercentage: 0.6,
                     },
                   ],
@@ -595,307 +637,171 @@ function DashboardMember() {
         </CCol>
       </CRow>
 
+      {/* <CChartBar
+        style={{ marginTop: "5em" }}
+        type="doughnut"
+        data={{
+          labels: ["Member", "Channel", "Rekap Bill", "Rekap Transaction"],
+          datasets: [
+            {
+              label: "All Data",
+              backgroundColor: ["#0B666A"],
+              data: [
+                list.length,
+                memberChannel.length,
+                recapBill.length,
+                recapTransaction.length,
+              ],
+            },
+          ],
+        }}
+      /> */}
+
       <div
         style={{
           display: "flex",
           gap: "2.5rem",
-          marginTop: "2em",
-          marginBottom: "2.5rem",
+          marginTop: "1em",
+          marginBottom: "1rem",
         }}
-      >
-        {/* <div
-          style={{
-            background: "white",
-            width: "30%",
-            height: "6.5rem",
-            borderRadius: "5px",
-            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-          }}
-        >
-          <p
-            style={{
-              width: "100%",
-              height: "2rem",
-              backgroundColor: "#213555",
-              color: "white",
-              textAlign: "center",
-            }}
-          >
-            All Member
-          </p>
-          <i
-            style={{ marginLeft: "5rem", marginTop: "5px", fontSize: "30px" }}
-            className="fa-solid fa-user"
-          ></i>
-          <p
-            style={{
-              fontSize: "25px",
-              marginLeft: "7.5rem",
-              marginTop: "-2rem",
-            }}
-          >
-            0
-          </p>
-        </div> */}
-        {/* 
-        <div
-          style={{
-            background: "white",
-            width: "30%",
-            height: "6.5rem",
-            borderRadius: "5px",
-            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-          }}
-        >
-          <p
-            style={{
-              width: "100%",
-              height: "2rem",
-              backgroundColor: "#213555",
-              color: "white",
-              textAlign: "center",
-            }}
-          >
-            Student Bills
-          </p>
-          <i
-            style={{ marginLeft: "5rem", marginTop: "5px", fontSize: "30px" }}
-            class="fa-solid fa-money-bill-trend-up"
-          ></i>
+      ></div>
 
-          <p
-            style={{
-              fontSize: "25px",
-              marginLeft: "7.5rem",
-              marginTop: "-2rem",
-            }}
-          >
-            {list.length}
-          </p>
-        </div> */}
-
-        {/* <div
-          style={{
-            background: "white",
-            width: "30%",
-            height: "6.5rem",
-            borderRadius: "5px",
-            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-          }}
-        >
-          <p
-            style={{
-              width: "100%",
-              height: "2rem",
-              backgroundColor: "#213555",
-              color: "white",
-              textAlign: "center",
-            }}
-          >
-            Total per Bulan
-          </p>
-          <i
-            style={{ marginLeft: "5rem", marginTop: "5px", fontSize: "30px" }}
-            className="fa-solid fa-money-bill"
-          ></i>
-          <p
-            style={{
-              fontSize: "25px",
-              marginLeft: "7.5rem",
-              marginTop: "-2rem",
-            }}
-          >
-           9
-          </p>
-        </div> */}
-      </div>
-
-      <div style={{ display: "flex" }}>
-        <h3 style={{ fontWeight: "bold" }}>List Tagihan</h3>
-        <div className="row">
-          <div className="col">
-            <select
-              className="form-select"
-              style={{ width: "50%", marginLeft: "20em" }}
-              value={limit}
-              onChange={handleLimit}
-            >
-              <option value="1">Show 1 Entries</option>
-              <option value="10">Show 10 Entries</option>
-              <option value="100">Show 100 Entries</option>
-            </select>
-          </div>
-          <div className="col">
-            <CFormInput
-              style={{ width: "50%", marginLeft: "9em" }}
-              type="search"
-              placeholder="search data"
-              value={searchTerm}
-              onChange={handleSearch}
-            />
-          </div>
+     
+      {bill.length === 0 ? (
+        <div className="text-center">
+          <img
+            src="https://www.pawoon.com/wp-content/uploads/2022/06/checklist-1.png"
+            style={{ width: "6.75rem", height: "6.125rem" }}
+          />
+          <p>Tidak ada tagihan untuk saat ini</p>
+          <CButton to="/home">silahkan kembali ke beranda</CButton>
         </div>
-      </div>
-      <div style={{ marginTop: "1rem" }}>
-        <table className="table border" style={{ textAlign: "center" }}>
-          <thead
-            className="thead-dark"
-            style={{ backgroundColor: "#213555", color: "white" }}
-          >
-            <tr>
-              <th scope="col">No</th>
-              <th scope="col">Description</th>
-              <th scope="col">Organization Name</th>
-              <th scope="col">Periode</th>
-              <th scope="col">Member Name</th>
-              <th scope="col">Date</th>
-              <th scope="col">Nominal</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white" style={{ textAlign: "center" }}>
-            {filteredBills.map((data, index) => {
-              return (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{data.description}</td>
-                  <td>{data.organization_name}</td>
-                  <td>{data.periode}</td>
-                  <td>{data.member_name}</td>
-                  <td>{data.paid_date}</td>
-                  <td>{data.paid_amount}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-
-        {/* Pagination List Tagihan */}
+      ) : (
         <div>
-          <ul class="pagination float-end">
-            <li
-              className={"page-item " + (currentPage === 1 ? "disabled" : "")}
-              disabled={currentPage === 1}
-            >
-              <a
-                class="page-link"
-                onClick={() => handlePageChange(currentPage - 1)}
-              >
-                Previous
-              </a>
-            </li>
-            {renderPageNumbers()}
-            <li
-              className={
-                "page-item " + (currentPage === total_page ? "disabled" : "")
-              }
-              disabled={currentPage === total_page}
-            >
-              <a
-                class="page-link"
-                onClick={() => handlePageChange(currentPage + 1)}
-              >
-                Next
-              </a>
-            </li>
-          </ul>
-        </div>
-
-      </div>
-
-
-      <br />
-      <div style={{ display: "flex" }}>
-        <h3 style={{ fontWeight: "bold" }}>Channel</h3>
-        <div className="row">
-          <div className="col">
-            <select
-              className="form-select"
-              style={{ width: "50%", marginLeft: "20em" }}
-              value={limitChannel}
-              onChange={handleLimitChannel}
-            >
-              <option value="1">Show 1 Entries</option>
-              <option value="10">Show 10 Entries</option>
-              <option value="100">Show 100 Entries</option>
-            </select>
+          <div style={{ display: "flex" }}>
+            <h3 style={{ fontWeight: "bold" }}>Bill</h3>
           </div>
-          <div className="col">
-            <CFormInput
-              style={{ width: "50%", marginLeft: "9em" }}
-              type="search"
-              placeholder="search data"
-              value={searchChannel}
-              onChange={handleSearchChannel}
-            />
-          </div>
+          <CCard className="mb-5">
+            <CCardBody>
+              <CTable>
+                <CTableHead>
+                  <CTableRow>
+                    <CTableHeaderCell scope="col">
+                      {/* <CFormCheck
+                        id="flexCheckDefault"
+                        onChange={handleSelectAll}
+                        checked={selectAll}
+                      /> */}
+                    </CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Id</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Keterangan</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Periode</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Nominal</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Status</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">
+                      Tanggal dibayar
+                    </CTableHeaderCell>
+                    <CTableHeaderCell scope="col">
+                      Nominal dibayar
+                    </CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Action</CTableHeaderCell>
+                  </CTableRow>
+                </CTableHead>
+                <CTableBody>
+                  {bill.map((bil, index) => {
+                    return (
+                      <CTableRow key={index}>
+                        <CTableHeaderCell scope="row"></CTableHeaderCell>
+                        <CTableHeaderCell data-cell="No">
+                          {index + 1}
+                        </CTableHeaderCell>
+                        <CTableDataCell data-cell="Keterangan">
+                          {bil.description}
+                        </CTableDataCell>
+                        <CTableDataCell data-cell="Periode">
+                          {bil.periode}
+                        </CTableDataCell>
+                        <CTableDataCell data-cell="Nominal">
+                          {bil.amount}
+                        </CTableDataCell>
+                        <CTableDataCell data-cell="Status">
+                          {bil.paid_id === 0 ? (
+                            <span>belum terbayar</span>
+                          ) : bil.paid_id === 1 ? (
+                            <span>terbayar manual</span>
+                          ) : (
+                            <span>terbayar oleh sistem</span>
+                          )}
+                        </CTableDataCell>
+                        <CTableDataCell data-cell="Tanggal Dibayar">
+                          {bil.paid_date}
+                        </CTableDataCell>
+                        <CTableDataCell data-cell="Nominal Dibayar">
+                          {bil.paid_amount}
+                        </CTableDataCell>
+                        <CTableDataCell data-cell="Action">
+                          <CButton
+                            onClick={() => navigate(`/bayarTagihan/${bil.id}`)}
+                          >
+                            Bayar
+                          </CButton>
+                        </CTableDataCell>
+                      </CTableRow>
+                    );
+                  })}
+                </CTableBody>
+              </CTable>
+              <ul className="pagination float-end">
+                <li
+                  className={
+                    "page-item " + (currentPage === 1 ? "disabled" : "")
+                  }
+                  disabled={currentPage === 1}
+                >
+                  <a
+                    className="page-link"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                  >
+                    Previous
+                  </a>
+                </li>
+                {getPageNumbers()}
+                <li
+                  className={
+                    "page-item " +
+                    (currentPage === totalPages ? "disabled" : "")
+                  }
+                  disabled={currentPage === totalPages}
+                >
+                  <a
+                    className="page-link"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                  >
+                    Next
+                  </a>
+                </li>
+              </ul>
+            </CCardBody>
+          </CCard>
+          <CCard>
+            <CCardBody className="d-flex justify-content-between">
+              <CFormCheck
+                id="flexCheckDefault"
+                onChange={handleSelectAll}
+                checked={selectAll}
+                label="Pilih semua"
+              />
+              <p>
+                Total Pembayaran: Rp.
+                {selectedBills.reduce((total, bil) => total + bil.amount, 0)}
+              </p>
+              <CButton onClick={() => navigate(`/bayarSemuaTagihan`)}>
+                Bayar Semua
+              </CButton>
+            </CCardBody>
+          </CCard>
         </div>
-      </div>
-
-      <div style={{ marginTop: "1rem" }}>
-        <table className="table border" style={{ textAlign: "center" }}>
-          <thead
-            className="thead-dark"
-            style={{ backgroundColor: "#213555", color: "white" }}
-          >
-            <tr>
-              <th scope="col">No</th>
-              <th scope="col">Name</th>
-              <th scope="col">Active</th>
-              <th scope="col">Create Date</th>
-              <th scope="col">Update Date</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white" style={{ textAlign: "center" }}>
-            {filteredChannel.map((data, index) => {
-              return (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{data.name}</td>
-                  <td>
-                    {data.active === true ? (
-                      <span>true</span>
-                    ) : (
-                      <span>false</span>
-                    )}
-                  </td>
-                  <td>{data.created_date}</td>
-                  <td>{data.updated_date}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-         {/* Pagination Channel */}
-         <div>
-          <ul class="pagination float-end">
-            <li
-              className={"page-item " + (currentChannel === 1 ? "disabled" : "")}
-              disabled={currentChannel === 1}
-            >
-              <a
-                class="page-link"
-                onClick={() => handlePageChannel(currentChannel - 1)}
-              >
-                Previous
-              </a>
-            </li>
-            {renderPageChannel()}
-            <li
-              className={
-                "page-item " + (currentChannel === totalPage ? "disabled" : "")
-              }
-              disabled={currentChannel === totalPage}
-            >
-              <a
-                class="page-link"
-                onClick={() => handlePageChannel(currentPage + 1)}
-              >
-                Next
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
