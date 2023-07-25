@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { deleteData, getAllData } from "../../../../utils/controller";
 import { Link, useNavigate } from "react-router-dom";
-import { CModal } from "@coreui/react";
+import { CFormInput, CModal } from "@coreui/react";
 import axios from "axios";
 import { API_DUMMY, API_URL } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
@@ -14,11 +14,11 @@ function Tagihan() {
   const [bills, setBills] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [limit, setLimit] = useState('10');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('id');
-  const [sortDirection, setSortDirection] = useState('asc');
-  
+  const [limit, setLimit] = useState("10");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("id");
+  const [sortDirection, setSortDirection] = useState("asc");
+
   const [visible, setVisible] = useState(false);
   const [paidId, setPaidId] = useState(0);
   const [paidDate, setPaidDate] = useState("");
@@ -32,36 +32,40 @@ function Tagihan() {
 
   const fetchBills = async () => {
     try {
-      const response = await fetch(`${API_DUMMY}/customer/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`, {
-        headers: {
-          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `${API_DUMMY}/customer/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
+        {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const data = await response.json();
       setBills(data.data);
       setTotalPages(data.pagination.total_page);
     } catch (error) {
-      console.error('Error fetching bills:', error);
+      console.error("Error fetching bills:", error);
     }
   };
 
   const fetchBills2 = async () => {
     try {
       const response = await fetch(
-        `${API_URL}/customer/bill/?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`, {
-            headers: {
-              "Authorization": `Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwidHlwZV90b2tlbiI6IkN1c3RvbWVyIiwiYXVkIjoiQ3VzdG9tZXIiLCJzdWIiOiJpYm51bGplZnJ5OTlAZ21haWwuY29tIiwiZXhwIjoxNjg4MDIxNzIwfQ.ESKhjQdNzNhdC6aSMqrcQluOWikeHeG5zl7CJ1FysvPN1MMv_e8sdD4FaRT-LWb_4q3vt6g5g_UywjXAOk9ojA`,
-            },
-          }
+        `${API_URL}/customer/bill/?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
+        {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwidHlwZV90b2tlbiI6IkN1c3RvbWVyIiwiYXVkIjoiQ3VzdG9tZXIiLCJzdWIiOiJpYm51bGplZnJ5OTlAZ21haWwuY29tIiwiZXhwIjoxNjg4MDIxNzIwfQ.ESKhjQdNzNhdC6aSMqrcQluOWikeHeG5zl7CJ1FysvPN1MMv_e8sdD4FaRT-LWb_4q3vt6g5g_UywjXAOk9ojA`,
+          },
+        }
       );
       const data = await response.json();
       setBills(data.data);
       setTotalPages(data.pagination.total_page);
     } catch (error) {
-      console.error('Error fetching bills:', error);
+      console.error("Error fetching bills:", error);
     }
   };
-  
+
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -72,10 +76,10 @@ function Tagihan() {
 
   const handleSort = (column) => {
     if (column === sortBy) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
       setSortBy(column);
-      setSortDirection('asc');
+      setSortDirection("asc");
     }
   };
 
@@ -84,13 +88,12 @@ function Tagihan() {
   };
 
   const sortedBills = bills.sort((a, b) => {
-    if (sortDirection === 'asc') {
+    if (sortDirection === "asc") {
       return a[sortBy] - b[sortBy];
     } else {
       return b[sortBy] - a[sortBy];
     }
   });
-
 
   const bayarTagihan = async (e) => {
     e.preventDefault();
@@ -133,19 +136,22 @@ function Tagihan() {
     })
       .then((result) => {
         if (result.isConfirmed) {
-          axios
-          .put(`${API_DUMMY}/customer/bill/${paidIds}/unpaid`, {}, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-            },
-          })
+          axios.put(
+            `${API_DUMMY}/customer/bill/${paidIds}/unpaid`,
+            {},
+            {
+              headers: {
+                "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+              },
+            }
+          );
           Swal.fire({
             icon: "success",
             title: "Berhasil Membatalkan Pembayaran",
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-              window.location.reload();
+            window.location.reload();
           });
         }
       })
@@ -153,12 +159,17 @@ function Tagihan() {
         console.log(err);
       });
   };
-  
+
   const getPageNumbers = () => {
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
       pageNumbers.push(
-        <li key={i} className={"page-item " + (currentPage === i  ? 'active' : '')}  aria-current="page" onClick={() => handlePageChange(i)}>
+        <li
+          key={i}
+          className={"page-item " + (currentPage === i ? "active" : "")}
+          aria-current="page"
+          onClick={() => handlePageChange(i)}
+        >
           <a class="page-link">{i}</a>
         </li>
       );
@@ -174,30 +185,38 @@ function Tagihan() {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
 
     return displayedPages.map((page) =>
-      page === 'dot' ? (
+      page === "dot" ? (
         <span key="dot">...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item " + (currentPage === page  ? 'active' : '')}
+          className={"page-item " + (currentPage === page ? "active" : "")}
         >
-           <a class="page-link">{page}</a>
+          <a class="page-link">{page}</a>
         </li>
       )
     );
@@ -225,7 +244,7 @@ function Tagihan() {
                 <div className="col">
                   <Link to="/addtagihan">
                     <button className="btn btn-primary float-end">
-                    <CIcon icon={cilPlus} /> Tambah Tagihan
+                      <CIcon icon={cilPlus} /> Tambah
                     </button>
                   </Link>
                 </div>
@@ -247,14 +266,45 @@ function Tagihan() {
               <table className="table">
                 <thead className="text-center">
                   <tr>
-                    <th scope="col" onClick={() => handleSort('id')}>Id {sortBy === 'id' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('member_name')}>Nama Murid {sortBy === 'member_name' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('description')}>Description {sortBy === 'description' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('periode')}>Period {sortBy === 'periode' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('amount')}>Nominal {sortBy === 'amount' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('paid_id')}>Status {sortBy === 'paid_id' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('paid_date')}>Tgl Bayar {sortBy === 'paid_date' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('paid_amount')}>Nominal Bayar {sortBy === 'paid_amount' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
+                    <th scope="col" onClick={() => handleSort("id")}>
+                      Id{" "}
+                      {sortBy === "id" && (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("member_name")}>
+                      Nama Murid{" "}
+                      {sortBy === "member_name" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("description")}>
+                      Description{" "}
+                      {sortBy === "description" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("periode")}>
+                      Period{" "}
+                      {sortBy === "periode" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("amount")}>
+                      Nominal{" "}
+                      {sortBy === "amount" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("paid_id")}>
+                      Status{" "}
+                      {sortBy === "paid_id" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("paid_date")}>
+                      Tgl Bayar{" "}
+                      {sortBy === "paid_date" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
+                    <th scope="col" onClick={() => handleSort("paid_amount")}>
+                      Nominal Bayar{" "}
+                      {sortBy === "paid_amount" &&
+                        (sortDirection === "asc" ? "▲" : "▼")}
+                    </th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
@@ -278,42 +328,42 @@ function Tagihan() {
                       <td data-cell = "Action">
                         <button
                           type="button"
-                          className="btn btn-primary me-2"
+                          className="edit btn btn-primary me-2"
                           onClick={() => navigate(`/edittagihan/${data.id}`)}
                         >
                           <CIcon icon={cilPencil} />
                         </button>
                         <button
                           type="button"
-                          className="btn btn-danger me-2"
+                          className="hapus btn btn-danger me-2"
                           onClick={() =>
                             deleteData(data.id, "customer/bill", setBills)
                           }
                         >
-                          <CIcon icon={cilTrash} style={{color: "white"}}/>
+                          <CIcon icon={cilTrash} style={{ color: "white" }} />
                         </button>
                         {data.paid_id != 0 ? (
                           <button
-                          type="button"
-                          onClick={() => {
-                            unBayarTagihan(data.id);
-                          }}
-                          className="btn btn-danger "
-                        >
-                          Batal Bayar
-                        </button>
+                            type="button"
+                            onClick={() => {
+                              unBayarTagihan(data.id);
+                            }}
+                            className="batal_bayar btn btn-danger "
+                          >
+                            Batal Bayar
+                          </button>
                         ) : (
                           <button
-                          type="button"
-                          onClick={() => {
-                            setVisible(!visible);
-                            setPaidId(data.id);
-                            setPaidAmount(data.amount);
-                          }}
-                          className="btn btn-info " 
-                        >
-                          Bayar
-                        </button>
+                            type="button"
+                            onClick={() => {
+                              setVisible(!visible);
+                              setPaidId(data.id);
+                              setPaidAmount(data.amount);
+                            }}
+                            className="bayar btn btn-info "
+                          >
+                            Bayar
+                          </button>
                         )}
                       </td>
                     </tr>
@@ -323,15 +373,33 @@ function Tagihan() {
             </div>
           </div>
           <div>
-          <ul class="pagination float-end">
-            <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
-              <a class="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
-            </li>
-            {renderPageNumbers()}
-            <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
-              <a class="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
-            </li>
-          </ul>
+            <ul class="pagination float-end">
+              <li
+                className={"page-item " + (currentPage === 1 ? "disabled" : "")}
+                disabled={currentPage === 1}
+              >
+                <a
+                  class="page-link"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                >
+                  Previous
+                </a>
+              </li>
+              {renderPageNumbers()}
+              <li
+                className={
+                  "page-item " + (currentPage === totalPages ? "disabled" : "")
+                }
+                disabled={currentPage === totalPages}
+              >
+                <a
+                  class="page-link"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                >
+                  Next
+                </a>
+              </li>
+            </ul>
           </div>
           <CModal visible={visible} onClose={() => setVisible(false)}>
             <form onSubmit={bayarTagihan}>
