@@ -255,19 +255,21 @@ function CrudTransaction() {
                             onClick={() =>
                               navigate(`/editTransaction/${item.id}`)
                             }
-                            type="button"
-                            className="edit btn btn-primary me-2"
+                            className="edit1"
+                            style={{ background: "blue" }}
                           >
-                            <CIcon icon={cilPencil} className="color-q" />
+                            {" "}
+                            <CIcon icon={cilPencil} />
                           </button>
-
+                          {" "}
                           <button
                             onClick={() => Delete(item.id)}
-                            type="button"
-                            className="hapus btn btn-danger me-2"
+                            className="edit1"
+                            style={{ background: "red", color: "white" }}
                           >
-                            <CIcon icon={cilTrash} style={{color: "white"}} />
+                            <CIcon icon={cilTrash} />
                           </button>
+
                         </td>
                       </tr>
                     );

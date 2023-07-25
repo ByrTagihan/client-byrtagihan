@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { deleteData, getAllData } from "../../../../utils/controller";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,7 +8,7 @@ import { API_DUMMY, API_URL } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { cilPencil, cilPlus, cilTrash } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
-import "../../../../css/TagihanCustomer.css";
+import "../../../css/ListDataSiswa.css"
 
 function Tagihan() {
   const [bills, setBills] = useState([]);
@@ -224,6 +225,16 @@ function Tagihan() {
     <div>
       <div className="row">
         <div className="col" xs={12}>
+                <div className="col inputSearch1">
+                <select className="form-select" value={limit} onChange={handleLimit}>
+                  <option value="1">Show 1 Entries</option>
+                  <option value="10">Show 10 Entries</option>
+                  <option value="100">Show 100 Entries</option>
+                </select>
+                </div>
+                <div className="col inputSearch1">
+                <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch}/>
+                </div>
           <div className="card mb-4">
             <div className="card-header">
               <div className="row">
@@ -240,28 +251,16 @@ function Tagihan() {
               </div>
             </div>
             <div className="card-body">
-         
-
-              <div className="row">
-                <div className="col">
-                  <select
-                    className="limit-tagihan form-select"
-                    value={limit}
-                    onChange={handleLimit}
-                  >
-                    <option value="1">Show 1 Entries</option>
-                    <option value="10">Show 10 Entries</option>
-                    <option value="100">Show 100 Entries</option>
-                  </select>
+            <div className="row">
+                <div className="col inputSearch">
+                <select className="form-select" value={limit} onChange={handleLimit} style={{width: "40%"}}>
+                  <option value="1">Show 1 Entries</option>
+                  <option value="10">Show 10 Entries</option>
+                  <option value="100">Show 100 Entries</option>
+                </select>
                 </div>
-                <div className="col">
-                  <CFormInput
-                    className="search-tagihan"
-                    type="search"
-                    placeholder="search data"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                  />
+                <div className="col inputSearch">
+                <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} style={{width: "40%"}}/>
                 </div>
               </div>
               <table className="table">
@@ -312,23 +311,21 @@ function Tagihan() {
                 <tbody className="text-center">
                   {sortedBills.map((data) => (
                     <tr key={data.id}>
-                      <th data-cell="Id" scope="row">
-                        {data.id}
-                      </th>
-                      <td data-cell="Nama Murid">{data.member_name}</td>
-                      <td data-cell="Description">{data.description}</td>
-                      <td data-cell="Period">{data.periode}</td>
-                      <td data-cell="Nominal">{data.amount}</td>
-                      <td data-cell="Status">
+                      <th scope="row">{data.id}</th>
+                      <td data-cell = "Nama Murid">{data.member_name}</td>
+                      <td data-cell = "Description">{data.description}</td>
+                      <td data-cell = "Periode">{data.periode}</td>
+                      <td data-cell = "Nominal">{data.amount}</td>
+                      <td data-cell = "Status">
                         {data.paid_id != 0 ? (
                           <span>Sudah Bayar</span>
                         ) : (
                           <span>Belum Bayar</span>
                         )}
                       </td>
-                      <td data-cell="Tgl Bayar">{data.paid_date}</td>
-                      <td data-cell="Nominal Bayar">{data.paid_amount}</td>
-                      <td data-cell="Action">
+                      <td data-cell = "Tgl Bayar">{data.paid_date}</td>
+                      <td data-cell = "Nominal Bayar">{data.paid_amount}</td>
+                      <td data-cell = "Action">
                         <button
                           type="button"
                           className="edit btn btn-primary me-2"

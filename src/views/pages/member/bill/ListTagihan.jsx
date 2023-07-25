@@ -1,94 +1,200 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
-    CTable,
-    CTableHead,
-    CTableRow,
-    CTableHeaderCell,
-    CTableBody,
-    CTableDataCell,
-    CCard,
-    CCardBody,
-    CButton,
-    CFormCheck,
+  CTable,
+  CTableHead,
+  CTableRow,
+  CTableHeaderCell,
+  CTableBody,
+  CTableDataCell,
+  CCard,
+  CCardBody,
+  CButton,
+  CFormCheck,
 } from "@coreui/react";
 import axios from "axios";
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_DUMMY } from '../../../../utils/baseURL';
+import Swal from 'sweetalert2';
 
 function ListTagihan() {
     const [bill, setBill] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
     const [selectedBills, setSelectedBills] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+    const [total_page, setTotal_Page] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
+    const [limit, setLimit] = useState("10");
+    const [sortDirection, setSortDirection] = useState("asc");
     const [sortBy, setSortBy] = useState('id');
     const navigate = useNavigate();
 
     // Function get
     const get = async () => {
-        try {
-            const { data, status } = await axios.get(`${API_DUMMY}/member/bill`, {
-                headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        await axios
+            .get(
+                `${API_DUMMY}/member/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
+                {
+                    headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+                }
+            )
+            .then((res) => {
+                setTotal_Page(res.data.pagination.total_page);
+                setBill(res.data.data);
             })
-            if (status === 200) {
-                setBill(data.data);
-            }
-        } catch (err) {
-            console.log(err);
+            .catch((error) => {
+                alert("Terjadi Kesalahan" + error);
+            });
+    };
+
+    const handleAlreadyPaid = () => {
+        Swal.fire({
+            title: 'Informasi',
+            text: 'Tagihan sudah dibayar',
+            icon: 'info',
+        });
+    };
+
+  const getAll = async () => {
+    await axios
+      .get(
+        `${API_DUMMY}/member/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&search=${searchTerm}`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
-    };
+      )
+      .then((res) => {
+        setTotalPages(res.data.pagination.total_page);
+        setBill(res.data.data);
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
+      });
+  };
 
-    const handleSelectAll = () => {
-        if (selectAll) {
-            setSelectedBills([]);
-        } else {
-            setSelectedBills(bill);
-        }
-        setSelectAll(!selectAll);
-    };
-
-    const handleSearch = (event) => {
-        setSearchTerm(event.target.value);
-    };
-
-    const handleSort = (event) => {
-        setSortBy(event.target.value);
-    };
+  useEffect(() => {
+    getAll(0);
+  }, [currentPage, limit, searchTerm]);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
 
-    const filteredBills = bill.filter((bill) =>
-        bill.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    const sortedBills = filteredBills.sort((a, b) => {
-        if (sortBy === 'description') {
-            return a.description.localeCompare(b.description);
-        } else {
+    const sortedBills = bill.sort((a, b) => {
+        if (sortDirection === "asc") {
             return a[sortBy] - b[sortBy];
+        } else {
+            return b[sortBy] - a[sortBy];
         }
     });
 
-    const getPageNumbers = () => {
-        const pageNumbers = [];
-        for (let i = 1; i <= totalPages; i++) {
-            pageNumbers.push(
-                <li key={i} className={"page-item " + (currentPage === i ? 'active' : '')} aria-current="page" onClick={() => handlePageChange(i)}>
-                    <a className="page-link">{i}</a>
-                </li>
-            );
-        }
-        return pageNumbers;
+    const handleLimit = (event) => {
+        setLimit(event.target.value);
     };
 
-    useEffect(() => {
-        get();
-    }, []);
+    const handleSort = (column) => {
+        if (column === sortBy) {
+            setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+        } else {
+            setSortBy(column);
+            setSortDirection("asc");
+        }
+    };
 
-    return (
+    const renderPageNumbers = () => {
+        const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
+
+        const getPageRange = (current, total, maxPageToShow) => {
+            if (total <= maxPageToShow) {
+                return pageNumbers;
+            } else {
+                const halfMaxPageToShow = Math.floor(maxPageToShow / 2);
+                const minPage = Math.max(1, current - halfMaxPageToShow);
+                const maxPage = Math.min(total, minPage + maxPageToShow - 1);
+                const pages = [];
+
+                if (minPage > 1) {
+                    pages.push("dot");
+                }
+
+                for (let i = minPage; i <= maxPage; i++) {
+                    pages.push(i);
+                }
+
+                if (maxPage < total) {
+                    pages.push("dot");
+                }
+
+                return pages;
+            }
+        };
+
+        const displayedPages = getPageRange(currentPage, total_page, 5);
+
+        return (
+            <ul className="pagination float-end">
+                <li
+                    className={"page-item " + (currentPage === 1 ? "disabled" : "")}
+                    disabled={currentPage === 1}
+                >
+                    <a
+                        className="page-link"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                        Previous
+                    </a>
+                </li>
+                {displayedPages.map((page, index) => (
+                    <React.Fragment key={index}>
+                        {page === "dot" ? (
+                            <span key={index}>...</span>
+                        ) : (
+                            <li
+                                onClick={() => handlePageChange(page)}
+                                className={"page-item " + (currentPage === page ? "active" : "")}
+                            >
+                                <a className="page-link">{page}</a>
+                            </li>
+                        )}
+                    </React.Fragment>
+                ))}
+                <li
+                    className={
+                        "page-item " + (currentPage === total_page ? "disabled" : "")
+                    }
+                    disabled={currentPage === total_page}
+                >
+                    <a
+                        className="page-link"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                        Next
+                    </a>
+                </li>
+            </ul>
+        );
+    };
+
+
+    useEffect(() => {
+        get(0);
+    }, [currentPage, limit, searchTerm, sortBy, sortDirection]);
+
+  // useEffect(() => {
+  //   get();
+  // }, []);
+
+  return (
+    <div>
+      {bill.length === 0 ? (
+        <div className="text-center">
+          <img
+            src="https://www.pawoon.com/wp-content/uploads/2022/06/checklist-1.png"
+            style={{ width: "6.75rem", height: "6.125rem" }}
+          />
+          <p>Tidak ada tagihan untuk saat ini</p>
+          <CButton to="/home">silahkan kembali ke beranda</CButton>
+        </div>
+      ) : (
         <div>
             {bill.length === 0 ? (
                 <div className='text-center'>
@@ -117,7 +223,7 @@ function ListTagihan() {
                                     </CTableRow>
                                 </CTableHead>
                                 <CTableBody>
-                                    {bill.map((bil, index) => {
+                                    {filteredBills.map((bil, index) => {
                                         return (
                                             <CTableRow key={index}>
                                                 <CTableHeaderCell scope="row">
@@ -129,34 +235,35 @@ function ListTagihan() {
                                                 <CTableDataCell>{bil.payment_id}</CTableDataCell>
                                                 <CTableDataCell>{bil.paid_date}</CTableDataCell>
                                                 <CTableDataCell>{bil.paid_amount}</CTableDataCell>
-                                                <CTableDataCell><CButton onClick={() => navigate(`/bayarTagihan/${bil.id}`)}>Bayar</CButton></CTableDataCell>
+                                                <CTableDataCell>
+                                                    {bil.paid_date ? (
+                                                        <CButton color='danger' onClick={handleAlreadyPaid}>Dibayar</CButton>
+                                                    ) : (
+                                                        <CButton onClick={() => navigate(`/bayarTagihan/${bil.id}`)}>Bayar</CButton>
+                                                    )}
+                                                </CTableDataCell>
                                             </CTableRow>
                                         )
                                     })}
                                 </CTableBody>
                             </CTable>
-                            <ul className="pagination float-end">
-                                <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
-                                    <a className="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
-                                </li>
-                                {getPageNumbers()}
-                                <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
-                                    <a className="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
-                                </li>
-                            </ul>
+                            {/* Pagination */}
+                            {renderPageNumbers()}
                         </CCardBody>
                     </CCard>
                     <CCard>
                         <CCardBody className='d-flex justify-content-between'>
                             <CFormCheck id="flexCheckDefault" onChange={handleSelectAll} checked={selectAll} label="Pilih semua" />
                             <p>Total Pembayaran: Rp.{selectedBills.reduce((total, bil) => total + bil.amount, 0)}</p>
-                            <CButton onClick={() => navigate(`/bayarSemuaTagihan`)}>Bayar Semua</CButton>
+                            <CButton disabled={selectedBills.length === 0} onClick={() => navigate(`/bayarSemuaTagihan`)}>Bayar Semua</CButton>
                         </CCardBody>
                     </CCard>
                 </div>
             )}
         </div>
-    )
+      )}
+    </div>
+  );
 }
 
-export default ListTagihan
+export default ListTagihan;

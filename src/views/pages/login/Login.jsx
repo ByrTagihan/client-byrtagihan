@@ -57,7 +57,7 @@ const Login = () => {
         if (status === 200) {
           Swal.fire({
             icon: "success",
-            title:  "Successfully logged in",
+            title:  "Berhasil Login Sebagai Customer",
             showConfirmButton: false,
             timer: 1500,
           });
@@ -65,7 +65,7 @@ const Login = () => {
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
-          navigate("/dashboardCustomer");
+          navigate("/dashboardd");
           setTimeout(() => {
             window.location.reload();
           }, 1500);
@@ -82,7 +82,7 @@ const Login = () => {
         if (status === 200) {
           Swal.fire({
             icon: "success",
-            title: "Successfully logged in as user",
+            title: "Berhasil Login Sebagai User",
             showConfirmButton: false,
           });
           localStorage.setItem("type_token", data.data.type_token);
@@ -105,7 +105,7 @@ const Login = () => {
         if (status === 200) {
           Swal.fire({
             icon: "success",
-            title: "Successfully logged in as member",
+            title: "Berhasil Login Sebagai Member",
             showConfirmButton: false,
           });
           localStorage.setItem("type_token", data.data.type_token);
@@ -118,7 +118,11 @@ const Login = () => {
         }
       }
     } catch (error) {
-      alert("username/Password No Valid");
+      // alert("username / Password No Valid");
+      Swal.fire({
+        icon: 'error',
+        title: 'email / Password Salah'
+      })
       console.log(error);
     }
   };

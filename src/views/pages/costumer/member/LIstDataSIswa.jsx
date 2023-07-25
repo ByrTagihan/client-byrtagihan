@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import "../../../../views/css/ListDataSiswa.css";
 import axios from "axios";
@@ -104,37 +105,6 @@ function LIstDataSIswa() {
     setCurrentPage(page);
   };
 
-  // const filteredListDataSiswa = list.filter((bill) =>
-  //   bill.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-
-  // const sortedListDataSiswa = filteredListDataSiswa.sort((a, b) => {
-  //   if (sortBy === "name") {
-  //     return a.name.localeCompare(b.name);
-  //   } else {
-  //     return a[sortBy] - b[sortBy];
-  //   }
-  // });
-
-  // const handlePageChange = page => {
-  //   getAll(page, limit)
-  // }
-
-  // const handlePerRowsChange = async (newPerPage, page) => {
-  //   setLimit(newPerPage);
-  // }
-
-  // const handleFilter = (e) => {
-  //   const newData = filteredCountries.filter((row) =>
-  //     row.name.toLowerCase().includes(e.target.value.toLowerCase())
-  //   );
-  //   setList(newData);
-  // };
-
-  // const changePage = ({ selected }) => {
-  //   setPage(selected);
-  // };
-
   const handleChangeLimit = (event) => {
     setLimit(event.target.value);
   };
@@ -209,10 +179,6 @@ function LIstDataSIswa() {
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
-        // data,
-        // {
-        //   headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        // }
       );
       // console.log(unique_id);
       setShow(false);
@@ -354,7 +320,18 @@ function LIstDataSIswa() {
                 <div className="col">
                   <h4>List Data Siswa</h4>
                 </div>
-                <div style={{display:"flex", justifyContent:"center", gap:"10px"}}>
+                <div className="col">
+                  <button
+                    onClick={() => setShow(true)}
+                    className="btn btn-primary float-end"
+                  >
+                    <CIcon icon={cilPlus} /> Tambah Data
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="card-body table-container">
+                <div style={{display:"flex", justifyContent:"space-between", gap:"10px"}}>
                 <div className="inputSearch">
                   <select
                     className="form-select"
@@ -381,18 +358,7 @@ function LIstDataSIswa() {
                     onChange={handleSearch}
                   />
                 </div>
-                <div className="col">
-                  <button
-                    onClick={() => setShow(true)}
-                    className="btn btn-primary float-end"
-                  >
-                    <CIcon icon={cilPlus} /> Tambah Data
-                  </button>
                 </div>
-                </div>
-              </div>
-            </div>
-            <div className="card-body table-container">
               <table className="table table1 responsive-3">
                 <thead>
                   <tr>
