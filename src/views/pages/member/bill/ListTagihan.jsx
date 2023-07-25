@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import {
-    CTable,
-    CTableHead,
-    CTableRow,
-    CTableHeaderCell,
-    CTableBody,
-    CTableDataCell,
-    CCard,
-    CCardBody,
-    CButton,
-    CFormCheck,
+  CTable,
+  CTableHead,
+  CTableRow,
+  CTableHeaderCell,
+  CTableBody,
+  CTableDataCell,
+  CCard,
+  CCardBody,
+  CButton,
+  CFormCheck,
 } from "@coreui/react";
 import axios from "axios";
 import { useNavigate, useParams } from 'react-router-dom';
@@ -54,26 +54,30 @@ function ListTagihan() {
         });
     };
 
-    const handleSelectAll = () => {
-        if (selectAll) {
-            setSelectedBills([]);
-        } else {
-            setSelectedBills(bill);
+  const getAll = async () => {
+    await axios
+      .get(
+        `${API_DUMMY}/member/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&search=${searchTerm}`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
-        setSelectAll(!selectAll);
-    };
+      )
+      .then((res) => {
+        setTotalPages(res.data.pagination.total_page);
+        setBill(res.data.data);
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
+      });
+  };
 
-    const handleSearch = (event) => {
-        setSearchTerm(event.target.value);
-    };
+  useEffect(() => {
+    getAll(0);
+  }, [currentPage, limit, searchTerm]);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
-
-    const filteredBills = bill.filter((bill) =>
-        bill.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
     const sortedBills = bill.sort((a, b) => {
         if (sortDirection === "asc") {
@@ -175,7 +179,22 @@ function ListTagihan() {
         get(0);
     }, [currentPage, limit, searchTerm, sortBy, sortDirection]);
 
-    return (
+  // useEffect(() => {
+  //   get();
+  // }, []);
+
+  return (
+    <div>
+      {bill.length === 0 ? (
+        <div className="text-center">
+          <img
+            src="https://www.pawoon.com/wp-content/uploads/2022/06/checklist-1.png"
+            style={{ width: "6.75rem", height: "6.125rem" }}
+          />
+          <p>Tidak ada tagihan untuk saat ini</p>
+          <CButton to="/home">silahkan kembali ke beranda</CButton>
+        </div>
+      ) : (
         <div>
             {bill.length === 0 ? (
                 <div className='text-center'>
@@ -242,7 +261,9 @@ function ListTagihan() {
                 </div>
             )}
         </div>
-    )
+      )}
+    </div>
+  );
 }
 
 export default ListTagihan;
