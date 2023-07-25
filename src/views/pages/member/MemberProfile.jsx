@@ -1,3 +1,4 @@
+
 import { cilAddressBook, cilTablet, cilUser } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import {
@@ -20,7 +21,7 @@ function MemberProfile() {
 const [name, setName] = useState("");
 const [hp, setHp] = useState("");
 const [address, setAddress] = useState("");
-const [email, setEmail] = useState("");
+const [unique_id, setUnique_id] = useState("");
 const [picture, setPicture] = useState("");
   const [profile, setProfile] = useState({
     id: "",
@@ -28,6 +29,7 @@ const [picture, setPicture] = useState("");
     hp: "",
     address: "",
     picture:"",
+    unique_id:"",
   });
 
   const get = async () => {
@@ -39,6 +41,7 @@ const [picture, setPicture] = useState("");
           const profil = res.data.data;
           setHp(profil.hp);
           setName(profil.name);
+          setUnique_id(profil.unique_id);
           setAddress(profil.address);
           setPicture(profile.picture);
           setProfile({ ...profil, id: profil.id }); 
@@ -88,16 +91,19 @@ const [picture, setPicture] = useState("");
 
   return (
     <div className="allProfile">
-    {/* <div className="box1">
-      <h4 className="textProfile">Profile Member</h4>
-      <div style={{ padding: "10px" }}>
-        <img style={{ width: "20rem" }} src={profile.picture} alt="" />
-      </div>
-    </div> */}
+      <div className="box1">
+        <h4 className="textProfile">Profile Member</h4>
 
-      <div className="boxProfile">
-      <h4 className="textProfile">Profile Member</h4>
-        <h6 className="mb-2">Id : {profile?.id}</h6>
+        <div style={{ padding: "10px" }}>
+          <img style={{ width: "20rem" }} src={profile.picture} alt="" />
+        </div>
+      </div>
+
+      <div className="box2">
+        <h6 className="mb-2">Id : {profile.id}</h6>
+        <h6 className="mb-3">
+          <CIcon icon={cilUser} /> unique_id : {profile.unique_id}
+        </h6>
         <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
@@ -134,6 +140,8 @@ const [picture, setPicture] = useState("");
               value={address}
             />
           </CInputGroup>
+
+          {/* <CForm onSubmit={Post}> */}
             <CInputGroup className="mb-3">
               <CFormInput
                 autoComplete="picture"
@@ -144,6 +152,7 @@ const [picture, setPicture] = useState("");
               />
               {/* <button type="submit">Post</button> */}
             </CInputGroup>
+          {/* </CForm> */}
 
           <CRow>
             <CCol xs={6}>
