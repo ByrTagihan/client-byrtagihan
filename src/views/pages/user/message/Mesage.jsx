@@ -166,7 +166,10 @@ function Mesage() {
                 <div className="col">
                   <h4>Message</h4>
                 </div>
-            <div style={{display:"flex", justifyContent:"center", gap:"5px"}}>
+              </div>
+            </div>
+            <div className="card-body table-container">
+            <div style={{display:"flex", justifyContent:"space-between"}}>
                 <div className="inputSearch">
                   <select className="form-select" value={limit} onChange={handleChangeLimit}>
                   <option value="1">Show 1 Entries</option>
@@ -183,9 +186,6 @@ function Mesage() {
                 />
               </div>
                 </div>
-              </div>
-            </div>
-            <div className="card-body table-container">
               <table className="table table1 responsive-3">
                 <thead>
                   <tr>

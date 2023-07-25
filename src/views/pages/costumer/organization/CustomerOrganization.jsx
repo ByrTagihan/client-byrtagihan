@@ -132,7 +132,7 @@ function CustomerOrganization() {
                   readOnly />
               </CCol>
             </CRow>
-            <CInputGroup className="mb-3">
+            <CRow className="mb-3">
               <CFormLabel className="col-sm-2 col-form-label text-dark">Nama</CFormLabel>
               <CCol sm={10}>
                 <CFormInput
@@ -141,7 +141,7 @@ function CustomerOrganization() {
                   onChange={(e) => setName(e.target.value)}
                   value={name} />
               </CCol>
-            </CInputGroup>
+            </CRow>
             <CRow className="mb-3">
               <CFormLabel className="col-sm-2 col-form-label text-dark">Address</CFormLabel>
               <CCol sm={10}>

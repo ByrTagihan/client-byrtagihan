@@ -292,6 +292,24 @@ function Customer() {
                     gap: "5px",
                   }}
                 >
+                  <div>
+                    <button
+                      onClick={() => setShow(true)}
+                      className="btn btn-primary"
+                    >
+                      <CIcon icon={cilPlus} /> Tambah Data
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="card-body table-container">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between"
+                  }}
+                >
                   <div className="inputSearch">
                     <select
                       className="form-select"
@@ -313,18 +331,7 @@ function Customer() {
                       onChange={handleSearch}
                     />
                   </div>
-                  <div>
-                    <button
-                      onClick={() => setShow(true)}
-                      className="btn btn-primary"
-                    >
-                      <CIcon icon={cilPlus} /> Tambah Data
-                    </button>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div className="card-body table-container">
               <table className="table responsive-3 table1">
                 <thead>
                   <tr>

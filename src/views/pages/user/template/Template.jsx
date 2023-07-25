@@ -222,11 +222,18 @@ function Template() {
               <div className="col">
                 <h4>Template</h4>
               </div>
+                <div className="">
+                  <button className="btn btn-primary float-end">
+                  <CIcon icon={cilPlus} /> Tambah Data
+                  </button>
+              </div>
+            </div>
+          </div>
+          <div className="card-body table-container">
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "center",
-                  gap: "10px",
+                  justifyContent: "space-between",
                 }}
               >
                 <div className="inputSearch">
@@ -249,15 +256,7 @@ function Template() {
                     onChange={handleSearch}
                   />
                 </div>
-                <div className="">
-                  <button className="btn btn-primary float-end">
-                  <CIcon icon={cilPlus} /> Tambah Data
-                  </button>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="card-body table-container">
             <table className="table responsive-3 table1">
               <thead>
                 <tr>

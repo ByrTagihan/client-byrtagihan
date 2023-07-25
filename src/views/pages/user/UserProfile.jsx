@@ -1,3 +1,4 @@
+
 import { cilAddressBook, cilTablet, cilUser } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import {
@@ -12,6 +13,8 @@ import {
 import React, { useEffect, useState } from "react";
 import "../../../css/Profile.css";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/baseURL";
+import Swal from "sweetalert2";
 
 function UserProfile() {
 const [name, setName] = useState("");
@@ -52,6 +55,39 @@ const [picture, setPicture] = useState("");
   useEffect(() => {
     get();
   }, []);
+  
+  const [show, setShow] = useState(false);
+  const Put = async (e) => {
+    e.preventDefault();
+    e.persist();
+
+    try {
+      await axios.put(
+        `${API_DUMMY}/user/profile`,
+        {
+          name: name, 
+          hp: hp,
+          address: address,
+          picture: picture,
+        },
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      );
+      setShow(false);
+      Swal.fire({
+        icon: "success",
+        title: "Tersimpan",
+        showConfirmButton: false,
+        timer: 1500,
+      }); 
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="allProfile">
@@ -68,7 +104,7 @@ const [picture, setPicture] = useState("");
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> Email : {profile.email}
         </h6>
-        <CForm>
+        <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
               <CIcon icon={cilUser} />
@@ -112,7 +148,7 @@ const [picture, setPicture] = useState("");
               placeholder="link picture"
               onChange={(e) => setPicture(e.target.value)}
               // value={file}
-              type="text"
+              type="link"
             />
             {/* <button type="submit">Post</button> */}
           </CInputGroup>

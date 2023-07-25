@@ -16,11 +16,11 @@ function EditCustomer() {
   const [active, setActive] = useState("");
   const [organization_id, setOrganization_id] = useState("");
   const param = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const update = async (e) => {
     e.preventDefault();
-    
+
     const req = {
       name: name,
       address: address,
@@ -73,14 +73,14 @@ function EditCustomer() {
             // const user_customer = ress.data.data;
             setName(response.name);
             setHp(response.hp);
-            setAddress(response.address);                             
+            setAddress(response.address);
             setPassword(response.password);
             setActive(response.active);
             // setValue(
             //   `Id = ${user_customer.id}, Email = ${user_customer.email}, Nama = ${user_customer.name}`
             // );
             console.log(response.address);
-            console.log( res.data.data);
+            console.log(res.data.data);
           });
       })
       .catch((error) => {
@@ -161,27 +161,55 @@ function EditCustomer() {
 
   const Suggestions = () => {
     return (
+      //   <div
+      //   className="card border-secondary border-top-0"
+      //   style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
+      // >
+      //   <ul className="list-group list-group-flush">
+      //     {suggestions.map((data, index) => (
+      //       <li
+      //         className={
+      //           index === suggestionIndex
+      //             ? " list-group-item  list-group-item-action active"
+      //             : "list-group-item  list-group-item-action"
+      //         }
+      //         key={index}
+      //         onClick={(e)=> handleClick(e, data.id)}
+      //       >
+      //         Id = {data.id}, Email = {data
+      //         .email}, Nama = {data.name}
+      //       </li>
+      //     ))}
+      //   </ul>
+      // </div>
       <div
-      className="card border-secondary border-top-0"
-      style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
-    >
-      <ul className="list-group list-group-flush">
-        {suggestions.map((data, index) => (
-          <li
-            className={
-              index === suggestionIndex
-                ? " list-group-item  list-group-item-action active"
-                : "list-group-item  list-group-item-action"
-            }
-            key={index}
-            onClick={(e)=> handleClick(e, data.id)}
-          >
-            Id = {data.id}, Email = {data
-            .email}, Nama = {data.name}
-          </li>
-        ))}
-      </ul>
-    </div>
+        className="card border-secondary border-top-0"
+        style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0, width:200 }}
+      >
+        <ul className="list-group list-group-flush" style={{width:300}}>
+          {suggestions.length != 0 ? (
+            <>
+              {suggestions.map((data, index) => (
+                <li
+                  className={
+                    index === suggestionIndex
+                      ? "list-group-item  list-group-item-action active"
+                      : "list-group-item  list-group-item-action"
+                  }
+                  key={index}
+                  onClick={(e) => handleClick(e, data.id)}
+                >
+                  Id = {data.id}, Email = {data.email}, Nama = {data.name}
+                </li>
+              ))}
+            </>
+          ) : (
+            <>
+              <li className="list-group-item ">Id Tidak Ditemukan</li>
+            </>
+          )}
+        </ul>
+      </div>
     );
   };
 
@@ -235,7 +263,7 @@ function EditCustomer() {
               className="form-control inputHp"
             />
           </div>
-            {/* <div>
+          {/* <div>
               <label className="form-label" style={{ fontWeight: "bold" }}>
                 Password :
               </label>
@@ -270,9 +298,9 @@ function EditCustomer() {
               onKeyDown={handleKeyDown}
               onChange={handleChange}
             /> */}
-              <CFormInput
+            <CFormInput
               type="text"
-              className="form-control"
+              // className="form-control"
               autoComplete="off"
               // className="form-control inputActive"
               value={value}
