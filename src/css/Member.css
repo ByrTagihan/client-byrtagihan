@@ -1,0 +1,63 @@
+.search-siswa {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.tambah {
+  width: 6.5em;
+  padding: 0;
+  height: 2.5em;
+}
+
+@media (max-width: 600px) {
+  .search-siswa {
+    width: 100%;
+    margin-left: 0;
+  }
+  .edit {
+    margin-left: 9.5em;
+    position: absolute;
+  }
+  .hapus {
+    margin-left: 4.5em;
+    width: 2.8em;
+    position: relative;
+  }
+  .search-siswa {
+    width: 100%;
+    margin-top: 3em;
+    margin-left: -3em;
+  }
+  .tambah {
+    margin-top: 3em;
+  }
+  tbody {
+    text-align: left;
+  }
+  .td {
+    padding-right: none;
+    display: flex;
+    justify-content: left;
+  }
+  .responsive-3 {
+    width: 100%;
+  }
+
+  th {
+    display: none;
+  }
+  td {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 15ch auto;
+    padding: 0.75em 1rem;
+  }
+  td:first-child {
+    padding-top: 2rem;
+  }
+
+  td::before {
+    content: attr(data-cell) "  : ";
+    font-weight: bold;
+  }
+}
