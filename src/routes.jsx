@@ -65,12 +65,12 @@ const UserTemplate = React.lazy(() =>
 //================================================
 //Customer Role
 const Dashboard = React.lazy(() => import("./views/dashboard/DashboardTes"));
+const DashboardCustomer = React.lazy(() => import("./views/dashboard/DashboardCoba2"));
 const DashboardTes = React.lazy(() => import("./views/dashboard/DashboardTes"));
 const Profile = React.lazy(() => import("./views/pages/costumer/Profile"));
 const GantiPasswordCustomer = React.lazy(() =>
   import("./views/pages/costumer/GantiPasswordCustomer")
 );
-
 //Organization Section
 const CustomerOrganization = React.lazy(() =>
   import("./views/pages/costumer/organization/CustomerOrganization")
@@ -114,6 +114,9 @@ const DashboardMember = React.lazy(() =>
 const MemberProfile = React.lazy(() =>
   import("./views/pages/member/MemberProfile")
 );
+const GantiPassMember = React.lazy(() =>
+  import("./views/pages/member/GantiPass")
+);
 
 //Bill Section
 const ListTagihanMember = React.lazy(() =>
@@ -132,6 +135,7 @@ const MemberChannel = React.lazy(() =>
 const routes = [
   { path: "/home", exact: true, name: "Home" },
   { path: "/reset", name: "Reset", element: ResetPassword },
+  { path: "/gantiPassMember", name: "GantiPasswordMember", element: GantiPassMember },
   //================================================================
   //User
   { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
@@ -173,6 +177,7 @@ const routes = [
   //================================================================
   //Customer
   { path: "/dashboardCustomer", name: "Dashboard", element: Dashboard },
+  { path: "/dashboardd", name: "Dashboard Customer", element: DashboardCustomer },
   { path: "/customerProfile", name: "Profile", element: Profile },
   { path: "/dashboardTes", name: "Dashboard Tes", element: DashboardTes },
   {
@@ -224,7 +229,7 @@ const routes = [
   },
   { path: "/bayarTagihan/:id", name: "Bayar Tagihan", element: BayarTagihan },
   { path: "/bayarSemuaTagihan", name: "Bayar Tagihan", element: BayarSemuaTagihan },
-  { path: "/memberChannel", name: "Channel", element: MemberChannel },
+  { path: "/memberChannel", name: "Channel", element: MemberChannel }
 ];
 
 export default routes;
