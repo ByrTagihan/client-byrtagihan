@@ -242,7 +242,7 @@ function LIstDataSIswa() {
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     const displayedPages = [];
-
+  
     if (totalPages <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
@@ -260,21 +260,22 @@ function LIstDataSIswa() {
         );
       }
     }
-
-    return displayedPages.map((page) =>
+  
+    return displayedPages.map((page, index) =>
       page === 'dot' ? (
-        <span key="dot">...</span>
+        <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item " + (currentPage === page  ? 'active' : '')}
+          className={"page-item" + (currentPage === page ? ' active' : '')}
         >
-           <a class="page-link">{page}</a>
+          <a className="page-link">{page}</a>
         </li>
       )
     );
   };
+  
   return (
     <div>
       <div className="row">
