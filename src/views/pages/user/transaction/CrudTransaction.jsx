@@ -252,24 +252,25 @@ function CrudTransaction() {
 
                         <td data-cell="Action">
                           <button
-                            onClick={() =>
-                              navigate(`/editTransaction/${item.id}`)
-                            }
                             className="edit1"
+                            type="button"
                             style={{ background: "blue" }}
                           >
-                            {" "}
-                            <CIcon icon={cilPencil} />
+                            <a
+                              style={{ color: "white" }}
+                              href={`/editTransaction/${item.id}`}
+                            >
+                              {" "}
+                              <CIcon icon={cilPencil} />
+                            </a>{" "}
                           </button>
-                          {" "}
                           <button
-                            onClick={() => Delete(item.id)}
                             className="edit1"
+                            onClick={() => Delete(item.id)}
                             style={{ background: "red", color: "white" }}
                           >
                             <CIcon icon={cilTrash} />
                           </button>
-
                         </td>
                       </tr>
                     );

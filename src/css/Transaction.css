@@ -33,10 +33,12 @@
   .tabel-transaction {
     margin-top: 0;
   }
-  .edit {
-    margin-left: 9.5em;
-    position: absolute;
-  }
+  .edit1 {
+    padding: 2px 10px 2px 10px;
+    background: blue;
+    color: white;
+    font-size: 15px;
+}
   .hapus {
     margin-left: 4.5em;
     width: 2.8em;
