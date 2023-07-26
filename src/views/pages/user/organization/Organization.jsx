@@ -205,7 +205,7 @@ function Organization() {
                         <td data-cell="Action">
                           <button
                             onClick={() =>
-                              navigate(`/userOrganization/${data.id}`)
+                              navigate(`/editOrganization/${data.id}`)
                             }
                             type="button"
                             className="edit btn btn-primary me-2"

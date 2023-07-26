@@ -157,7 +157,7 @@ function TambahOrganization() {
     <div>
       <div className="card mb-3">
         <div className="card-header bg-transparent">
-          <h5>Tambah transaction</h5>
+          <h5>Tambah Organization</h5>
         </div>
         <div className="card-body">
           <CForm onSubmit={Post} onKeyDown={onKeyDown} className="row g-3">
