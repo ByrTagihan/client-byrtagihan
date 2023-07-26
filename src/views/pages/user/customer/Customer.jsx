@@ -169,54 +169,35 @@ function Customer() {
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     const displayedPages = [];
-
+  
     if (totalPages <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 5),
-          "dot",
-          ...pageNumbers.slice(totalPages - 1)
-        );
+        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 1),
-          "dot",
-          ...pageNumbers.slice(totalPages - 5)
-        );
+        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          "dot",
+          'dot',
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          "dot",
+          'dot',
           ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
-
-    return displayedPages.map((page) =>
-      page === "dot" ? (
-        <span
-          className="border"
-          key="dot"
-          style={{
-            width: "40px",
-            textAlign: "center",
-            borderRight: "none",
-            borderLeft: "none",
-          }}
-        >
-          ...
-        </span>
+  
+    return displayedPages.map((page, index) =>
+      page === 'dot' ? (
+        <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item " + (currentPage === page ? "active" : "")}
+          className={"page-item" + (currentPage === page ? ' active' : '')}
         >
-          <a class="page-link">{page}</a>
+          <a className="page-link">{page}</a>
         </li>
       )
     );
