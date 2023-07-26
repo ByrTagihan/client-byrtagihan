@@ -21,7 +21,7 @@ function Organization() {
   const getAll = async () => {
     await axios
       .get(
-        `${API_DUMMY}/user/organization?page=${currentPage}&limit=${limit}&filter${searchTerm}`,
+        `${API_DUMMY}/user/organization?page=${currentPage}&limit=${limit}&search${searchTerm}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
