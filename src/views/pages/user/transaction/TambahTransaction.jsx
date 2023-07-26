@@ -14,13 +14,13 @@ function TambahTransaction() {
 
   const [organization, setOrganization] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
-  const [suggestions2, setSuggestions2] = useState([]);
+  const [suggestions1, setSuggestions1] = useState([]);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
-  const [suggestionIndex2, setSuggestionIndex2] = useState(0);
+  const [suggestionIndex1, setSuggestionIndex1] = useState(0);
   const [suggestionsActive, setSuggestionsActive] = useState(false);
-  const [suggestionsActive2, setSuggestionsActive2] = useState(false);
+  const [suggestionsActive1, setSuggestionsActive1] = useState(false);
   const [value, setValue] = useState("");
-  const [value2, setValue2] = useState("");
+  const [value1, setValue1] = useState("");
 
   let navigate = useNavigate();
 
@@ -58,7 +58,7 @@ function TambahTransaction() {
 
     try {
       const response = await fetch(
-        `${API_DUMMY}/customer/member?name=${query}`,
+        `${API_DUMMY}/user/member?name=${query}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -131,7 +131,7 @@ function TambahTransaction() {
                   key={index}
                   onClick={(e) => handleClick(e, data.id)}
                 >
-                 {data.name}
+                  {data.name}
                 </li>
               ))}
             </>
@@ -145,98 +145,8 @@ function TambahTransaction() {
     );
   };
 
-  const handleChange2 = async (e) => {
-    const query2 = e.target.value;
-    setValue2(query2);
 
-    try {
-      const response = await fetch(
-        `${API_DUMMY}/customer/member?organization_name=${query2}&page=2`,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      );
-
-      if (query2.length > 0 && response.ok) {
-        const res = await response.json();
-        setSuggestions(res.data);
-        setSuggestionsActive(true);
-      } else {
-        setSuggestionsActive(false);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const onKeyDown2 = (keyEvent) => {
-    if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
-      keyEvent.preventDefault();
-    }
-  };
-
-  const handleKeyDown2 = (e) => {
-    // UP ARROW
-    if (e.keyCode === 38) {
-      if (suggestionIndex2 === 0) {
-        return;
-      }
-      setSuggestionIndex2(suggestionIndex2 - 1);
-    }
-    // DOWN ARROW
-    else if (e.keyCode === 40) {
-      if (suggestionIndex2 - 1 === suggestions2.length) {
-        return;
-      }
-      setSuggestionIndex2(suggestionIndex2 + 1);
-    }
-    // ENTER
-    else if (e.keyCode === 13) {
-      setValue2(`${suggestions2[suggestionIndex2].organization_name}`);
-      setOrganizationId(suggestions2[suggestionIndex2].id);
-      setSuggestionIndex2(0);
-      setSuggestionsActive2(false);
-    }
-  };
-
-  const handleClick2 = (e, id) => {
-    setSuggestions2([]);
-    setValue2(e.target.innerText);
-    setOrganizationId(id);
-    setSuggestionsActive2(false);
-  };
-  const Suggestions2 = () => {
-    return (
-      <div
-        className="card border-secondary border-top-0"
-        style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
-      >
-        <ul className="list-group list-group-flush">
-          {suggestions2.length != 0 ? (
-            <>
-              {suggestions2.map((data, index) => (
-                <li
-                  className={
-                    index === suggestionIndex2
-                      ? "list-group-item  list-group-item-action active"
-                      : "list-group-item  list-group-item-action"
-                  }
-                  key={index}
-                  onClick={(e) => handleClick2(e, data.id)}
-                >
-                  Organization = {data.organization_name}
-                </li>
-              ))}
-            </>
-          ) : (
-            <>
-              <li className="list-group-item ">Organisasi Tidak Ditemukan</li>
-            </>
-          )}
-        </ul>
-      </div>
-    );
-  };
+  // organization
 
   const GetOrganization = async () => {
     try {
@@ -248,7 +158,6 @@ function TambahTransaction() {
       );
       if (status === 200) {
         setOrganization(data.data);
-        // console.log(data.data);
       }
     } catch (err) {
       console.log(err);
@@ -266,7 +175,7 @@ function TambahTransaction() {
           <h5>Tambah transaction</h5>
         </div>
         <div className="card-body">
-          <CForm onSubmit={Post} onKeyDown={onKeyDown} onKeyDown2={onKeyDown2} className="row g-3">
+          <CForm onSubmit={Post} onKeyDown={onKeyDown}  className="row g-3">
             <CCol xs={12}>
               <CFormInput
                 id="description"
@@ -294,10 +203,10 @@ function TambahTransaction() {
                 label="Organization"
                 onChange={(e) => setOrganizationId(e.target.value.toString())}
               >
-                <option>Pilih Organization</option>{" "}
+                <select style={{height: "100px"}}>Pilih Organization</select>{" "}
                 {organization.map((cos, i) => {
                   return (
-                    <option value={cos.id} key={i}>
+                    <option  value={cos.id} key={i}>
                       {cos.organization_name}
                     </option>
                   );
@@ -310,14 +219,14 @@ function TambahTransaction() {
                 type="text"
                 placeholder="Organization..."
                 className="form-control"
-                value={value2}
+                value={value1}
                 label="Organization"
                 autoComplete="off"
-                onKeyDown={handleKeyDown2}
-                onChange={handleChange2}
+                onKeyDown1={handleKeyDown1}
+                onChange1={handleChange1}
                 required
-              /> */}
-              {/* {suggestionsActive2 && <Suggestions2 />} */}
+              />
+              {suggestionsActive1 && <Suggestions1 />} */}
            
             <CCol md={6}>
               <CFormInput
