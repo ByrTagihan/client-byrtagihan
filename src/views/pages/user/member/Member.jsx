@@ -38,7 +38,7 @@ function Member() {
     // Function get
     const get = async () => {
         try {
-            const { data, status } = await axios.get(`${API_DUMMY}/user/member?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`, {
+            const { data, status } = await axios.get(`${API_DUMMY}/user/member?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             })
             if (status === 200) {

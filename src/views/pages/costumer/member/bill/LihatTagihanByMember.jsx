@@ -47,7 +47,7 @@ function LihatTagihanByMember() {
 
   const getAll = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}`, {
+      .get(`https://api.byrtagihan.com/api/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}&filter${searchTerm}`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -62,6 +62,7 @@ function LihatTagihanByMember() {
   
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+    setCurrentPage(1);
   };
 
   const handleSort = (key) => {

@@ -12,8 +12,8 @@ function MemberChannel() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [list, setList] = useState([]);
-  const [limit, setLimit] = useState("10");
-  const [total_page, setTotal_Page] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
 
   const [sortBy, setSortBy] = useState("id");
   const [sortDirection, setSortDirection] = useState("asc");
@@ -21,14 +21,15 @@ function MemberChannel() {
   const getAll = async () => {
     await axios
       .get(
-        `${API_DUMMY}/member/channel?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
+        `${API_DUMMY}/member/channel?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
       )
       .then((res) => {
-        setTotal_Page(res.data.pagination.total_page);
+        setTotalPages(res.data.pagination.total_page);
         setList(res.data.data);
+        console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -41,6 +42,7 @@ function MemberChannel() {
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+    setCurrentPage(1);
   };
 
   const handlePageChange = (page) => {
@@ -65,23 +67,23 @@ function MemberChannel() {
   };
 
   const renderPageNumbers = () => {
-    const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
+    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     const displayedPages = [];
 
-    if (total_page <= 5) {
+    if (totalPages <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
         displayedPages.push(
           ...pageNumbers.slice(0, 5),
           "dot",
-          ...pageNumbers.slice(total_page - 1)
+          ...pageNumbers.slice(totalPages - 1)
         );
-      } else if (currentPage >= total_page - 2) {
+      } else if (currentPage >= totalPages - 2) {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
           "dot",
-          ...pageNumbers.slice(total_page - 5)
+          ...pageNumbers.slice(totalPages - 5)
         );
       } else {
         displayedPages.push(
@@ -89,14 +91,25 @@ function MemberChannel() {
           "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
           "dot",
-          ...pageNumbers.slice(total_page - 1)
+          ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
 
     return displayedPages.map((page) =>
       page === "dot" ? (
-        <span key="dot">...</span>
+        <span
+          className="border"
+          key="dot"
+          style={{
+            width: "40px",
+            textAlign: "center",
+            borderRight: "none",
+            borderLeft: "none",
+          }}
+        >
+          ...
+        </span>
       ) : (
         <li
           key={page}
@@ -220,36 +233,36 @@ function MemberChannel() {
 
               {/* Pagination */}
               <div>
-                <ul class="pagination float-end">
-                  <li
-                    className={
-                      "page-item " + (currentPage === 1 ? "disabled" : "")
-                    }
-                    disabled={currentPage === 1}
+              <ul class="pagination float-end">
+                <li
+                  className={
+                    "page-item " + (currentPage === 1 ? "disabled" : "")
+                  }
+                  disabled={currentPage === 1}
+                >
+                  <a
+                    class="page-link"
+                    onClick={() => handlePageChange(currentPage - 1)}
                   >
-                    <a
-                      class="page-link"
-                      onClick={() => handlePageChange(currentPage - 1)}
-                    >
-                      Previous
-                    </a>
-                  </li>
-                  {renderPageNumbers()}
-                  <li
-                    className={
-                      "page-item " +
-                      (currentPage === total_page ? "disabled" : "")
-                    }
-                    disabled={currentPage === total_page}
+                    Previous
+                  </a>
+                </li>
+                {renderPageNumbers()}
+                <li
+                  className={
+                    "page-item " +
+                    (currentPage === totalPages ? "disabled" : "")
+                  }
+                  disabled={currentPage === totalPages}
+                >
+                  <a
+                    class="page-link"
+                    onClick={() => handlePageChange(currentPage + 1)}
                   >
-                    <a
-                      class="page-link"
-                      onClick={() => handlePageChange(currentPage + 1)}
-                    >
-                      Next
-                    </a>
-                  </li>
-                </ul>
+                    Next
+                  </a>
+                </li>
+              </ul>
               </div>
             </div>
           </div>

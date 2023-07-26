@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import "../../../../views/css/ListDataSiswa.css";
 import axios from "axios";
@@ -10,7 +9,17 @@ import {
   CInputGroupText,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
-import { cilAddressBook, cilLockLocked, cilLockUnlocked, cilMoney, cilPencil, cilPhone, cilPlus, cilTrash, cilUser } from "@coreui/icons";
+import {
+  cilAddressBook,
+  cilLockLocked,
+  cilLockUnlocked,
+  cilMoney,
+  cilPencil,
+  cilPhone,
+  cilPlus,
+  cilTrash,
+  cilUser,
+} from "@coreui/icons";
 import Swal from "sweetalert2";
 // import ReactPaginate from "react-paginate"; Aku hapus ya fat :)
 
@@ -44,13 +53,13 @@ function LIstDataSIswa() {
   const getAll = async () => {
     await axios
       .get(
-        `https://api.byrtagihan.com/api/customer/member?page=${currentPage}&limit=${limit}`,
+        `https://api.byrtagihan.com/api/customer/member?page=${currentPage}&limit=${limit}&filter=${searchTerm}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
       )
       .then((res) => {
-        setTotalPages(res.data.pagination.total_page);
+        setTotalPages(res.data.pagination.total_page || 1);
         console.log(res.data.pagination.total_page);
         setList(res.data.data);
       })
@@ -61,6 +70,7 @@ function LIstDataSIswa() {
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+    setCurrentPage(1);
   };
 
   const handleSort = (key) => {
@@ -237,49 +247,30 @@ function LIstDataSIswa() {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 5),
-          "dot",
-          ...pageNumbers.slice(totalPages - 1)
-        );
+        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 1),
-          "dot",
-          ...pageNumbers.slice(totalPages - 5)
-        );
+        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          "dot",
+          'dot',
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          "dot",
+          'dot',
           ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
 
     return displayedPages.map((page) =>
-      page === "dot" ? (
-        <span
-          className="border"
-          key="dot"
-          style={{
-            width: "40px",
-            textAlign: "center",
-            borderRight: "none",
-            borderLeft: "none",
-          }}
-        >
-          ...
-        </span>
+      page === 'dot' ? (
+        <span key="dot">...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item " + (currentPage === page ? "active" : "")}
+          className={"page-item " + (currentPage === page  ? 'active' : '')}
         >
-          <a class="page-link">{page}</a>
+           <a class="page-link">{page}</a>
         </li>
       )
     );
@@ -288,35 +279,35 @@ function LIstDataSIswa() {
     <div>
       <div className="row">
         <div className="col" xs={12}>
-                <div className="inputSearch1">
-                  <CFormInput
-                    type="search"
-                    style={{
-                      marginBottom: "2px",
-                      width: "20em",
-                      marginRight: "14px",
-                      marginTop: "1px",
-                    }}
-                    placeholder="search data"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                  />
-                </div>
-                <div className="inputSearch1">
-                  <select
-                    className="form-select"
-                    value={limit}
-                    onChange={handleChangeLimit}
-                  >
-                    <option value="1">Show 1 Entries</option>
-                    <option value="10">Show 10 Entries</option>
-                    <option value="100">Show 100 Entries</option>
-                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-                  </select>
-                </div>
+          <div className="inputSearch1">
+            <CFormInput
+              type="search"
+              style={{
+                marginBottom: "2px",
+                width: "20em",
+                marginRight: "14px",
+                marginTop: "1px",
+              }}
+              placeholder="search data"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+          <div className="inputSearch1">
+            <select
+              className="form-select"
+              value={limit}
+              onChange={handleChangeLimit}
+            >
+              <option value="1">Show 1 Entries</option>
+              <option value="10">Show 10 Entries</option>
+              <option value="100">Show 100 Entries</option>
+              {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+            </select>
+          </div>
           <div className="card mb-4">
             <div className="card-header">
-              <div style={{display:"flex"}}>
+              <div style={{ display: "flex" }}>
                 <div className="col">
                   <h4>List Data Siswa</h4>
                 </div>
@@ -331,7 +322,13 @@ function LIstDataSIswa() {
               </div>
             </div>
             <div className="card-body table-container">
-                <div style={{display:"flex", justifyContent:"space-between", gap:"10px"}}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: "10px",
+                }}
+              >
                 <div className="inputSearch">
                   <select
                     className="form-select"
@@ -358,39 +355,39 @@ function LIstDataSIswa() {
                     onChange={handleSearch}
                   />
                 </div>
-                </div>
+              </div>
               <table className="table table1 responsive-3">
                 <thead>
                   <tr>
                     <th scope="col" onClick={() => handleSort("id")}>
                       Id{" "}
-                      {sortConfig && sortConfig.key === "id" && (
-                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
+                      {sortConfig &&
+                        sortConfig.key === "id" &&
+                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
                     </th>
                     <th scope="col" onClick={() => handleSort("unique_id")}>
                       Nisn{" "}
-                      {sortConfig && sortConfig.key === "unique_id" && (
-                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
+                      {sortConfig &&
+                        sortConfig.key === "unique_id" &&
+                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
                     </th>
                     <th scope="col" onClick={() => handleSort("name")}>
                       Name{" "}
-                      {sortConfig && sortConfig.key === "name" && (
-                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
+                      {sortConfig &&
+                        sortConfig.key === "name" &&
+                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
                     </th>
                     <th scope="col" onClick={() => handleSort("hp")}>
                       hp{" "}
-                      {sortConfig && sortConfig.key === "hp" && (
-                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
+                      {sortConfig &&
+                        sortConfig.key === "hp" &&
+                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
                     </th>
                     <th scope="col" onClick={() => handleSort("address")}>
                       Address{" "}
-                      {sortConfig && sortConfig.key === "address" && (
-                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
+                      {sortConfig &&
+                        sortConfig.key === "address" &&
+                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
                     </th>
                     <th scope="col">Action</th>
                   </tr>
@@ -436,7 +433,7 @@ function LIstDataSIswa() {
                               }}
                               style={{ background: "orange", color: "white" }}
                             >
-                             <CIcon icon={cilLockLocked} />
+                              <CIcon icon={cilLockLocked} />
                             </button>
                             <button
                               className="edit1"
@@ -564,7 +561,7 @@ function LIstDataSIswa() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <CIcon icon={cilUser}/>
+                <CIcon icon={cilUser} />
               </CInputGroupText>
               <CFormInput
                 placeholder="Name"
@@ -580,7 +577,7 @@ function LIstDataSIswa() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-              <CIcon icon={cilPhone}/>
+                <CIcon icon={cilPhone} />
               </CInputGroupText>
               <CFormInput
                 placeholder="hp"
@@ -596,7 +593,7 @@ function LIstDataSIswa() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-              <CIcon icon={cilAddressBook}/>
+                <CIcon icon={cilAddressBook} />
               </CInputGroupText>
               <CFormInput
                 placeholder="Adress"
@@ -612,7 +609,7 @@ function LIstDataSIswa() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-              <CIcon icon={cilLockLocked}/>
+                <CIcon icon={cilLockLocked} />
               </CInputGroupText>
               <CFormInput
                 placeholder="Password"

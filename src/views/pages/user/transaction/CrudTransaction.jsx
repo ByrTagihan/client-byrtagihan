@@ -27,7 +27,7 @@ function CrudTransaction() {
   const getAll = async () => {
     await axios
       .get(
-        `${API_DUMMY}/user/transaction?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
+        `${API_DUMMY}/user/transaction?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
