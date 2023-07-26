@@ -3,7 +3,6 @@ import React from "react";
 // import Register from './pages/Register'
 import ResetPassword from "./views/pages/reset/ForgotPasswor";
 
-//================================================
 //User Role
 const DashboardUser = React.lazy(() =>
   import("./views/dashboard/DashboardUser")
@@ -11,14 +10,11 @@ const DashboardUser = React.lazy(() =>
 const UserProfile = React.lazy(() => import("./views/pages/user/UserProfile"));
 
 //Organization Section
-const UserOrganization = React.lazy(() =>
-  import("./views/pages/user/organization/UserOrganization")
-);
 const Organization = React.lazy(() =>
   import("./views/pages/user/organization/Organization")
 );
-const TambahOrganization = React.lazy(() =>
-  import("./views/pages/user/organization/TambahOrganization")
+const UserOrganization = React.lazy(() =>
+  import("./views/pages/user/organization/UserOrganization")
 );
 
 //Payment Section
@@ -33,6 +29,7 @@ const CrudTransaction = React.lazy(() =>
 const TambahTransaction = React.lazy(() =>
   import("./views/pages/user/transaction/TambahTransaction")
 );
+
 const EditTransaction = React.lazy(() =>
   import("./views/pages/user/transaction/EditTransaction")
 );
@@ -66,15 +63,20 @@ const UserTemplate = React.lazy(() =>
 
 //================================================
 //Customer Role
-const Dashboard = React.lazy(() => import("./views/dashboard/Dashboard"));
+const Dashboard = React.lazy(() => import("./views/dashboard/DashboardTes"));
+const DashboardCustomer = React.lazy(() => import("./views/dashboard/DashboardCoba2"));
+const DashboardTes = React.lazy(() => import("./views/dashboard/DashboardTes"));
 const Profile = React.lazy(() => import("./views/pages/costumer/Profile"));
 const GantiPasswordCustomer = React.lazy(() =>
   import("./views/pages/costumer/GantiPasswordCustomer")
 );
-
 //Organization Section
 const CustomerOrganization = React.lazy(() =>
   import("./views/pages/costumer/organization/CustomerOrganization")
+);
+
+const TambahOrganization = React.lazy(() =>
+  import("./views/pages/user/organization/TambahOrganization")
 );
 
 //Member Section
@@ -115,6 +117,9 @@ const DashboardMember = React.lazy(() =>
 const MemberProfile = React.lazy(() =>
   import("./views/pages/member/MemberProfile")
 );
+const GantiPassMember = React.lazy(() =>
+  import("./views/pages/member/GantiPass")
+);
 
 //Bill Section
 const ListTagihanMember = React.lazy(() =>
@@ -133,15 +138,12 @@ const MemberChannel = React.lazy(() =>
 const routes = [
   { path: "/home", exact: true, name: "Home" },
   { path: "/reset", name: "Reset", element: ResetPassword },
+  { path: "/gantiPassMember", name: "GantiPasswordMember", element: GantiPassMember },
   //================================================================
   //User
   { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
+  //User
   { path: "/userProfile", name: "Dashboard User", element: UserProfile },
-  {
-    path: "/userOrganization/:id",
-    name: "User Organization",
-    element: UserOrganization,
-  },
   {
     path: "/tableOrganization",
     name: "User Organization",
@@ -152,7 +154,11 @@ const routes = [
     name: "Tambah Organization",
     element: TambahOrganization,
   },
-
+  {
+    path: "/editOrganization/:id",
+    name: "Edit Organization ",
+    element: UserOrganization,
+  },
   { path: "/payment", name: "Payment", element: CrudPayment },
   { path: "/transaction", name: "Transaction", element: CrudTransaction },
   {
@@ -178,8 +184,10 @@ const routes = [
   { path: "/UserTemplate", name: "UserTemplate", element: UserTemplate },
   //================================================================
   //Customer
-  { path: "/dashboard", name: "Dashboard", element: Dashboard },
+  { path: "/dashboardCustomer", name: "Dashboard", element: Dashboard },
+  { path: "/dashboardd", name: "Dashboard Customer", element: DashboardCustomer },
   { path: "/customerProfile", name: "Profile", element: Profile },
+  { path: "/dashboardTes", name: "Dashboard Tes", element: DashboardTes },
   {
     path: "/gantiPasswordCustomer",
     name: "Ganti Password Customer",
@@ -229,7 +237,7 @@ const routes = [
   },
   { path: "/bayarTagihan/:id", name: "Bayar Tagihan", element: BayarTagihan },
   { path: "/bayarSemuaTagihan", name: "Bayar Tagihan", element: BayarSemuaTagihan },
-  { path: "/memberChannel", name: "Channel", element: MemberChannel },
+  { path: "/memberChannel", name: "Channel", element: MemberChannel }
 ];
 
 export default routes;
