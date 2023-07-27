@@ -243,26 +243,24 @@ function CrudTransaction() {
                         <td data-cell="Update Date">{item.updated_date}</td>
 
                         <td data-cell="Action">
-                          <button
-                            onClick={() =>
-                              navigate(`/editTransaction/${item.id}`)
-                            }
-                            className="edit1"
-                            style={{ background: "blue" }}
-                          >
-                            {" "}
-                            <CIcon icon={cilPencil} />
-                          </button>
-                          {" "}
-                          <button
-                            onClick={() => Delete(item.id)}
-                            className="edit1"
-                            style={{ background: "red", color: "white" }}
-                          >
-                            <CIcon icon={cilTrash} />
-                          </button>
-
-                        </td>
+                        <button
+                          type="button"
+                          className="edit btn btn-primary me-2"
+                          onClick={() => navigate(`/editTransaction/${item.id}`)}
+                        >
+                          <CIcon icon={cilPencil} />
+                        </button>
+                        <button
+                          type="button"
+                          className="hapus btn btn-danger me-2"
+                          onClick={() =>
+                            Delete(item.id)
+                          }
+                        >
+                          <CIcon icon={cilTrash} style={{ color: "white" }} />
+                        </button>
+                        
+                      </td>
                       </tr>
                     );
                   })}
