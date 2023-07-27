@@ -71,6 +71,15 @@ const Profile = React.lazy(() => import("./views/pages/costumer/Profile"));
 const GantiPasswordCustomer = React.lazy(() =>
   import("./views/pages/costumer/GantiPasswordCustomer")
 );
+const AddListDataSiswa = React.lazy(() =>
+  import("./views/pages/costumer/member/AddListDataSiswa")
+);
+const AddListTagihanByMember = React.lazy(() =>
+  import("./views/pages/costumer/member/bill/AddTagihanByMember")
+);
+const EditTagihanByMember = React.lazy(() =>
+  import("./views/pages/costumer/member/bill/EditTaagihanByMember")
+);
 //Organization Section
 const CustomerOrganization = React.lazy(() =>
   import("./views/pages/costumer/organization/CustomerOrganization")
@@ -177,6 +186,9 @@ const routes = [
   //================================================================
   //Customer
   { path: "/dashboardCustomer", name: "Dashboard", element: Dashboard },
+  { path: "/addListDataSiswa", name: "Tambah List Data Siswa", element: AddListDataSiswa },
+  { path: "/addListTagihanByMember", name: "Tambah List Tagihan By Member", element: AddListTagihanByMember },
+  { path: "/editTagihanByMember/:id", name: "Edit Tagihan By Member", element: EditTagihanByMember },
   { path: "/dashboardd", name: "Dashboard Customer", element: DashboardCustomer },
   { path: "/customerProfile", name: "Profile", element: Profile },
   { path: "/dashboardTes", name: "Dashboard Tes", element: DashboardTes },
