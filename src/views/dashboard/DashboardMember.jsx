@@ -24,7 +24,7 @@ import {
 import { getStyle } from "@coreui/utils";
 import { CChartBar, CChartLine } from "@coreui/react-chartjs";
 import CIcon from "@coreui/icons-react";
-import { cilOptions } from "@coreui/icons";
+import { cilArrowBottom, cilOptions } from "@coreui/icons";
 import { API_DUMMY } from "../../utils/baseURL";
 
 function DashboardMember() {
@@ -286,16 +286,10 @@ function DashboardMember() {
                   className="p-0"
                 >
                   <CIcon
-                    icon={cilOptions}
-                    className="text-high-emphasis-inverse"
+                    icon={cilArrowBottom}
+                    style={{ color: "white" }}
                   />
                 </CDropdownToggle>
-                <CDropdownMenu>
-                  <CDropdownItem>Action</CDropdownItem>
-                  <CDropdownItem>Another action</CDropdownItem>
-                  <CDropdownItem>Something else here...</CDropdownItem>
-                  <CDropdownItem disabled>Disabled action</CDropdownItem>
-                </CDropdownMenu>
               </CDropdown>
             }
             chart={
@@ -386,16 +380,10 @@ function DashboardMember() {
                   className="p-0"
                 >
                   <CIcon
-                    icon={cilOptions}
-                    className="text-high-emphasis-inverse"
+                    icon={cilArrowBottom}
+                    style={{ color: "white" }}
                   />
                 </CDropdownToggle>
-                <CDropdownMenu>
-                  <CDropdownItem>Action</CDropdownItem>
-                  <CDropdownItem>Another action</CDropdownItem>
-                  <CDropdownItem>Something else here...</CDropdownItem>
-                  <CDropdownItem disabled>Disabled action</CDropdownItem>
-                </CDropdownMenu>
               </CDropdown>
             }
             chart={
@@ -486,16 +474,10 @@ function DashboardMember() {
                   className="p-0"
                 >
                   <CIcon
-                    icon={cilOptions}
-                    className="text-high-emphasis-inverse"
+                    icon={cilArrowBottom}
+                    style={{ color: "white" }}
                   />
                 </CDropdownToggle>
-                <CDropdownMenu>
-                  <CDropdownItem>Action</CDropdownItem>
-                  <CDropdownItem>Another action</CDropdownItem>
-                  <CDropdownItem>Something else here...</CDropdownItem>
-                  <CDropdownItem disabled>Disabled action</CDropdownItem>
-                </CDropdownMenu>
               </CDropdown>
             }
             chart={
@@ -573,16 +555,10 @@ function DashboardMember() {
                   className="p-0"
                 >
                   <CIcon
-                    icon={cilOptions}
-                    className="text-high-emphasis-inverse"
+                    icon={cilArrowBottom}
+                    style={{ color: "white" }}
                   />
                 </CDropdownToggle>
-                <CDropdownMenu>
-                  <CDropdownItem>Action</CDropdownItem>
-                  <CDropdownItem>Another action</CDropdownItem>
-                  <CDropdownItem>Something else here...</CDropdownItem>
-                  <CDropdownItem disabled>Disabled action</CDropdownItem>
-                </CDropdownMenu>
               </CDropdown>
             }
             chart={

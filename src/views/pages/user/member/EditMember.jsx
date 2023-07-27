@@ -141,7 +141,7 @@ function EditMember() {
                             </CCol>
                         </CInputGroup>
                     </CForm>
-                    <CButton onClick={Put}>Update</CButton>
+                    <CButton onClick={Put}>Simpan</CButton>
                 </CCardBody>
             </CCard>
         </div>

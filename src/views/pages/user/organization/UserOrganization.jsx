@@ -402,7 +402,7 @@ function UserOrganization() {
                 />
               </CCol>
             </CRow>
-            <CButton type="submit">Update</CButton>
+            <CButton type="submit">Simpan</CButton>
           </CForm>
         </CCardBody>
       </CCard>

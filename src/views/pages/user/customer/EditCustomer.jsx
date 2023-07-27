@@ -184,9 +184,9 @@ function EditCustomer() {
       // </div>
       <div
         className="card border-secondary border-top-0"
-        style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0, width:200 }}
+        style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0, width: 200 }}
       >
-        <ul className="list-group list-group-flush" style={{width:300}}>
+        <ul className="list-group list-group-flush" style={{ width: 300 }}>
           {suggestions.length != 0 ? (
             <>
               {suggestions.map((data, index) => (
@@ -319,20 +319,7 @@ function EditCustomer() {
             color: "white",
           }}
         >
-          Save
-        </button>
-        <button
-          style={{
-            marginTop: "49px",
-            backgroundColor: "#213555",
-            color: "white",
-            marginLeft: "30px",
-          }}
-        >
-          <a href="/#/userCustomer" style={{ color: "white" }}>
-            {" "}
-            Cancelled
-          </a>
+          Simpan
         </button>
       </form>
     </div>
