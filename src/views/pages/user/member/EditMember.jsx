@@ -36,7 +36,7 @@ function EditMember() {
             setShow(false);
             Swal.fire({
                 icon: "success",
-                title: "Berhasil Update Data Siswa",
+                title: "Berhasil Mengedit",
                 showConfirmButton: false,
                 timer: 1500,
             });

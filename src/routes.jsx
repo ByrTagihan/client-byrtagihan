@@ -155,8 +155,8 @@ const routes = [
     element: TambahOrganization,
   },
   {
-    path: "/userOrganization:id",
-    name: "Dashboard User",
+    path: "/editOrganization/:id",
+    name: "Edit Organization",
     element: UserOrganization,
   },
   { path: "/payment", name: "Payment", element: CrudPayment },

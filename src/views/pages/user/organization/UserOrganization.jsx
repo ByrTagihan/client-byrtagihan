@@ -123,7 +123,7 @@ function UserOrganization() {
       navigate("/tableOrganization");
       Swal.fire({
         icon: "success",
-        title: "berhasil mengedit",
+        title: "Berhasil Mengedit",
         showConfirmButton: false,
         timer: 1500,
       });

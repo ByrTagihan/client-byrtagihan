@@ -422,7 +422,7 @@ function LihatTagihanByMember() {
                     onClick={() => setShowAdd(true)}
                     className="btn btn-primary float-end"
                   >
-                    <CIcon icon={cilPlus} /> Tambah Data
+                    <CIcon icon={cilPlus} /> Tambah
                   </button>
                 </div>
                 </div>

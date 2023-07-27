@@ -25,7 +25,6 @@ function ListDataSiswaEdit() {
         setHp(list_data.hp);
         setAddress(list_data.address);
         setName(list_data.name);
-        // console.log(response.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan " + error);
@@ -36,20 +35,12 @@ function ListDataSiswaEdit() {
         e.preventDefault();
         e.persist();
 
-        // const data = new FormData();
-        // data.append("unique_id", unique_id);
-        // data.append("hp", hp);
-        // data.append("address", address);
-        // data.append("name", name);
-    
-
         const data = {
             unique_id: unique_id,
             hp: hp,
             address: address,
             name: name
         }
-        // console.log(data);
         try {
           await axios.put(
             `${API_DUMMY}/customer/member/` + param.id, data,
@@ -64,7 +55,6 @@ function ListDataSiswaEdit() {
             showConfirmButton: false,
             timer: 1500,
           });
-        // alert("success")
           setTimeout(() => {
             navigate("/customerMember")
             window.location.reload();

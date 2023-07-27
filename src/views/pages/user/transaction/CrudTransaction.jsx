@@ -47,7 +47,7 @@ function CrudTransaction() {
 
   const Delete = async (id) => {
     Swal.fire({
-      title: "Anda Ingin Menghapus Data?",
+      title: "Anda Ingin Menghapus Data ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",

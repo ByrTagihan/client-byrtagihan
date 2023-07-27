@@ -40,7 +40,7 @@ function EditCustomer() {
       .then(() => {
         Swal.fire({
           icon: "success",
-          title: "Berhasil Diedit",
+          title: "Berhasil Mengedit",
           showConfirmButton: false,
           timer: 1500,
         });

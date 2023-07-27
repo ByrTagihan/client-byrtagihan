@@ -54,14 +54,13 @@ function Member() {
 
     const Delete = async (id) => {
         Swal.fire({
-            title: "Ingin menghapus data ?",
-            // text: "Data changes are non-refundable!",
+            title: "Anda Ingin Menghapus Data ?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Hapus",
-            cancelButtonText: "Batal",
+            confirmButtonText: "Delete",
+            cancelButtonText: "Cancel",
         }).then((result) => {
             if (result.isConfirmed) {
                 axios.delete(`${API_DUMMY}/user/member/${id}`, {
@@ -262,7 +261,7 @@ function Member() {
                             </div>
                             <CButton onClick={() => setVisible(!visible)}>
                                 <CIcon icon={cilPlus} />
-                                Tambah data
+                                Tambah
                             </CButton>
                         </div>
                     </div>

@@ -47,8 +47,7 @@ function Customer() {
 
   const deleteE = async (id) => {
     Swal.fire({
-      title: "Do you want to delete ?",
-      text: "Data changes are non-refundable!",
+      title: "Anda Ingin Menghapus Data ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -278,7 +277,7 @@ function Customer() {
                       onClick={() => setShow(true)}
                       className="btn btn-primary"
                     >
-                      <CIcon icon={cilPlus} /> Tambah Data
+                      <CIcon icon={cilPlus} /> Tambah
                     </button>
                   </div>
                 </div>

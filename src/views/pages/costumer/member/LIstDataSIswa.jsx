@@ -21,7 +21,6 @@ import {
   cilUser,
 } from "@coreui/icons";
 import Swal from "sweetalert2";
-// import ReactPaginate from "react-paginate"; Aku hapus ya fat :)
 
 function LIstDataSIswa() {
   const [name, setName] = useState("");
@@ -32,11 +31,7 @@ function LIstDataSIswa() {
   const [list, setList] = useState([]);
   const [show1, setShow1] = useState(false);
   const [show, setShow] = useState(false);
-  // const [show2, setShow2] = useState(false);
-  // const [show3, setShow3] = useState(false);
-  // const [pages, setPages] = useState(0);
   const [listData, setListData] = useState("");
-  // const [page, setPage] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -131,7 +126,6 @@ function LIstDataSIswa() {
         setAddress(res.data.data.address);
         setHp(res.data.data.hp);
         setId(res.data.data.id);
-        // console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -145,7 +139,6 @@ function LIstDataSIswa() {
     const data = {
       password: password,
     };
-    // console.log(data);
 
     try {
       await axios.put(
@@ -155,7 +148,6 @@ function LIstDataSIswa() {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
       );
-      // alert("Success")
       setShow1(false);
       Swal.fire({
         icon: "success",
@@ -209,14 +201,13 @@ function LIstDataSIswa() {
 
   const deleteData = async (id) => {
     Swal.fire({
-      title: "Do you want to delete ?",
-      text: "Data changes are non-refundable!",
+      title: "Anda ingin Menghapus Data ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Delete",
-      cancelButtonText: "Cencel",
+      cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete("https://api.byrtagihan.com/api/customer/member/" + id, {
@@ -224,10 +215,9 @@ function LIstDataSIswa() {
         });
         Swal.fire({
           icon: "success",
-          title: "Dihapus!",
+          title: "Berhasil Menghapus!",
           showConfirmButton: false,
         });
-        // console.log(id);
       }
       setTimeout(() => {
         window.location.reload();
@@ -317,7 +307,7 @@ function LIstDataSIswa() {
                     onClick={() => setShow(true)}
                     className="btn btn-primary float-end"
                   >
-                    <CIcon icon={cilPlus} /> Tambah Data
+                    <CIcon icon={cilPlus} /> Tambah
                   </button>
                 </div>
               </div>

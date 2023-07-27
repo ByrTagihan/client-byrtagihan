@@ -27,7 +27,7 @@ import { API_DUMMY } from "../../../../../utils/baseURL";
           setShow(false);
           Swal.fire({
             icon: "success",
-            title: "Tersimpan",
+            title: "Berhasil Mengedit",
             showConfirmButton: false,
             timer: 1500,
           });

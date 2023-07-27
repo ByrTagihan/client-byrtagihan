@@ -36,7 +36,7 @@ const AppSidebar = () => {
 
   const logout = () => {
     Swal.fire({
-      title: "Are You Sure You Want To Logout",
+      title: "Keluar Dari Akun Anda ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
