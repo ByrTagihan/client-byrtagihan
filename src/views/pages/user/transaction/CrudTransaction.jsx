@@ -27,7 +27,7 @@ function CrudTransaction() {
   const getAll = async () => {
     await axios
       .get(
-        `${API_DUMMY}/user/transaction?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
+        `${API_DUMMY}/user/transaction?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -108,43 +108,35 @@ function CrudTransaction() {
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
     const displayedPages = [];
-
+  
     if (total_page <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 5),
-          "dot",
-          ...pageNumbers.slice(total_page - 1)
-        );
+        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(total_page - 1));
       } else if (currentPage >= total_page - 2) {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 1),
-          "dot",
-          ...pageNumbers.slice(total_page - 5)
-        );
+        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(total_page - 5));
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          "dot",
+          'dot',
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          "dot",
+          'dot',
           ...pageNumbers.slice(total_page - 1)
         );
       }
     }
-
-    return displayedPages.map((page) =>
-      page === "dot" ? (
-        <span key="dot">...</span>
+  
+    return displayedPages.map((page, index) =>
+      page === 'dot' ? (
+        <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item " + (currentPage === page ? "active" : "")}
+          className={"page-item" + (currentPage === page ? ' active' : '')}
         >
-          <a class="page-link">{page}</a>
+          <a className="page-link">{page}</a>
         </li>
       )
     );
