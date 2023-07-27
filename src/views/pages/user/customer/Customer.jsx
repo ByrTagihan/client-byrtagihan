@@ -7,7 +7,7 @@ import {
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { getAllData } from "../../../../utils/controller";
 import "../../../../views/css/ListDataSiswa.css";
 import { API_DUMMY } from "../../../../utils/baseURL";
@@ -169,7 +169,7 @@ function Customer() {
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     const displayedPages = [];
-  
+
     if (totalPages <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
@@ -187,7 +187,7 @@ function Customer() {
         );
       }
     }
-  
+
     return displayedPages.map((page, index) =>
       page === 'dot' ? (
         <span key={`dot${index}`}>...</span>
@@ -203,38 +203,38 @@ function Customer() {
     );
   };
 
-  const add = async (e) => {
-    e.preventDefault();
-    e.persist();
+  // const add = async (e) => {
+  //   e.preventDefault();
+  //   e.persist();
 
-    const data = {
-      name,
-      active,
-      email,
-      address,
-      hp,
-      password,
-    };
-    try {
-      await axios.post(`${API_DUMMY}/user/customer`, data, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      });
-      // console.log(unique_id);
-      setShow(false);
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil DiTambahkan",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      // console.log(data);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //   const data = {
+  //     name,
+  //     active,
+  //     email,
+  //     address,
+  //     hp,
+  //     password,
+  //   };
+  //   try {
+  //     await axios.post(`${API_DUMMY}/user/customer`, data, {
+  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+  //     });
+  //     // console.log(unique_id);
+  //     setShow(false);
+  //     Swal.fire({
+  //       icon: "success",
+  //       title: "Berhasil DiTambahkan",
+  //       showConfirmButton: false,
+  //       timer: 1500,
+  //     });
+  //     // console.log(data);
+  //     setTimeout(() => {
+  //       window.location.reload();
+  //     }, 1500);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <div>
@@ -274,45 +274,46 @@ function Customer() {
                   }}
                 >
                   <div>
-                    <button
-                      onClick={() => setShow(true)}
-                      className="btn btn-primary"
-                    >
-                      <CIcon icon={cilPlus} /> Tambah Data
-                    </button>
+                    <Link to="/tambahCostumer">
+                      <button
+                        className="btn btn-primary"
+                      >
+                        <CIcon icon={cilPlus} /> Tambah Data
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
             <div className="card-body table-container">
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between"
-                  }}
-                >
-                  <div className="inputSearch">
-                    <select
-                      className="form-select"
-                      value={limit}
-                      onChange={handleChangeLimit}
-                    >
-                      <option value="1">Show 1 Entries</option>
-                      <option value="10">Show 10 Entries</option>
-                      <option value="100">Show 100 Entries</option>
-                      {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-                    </select>
-                  </div>
-                  <div>
-                    <CFormInput
-                      className="inputSearch"
-                      type="search"
-                      placeholder="search data"
-                      value={searchTerm}
-                      onChange={handleSearch}
-                    />
-                  </div>
-                  </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between"
+                }}
+              >
+                <div className="inputSearch">
+                  <select
+                    className="form-select"
+                    value={limit}
+                    onChange={handleChangeLimit}
+                  >
+                    <option value="1">Show 1 Entries</option>
+                    <option value="10">Show 10 Entries</option>
+                    <option value="100">Show 100 Entries</option>
+                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                  </select>
+                </div>
+                <div>
+                  <CFormInput
+                    className="inputSearch"
+                    type="search"
+                    placeholder="search data"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                  />
+                </div>
+              </div>
               <table className="table responsive-3 table1">
                 <thead>
                   <tr>
@@ -325,7 +326,7 @@ function Customer() {
                     <th scope="col" onClick={() => handleSort("email")}>
                       Email{" "}
                       {sortConfig && sortConfig.key === "email" && (
-                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
+                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("nama")}>
@@ -337,13 +338,13 @@ function Customer() {
                     <th scope="col" onClick={() => handleSort("hp")}>
                       hp{" "}
                       {sortConfig && sortConfig.key === "hp" && (
-                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
+                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col" onClick={() => handleSort("active")}>
                       Active{" "}
                       {sortConfig && sortConfig.key === "active" && (
-                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
+                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
                       )}
                     </th>
                     <th scope="col">Action</th>
@@ -421,7 +422,7 @@ function Customer() {
           </div>
         </div>
       </div>
-
+      {/* 
       <Modal show={show} onHide={!show}>
         <form onSubmit={add}>
           <Modal.Header style={{ background: "#526D82" }}>
@@ -538,7 +539,7 @@ function Customer() {
             </CButton>
           </Modal.Footer>
         </form>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }
