@@ -37,7 +37,7 @@ function Organization() {
 
   useEffect(() => {
     getAll(0);
-  }, [currentPage, limit,searchTerm]);
+  }, [currentPage, limit, searchTerm]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -133,7 +133,7 @@ function Organization() {
                 <div className="col">
                   <Link to="/tambahOrganization">
                     <button className="btn btn-primary float-end">
-                    <CIcon icon={cilPlus}/> Tambah
+                      <CIcon icon={cilPlus} /> Tambah
                     </button>
                   </Link>
                 </div>
@@ -142,29 +142,29 @@ function Organization() {
 
             <div className="card-body">
               <div className="row">
-              <div className="row">
-                <div className="col">
-                  <select
-                    className="shows form-select"
-                    value={limit}
-                    onChange={handleLimit}
-                  >
-                    <option value="1">Show 1 Entries</option>
-                    <option value="10">Show 10 Entries</option>
-                    <option value="100">Show 100 Entries</option>
-                  </select>
+                <div className="row">
+                  <div className="col">
+                    <select
+                      className="shows form-select"
+                      value={limit}
+                      onChange={handleLimit}
+                    >
+                      <option value="1">Show 1 Entries</option>
+                      <option value="10">Show 10 Entries</option>
+                      <option value="100">Show 100 Entries</option>
+                    </select>
+                  </div>
+
+                  <div className="col">
+                    <CFormInput
+                      className="filter-data-o"
+                      type="search"
+                      placeholder="search data"
+                      value={searchTerm}
+                      onChange={handleSearch}
+                    />
+                  </div>
                 </div>
-               
-                <div className="col">
-                  <CFormInput
-                    className="filter-data-o"
-                    type="search"
-                    placeholder="search data"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                  />
-                </div>
-              </div>
               </div>
               <table className="tabel-organization table responsive-3 table1">
                 <thead>
@@ -204,21 +204,24 @@ function Organization() {
                         <td data-cell="Update Date">{data.bank_name}</td>
                         <td data-cell="Action">
                           <button
-                            onClick={() =>
-                              navigate(`/editOrganization/${data.id}`)
-                            }
+                            className="edit1"
                             type="button"
-                            className="edit btn btn-primary me-2"
+                            style={{ background: "blue" }}
                           >
-                           <CIcon icon={cilPencil} />
+                            <a
+                              style={{ color: "white" }}
+                              href={`/userOrganization/${data.id}`}
+                            >
+                              {" "}
+                              <CIcon icon={cilPencil} />
+                            </a>{" "}
                           </button>
-
                           <button
+                            className="edit1"
                             onClick={() => Delete(data.id)}
-                            type="button"
-                            className="hapus btn btn-danger me-2"
+                            style={{ background: "red", color: "white" }}
                           >
-                          <CIcon icon={cilTrash} style={{color: "white"}}/>
+                            <CIcon icon={cilTrash} />
                           </button>
                         </td>
                       </tr>

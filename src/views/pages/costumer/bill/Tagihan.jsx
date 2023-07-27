@@ -217,16 +217,16 @@ function Tagihan() {
     <div>
       <div className="row">
         <div className="col" xs={12}>
-                <div className="col inputSearch1">
-                <select className="form-select" value={limit} onChange={handleLimit}>
-                  <option value="1">Show 1 Entries</option>
-                  <option value="10">Show 10 Entries</option>
-                  <option value="100">Show 100 Entries</option>
-                </select>
-                </div>
-                <div className="col inputSearch1">
-                <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch}/>
-                </div>
+          <div className="col inputSearch1">
+            <select className="form-select" value={limit} onChange={handleLimit}>
+              <option value="1">Show 1 Entries</option>
+              <option value="10">Show 10 Entries</option>
+              <option value="100">Show 100 Entries</option>
+            </select>
+          </div>
+          <div className="col inputSearch1">
+            <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} />
+          </div>
           <div className="card mb-4">
             <div className="card-header">
               <div className="row">
@@ -243,16 +243,16 @@ function Tagihan() {
               </div>
             </div>
             <div className="card-body">
-            <div className="row">
+              <div className="row">
                 <div className="col inputSearch">
-                <select className="form-select" value={limit} onChange={handleLimit} style={{width: "40%"}}>
-                  <option value="1">Show 1 Entries</option>
-                  <option value="10">Show 10 Entries</option>
-                  <option value="100">Show 100 Entries</option>
-                </select>
+                  <select className="form-select" value={limit} onChange={handleLimit} style={{ width: "40%" }}>
+                    <option value="1">Show 1 Entries</option>
+                    <option value="10">Show 10 Entries</option>
+                    <option value="100">Show 100 Entries</option>
+                  </select>
                 </div>
                 <div className="col inputSearch">
-                <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} style={{width: "40%"}}/>
+                  <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} style={{ width: "40%" }} />
                 </div>
               </div>
               <table className="table">
@@ -304,35 +304,39 @@ function Tagihan() {
                   {sortedBills.map((data) => (
                     <tr key={data.id}>
                       <th scope="row">{data.id}</th>
-                      <td data-cell = "Nama Murid">{data.member_name}</td>
-                      <td data-cell = "Description">{data.description}</td>
-                      <td data-cell = "Periode">{data.periode}</td>
-                      <td data-cell = "Nominal">{data.amount}</td>
-                      <td data-cell = "Status">
+                      <td data-cell="Nama Murid">{data.member_name}</td>
+                      <td data-cell="Description">{data.description}</td>
+                      <td data-cell="Periode">{data.periode}</td>
+                      <td data-cell="Nominal">{data.amount}</td>
+                      <td data-cell="Status">
                         {data.paid_id != 0 ? (
                           <span>Sudah Bayar</span>
                         ) : (
                           <span>Belum Bayar</span>
                         )}
                       </td>
-                      <td data-cell = "Tgl Bayar">{data.paid_date}</td>
-                      <td data-cell = "Nominal Bayar">{data.paid_amount}</td>
-                      <td data-cell = "Action">
+                      <td data-cell="Tgl Bayar">{data.paid_date}</td>
+                      <td data-cell="Nominal Bayar">{data.paid_amount}</td>
+                      <td data-cell="Action">
                         <button
+                          className="edit1"
                           type="button"
-                          className="edit btn btn-primary me-2"
-                          onClick={() => navigate(`/edittagihan/${data.id}`)}
+                          style={{ background: "blue" }}
                         >
-                          <CIcon icon={cilPencil} />
+                          <a
+                            style={{ color: "white" }}
+                            href={`/edittagihan/${data.id}`}
+                          >
+                            {" "}
+                            <CIcon icon={cilPencil} />
+                          </a>{" "}
                         </button>
                         <button
-                          type="button"
-                          className="hapus btn btn-danger me-2"
-                          onClick={() =>
-                            deleteData(data.id, "customer/bill", setBills)
-                          }
+                          className="edit1"
+                          onClick={() => deleteData(data.id, "customer/bill", setBills)}
+                          style={{ background: "red", color: "white" }}
                         >
-                          <CIcon icon={cilTrash} style={{ color: "white" }} />
+                          <CIcon icon={cilTrash} />
                         </button>
                         {data.paid_id != 0 ? (
                           <button
@@ -340,7 +344,8 @@ function Tagihan() {
                             onClick={() => {
                               unBayarTagihan(data.id);
                             }}
-                            className="batal_bayar btn btn-danger "
+                            className="edit1"
+                            style={{ background: "#B22222", color: "white" }}
                           >
                             Batal Bayar
                           </button>
@@ -352,7 +357,8 @@ function Tagihan() {
                               setPaidId(data.id);
                               setPaidAmount(data.amount);
                             }}
-                            className="bayar btn btn-info "
+                            className="edit1"
+                            style={{ background: "green" }}
                           >
                             Bayar
                           </button>
