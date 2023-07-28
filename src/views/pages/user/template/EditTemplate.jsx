@@ -77,7 +77,7 @@ function EditTemplate() {
                 <CCardBody>
                     <h4>Edit Data Template</h4>
                     <CForm className="row g-3">
-                        <CCol md={6}>
+                        <CCol md={12}>
                             <CFormInput
                                 type="text"
                                 placeholder="Nama"
@@ -99,7 +99,7 @@ function EditTemplate() {
                                 required
                             />
                         </CCol> */}
-                        <CCol md={6}>
+                        <CCol md={12}>
                             <CFormLabel htmlFor="content">Content</CFormLabel>
                             <ReactQuill value={content} onChange={handleChange} />
                         </CCol>

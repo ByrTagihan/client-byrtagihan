@@ -51,7 +51,7 @@ function TambahTemplate() {
                 </div>
                 <div className="card-body">
                     <CForm onSubmit={Post} className="row g-3">
-                        <CCol md={6}>
+                        <CCol md={12}>
                             <CFormInput
                                 type="text"
                                 placeholder="Nama"
@@ -61,7 +61,7 @@ function TambahTemplate() {
                                 required
                             />
                         </CCol>
-                        <CCol md={6}>
+                        <CCol md={12}>
                             <CFormLabel htmlFor="content">Content</CFormLabel>
                             <ReactQuill value={content} onChange={handleChange} />
                         </CCol>
