@@ -106,9 +106,9 @@ function MemberChannel() {
     <div>
       <div className="row">
         <div className="col" xs={12}>
-                <div className="col">
+                <div className="inputSearch1 ">
                   <select
-                    className="inputSearch1 form-select"
+                    className="form-select"
                     value={limit}
                     onChange={handleLimit}
                   >
@@ -137,9 +137,9 @@ function MemberChannel() {
 
             <div className="card-body">
               <div className="row">
-                <div className="col">
+                <div className="col inputSearch">
                   <select
-                    className="inputSearch"
+                    className="form-select"
                     value={limit}
                     onChange={handleLimit}
                   >
