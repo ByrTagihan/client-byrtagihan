@@ -39,6 +39,9 @@ const EditTransaction = React.lazy(() =>
 const UserCustomer = React.lazy(() =>
   import("./views/pages/user/customer/Customer")
 );
+const TambahCostumer = React.lazy(() =>
+  import("./views/pages/user/customer/TambahCostumer")
+);
 const EditUserCustomer = React.lazy(() =>
   import("./views/pages/user/customer/EditCustomer")
 );
@@ -55,11 +58,18 @@ const UserMessage = React.lazy(() =>
 
 //Member Section
 const userMember = React.lazy(() => import("./views/pages/user/member/Member"));
+const TambahMember = React.lazy(() => import("./views/pages/user/member/TambahMember"));
 const EditUserMember = React.lazy(() => import("./views/pages/user/member/EditMember"));
 
 //Template Section
 const UserTemplate = React.lazy(() =>
   import("./views/pages/user/template/Template")
+);
+const TambahTemplate = React.lazy(() =>
+  import("./views/pages/user/template/TambahTemplate")
+);
+const EditTemplate = React.lazy(() =>
+  import("./views/pages/user/template/EditTemplate")
 );
 
 //================================================
@@ -159,9 +169,29 @@ const routes = [
     element: TambahTransaction,
   },
   {
+    path: "/tambahTemplate",
+    name: "Tambah Template",
+    element: TambahTemplate,
+  },
+  {
+    path: "/tambahMember",
+    name: "Tambah Template",
+    element: TambahMember,
+  },
+  {
+    path: "/tambahCostumer",
+    name: "Tambah Costumer",
+    element: TambahCostumer,
+  },
+  {
     path: "/editTransaction/:id",
     name: "Edit Transaction",
     element: EditTransaction,
+  },
+  {
+    path: "/editTemplate/:id",
+    name: "Edit Template",
+    element: EditTemplate,
   },
   { path: "/userCustomer", name: "UserCustomer", element: UserCustomer },
   {
