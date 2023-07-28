@@ -33,7 +33,7 @@ function Tagihan() {
   const fetchBills = async () => {
     try {
       const response = await fetch(
-        `${API_DUMMY}/customer/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
+        `${API_DUMMY}/customer/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
         {
           headers: {
             "auth-tgh": `jwt ${localStorage.getItem("token")}`,

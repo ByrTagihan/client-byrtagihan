@@ -1,17 +1,19 @@
+
 import React from "react";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { CFormInput } from "@coreui/react";
-import "../css/memberChannel.css";
+// import "../css/memberChannel.css";
+import "../../../css/ListDataSiswa.css"
 
 function MemberChannel() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [list, setList] = useState([]);
-  const [limit, setLimit] = useState("10");
-  const [total_page, setTotal_Page] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
 
   const [sortBy, setSortBy] = useState("id");
   const [sortDirection, setSortDirection] = useState("asc");
@@ -19,14 +21,15 @@ function MemberChannel() {
   const getAll = async () => {
     await axios
       .get(
-        `${API_DUMMY}/member/channel?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
+        `${API_DUMMY}/member/channel?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
       )
       .then((res) => {
-        setTotal_Page(res.data.pagination.total_page);
+        setTotalPages(res.data.pagination.total_page);
         setList(res.data.data);
+        console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -39,6 +42,7 @@ function MemberChannel() {
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+    setCurrentPage(1);
   };
 
   const handlePageChange = (page) => {
@@ -102,6 +106,26 @@ function MemberChannel() {
     <div>
       <div className="row">
         <div className="col" xs={12}>
+                <div className="inputSearch1 ">
+                  <select
+                    className="form-select"
+                    value={limit}
+                    onChange={handleLimit}
+                  >
+                    <option value="1">Show 1 Entries</option>
+                    <option value="10">Show 10 Entries</option>
+                    <option value="100">Show 100 Entries</option>
+                  </select>
+                </div>
+                <div className="col inputSearch1">
+                  <CFormInput
+                    className="search-channel"
+                    type="search"
+                    placeholder="search data"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                  />
+                </div>
           <div className="card mb-4">
             <div className="card-header">
               <div className="row">
@@ -115,7 +139,7 @@ function MemberChannel() {
               <div className="row">
                 <div className="col">
                   <select
-                    className="limit-channel form-select"
+                    className="inputSearch form-select"
                     value={limit}
                     onChange={handleLimit}
                   >
@@ -124,7 +148,7 @@ function MemberChannel() {
                     <option value="100">Show 100 Entries</option>
                   </select>
                 </div>
-                <div className="col">
+                <div className="col inputSearch">
                   <CFormInput
                     className="search-channel"
                     type="search"
@@ -190,36 +214,36 @@ function MemberChannel() {
 
               {/* Pagination */}
               <div>
-                <ul class="pagination float-end">
-                  <li
-                    className={
-                      "page-item " + (currentPage === 1 ? "disabled" : "")
-                    }
-                    disabled={currentPage === 1}
+              <ul class="pagination float-end">
+                <li
+                  className={
+                    "page-item " + (currentPage === 1 ? "disabled" : "")
+                  }
+                  disabled={currentPage === 1}
+                >
+                  <a
+                    class="page-link"
+                    onClick={() => handlePageChange(currentPage - 1)}
                   >
-                    <a
-                      class="page-link"
-                      onClick={() => handlePageChange(currentPage - 1)}
-                    >
-                      Previous
-                    </a>
-                  </li>
-                  {renderPageNumbers()}
-                  <li
-                    className={
-                      "page-item " +
-                      (currentPage === total_page ? "disabled" : "")
-                    }
-                    disabled={currentPage === total_page}
+                    Previous
+                  </a>
+                </li>
+                {renderPageNumbers()}
+                <li
+                  className={
+                    "page-item " +
+                    (currentPage === totalPages ? "disabled" : "")
+                  }
+                  disabled={currentPage === totalPages}
+                >
+                  <a
+                    class="page-link"
+                    onClick={() => handlePageChange(currentPage + 1)}
                   >
-                    <a
-                      class="page-link"
-                      onClick={() => handlePageChange(currentPage + 1)}
-                    >
-                      Next
-                    </a>
-                  </li>
-                </ul>
+                    Next
+                  </a>
+                </li>
+              </ul>
               </div>
             </div>
           </div>

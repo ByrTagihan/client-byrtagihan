@@ -20,6 +20,7 @@ import { cilLockLocked, cilUser } from "@coreui/icons";
 import axios from "axios";
 import "./../../../views/css/Login.css";
 import Swal from "sweetalert2";
+import "../../../views/pages/login/Login.css"
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -162,25 +163,28 @@ const Login = () => {
                 className="text-medium-emphasis"
                 style={{ textAlign: "center", marginBottom: "30px" }}
               >
-                Sign In to your account
+                Masuk ke akun anda
               </p>
-              {/* <select
-                className="selectt"
-                style={{ background: "white", color: "black" }}
-                aria-label="Default select example"
-                onChange={(e) => setType_token(e.target.value)}
-                defaultValue="siswa" // Menambahkan defaultValue dengan nilai "siswa"
-              >
-                <option>Select Roles</option>
-                <option value="guru">guru</option>
-                <option value="admin Sekolah">admin Sekolah</option>
-                <option value="siswa">
-                  siswa
-                </option>
-              </select> */}
-                <div style={{display:"flex", justifyContent:"space-around", marginBottom:"20px"}}>
-      <label>
-        <input
+                    <div class="container1">
+    <div class="selector">
+        <div class="selector-item">
+            <input type="radio" id="radio1" name="selector" class="selector-item_radio" 
+          checked={type_token === 'siswa'} value="siswa" onChange={handleOptionChange}/>
+            <label for="radio1" class="selector-item_label">Siswa</label>
+        </div>
+        <div class="selector-item">
+            <input type="radio" id="radio2" name="selector" class="selector-item_radio" checked={type_token === 'admin Sekolah'} value="admin Sekolah" onChange={handleOptionChange}/>
+            <label for="radio2" class="selector-item_label">Admin</label>
+        </div>
+        <div class="selector-item">
+            <input type="radio" id="radio3" name="selector" class="selector-item_radio" onChange={handleOptionChange} checked={type_token === 'guru'} value="guru"/>
+            <label for="radio3" class="selector-item_label">Guru</label>
+        </div>
+    </div>
+</div>
+      {/* <label className="selector-item_label">
+        <input className="selector-item_radio"
+          name="toggle"
           type="radio"
           value="siswa"
           checked={type_token === 'siswa'}
@@ -189,8 +193,9 @@ const Login = () => {
         />
         Siswa
       </label>
-      <label>
-        <input
+      <label className="selector-item_label">
+        <input className="selector-item_radio"
+          name="toggle"
           type="radio"
           value="admin Sekolah"
           checked={type_token === 'admin Sekolah'}
@@ -199,8 +204,9 @@ const Login = () => {
         />
         Admin sekolah
       </label>
-      <label>
-        <input
+      <label className="selector-item_label">
+        <input className="selector-item_radio"
+          name="toggle"
           type="radio"
           value="guru"
           checked={type_token === 'guru'}
@@ -208,8 +214,7 @@ const Login = () => {
 
         />
         Guru
-      </label>
-    </div>
+      </label> */}
               {type_token === "guru" ? (
                 <>
                   <CInputGroup className="mb-3">
