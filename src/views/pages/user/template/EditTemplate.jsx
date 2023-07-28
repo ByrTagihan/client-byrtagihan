@@ -6,6 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CCard, CCardBody, CForm, CRow, CFormLabel, CCol, CFormInput, CInputGroup, CButton } from '@coreui/react'
 import Swal from 'sweetalert2';
 import { API_DUMMY } from '../../../../utils/baseURL';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Import CSS dari React Quill
 
 function EditTemplate() {
     const [template, setTemplate] = useState([]);
@@ -61,6 +63,10 @@ function EditTemplate() {
             });
     };
 
+    const handleChange = (value) => {
+        setContent(value);
+    };
+
     useEffect(() => {
         get(0);
     }, []);
@@ -82,7 +88,7 @@ function EditTemplate() {
                                 required
                             />
                         </CCol>
-                        <CCol md={6}>
+                        {/* <CCol md={6}>
                             <CFormInput
                                 id="content"
                                 type="text"
@@ -92,6 +98,10 @@ function EditTemplate() {
                                 value={content}
                                 required
                             />
+                        </CCol> */}
+                        <CCol md={6}>
+                            <CFormLabel htmlFor="content">Content</CFormLabel>
+                            <ReactQuill value={content} onChange={handleChange} />
                         </CCol>
 
                         <CCol xs={12}>

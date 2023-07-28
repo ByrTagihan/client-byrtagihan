@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { CButton, CCol, CForm, CFormInput, CFormSelect } from "@coreui/react";
+import { CButton, CCol, CForm, CFormInput, CFormLabel } from "@coreui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../../utils/baseURL";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Import CSS dari React Quill
 
 function TambahTemplate() {
     const [name, setName] = useState();
@@ -37,6 +39,10 @@ function TambahTemplate() {
             });
     };
 
+    const handleChange = (value) => {
+        setContent(value);
+    };
+
     return (
         <div>
             <div className="card mb-3">
@@ -56,14 +62,8 @@ function TambahTemplate() {
                             />
                         </CCol>
                         <CCol md={6}>
-                            <CFormInput
-                                id="content"
-                                type="text"
-                                placeholder="Content"
-                                onChange={(e) => setContent(e.target.value)}
-                                label="Content"
-                                required
-                            />
+                            <CFormLabel htmlFor="content">Content</CFormLabel>
+                            <ReactQuill value={content} onChange={handleChange} />
                         </CCol>
 
                         <CCol xs={12}>
