@@ -8,15 +8,11 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../../../../../views/css/ListDataSiswa.css";
 
 function LihatTagihanByMember() {
-  const [unique_id, setUnique_id] = useState("");
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [hp, setHp] = useState("");
   const [list, setList] = useState([]);
   const [list1, setList1] = useState({
     unique_id: "",
@@ -25,8 +21,6 @@ function LihatTagihanByMember() {
     hp: "",
   });
   const param = useParams();
-  const [showAdd, setShowAdd] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
   const [showEditSudahByr, setShowEditSudahByr] = useState(false);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
@@ -44,6 +38,7 @@ function LihatTagihanByMember() {
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("id");
+  let navigate = useNavigate();
 
   const getAll = async () => {
     await axios
@@ -165,43 +160,6 @@ function LihatTagihanByMember() {
     getAll2(0);
   }, [currentPage, searchTerm, sortBy, limit]);
 
-  const add = async (e) => {
-    e.preventDefault();
-    e.persist();
-
-    const data = {
-      description,
-      amount,
-      periode,
-    };
-    try {
-      await axios.post(
-        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill`,
-        data,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-        // data,
-        // {
-        //   headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        // }
-      );
-      setShowAdd(false);
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil DiTambahkan",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      console.log(data);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const deleteData = async (id) => {
     Swal.fire({
       title: "Apakah data ini akan di hapus?",
@@ -234,39 +192,6 @@ function LihatTagihanByMember() {
     });
   };
 
-  const put = async (e) => {
-    e.preventDefault();
-    e.persist();
-
-    const data = {
-      amount: amount,
-      periode: periode,
-      description: description,
-    };
-    console.log(data);
-
-    try {
-      await axios.put(
-        `https://api.byrtagihan.com/api/customer/bill/` + idd,
-        data,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      );
-      // alert("Success")
-      setShowEdit(false);
-      Swal.fire({
-        icon: "success",
-        title: "Data berhasil diedit",
-        showConfirmButton: false,
-      });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const putSudahByr = async (e) => {
     e.preventDefault();
@@ -359,22 +284,6 @@ function LihatTagihanByMember() {
       });
   };
 
-  const [idd, setId] = useState(0);
-  const getById = async (id) => {
-    await axios
-      .get("https://api.byrtagihan.com/api/customer/bill/" + id, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        setPeriode(res.data.data.periode);
-        setAmount(res.data.data.amount);
-        setDescription(res.data.data.description);
-        setId(res.data.data.id);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-  };
   return (
     <div>
       <div className="row">
@@ -418,12 +327,14 @@ function LihatTagihanByMember() {
                   gap: "10px",
                 }}>
                 <div className="col">
-                  <button
-                    onClick={() => setShowAdd(true)}
-                    className="btn btn-primary float-end"
-                  >
-                    <CIcon icon={cilPlus} /> Tambah
-                  </button>
+
+                 
+                <Link to="/addListTagihanByMember">
+                    <button className="btn btn-primary float-end">
+                      <CIcon icon={cilPlus} /> Tambah 
+                    </button>
+                  </Link>
+
                 </div>
                 </div>
               </div>
@@ -520,10 +431,7 @@ function LihatTagihanByMember() {
                         <button
                           className="edit1"
                           type="submit"
-                          onClick={() => {
-                            setShowEdit(true);
-                            getById(data.id);
-                          }}
+                          onClick={() => navigate(`/editTagihanByMember/${data.id}`)}
                         >
                           <a>
                             {" "}
@@ -597,138 +505,6 @@ function LihatTagihanByMember() {
           </div>
         </div>
       </div>
-         <Modal show={showAdd} onHide={!showAdd}>
-         <form onSubmit={add}>
-           <Modal.Header style={{ background: "#526D82" }}>
-             <Modal.Title style={{ color: "white" }}>Modal Add</Modal.Title>
-           </Modal.Header>
-           <Modal.Body style={{ color: "black" }}>
-             <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-               Deskripsi :
-             </label>
-             <CInputGroup className="mb-3">
-               <CInputGroupText>
-                <CIcon icon={cilDescription}/>
-               </CInputGroupText>
-               <CFormInput
-                placeholder="Deskripsi"
-                autoComplete="Deskripsi"
-                type="text"
-                value={description}
-                required
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </CInputGroup>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Periode :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-               <CIcon icon={cilNotes}/>
-              </CInputGroupText>
-              <CFormInput
-                placeholder="periode"
-                autoComplete="periode"
-                type="date"
-                value={periode}
-                required
-                onChange={(e) => setPeriode(e.target.value)}
-              />
-            </CInputGroup>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Amount :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-                <CIcon icon={cilMoney}/>
-              </CInputGroupText>
-              <CFormInput
-                placeholder="Amount"
-                autoComplete="Amount"
-                type="number"
-                value={amount}
-                required
-                onChange={(e) => setAmount(e.target.value)}
-              />
-            </CInputGroup>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowAdd(false)}>
-              Close
-            </Button>
-            <Button variant="primary" type="submit">
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </form>
-      </Modal>
-
-      {/* MOdal Edit */}
-      <Modal show={showEdit} onHide={!showEdit}>
-        <form onSubmit={put}>
-          <Modal.Header style={{ background: "#526D82" }}>
-            <Modal.Title style={{ color: "white" }}>Modal Edit Pembayaran</Modal.Title>
-          </Modal.Header>
-          <Modal.Body style={{ color: "black" }}>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Deskripsi :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-                <CIcon icon={cilDescription}/>
-              </CInputGroupText>
-              <CFormInput
-                placeholder="Deskripsi"
-                autoComplete="Deskripsi"
-                type="text"
-                value={description}
-                required
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </CInputGroup>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Periode :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-                <CIcon icon={cilNotes}/>
-              </CInputGroupText>
-              <CFormInput
-                placeholder="periode"
-                autoComplete="periode"
-                type="date"
-                value={periode}
-                required
-                onChange={(e) => setPeriode(e.target.value)}
-              />
-            </CInputGroup>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Amount :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-                <CIcon icon={cilMoney}/>
-              </CInputGroupText>
-              <CFormInput
-                placeholder="Amount"
-                autoComplete="Amount"
-                type="number"
-                value={amount}
-                required
-                onChange={(e) => setAmount(e.target.value)}
-              />
-            </CInputGroup>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowEdit(false)}>
-              Close
-            </Button>
-            <Button variant="primary" type="submit">
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </form>
-      </Modal>
 
       <Modal show={showEditSudahByr} onHide={!showEditSudahByr}>
         <form onSubmit={putSudahByr}>

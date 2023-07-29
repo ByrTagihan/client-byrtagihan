@@ -9,6 +9,7 @@ import { CFormInput } from "@coreui/react";
 import "../../../../css/UserOrganization.css"
 import { cilPencil, cilPlus, cilTrash } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
+import "../../../css/ListDataSiswa.css"
 
 function Organization() {
   const [list, setList] = useState([]);
@@ -17,18 +18,42 @@ function Organization() {
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortedList, setSortedList] = useState([]);
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: "ascending",
+  });
+
+  // const getAll = async () => {
+  //   await axios
+  //     .get(
+  //       `${API_DUMMY}/user/organization?page=${currentPage}&limit=${limit}&filter${searchTerm}`,
+  //       {
+  //         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       setTotalPages(res.data.pagination.total_page);
+  //       setList(res.data.data);
+  //     })
+  //     .catch((error) => {
+  //       alert("Terjadi Kesalahan" + error);
+  //     });
+  // };
 
   const getAll = async () => {
     await axios
       .get(
-        `${API_DUMMY}/user/organization?page=${currentPage}&limit=${limit}&filter${searchTerm}`,
+        `${API_DUMMY}/user/organization?page=${currentPage}&limit=${limit}&name=${searchTerm}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
       )
       .then((res) => {
         setTotalPages(res.data.pagination.total_page);
+        console.log(res.data.pagination.total_page);
         setList(res.data.data);
+        console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -37,7 +62,7 @@ function Organization() {
 
   useEffect(() => {
     getAll(0);
-  }, [currentPage, limit,searchTerm]);
+  }, [currentPage, limit, searchTerm]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -52,9 +77,32 @@ function Organization() {
     setLimit(event.target.value);
   };
 
-  const filteredBills = list.filter((bill) =>
-    bill.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredBills = list.filter((bill) =>
+  //   bill.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+
+  useEffect(() => {
+    let sortedData = [...list];
+    if (sortConfig !== null) {
+      sortedData.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    if (searchTerm !== "") {
+      sortedData = sortedData.filter((data) => {
+        return (
+          data.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      });
+    }
+    setSortedList(sortedData);
+  }, [sortConfig, searchTerm, list]);
 
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -64,17 +112,11 @@ function Organization() {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', totalPages);
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
+        displayedPages.push(1, 'dot', ...pageNumbers.slice(totalPages - 5));
       } else {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 1),
-          'dot',
-          ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
-          ...pageNumbers.slice(totalPages - 1)
-        );
+        displayedPages.push(1, 'dot', ...pageNumbers.slice(currentPage - 2, currentPage + 1), 'dot', totalPages);
       }
     }
   
@@ -92,6 +134,7 @@ function Organization() {
       )
     );
   };
+  
 
   const Delete = async (id) => {
     Swal.fire({
@@ -184,7 +227,7 @@ function Organization() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredBills.map((data, index) => {
+                  {sortedList.map((data, index) => {
                     return (
                       <tr key={index}>
                         <td data-cell="Id">{index + 1}</td>

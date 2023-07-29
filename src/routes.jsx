@@ -39,6 +39,9 @@ const EditTransaction = React.lazy(() =>
 const UserCustomer = React.lazy(() =>
   import("./views/pages/user/customer/Customer")
 );
+const TambahCostumer = React.lazy(() =>
+  import("./views/pages/user/customer/TambahCostumer")
+);
 const EditUserCustomer = React.lazy(() =>
   import("./views/pages/user/customer/EditCustomer")
 );
@@ -55,11 +58,18 @@ const UserMessage = React.lazy(() =>
 
 //Member Section
 const userMember = React.lazy(() => import("./views/pages/user/member/Member"));
+const TambahMember = React.lazy(() => import("./views/pages/user/member/TambahMember"));
 const EditUserMember = React.lazy(() => import("./views/pages/user/member/EditMember"));
 
 //Template Section
 const UserTemplate = React.lazy(() =>
   import("./views/pages/user/template/Template")
+);
+const TambahTemplate = React.lazy(() =>
+  import("./views/pages/user/template/TambahTemplate")
+);
+const EditTemplate = React.lazy(() =>
+  import("./views/pages/user/template/EditTemplate")
 );
 
 //================================================
@@ -70,6 +80,15 @@ const DashboardTes = React.lazy(() => import("./views/dashboard/DashboardTes"));
 const Profile = React.lazy(() => import("./views/pages/costumer/Profile"));
 const GantiPasswordCustomer = React.lazy(() =>
   import("./views/pages/costumer/GantiPasswordCustomer")
+);
+const AddListDataSiswa = React.lazy(() =>
+  import("./views/pages/costumer/member/AddListDataSiswa")
+);
+const AddListTagihanByMember = React.lazy(() =>
+  import("./views/pages/costumer/member/bill/AddTagihanByMember")
+);
+const EditTagihanByMember = React.lazy(() =>
+  import("./views/pages/costumer/member/bill/EditTaagihanByMember")
 );
 //Organization Section
 const CustomerOrganization = React.lazy(() =>
@@ -167,9 +186,29 @@ const routes = [
     element: TambahTransaction,
   },
   {
+    path: "/tambahTemplate",
+    name: "Tambah Template",
+    element: TambahTemplate,
+  },
+  {
+    path: "/tambahMember",
+    name: "Tambah Template",
+    element: TambahMember,
+  },
+  {
+    path: "/tambahCostumer",
+    name: "Tambah Costumer",
+    element: TambahCostumer,
+  },
+  {
     path: "/editTransaction/:id",
     name: "Edit Transaction",
     element: EditTransaction,
+  },
+  {
+    path: "/editTemplate/:id",
+    name: "Edit Template",
+    element: EditTemplate,
   },
   { path: "/userCustomer", name: "UserCustomer", element: UserCustomer },
   {
@@ -185,6 +224,9 @@ const routes = [
   //================================================================
   //Customer
   { path: "/dashboardCustomer", name: "Dashboard", element: Dashboard },
+  { path: "/addListDataSiswa", name: "Tambah List Data Siswa", element: AddListDataSiswa },
+  { path: "/addListTagihanByMember", name: "Tambah List Tagihan By Member", element: AddListTagihanByMember },
+  { path: "/editTagihanByMember/:id", name: "Edit Tagihan By Member", element: EditTagihanByMember },
   { path: "/dashboardd", name: "Dashboard Customer", element: DashboardCustomer },
   { path: "/customerProfile", name: "Profile", element: Profile },
   { path: "/dashboardTes", name: "Dashboard Tes", element: DashboardTes },

@@ -1,69 +1,57 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { API_DUMMY } from '../../../../../utils/baseURL';
 
-function EditTaagihanByMember() {
-    const param = useParams();
+function AddTagihanByMember() {
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");
     const [periode, setPeriode] = useState("");
-    const [showEdit, setShowEdit] = useState(false);
+    const [showAdd, setShowAdd] = useState(false);
+    const param = useParams();
     let navigate = useNavigate();
+    
+  const add = async (e) => {
+    e.preventDefault();
+    e.persist();
 
-    useEffect(() => {
-        axios
-          .get(`${API_DUMMY}/customer/bill/` + param.id, {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-          })
-          .then((response) => {
-            setDescription(response.data.data.description);
-            setAmount(response.data.data.amount);
-            setDescription(response.data.data.description);
-            // console.log(response.data.data);
-          })
-          .catch((error) => {
-            alert("Terjadi Kesalahan " + error);
-          });
-      }, [param.id]);
-    const put = async (e) => {
-        e.preventDefault();
-        e.persist();
-    
-        const data = {
-          amount: amount,
-          periode: periode,
-          description: description,
-        };
-        console.log(data);
-    
-        try {
-          await axios.put(
-            `https://api.byrtagihan.com/api/customer/bill/` + param.id,
-            data,
-            {
-              headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-            }
-          );
-          setShowEdit(false);
-          Swal.fire({
-            icon: "success",
-            title: "Berhasil Mengedit",
-            showConfirmButton: false,
-          });
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-        } catch (err) {
-          console.log(err);
+    const data = {
+      description,
+      amount,
+      periode,
+    };
+    try {
+      await axios.post(
+        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill`,
+        data,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
-      };
+        // data,
+        // {
+        //   headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        // }
+      );
+      setShowAdd(false);
+      navigate("/lihattagihanmember")
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil DiTambahkan",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      console.log(data);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="card mb-3">
-      <div className="card-header bg-transparent">Edit Tagihan</div>
+      <div className="card-header bg-transparent">Tambah Tagihan</div>
       <div className="card-body">
-        <form onSubmit={put}>
+        <form onSubmit={add}>
           <div className="mb-3">
             <label className="form-label">Deskripsi</label>
             <input
@@ -115,4 +103,4 @@ function EditTaagihanByMember() {
   )
 }
 
-export default EditTaagihanByMember
+export default AddTagihanByMember

@@ -1,15 +1,17 @@
-import axios from 'axios';
-import React from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { CCard, CCardBody, CForm, CRow, CFormLabel, CCol, CFormInput, CInputGroup, CButton, CFormSelect, CInputGroupText } from '@coreui/react'
-import Swal from 'sweetalert2';
-import { API_DUMMY } from '../../../../utils/baseURL';
+import React, { useEffect } from "react";
+import {
+    CButton, CCol, CForm, CFormInput, CFormSelect, CInputGroup, CFormLabel, CInputGroupText
+} from "@coreui/react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../../utils/baseURL";
 
-function EditMember() {
+
+function TambahMember() {
+    const [organization, setOrganization] = useState([]);
     const [member, setMember] = useState([])
-    const [organization, setOrganization] = useState([])
     const [organization_id, setOrganization_id] = useState("");
     const [customer_id, setCustomer_id] = useState("");
     const [show, setShow] = useState(false);
@@ -25,58 +27,50 @@ function EditMember() {
     const [password, setPassword] = useState("");
     const [selectedMember, setSelectedMember] = useState([]);
     const [visible, setVisible] = useState(false)
-    const { id } = useParams();
     const navigate = useNavigate();
 
-    const Put = async (e) => {
+    const addMember = async (e) => {
         e.preventDefault();
-        e.persist();
 
         const data = {
+            organization_id: organization_id,
+            unique_id: unique_id,
             name: name,
-            hp: hp,
             address: address,
+            hp: hp,
+            password: password,
+            customer_id: customer_id,
         };
 
         try {
-            await axios.put(`${API_DUMMY}/user/member/${id}`, data, {
-                headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-            });
+            const response = await axios.post(
+                `${API_DUMMY}/user/member`,
+                data,
+                {
+                    headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+                }
+            );
+
             setShow(false);
             Swal.fire({
                 icon: "success",
-                title: "Berhasil Mengedit",
+                title: "Berhasil Ditambahkan",
                 showConfirmButton: false,
                 timer: 1500,
             });
+
             setTimeout(() => {
-                navigate("/userMember");
                 window.location.reload();
             }, 1500);
         } catch (error) {
             console.log(error);
-        }
-    };
-
-    const get = async () => {
-        await axios
-            .get(`${API_DUMMY}/user/member/${id}`, {
-                headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-            })
-            .then((res) => {
-                const members = res.data.data;
-                setMember(members);
-                setUnique_id(members.unique_id)
-                setName(members.name)
-                setHp(members.hp)
-                setAddress(members.address)
-                setOrganization_name(members.organization_name)
-                setPicture(members.picture)
-                // console.log(res.data.data);
-            })
-            .catch((error) => {
-                alert("Terjadi Kesalahan" + error);
+            Swal.fire({
+                icon: "error",
+                title: "Gagal Menambahkan",
+                showConfirmButton: false,
+                timer: 1500,
             });
+        }
     };
 
     const GetOrganization = async () => {
@@ -118,16 +112,17 @@ function EditMember() {
     };
 
     useEffect(() => {
-        get(0);
         GetOrganization();
         GetCostumer();
     }, []);
 
     return (
         <div>
-            <CCard>
-                <CCardBody>
-                    <h4>Edit Data Siswa</h4>
+            <div className="card mb-3">
+                <div className="card-header bg-transparent">
+                    <h5>Tambah member</h5>
+                </div>
+                <div className="card-body">
                     <CForm className="row g-3">
                         <CCol md={6}>
                             <CFormInput
@@ -136,7 +131,6 @@ function EditMember() {
                                 autoComplete="Unique id"
                                 onChange={(e) => setUnique_id(e.target.value)}
                                 value={unique_id}
-                                readOnly
                             />
                         </CCol>
                         <CCol md={6}>
@@ -208,16 +202,14 @@ function EditMember() {
                                 })}
                             </CFormSelect>
                         </CCol>
-
                         <CCol xs={12}>
-                            <CButton onClick={Put}>Simpan</CButton>
+                            <CButton type="submit">Simpan</CButton>
                         </CCol>
                     </CForm>
-
-                </CCardBody>
-            </CCard>
-        </div>
+                </div>
+            </div>
+        </div >
     )
 }
 
-export default EditMember
+export default TambahMember

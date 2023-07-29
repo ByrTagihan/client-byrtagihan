@@ -243,6 +243,7 @@ function CrudTransaction() {
                         <td data-cell="Update Date">{item.updated_date}</td>
 
                         <td data-cell="Action">
+
                         <button
                           type="button"
                           className="edit btn btn-primary me-2"
@@ -259,8 +260,7 @@ function CrudTransaction() {
                         >
                           <CIcon icon={cilTrash} style={{ color: "white" }} />
                         </button>
-                        
-                      </td>
+
                       </tr>
                     );
                   })}

@@ -46,10 +46,12 @@ function EditTaagihanByMember() {
               headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             }
           );
+          // alert("Success")
           setShowEdit(false);
+        //   navigate("/lihattagihanmember/" + param.id)
           Swal.fire({
             icon: "success",
-            title: "Berhasil Mengedit",
+            title: "Data berhasil diedit",
             showConfirmButton: false,
           });
           setTimeout(() => {

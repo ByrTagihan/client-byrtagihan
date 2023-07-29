@@ -5,8 +5,8 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import { act } from "react-dom/test-utils";
 import "../../../../views/css/EditUserCustomer.css";
-import { useNavigate, useParams } from "react-router-dom";
-import { CFormInput } from "@coreui/react";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { CFormInput, CCard, CCardBody, CForm, CCol, CButton, } from "@coreui/react";
 
 function EditCustomer() {
   const [name, setName] = useState("");
@@ -80,7 +80,7 @@ function EditCustomer() {
             //   `Id = ${user_customer.id}, Email = ${user_customer.email}, Nama = ${user_customer.name}`
             // );
             console.log(response.address);
-            console.log(res.data.data);
+            // console.log(res.data.data);
           });
       })
       .catch((error) => {
@@ -161,27 +161,6 @@ function EditCustomer() {
 
   const Suggestions = () => {
     return (
-      //   <div
-      //   className="card border-secondary border-top-0"
-      //   style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
-      // >
-      //   <ul className="list-group list-group-flush">
-      //     {suggestions.map((data, index) => (
-      //       <li
-      //         className={
-      //           index === suggestionIndex
-      //             ? " list-group-item  list-group-item-action active"
-      //             : "list-group-item  list-group-item-action"
-      //         }
-      //         key={index}
-      //         onClick={(e)=> handleClick(e, data.id)}
-      //       >
-      //         Id = {data.id}, Email = {data
-      //         .email}, Nama = {data.name}
-      //       </li>
-      //     ))}
-      //   </ul>
-      // </div>
       <div
         className="card border-secondary border-top-0"
         style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0, width: 200 }}
@@ -214,8 +193,69 @@ function EditCustomer() {
   };
 
   return (
-    <div style={{ padding: "10px", borderRadius: "20px" }}>
-      <form onSubmit={update} onKeyDown={onKeyDown}>
+    <div>
+      <CCard>
+        <CCardBody>
+          <h4>Edit Data Costumer</h4>
+          <CForm className="row g-3">
+            <CCol md={6}>
+              <CFormInput
+                type="text"
+                placeholder="Nama"
+                id="nama"
+                onChange={(e) => setName(e.target.value)}
+                label="Nama"
+                value={name}
+                required
+              />
+            </CCol>
+            <CCol md={6}>
+              <CFormInput
+                id="address"
+                type="text"
+                placeholder="address"
+                onChange={(e) => setAddress(e.target.value)}
+                label="Alamat"
+                value={address}
+                required
+              />
+            </CCol>
+            <CCol md={6}>
+              <CFormInput
+                type="text"
+                placeholder="No hp"
+                id="No hp"
+                onChange={(e) => setHp(e.target.value)}
+                label="No hp"
+                value={hp}
+                required
+              />
+            </CCol>
+            <CCol md={6}>
+              <CFormInput
+                type="text"
+                autoComplete="off"
+                value={organization_id}
+                onKeyDown={handleKeyDown}
+                onChange={handleChange}
+                label="Organization_id"
+                required
+              />
+              {suggestionsActive && <Suggestions />}
+            </CCol>
+
+            <CCol xs={12}>
+              <CButton onClick={update}>Simpan</CButton>
+            </CCol>
+            {/* <CCol xs={12}>
+              <Link to="/#/userCustomer">
+                <CButton>Batal</CButton>
+              </Link>
+            </CCol> */}
+          </CForm>
+        </CCardBody>
+      </CCard>
+      {/* <form onSubmit={update} onKeyDown={onKeyDown}>
         <div>
           <p
             style={{
@@ -263,46 +303,15 @@ function EditCustomer() {
               className="form-control inputHp"
             />
           </div>
-          {/* <div>
-              <label className="form-label" style={{ fontWeight: "bold" }}>
-                Password :
-              </label>
-              <input
-                type="password"
-                className="form-control inputPassword"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div> */}
         </div>
         <div className="box">
-          {/* <div>
-            <label className="form-label" style={{ fontWeight: "bold" }}>
-              Active :
-            </label>
-            <input
-              type="text"
-              className="form-control inputActive"
-              value={active}
-              onChange={(e) => setActive(e.target.value)}
-            />
-          </div> */}
           <div>
             <label className="form-label" style={{ fontWeight: "bold" }}>
               Organization_id :
             </label>
-            {/* <CFormInput
-              type="text"
-              className="form-control inputOrganization_id"
-              value={value}
-              onKeyDown={handleKeyDown}
-              onChange={handleChange}
-            /> */}
             <CFormInput
               type="text"
-              // className="form-control"
               autoComplete="off"
-              // className="form-control inputActive"
               value={value}
               onKeyDown={handleKeyDown}
               onChange={handleChange}
@@ -321,7 +330,7 @@ function EditCustomer() {
         >
           Simpan
         </button>
-      </form>
+      </form> */}
     </div>
   );
 }

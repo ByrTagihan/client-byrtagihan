@@ -21,6 +21,7 @@ import {
   cilUser,
 } from "@coreui/icons";
 import Swal from "sweetalert2";
+import { Link, useNavigate } from "react-router-dom";
 
 function LIstDataSIswa() {
   const [name, setName] = useState("");
@@ -28,6 +29,8 @@ function LIstDataSIswa() {
   const [hp, setHp] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordType, setPasswordType] = useState("password");
+  const [passwordIcon, setPasswordIcon] = useState("fa-solid fa-eye-slash");
   const [list, setList] = useState([]);
   const [show1, setShow1] = useState(false);
   const [show, setShow] = useState(false);
@@ -44,6 +47,17 @@ function LIstDataSIswa() {
     direction: "ascending",
   });
   const [searchTerm, setSearchTerm] = useState("");
+  let navigate = useNavigate();
+
+  const togglePassword = () => {
+    if (passwordType === "password") {
+      setPasswordType("text");
+      setPasswordIcon("fa-solid fa-eye");
+      return;
+    }
+    setPasswordType("password");
+    setPasswordIcon("fa-solid fa-eye-slash");
+  };
 
   const getAll = async () => {
     await axios
@@ -57,6 +71,7 @@ function LIstDataSIswa() {
         setTotalPages(res.data.pagination.total_page || 1);
         console.log(res.data.pagination.total_page);
         setList(res.data.data);
+        console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -303,12 +318,12 @@ function LIstDataSIswa() {
                   <h4>List Data Siswa</h4>
                 </div>
                 <div className="col">
-                  <button
-                    onClick={() => setShow(true)}
-                    className="btn btn-primary float-end"
-                  >
-                    <CIcon icon={cilPlus} /> Tambah
-                  </button>
+
+                <Link to="/addListDataSiswa">
+                    <button className="btn btn-primary float-end">
+                      <CIcon icon={cilPlus} /> Tambah 
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -501,12 +516,16 @@ function LIstDataSIswa() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <CIcon icon={cilUser} />
+              <span
+                    onClick={togglePassword}
+                  >
+                    <i class={passwordIcon}></i>
+                  </span>
               </CInputGroupText>
               <CFormInput
                 placeholder="Password"
                 autoComplete="Password"
-                type="password"
+                type={passwordType}
                 value={password}
                 required
                 onChange={(e) => setPassword(e.target.value)}
