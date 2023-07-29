@@ -317,19 +317,18 @@ function Tagihan() {
                       </td>
                       <td data-cell="Tgl Bayar">{data.paid_date}</td>
                       <td data-cell="Nominal Bayar">{data.paid_amount}</td>
-                      <td data-cell="Action">
+                      <td data-cell="Action" className="tdd">
                         <button
                           className="edit1"
                           type="button"
                           style={{ background: "blue" }}
                         >
-                          <a
+                          <Link to={`/edittagihan/${data.id}`}
                             style={{ color: "white" }}
-                            href={`/edittagihan/${data.id}`}
                           >
                             {" "}
                             <CIcon icon={cilPencil} />
-                          </a>{" "}
+                          </Link>{" "}
                         </button>
                         <button
                           className="edit1"
