@@ -235,6 +235,8 @@ function UserOrganization() {
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "user" ? (
+        <>
       <CCard className="mb-4">
         <CCardBody>
           <CForm onKeyDown={onKeyDown} onSubmit={Put}>
@@ -406,7 +408,10 @@ function UserOrganization() {
           </CForm>
         </CCardBody>
       </CCard>
-    </div>
+   </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )} </div>
   );
 }
 

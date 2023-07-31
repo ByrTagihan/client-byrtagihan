@@ -55,6 +55,8 @@ function TambahTagihanMember() {
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <CCard className="p-4">
         <CCardBody>
           <CForm onSubmit={Add}>
@@ -114,7 +116,10 @@ function TambahTagihanMember() {
           </CForm>
         </CCardBody>
       </CCard>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

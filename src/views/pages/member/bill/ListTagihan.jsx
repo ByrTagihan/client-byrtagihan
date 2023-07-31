@@ -91,6 +91,8 @@ function ListTagihan() {
 
     return (
         <div>
+            {localStorage.getItem("type_token") === "member" ? (
+                <>
             {bill.length === 0 ? (
                 <div className='text-center'>
                     <img src="https://www.pawoon.com/wp-content/uploads/2022/06/checklist-1.png" style={{ width: '6.75rem', height: '6.125rem' }} />
@@ -161,7 +163,10 @@ function ListTagihan() {
                     </CCard>
                 </div>
             )}
-        </div>
+        </>
+            ):(
+                <><p>Page Tidak Tersedia</p></>
+            )}</div>
     )
 }
 

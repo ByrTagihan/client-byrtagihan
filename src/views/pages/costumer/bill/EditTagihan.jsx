@@ -166,6 +166,8 @@ function EditTagihan() {
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <div className="card mb-3">
         <div className="card-header bg-transparent">Edit Tagihan</div>
         <div className="card-body">
@@ -233,7 +235,10 @@ function EditTagihan() {
           </form>
         </div>
       </div>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

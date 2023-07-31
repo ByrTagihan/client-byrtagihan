@@ -73,6 +73,8 @@ function EditTemplate() {
 
     return (
         <div>
+            {localStorage.getItem("type_token") === "user" ? (
+                <>
             <CCard>
                 <CCardBody>
                     <h4>Edit Data Template</h4>
@@ -110,7 +112,10 @@ function EditTemplate() {
                     </CForm>
                 </CCardBody>
             </CCard>
-        </div>
+       </>
+            ):(
+                <></>
+            )} </div>
     )
 }
 

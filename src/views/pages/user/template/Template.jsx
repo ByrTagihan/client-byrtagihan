@@ -180,6 +180,8 @@ function Template() {
   };
   return (
     <div className="row">
+      {localStorage.getItem("type_token") === "user" ? (
+        <>
       <div className="col" xs={12}>
         <div className="inputSearch1">
           <CFormInput
@@ -341,6 +343,10 @@ function Template() {
           </div>
         </div>
       </div>
+        </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}
     </div>
   );
 }

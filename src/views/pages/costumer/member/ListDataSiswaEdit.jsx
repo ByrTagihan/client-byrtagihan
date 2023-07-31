@@ -66,6 +66,8 @@ function ListDataSiswaEdit() {
     
   return (
     <div style={{padding:"10px", borderRadius:"20px"}}>
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <form onSubmit={putData}>
         <div>
             <p style={{fontWeight:"bold", fontSize:"25px", marginBottom:"50px"}}>Edit LIst Data</p>
@@ -131,7 +133,10 @@ function ListDataSiswaEdit() {
         </button>
         </Link>
       </form>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

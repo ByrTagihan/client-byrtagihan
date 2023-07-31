@@ -237,6 +237,8 @@ function Customer() {
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "user" ? (
+        <>
       <div className="row">
         <div className="col" xs={12}>
           <div className="inputSearch1">
@@ -422,125 +424,10 @@ function Customer() {
           </div>
         </div>
       </div>
-      {/* 
-      <Modal show={show} onHide={!show}>
-        <form onSubmit={add}>
-          <Modal.Header style={{ background: "#526D82" }}>
-            <Modal.Title style={{ color: "white" }}>Modal Add</Modal.Title>
-          </Modal.Header>
-          <Modal.Body style={{ color: "black" }}>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Name :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-              <CIcon icon={cilUser} />
-              </CInputGroupText>
-              <CFormInput
-                placeholder="Name"
-                autoComplete="Name"
-                type="text"
-                value={name}
-                required
-                onChange={(e) => setName(e.target.value)}
-              />
-            </CInputGroup>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              hp :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-              <CIcon icon={cilPhone} />
-              </CInputGroupText>
-              <CFormInput
-                placeholder="hp"
-                autoComplete="hp"
-                type="number"
-                value={hp}
-                required
-                onChange={(e) => setHp(e.target.value)}
-              />
-            </CInputGroup>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Adress :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-              <CIcon icon={cilAddressBook} />
-              </CInputGroupText>
-              <CFormInput
-                placeholder="Adress"
-                autoComplete="Adress"
-                type="text"
-                value={address}
-                required
-                onChange={(e) => setAddress(e.target.value)}
-              />
-            </CInputGroup>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Password :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-              <CIcon icon={cilLockLocked} />
-              </CInputGroupText>
-              <CFormInput
-                placeholder="Password"
-                autoComplete="Password"
-                type="password"
-                value={password}
-                required
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </CInputGroup>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Email :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-              <CIcon icon={cibGmail} />
-              </CInputGroupText>
-              <CFormInput
-                placeholder="email"
-                autoComplete="email"
-                type="email"
-                value={email}
-                required
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </CInputGroup>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Active :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-              <CIcon icon={cilCheck} />
-              </CInputGroupText>
-              <CFormInput
-                placeholder="Active"
-                autoComplete="Active"
-                type="text"
-                value={active}
-                required
-                onChange={(e) => setActive(e.target.value)}
-              />
-            </CInputGroup>
-          </Modal.Body>
-          <Modal.Footer>
-            <CButton variant="secondary" onClick={() => setShow(false)}>
-              Close
-            </CButton>
-            <CButton
-              className="btn btn-primary"
-              variant="primary"
-              type="submit"
-            >
-              Save Changes
-            </CButton>
-          </Modal.Footer>
-        </form>
-      </Modal> */}
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

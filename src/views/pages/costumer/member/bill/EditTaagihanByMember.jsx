@@ -63,6 +63,8 @@ function EditTaagihanByMember() {
       };
   return (
     <div className="card mb-3">
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <div className="card-header bg-transparent">Edit Tagihan</div>
       <div className="card-body">
         <form onSubmit={put}>
@@ -113,7 +115,10 @@ function EditTaagihanByMember() {
           </button>
         </form>
       </div>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   )
 }
 

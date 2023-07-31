@@ -65,6 +65,8 @@ function TambahCostumer() {
 
     return (
         <div>
+            {localStorage.getItem("type_token") === "user" ? (
+                <>
             <div className="card mb-3">
                 <div className="card-header bg-transparent">
                     <h5>Tambah Costumer</h5>
@@ -137,7 +139,10 @@ function TambahCostumer() {
                     </CForm>
                 </div>
             </div>
-        </div>
+        </>
+            ):(
+                <><p>Page Tidak Tersedia</p></>
+            )}</div>
     )
 }
 
