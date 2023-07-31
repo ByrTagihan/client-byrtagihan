@@ -31,13 +31,16 @@ function AddTagihan() {
         },
       })
       .then(() => {
-        navigate("/customerBill");
         Swal.fire({
           icon: "success",
-          title: "Berhasil Menambahkan",
+          title: "Berhasil DiTambahkan",
           showConfirmButton: false,
           timer: 1500,
         });
+        setTimeout(() => {
+          navigate("/customerBill")
+          window.location.reload();
+        }, 1500);
       })
       .catch((error) => {
         console.log(error);

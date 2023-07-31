@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -32,7 +33,7 @@ function AddTagihanByMember() {
         // }
       );
       setShowAdd(false);
-      navigate("/lihattagihanmember")
+      // navigate("/lihattagihanmember")
       Swal.fire({
         icon: "success",
         title: "Berhasil DiTambahkan",
@@ -41,6 +42,7 @@ function AddTagihanByMember() {
       });
       console.log(data);
       setTimeout(() => {
+        navigate("/lihattagihanmember")
         window.location.reload();
       }, 1500);
     } catch (error) {
