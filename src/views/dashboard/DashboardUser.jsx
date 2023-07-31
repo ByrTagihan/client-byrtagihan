@@ -219,7 +219,7 @@ function DashboardUser() {
       ) : (
         <li
           key={page}
-          onClick={() => handlePageChange(page)}
+          onClick={() => handlePageChangePayment(page)}
           className={"page-item" + (currentPagePayment === page ? ' active' : '')}
         >
           <a className="page-link">{page}</a>

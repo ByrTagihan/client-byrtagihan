@@ -1,4 +1,3 @@
-
 import { cilAddressBook, cilTablet, cilUser } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import {
@@ -15,57 +14,58 @@ import "../../../css/Profile.css";
 import axios from "axios";
 import { API_DUMMY } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 function UserProfile() {
-const [name, setName] = useState("");
-const [hp, setHp] = useState("");
-const [address, setAddress] = useState("");
-const [email, setEmail] = useState("");
-const [picture, setPicture] = useState("");
+  const [name, setName] = useState("");
+  const [hp, setHp] = useState("");
+  const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [picture, setPicture] = useState("");
   const [profile, setProfile] = useState({
     id: "",
     email: "",
     name: "",
     hp: "",
     address: "",
-    picture: "",
+    picture: picture,
   });
-
-  const get = async () => {
-      await axios
-        .get(`https://api.byrtagihan.com/api/user/profile`, {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
-        .then((res) => {
-          const profil = res.data.data[0];
-          setHp(profil.hp);
-          setName(profil.name);
-          setProfile({ ...profil, email: profil.email });
-          setAddress(profil.address);
-          setPicture(profile.picture);
-          setProfile({ ...profil, id: profil.id }); 
-          console.log(res.data.data[0]);
-          console.log({ ...profil, id: profil.id });
-        })
-        .catch((error) => {
-          alert("Terjadi Kesalahan" + error);
-        });
-    };
+  const [showAdd, setShowAdd] = useState(false);
+  let navigate = useNavigate();
 
   useEffect(() => {
-    get();
+    axios
+      .get(`https://api.byrtagihan.com/api/user/profile`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
+      .then((response) => {
+        const profil = response.data.data[0];
+        setHp(profil.hp);
+        setName(profil.name);
+        setProfile({ ...profil, email: profil.email });
+        setAddress(profil.address);
+        setProfile({ ...profil, id: profil.id });
+        console.log(response.data.data);
+        console.log(response.data.data[0]);
+        console.log({ ...profil, id: profil.id });
+        const imageUrl = localStorage.getItem("profilePicture");
+        setPicture(imageUrl);
+      });
   }, []);
-  
+
   const [show, setShow] = useState(false);
   const Put = async (e) => {
     e.preventDefault();
     e.persist();
 
+    const data = new FormData();
+    data.append("file", picture);
+
     try {
       await axios.put(
         `${API_DUMMY}/user/profile`,
         {
-          name: name, 
+          name: name,
           hp: hp,
           address: address,
           picture: picture,
@@ -73,14 +73,28 @@ const [picture, setPicture] = useState("");
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
-      );
+      ),
+        await axios
+          .post(`https://api.byrtagihan.com/api/files`, data, {
+            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          })
+          .then((response) => {
+            const imageUrl = response.data.data;
+            setProfile((prevProfile) => ({
+              ...prevProfile,
+              picture: imageUrl,
+            }));
+            setPicture(imageUrl);
+
+            localStorage.setItem("profilePicture", imageUrl);
+          });
       setShow(false);
       Swal.fire({
         icon: "success",
         title: "Tersimpan",
         showConfirmButton: false,
         timer: 1500,
-      }); 
+      });
       setTimeout(() => {
         window.location.reload();
       }, 1500);
@@ -95,7 +109,7 @@ const [picture, setPicture] = useState("");
         <h4 className="textProfile">Profile User</h4>
 
         <div style={{ padding: "10px" }}>
-          <img style={{ width: "20rem" }} src={profile.picture} alt="" />
+          <img style={{ width: "20rem" }} src={picture} alt="" />
         </div>
       </div>
 
@@ -140,20 +154,13 @@ const [picture, setPicture] = useState("");
               value={address}
             />
           </CInputGroup>
-
-          {/* <CForm onSubmit={Post}> */}
           <CInputGroup className="mb-3">
             <CFormInput
               autoComplete="picture"
-              placeholder="link picture"
-              onChange={(e) => setPicture(e.target.value)}
-              // value={file}
-              type="link"
+              onChange={(e) => setPicture(e.target.files[0])}
+              type="file"
             />
-            {/* <button type="submit">Post</button> */}
           </CInputGroup>
-          {/* </CForm> */}
-
           <CRow>
             <CCol xs={6}>
               <CButton className="buttonSave" type="submit" color="primary">

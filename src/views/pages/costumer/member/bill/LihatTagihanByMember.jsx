@@ -1,10 +1,15 @@
-import { cilBook, cilDescription, cilMoney, cilNotes, cilPencil, cilPlus, cilTrash, cilUser } from "@coreui/icons";
-import CIcon from "@coreui/icons-react";
 import {
-  CFormInput,
-  CInputGroup,
-  CInputGroupText,
-} from "@coreui/react";
+  cilBook,
+  cilDescription,
+  cilMoney,
+  cilNotes,
+  cilPencil,
+  cilPlus,
+  cilTrash,
+  cilUser,
+} from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
+import { CFormInput, CInputGroup, CInputGroupText } from "@coreui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
@@ -21,13 +26,14 @@ function LihatTagihanByMember() {
     hp: "",
   });
   const param = useParams();
+  const [showEdit, setShowEdit] = useState(false);
   const [showEditSudahByr, setShowEditSudahByr] = useState(false);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [periode, setPeriode] = useState("");
   const [paid_id, setPaid_id] = useState("");
   const [paid_date, setPaid_date] = useState("");
-  const [paid_amount, setPaid_amount] = useState("");
+  const [paid_amount, setPaid_amount] = useState(0);
   const [limit, setLimit] = useState(10);
   const [sortedList, setSortedList] = useState([]);
   const [sortConfig, setSortConfig] = useState({
@@ -42,9 +48,12 @@ function LihatTagihanByMember() {
 
   const getAll = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}&filter${searchTerm}`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+      .get(
+        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}&filter${searchTerm}`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      )
       .then((res) => {
         setTotalPages(res.data.pagination.total_page);
         setList(res.data.data);
@@ -53,8 +62,8 @@ function LihatTagihanByMember() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
-  }; 
-  
+  };
+
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
@@ -87,9 +96,9 @@ function LihatTagihanByMember() {
     }
     if (searchTerm !== "") {
       sortedData = sortedData.filter((data) => {
-        return (
-          data.description.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        return data.description
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
       });
     }
     setSortedList(sortedData);
@@ -103,37 +112,44 @@ function LihatTagihanByMember() {
     setLimit(event.target.value);
   };
 
-
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     const displayedPages = [];
-  
+
     if (totalPages <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
-  
+
     return displayedPages.map((page, index) =>
-      page === 'dot' ? (
+      page === "dot" ? (
         <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? ' active' : '')}
+          className={"page-item" + (currentPage === page ? " active" : "")}
         >
           <a className="page-link">{page}</a>
         </li>
@@ -192,7 +208,6 @@ function LihatTagihanByMember() {
     });
   };
 
-
   const putSudahByr = async (e) => {
     e.preventDefault();
     e.persist();
@@ -206,7 +221,7 @@ function LihatTagihanByMember() {
     try {
       await axios
         .put(
-          `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${idd1}/paid`,
+          `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${paid_id}/paid`,
           data,
           {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -276,6 +291,7 @@ function LihatTagihanByMember() {
       )
       .then((res) => {
         setPaid_amount(res.data.data.paid_amount);
+        console.log(res.data.data.paid_amount);
         setPaid_date(res.data.data.paid_date);
         setId1(res.data.data.id);
       })
@@ -288,32 +304,32 @@ function LihatTagihanByMember() {
     <div>
       <div className="row">
         <div className="col" xs={12}>
-                <div className="inputSearch1">
-                  <CFormInput
-                    type="search"
-                    style={{
-                      marginBottom: "2px",
-                      width: "20em",
-                      marginRight: "14px",
-                      marginTop: "1px",
-                    }}
-                    placeholder="search data"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                  />
-                </div>
-                <div className="inputSearch1">
-                  <select
-                    className="form-select"
-                    value={limit}
-                    onChange={handleChangeLimit}
-                  >
-                    <option value="1">Show 1 Entries</option>
-                    <option value="10">Show 10 Entries</option>
-                    <option value="100">Show 100 Entries</option>
-                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-                  </select>
-                </div>
+          <div className="inputSearch1">
+            <CFormInput
+              type="search"
+              style={{
+                marginBottom: "2px",
+                width: "20em",
+                marginRight: "14px",
+                marginTop: "1px",
+              }}
+              placeholder="search data"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+          <div className="inputSearch1">
+            <select
+              className="form-select"
+              value={limit}
+              onChange={handleChangeLimit}
+            >
+              <option value="1">Show 1 Entries</option>
+              <option value="10">Show 10 Entries</option>
+              <option value="100">Show 100 Entries</option>
+              {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+            </select>
+          </div>
           <div className="card mb-4">
             <div className="card-header">
               <div style={{ display: "flex" }}>
@@ -321,26 +337,30 @@ function LihatTagihanByMember() {
                   <h4>Lihat Tagihan By Member</h4>
                 </div>
                 <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "10px",
-                }}>
-                <div className="col">
-
-                 
-                <Link to="/addListTagihanByMember">
-                    <button className="btn btn-primary float-end">
-                      <CIcon icon={cilPlus} /> Tambah 
-                    </button>
-                  </Link>
-
-                </div>
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <div className="col">
+                    <Link to="/addListTagihanByMember">
+                      <button className="btn btn-primary float-end">
+                        <CIcon icon={cilPlus} /> Tambah
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="card-body table-container">
-                <div style={{display:"flex", justifyContent:"space-between", gap:"10px"}}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: "10px",
+                }}
+              >
                 <div className="inputSearch">
                   <select
                     className="form-select"
@@ -367,7 +387,7 @@ function LihatTagihanByMember() {
                     onChange={handleSearch}
                   />
                 </div>
-                </div>
+              </div>
               <table className="table responsive-3 table1">
                 <thead>
                   {/* <tr>
@@ -381,33 +401,42 @@ function LihatTagihanByMember() {
                   <tr>
                     <th scope="col" onClick={() => handleSort("no")}>
                       No{" "}
-                      {sortConfig && sortConfig.key === "no" && (
-                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
+                      {sortConfig &&
+                        sortConfig.key === "no" &&
+                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
                     </th>
                     <th scope="col" onClick={() => handleSort("keterangan")}>
                       Keterangan{" "}
-                      {sortConfig && sortConfig.key === "keterangan" && (
-                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
+                      {sortConfig &&
+                        sortConfig.key === "keterangan" &&
+                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
                     </th>
                     <th scope="col" onClick={() => handleSort("periode")}>
                       Periode{" "}
-                      {sortConfig && sortConfig.key === "periode" && (
-                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
+                      {sortConfig &&
+                        sortConfig.key === "periode" &&
+                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
                     </th>
                     <th scope="col" onClick={() => handleSort("status")}>
                       status{" "}
-                      {sortConfig && sortConfig.key === "status" && (
-                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
+                      {sortConfig &&
+                        sortConfig.key === "status" &&
+                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
                     </th>
-                    <th scope="col" onClick={() => handleSort("tanggal_dibayar")}>
+                    <th scope="col" onClick={() => handleSort("nominal")}>
+                      nominal{" "}
+                      {sortConfig &&
+                        sortConfig.key === "nominal" &&
+                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                    </th>
+                    <th
+                      scope="col"
+                      onClick={() => handleSort("tanggal_dibayar")}
+                    >
                       Tanggal Dibayar{" "}
-                      {sortConfig && sortConfig.key === "tanggal_dibayar" && (
-                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
+                      {sortConfig &&
+                        sortConfig.key === "tanggal_dibayar" &&
+                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
                     </th>
                     <th scope="col">Action</th>
                   </tr>
@@ -426,12 +455,15 @@ function LihatTagihanByMember() {
                           <span>Belum Bayar</span>
                         )}
                       </td>
+                      <td data-cell="Tanggal">{data.amount}</td>
                       <td data-cell="Tanggal">{data.paid_date}</td>
                       <td data-cell="Action" className="tdd">
                         <button
                           className="edit1"
                           type="submit"
-                          onClick={() => navigate(`/editTagihanByMember/${data.id}`)}
+                          onClick={() =>
+                            navigate(`/editTagihanByMember/${data.id}`)
+                          }
                         >
                           <a>
                             {" "}
@@ -459,7 +491,8 @@ function LihatTagihanByMember() {
                             className="edit1"
                             onClick={() => {
                               setShowEditSudahByr(true);
-                              getByIdSudahByr(data.id);
+                              setPaid_amount(data.amount)
+                              setPaid_id(data.id);
                             }}
                             style={{ background: "green", color: "white" }}
                           >
@@ -509,7 +542,9 @@ function LihatTagihanByMember() {
       <Modal show={showEditSudahByr} onHide={!showEditSudahByr}>
         <form onSubmit={putSudahByr}>
           <Modal.Header style={{ background: "#526D82" }}>
-            <Modal.Title style={{ color: "white" }}>Modal Pembayaran</Modal.Title>
+            <Modal.Title style={{ color: "white" }}>
+              Modal Pembayaran
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body style={{ color: "black" }}>
             <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
@@ -517,7 +552,7 @@ function LihatTagihanByMember() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-               <CIcon icon={cilBook}/>
+                <CIcon icon={cilBook} />
               </CInputGroupText>
               <CFormInput
                 placeholder="Paid Date"
@@ -528,18 +563,17 @@ function LihatTagihanByMember() {
               />
             </CInputGroup>
             <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Paid Amount :
+              nominal :
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-                <CIcon icon={cilBook}/>
+                <CIcon icon={cilBook} />
               </CInputGroupText>
               <CFormInput
-                placeholder="Paid Amount"
-                autoComplete="Paid Amount"
+                id="paid_amount"
                 type="number"
                 value={paid_amount}
-                onChange={(e) => setPaid_amount(e.target.value)}
+                disabled
               />
             </CInputGroup>
           </Modal.Body>

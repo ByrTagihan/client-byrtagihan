@@ -241,7 +241,6 @@ function CrudTransaction() {
                         <td data-cell="Nominal">{item.amount}</td>
                         <td data-cell="Create Date">{item.created_date}</td>
                         <td data-cell="Update Date">{item.updated_date}</td>
-
                         <td data-cell="Action">
 
                         <button
@@ -260,7 +259,7 @@ function CrudTransaction() {
                         >
                           <CIcon icon={cilTrash} style={{ color: "white" }} />
                         </button>
-
+                          </td>
                       </tr>
                     );
                   })}
