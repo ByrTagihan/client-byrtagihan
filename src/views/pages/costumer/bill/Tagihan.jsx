@@ -217,7 +217,7 @@ function Tagihan() {
     <div>
       <div className="row">
         <div className="col" xs={12}>
-          <div className="col inputSearch1">
+        <div className="col inputSearch1">
             <select className="form-select" value={limit} onChange={handleLimit}>
               <option value="1">Show 1 Entries</option>
               <option value="10">Show 10 Entries</option>

@@ -47,7 +47,7 @@ function CrudTransaction() {
 
   const Delete = async (id) => {
     Swal.fire({
-      title: "Anda Ingin Menghapus Data?",
+      title: "Anda Ingin Menghapus Data ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -241,29 +241,25 @@ function CrudTransaction() {
                         <td data-cell="Nominal">{item.amount}</td>
                         <td data-cell="Create Date">{item.created_date}</td>
                         <td data-cell="Update Date">{item.updated_date}</td>
-
                         <td data-cell="Action">
-                          <button
-                            className="edit1"
-                            type="button"
-                            style={{ background: "blue" }}
-                          >
-                            <a
-                              style={{ color: "white" }}
-                              href={`/editTransaction/${item.id}`}
-                            >
-                              {" "}
-                              <CIcon icon={cilPencil} />
-                            </a>{" "}
-                          </button>
-                          <button
-                            className="edit1"
-                            onClick={() => Delete(item.id)}
-                            style={{ background: "red", color: "white" }}
-                          >
-                            <CIcon icon={cilTrash} />
-                          </button>
-                        </td>
+
+                        <button
+                          type="button"
+                          className="edit btn btn-primary me-2"
+                          onClick={() => navigate(`/editTransaction/${item.id}`)}
+                        >
+                          <CIcon icon={cilPencil} />
+                        </button>
+                        <button
+                          type="button"
+                          className="hapus btn btn-danger me-2"
+                          onClick={() =>
+                            Delete(item.id)
+                          }
+                        >
+                          <CIcon icon={cilTrash} style={{ color: "white" }} />
+                        </button>
+                          </td>
                       </tr>
                     );
                   })}

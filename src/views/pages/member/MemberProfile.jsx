@@ -15,79 +15,120 @@ import "../../../css/Profile.css";
 import axios from "axios";
 import { API_DUMMY } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 function MemberProfile() {
   const [show, setShow] = useState(false);
-const [name, setName] = useState("");
-const [hp, setHp] = useState("");
-const [address, setAddress] = useState("");
-const [unique_id, setUnique_id] = useState("");
-const [picture, setPicture] = useState("");
+  const [name, setName] = useState("");
+  const [hp, setHp] = useState("");
+  const [address, setAddress] = useState("");
+  const [unique_id, setUnique_id] = useState("");
+  const [picture, setPicture] = useState("");
   const [profile, setProfile] = useState({
     id: "",
     name: "",
     hp: "",
     address: "",
-    picture:"",
-    unique_id:"",
+    picture: picture,
+    unique_id: "",
   });
+  const [showAdd, setShowAdd] = useState(false);
+  let navigate = useNavigate();
 
   const get = async () => {
-      await axios
-        .get(`https://api.byrtagihan.com/api/member/profile`, {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
-        .then((res) => {
-          const profil = res.data.data;
-          setHp(profil.hp);
-          setName(profil.name);
-          setUnique_id(profil.unique_id);
-          setAddress(profil.address);
-          setPicture(profile.picture);
-          setProfile({ ...profil, id: profil.id }); 
-          console.log(res.data.data);
-          console.log({ ...profil, id: profil.id });
-        })
-        .catch((error) => {
-          alert("Terjadi Kesalahan" + error);
-        });
-    };
+    await axios
+      .get(`https://api.byrtagihan.com/api/member/profile`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
+      .then((res) => {
+        const profil = res.data.data;
+        setHp(profil.hp);
+        setName(profil.name);
+        setUnique_id(profil.unique_id);
+        setAddress(profil.address);
+        setPicture(profile.picture);
+        setProfile({ ...profil, id: profil.id });
+        console.log(res.data.data);
+        console.log({ ...profil, id: profil.id });
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
+      });
+  };
 
-    const Put = async (e) => {
-      e.preventDefault();
-      e.persist();
-  
-      try {
-        await axios.put(
-          `${API_DUMMY}/member/profile`,
-          {
-            name: name,
-            hp: hp,
-            address: address,
-            picture: picture,
-          },
-          {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-          }
-        );
-        setShow(false);
-        Swal.fire({
-          icon: "success",
-          title: "Tersimpan",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const Put = async (e) => {
+    e.preventDefault();
+    e.persist();
+
+    try {
+      await axios.put(
+        `${API_DUMMY}/member/profile`,
+        {
+          name: name,
+          hp: hp,
+          address: address,
+          picture: profile.picture,
+        },
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      );
+      setShow(false);
+      Swal.fire({
+        icon: "success",
+        title: "Tersimpan",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     get();
   }, []);
+
+  const add = async (e) => {
+    e.preventDefault();
+    e.persist();
+
+    const data = new FormData();
+    data.append("file", picture);
+
+    try {
+      await axios.post(
+        `https://api.byrtagihan.com/api/files`,
+        data,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      )
+        .then((response) => {
+          const updatedProfile = { ...profile, picture: response.data.data };
+          setProfile(updatedProfile);
+          setShowAdd(false);
+        })
+      setShowAdd(false);
+      // navigate("/lihattagihanmember")
+      Swal.fire({
+        icon: "success",
+        title: "Foto berhasil ditambahkan",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      console.log(data);
+      setTimeout(() => {
+        navigate("/memberProfile");
+        // window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="allProfile">
@@ -104,6 +145,17 @@ const [picture, setPicture] = useState("");
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> unique_id : {profile.unique_id}
         </h6>
+        <CForm onSubmit={add}>
+          <CInputGroup className="mb-3">
+            <CFormInput
+              autoComplete="picture"
+              onChange={(e) => setPicture(e.target.files[0])}
+              // value={file}
+              type="file"
+            />
+            <CButton type="submit">Post</CButton>
+          </CInputGroup>
+        </CForm>
         <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
@@ -140,19 +192,6 @@ const [picture, setPicture] = useState("");
               value={address}
             />
           </CInputGroup>
-
-          {/* <CForm onSubmit={Post}> */}
-            <CInputGroup className="mb-3">
-              <CFormInput
-                autoComplete="picture"
-                placeholder="link picture"
-                onChange={(e) => setPicture(e.target.value)}
-                // value={file}
-                type="link"
-              />
-              {/* <button type="submit">Post</button> */}
-            </CInputGroup>
-          {/* </CForm> */}
 
           <CRow>
             <CCol xs={6}>

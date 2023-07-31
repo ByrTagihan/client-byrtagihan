@@ -41,7 +41,7 @@ function TambahTagihanMember() {
       setShow(false);
       Swal.fire({
         icon: "success",
-        title: "Sukses Menambahkan Tagihan",
+        title: "Berhasil Menambahkan",
         showConfirmButton: false,
         timer: 1500,
       });
