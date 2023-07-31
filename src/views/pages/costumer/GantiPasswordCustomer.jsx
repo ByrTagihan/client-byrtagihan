@@ -26,6 +26,7 @@ const GantiPasswordCustomer = () => {
   const navigate = useNavigate();
 
   const Put = async (e) => {
+    if (localStorage.getItem("typer_token") === "customer") {
     e.preventDefault();
     e.persist();
 
@@ -61,6 +62,21 @@ const GantiPasswordCustomer = () => {
         title: "Password lama tidak sesuai",
         showConfirmButton: false,
         timer: 1500,
+      });
+    }
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
       });
     }
   };

@@ -54,6 +54,7 @@ function UserOrganization() {
   });
 
   const get = async () => {
+    if (localStorage.getItem("type_token") === "user") {
     await axios
       .get(`${API_DUMMY}/user/organization/` + param.id, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -77,6 +78,21 @@ function UserOrganization() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   useEffect(() => {

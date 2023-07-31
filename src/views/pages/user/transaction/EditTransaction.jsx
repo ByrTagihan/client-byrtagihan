@@ -46,6 +46,7 @@ function EditTransaction() {
   };
 
   useEffect(() => {
+    if (localStorage.getItem("type_token") === "user") {
     axios
       .get(`${API_DUMMY}/user/transaction/` + param.id, {
         headers: {
@@ -62,6 +63,20 @@ function EditTransaction() {
       .catch((error) => {
         alert("Terjadi Kesalahan " + error);
       });
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   }, [param.id]);
 
   return (

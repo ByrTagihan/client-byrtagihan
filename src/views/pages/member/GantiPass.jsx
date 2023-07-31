@@ -1,4 +1,3 @@
-
 import {
   CButton,
   CCard,
@@ -19,6 +18,7 @@ import { useNavigate } from "react-router";
 import "../../../css/GantiPasswordCustomer.css"
 import { API_DUMMY } from "../../../utils/baseURL";
 import CIcon from "@coreui/icons-react";
+import { useEffect } from "react";
 
 
 const GantiPass = () => {
@@ -26,11 +26,17 @@ const GantiPass = () => {
   const [new_password, setNew_password] = useState("");
   const [confirm_new_password, setConfirm_new_password] = useState("");
   const navigate = useNavigate();
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    const userRoleFromServer = "member"; // Ganti dengan peran aktual dari data yang diterima
+    setRole(userRoleFromServer);
+  }, [])
 
   const Put = async (e) => {
     e.preventDefault();
     e.persist();
-  
+  if (role === "member") {
     if (new_password !== confirm_new_password) {
       Swal.fire({
         icon: "error",
@@ -79,6 +85,20 @@ const GantiPass = () => {
         timer: 1500,
       });
     }
+  } else {
+    Swal.fire(
+      'Peringatan',
+      'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa',
+      'error'      
+    ).then((result) => {
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
+    });
+  }
   };
 
   return (

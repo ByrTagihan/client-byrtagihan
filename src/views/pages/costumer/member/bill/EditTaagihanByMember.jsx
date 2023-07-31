@@ -27,6 +27,7 @@ function EditTaagihanByMember() {
             alert("Terjadi Kesalahan " + error);
           });
       }, [param.id]);
+      
     const put = async (e) => {
         e.preventDefault();
         e.persist();

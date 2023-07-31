@@ -19,6 +19,7 @@ function EditCustomer() {
   const navigate = useNavigate();
 
   const update = async (e) => {
+    if (localStorage.getItem("type_token") === "user") {
     e.preventDefault();
 
     const req = {
@@ -52,6 +53,21 @@ function EditCustomer() {
       .catch((error) => {
         console.log(error);
       });
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   useEffect(() => {

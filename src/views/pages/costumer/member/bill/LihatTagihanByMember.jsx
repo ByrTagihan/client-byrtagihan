@@ -45,8 +45,10 @@ function LihatTagihanByMember() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("id");
   let navigate = useNavigate();
+  const[role, setRole] = useState("");
 
   const getAll = async () => {
+    if (role === "customer") {
     await axios
       .get(
         `https://api.byrtagihan.com/api/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}&filter${searchTerm}`,
@@ -62,6 +64,20 @@ function LihatTagihanByMember() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   const handleSearch = (event) => {
@@ -174,6 +190,8 @@ function LihatTagihanByMember() {
   useEffect(() => {
     getAll(0);
     getAll2(0);
+    const userRoleFromServer = "customer"; // Ganti dengan peran aktual dari data yang diterima
+    setRole(userRoleFromServer);
   }, [currentPage, searchTerm, sortBy, limit]);
 
   const deleteData = async (id) => {
