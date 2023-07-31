@@ -1,4 +1,3 @@
-
 import { cilAddressBook, cilTablet, cilUser } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import {
@@ -26,39 +25,20 @@ function MemberProfile() {
   const [picture, setPicture] = useState("");
   const [profile, setProfile] = useState({
     id: "",
+    unique_id: "",
     name: "",
     hp: "",
     address: "",
     picture: picture,
-    unique_id: "",
   });
-  const [showAdd, setShowAdd] = useState(false);
-  let navigate = useNavigate();
-
-  const get = async () => {
-    await axios
-      .get(`https://api.byrtagihan.com/api/member/profile`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        const profil = res.data.data;
-        setHp(profil.hp);
-        setName(profil.name);
-        setUnique_id(profil.unique_id);
-        setAddress(profil.address);
-        setPicture(profile.picture);
-        setProfile({ ...profil, id: profil.id });
-        console.log(res.data.data);
-        console.log({ ...profil, id: profil.id });
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-  };
+  const navigate = useNavigate();
 
   const Put = async (e) => {
     e.preventDefault();
     e.persist();
+
+    const data = new FormData();
+    data.append("file", picture);
 
     try {
       await axios.put(
@@ -67,12 +47,27 @@ function MemberProfile() {
           name: name,
           hp: hp,
           address: address,
-          picture: profile.picture,
+          picture: picture,
         },
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
-      );
+      ),
+        await axios
+          .post(`https://api.byrtagihan.com/api/files`, data, {
+            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          })
+          .then((response) => {
+            const imageUrl = response.data.data;
+            setProfile((prevProfile) => ({
+              ...prevProfile,
+              picture: imageUrl,
+            }));
+            setPicture(imageUrl);
+
+            // Store the image URL in local storage
+            localStorage.setItem("profilePicture", imageUrl);
+          });
       setShow(false);
       Swal.fire({
         icon: "success",
@@ -88,47 +83,32 @@ function MemberProfile() {
     }
   };
 
+  const get = async () => {
+    await axios
+      .get(`https://api.byrtagihan.com/api/member/profile`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
+      .then((res) => {
+        const profil = res.data.data;
+        setHp(profil.hp);
+        setName(profil.name);
+        setUnique_id(profil.unique_id);
+        setAddress(profil.address);
+        setProfile({ ...profil, id: profil.id });
+        console.log(res.data.data);
+        console.log(res.data.data[0]);
+        console.log({ ...profil, id: profil.id });
+        const imageUrl = localStorage.getItem("profilePicture");
+        setPicture(imageUrl);
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
+      });
+  };
+
   useEffect(() => {
     get();
   }, []);
-
-  const add = async (e) => {
-    e.preventDefault();
-    e.persist();
-
-    const data = new FormData();
-    data.append("file", picture);
-
-    try {
-      await axios.post(
-        `https://api.byrtagihan.com/api/files`,
-        data,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
-        .then((response) => {
-          const updatedProfile = { ...profile, picture: response.data.data };
-          setProfile(updatedProfile);
-          setShowAdd(false);
-        })
-      setShowAdd(false);
-      // navigate("/lihattagihanmember")
-      Swal.fire({
-        icon: "success",
-        title: "Foto berhasil ditambahkan",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      console.log(data);
-      setTimeout(() => {
-        navigate("/memberProfile");
-        // window.location.reload();
-      }, 1500);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="allProfile">
@@ -136,7 +116,7 @@ function MemberProfile() {
         <h4 className="textProfile">Profile Member</h4>
 
         <div style={{ padding: "10px" }}>
-          <img style={{ width: "20rem" }} src={profile.picture} alt="" />
+          <img style={{ width: "20rem" }} src={picture} alt="" />
         </div>
       </div>
 
@@ -145,18 +125,15 @@ function MemberProfile() {
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> unique_id : {profile.unique_id}
         </h6>
-        <CForm onSubmit={add}>
+        <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CFormInput
               autoComplete="picture"
               onChange={(e) => setPicture(e.target.files[0])}
-              // value={file}
               type="file"
             />
-            <CButton type="submit">Post</CButton>
+            {/* <CButton type="submit">Post</CButton> */}
           </CInputGroup>
-        </CForm>
-        <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
               <CIcon icon={cilUser} />
