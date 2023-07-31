@@ -31,7 +31,7 @@ function EditTransaction() {
       .then(() => {
         Swal.fire({
           icon: "success",
-          title: "Berhasil Mengubah",
+          title: "Berhasil Mengedit",
           showConfirmButton: false,
           timer: 1500,
         });

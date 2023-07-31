@@ -102,6 +102,9 @@ const LIstDataSIswa = React.lazy(() =>
 const EditListSiswa = React.lazy(() =>
   import("./views/pages/costumer/member/ListDataSiswaEdit")
 );
+const TambahOrganization = React.lazy(() =>
+  import("./views/pages/user/organization/TambahOrganization")
+);
 
 //Member Bill Section
 const LihatTagihanMember = React.lazy(() =>
@@ -166,8 +169,13 @@ const routes = [
     element: Organization,
   },
   {
-    path: "/userOrganization:id",
-    name: "Dashboard User",
+    path: "/tambahOrganization",
+    name: "Tambah Organization",
+    element: TambahOrganization,
+  },
+  {
+    path: "/editOrganization/:id",
+    name: "Edit Organization",
     element: UserOrganization,
   },
   { path: "/payment", name: "Payment", element: CrudPayment },

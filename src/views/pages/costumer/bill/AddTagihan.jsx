@@ -34,7 +34,7 @@ function AddTagihan() {
         navigate("/customerBill");
         Swal.fire({
           icon: "success",
-          title: "Berhasil DiTambahkan",
+          title: "Berhasil Menambahkan",
           showConfirmButton: false,
           timer: 1500,
         });

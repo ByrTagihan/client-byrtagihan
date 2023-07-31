@@ -151,13 +151,16 @@ function Template() {
 
   const deleteT = async (id) => {
     Swal.fire({
-      title: "Ingin menghapus data ?",
+
+      title: "Anda Ingin Menghapus Data ?",
+
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Hapus",
-      cancelButtonText: "Batal",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(`${API_DUMMY}/user/template/` + id, {
@@ -207,7 +210,8 @@ function Template() {
               <div className="">
                 <Link to="/tambahTemplate">
                   <button className="btn btn-primary float-end">
-                    <CIcon icon={cilPlus} /> Tambah Data
+
+                  <CIcon icon={cilPlus} /> Tambah
                   </button>
                 </Link>
               </div>

@@ -328,20 +328,7 @@ function EditCustomer() {
             color: "white",
           }}
         >
-          Save
-        </button>
-        <button
-          style={{
-            marginTop: "49px",
-            backgroundColor: "#213555",
-            color: "white",
-            marginLeft: "30px",
-          }}
-        >
-          <a href="/#/userCustomer" style={{ color: "white" }}>
-            {" "}
-            Cancelled
-          </a>
+          Simpan
         </button>
       </form> */}
     </div>

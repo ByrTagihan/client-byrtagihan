@@ -1,90 +1,118 @@
-import {
-  CCard,
-  CCardBody,
-  CCol,
-  CForm,
-  CFormInput,
-  CInputGroup,
-  CInputGroupText,
-  CRow,
-} from "@coreui/react";
-import { API_DUMMY } from "../../../../../utils/baseURL";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { API_DUMMY } from '../../../../../utils/baseURL';
 
-function EditTagihanMember() {
-  const Put = async (e) => {
-    e.preventDefault();
-    e.persist();
+function EditTaagihanByMember() {
+    const param = useParams();
+    const [description, setDescription] = useState("");
+    const [amount, setAmount] = useState("");
+    const [periode, setPeriode] = useState("");
+    const [showEdit, setShowEdit] = useState(false);
+    let navigate = useNavigate();
 
-    try {
-      await axios.put(`${API_DUMMY}/customer/member/9/bill/7`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      });
-      setShow(false);
-      Swal.fire({
-        icon: "success",
-        title: "Tersimpan",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+    useEffect(() => {
+        axios
+          .get(`${API_DUMMY}/customer/bill/` + param.id, {
+            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          })
+          .then((response) => {
+            setDescription(response.data.data.description);
+            setAmount(response.data.data.amount);
+            setDescription(response.data.data.description);
+            // console.log(response.data.data);
+          })
+          .catch((error) => {
+            alert("Terjadi Kesalahan " + error);
+          });
+      }, [param.id]);
+    const put = async (e) => {
+        e.preventDefault();
+        e.persist();
+    
+        const data = {
+          amount: amount,
+          periode: periode,
+          description: description,
+        };
+        console.log(data);
+    
+        try {
+          await axios.put(
+            `https://api.byrtagihan.com/api/customer/bill/` + param.id,
+            data,
+            {
+              headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+            }
+          );
+          setShowEdit(false);
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Mengedit",
+            showConfirmButton: false,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        } catch (err) {
+          console.log(err);
+        }
+      };
   return (
-    <div>
-      <CCard className="p-4">
-        <CCardBody>
-          <CForm onSubmit={Put}>
-            <h3 style={{ color: "gray" }}>Edit Tagihan Siswa</h3>
-            <br />
-            <CInputGroup className="mb-3">
-              <CInputGroupText style={{ width: "20vh" }}>
-                Keterangan
-              </CInputGroupText>
-              <CFormInput
-                placeholder="Keterangan..."
-                autoComplete="keterangan"
-              />
-            </CInputGroup>
-
-            <CInputGroup className="mb-3">
-              <CInputGroupText style={{ width: "20vh" }}>
-                Periode
-              </CInputGroupText>
-              <CFormInput placeholder="Periode..." autoComplete="periode" />
-            </CInputGroup>
-
-            <CInputGroup className="mb-4">
-              <CInputGroupText style={{ width: "20vh" }}>
-                Nominal
-              </CInputGroupText>
-              <CFormInput
-                placeholder="Nominal..."
-                autoComplete="nominal"
-                type="number"
-              />
-            </CInputGroup>
-
-            <CRow>
-              <CCol xs={6}>
-                <button
-                  style={{ backgroundColor: "#213555" }}
-                  type="submit"
-                  className="px-3 py-1.5"
-                >
-                  Simpan
-                </button>
-              </CCol>
-            </CRow>
-          </CForm>
-        </CCardBody>
-      </CCard>
+    <div className="card mb-3">
+      <div className="card-header bg-transparent">Edit Tagihan</div>
+      <div className="card-body">
+        <form onSubmit={put}>
+          <div className="mb-3">
+            <label className="form-label">Deskripsi</label>
+            <input
+              id="description"
+              type="text"
+              className="form-control"
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Periode</label>
+            <input
+              id="periode"
+              type="date"
+              className="form-control"
+              onChange={(e) => setPeriode(e.target.value)}
+              value={periode}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Amount</label>
+            <input
+              id="amount"
+              type="number"
+              className="form-control"
+              onChange={(e) => setAmount(e.target.value)}
+              value={amount}
+              required
+            />
+          </div>
+          <button
+            type="button"
+            className="btn btn-secondary float-start"
+            onClick={() => {
+              navigate("/lihattagihanmember");
+            }}
+          >
+            Close
+          </button>
+          <button type="submit" className="btn btn-primary float-end">
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
-  );
+  )
 }
 
-export default EditTagihanMember;
+export default EditTaagihanByMember

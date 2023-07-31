@@ -123,7 +123,7 @@ function UserOrganization() {
       navigate("/tableOrganization");
       Swal.fire({
         icon: "success",
-        title: "berhasil mengedit",
+        title: "Berhasil Mengedit",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -402,7 +402,7 @@ function UserOrganization() {
                 />
               </CCol>
             </CRow>
-            <CButton type="submit">Update</CButton>
+            <CButton type="submit">Simpan</CButton>
           </CForm>
         </CCardBody>
       </CCard>

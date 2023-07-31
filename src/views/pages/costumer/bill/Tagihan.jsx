@@ -218,13 +218,6 @@ function Tagihan() {
       <div className="row">
         <div className="col" xs={12}>
           <div className="col inputSearch1">
-            <select className="form-select" value={limit} onChange={handleLimit}>
-              <option value="1">Show 1 Entries</option>
-              <option value="10">Show 10 Entries</option>
-              <option value="100">Show 100 Entries</option>
-            </select>
-          </div>
-          <div className="col inputSearch1">
             <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} />
           </div>
           <div className="card mb-4">

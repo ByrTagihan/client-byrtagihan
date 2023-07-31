@@ -45,7 +45,7 @@ function EditMember() {
             setShow(false);
             Swal.fire({
                 icon: "success",
-                title: "Berhasil Update Data Siswa",
+                title: "Berhasil Mengedit",
                 showConfirmButton: false,
                 timer: 1500,
             });
@@ -213,6 +213,7 @@ function EditMember() {
                             <CButton onClick={Put}>Simpan</CButton>
                         </CCol>
                     </CForm>
+
                 </CCardBody>
             </CCard>
         </div>

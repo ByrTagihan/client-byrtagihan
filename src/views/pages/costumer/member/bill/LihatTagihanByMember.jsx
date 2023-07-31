@@ -327,12 +327,14 @@ function LihatTagihanByMember() {
                   gap: "10px",
                 }}>
                 <div className="col">
+
                  
                 <Link to="/addListTagihanByMember">
                     <button className="btn btn-primary float-end">
                       <CIcon icon={cilPlus} /> Tambah 
                     </button>
                   </Link>
+
                 </div>
                 </div>
               </div>

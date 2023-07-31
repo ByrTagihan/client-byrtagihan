@@ -42,7 +42,7 @@ function TambahTransaction() {
         navigate("/transaction");
         Swal.fire({
           icon: "success",
-          title: "Berhasil DiTambahkan",
+          title: "Berhasil Menambahkan",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -151,7 +151,7 @@ function TambahTransaction() {
   const GetOrganization = async () => {
     try {
       const { data, status } = await axios.get(
-        `${API_DUMMY}/user/transaction`,
+        `${API_DUMMY}/user/transaction?limit=100`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
