@@ -33,73 +33,39 @@ function UserProfile() {
   const [showAdd, setShowAdd] = useState(false);
   let navigate = useNavigate();
 
-  const get = async () => {
-    await axios
+  // const get = async () => {
+  //   await axios
+  //     .get(`https://api.byrtagihan.com/api/user/profile`, {
+  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+  //     })
+  //     .then((res) => {
+  //       const profil = res.data.data[0];
+  //       setProfile(profil);
+  //       setPicture(profil.picture)
+  //     })
+  //     .catch((error) => {
+  //       alert("Terjadi Kesalahan" + error);
+  //     });
+  // };
+
+  useEffect(() => {
+    axios
       .get(`https://api.byrtagihan.com/api/user/profile`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
-      .then((res) => {
-        const profil = res.data.data[0];
-        setProfile(profil);
+      .then((response) => {
+        const profil = response.data.data[0];
         setHp(profil.hp);
         setName(profil.name);
         setProfile({ ...profil, email: profil.email });
         setAddress(profil.address);
-        setPicture(res.data.data);
         setProfile({ ...profil, id: profil.id });
-        console.log(res.data.data);
-        console.log(res.data.data[0]);
-        console.log({ ...profil, id: profil.id });
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-  };
-
-  const add = async (e) => {
-    e.preventDefault();
-    e.persist();
-
-    const data = new FormData();
-    data.append("file", picture);
-
-    try {
-      await axios.post(
-        `https://api.byrtagihan.com/api/files`,
-        data,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
-      .then((response) => {
-        const profile = response.data.data;
-        setProfile(profile);
-        setPicture(response.data.data)
         console.log(response.data.data);
-      })
-        setShowAdd(false);
-      // navigate("/lihattagihanmember")
-      Swal.fire({
-        icon: "success",
-        title: "Foto berhasil ditambahkan",
-        showConfirmButton: false,
-        timer: 1500,
+        console.log(response.data.data[0]);
+        console.log({ ...profil, id: profil.id });
+        const imageUrl = localStorage.getItem("profilePicture");
+        setPicture(imageUrl);
       });
-      // console.log(data);
-      setTimeout(() => {
-        navigate("/userProfile");
-        // window.location.reload();
-      }, 1500);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  console.log(picture);
-
-
-  useEffect(() => {
-    get();
-    // getProfile();
   }, []);
 
   const [show, setShow] = useState(false);
@@ -111,50 +77,36 @@ function UserProfile() {
     data.append("file", picture);
 
     try {
-      // await axios.post(
-      //   `https://api.byrtagihan.com/api/files`,
-      //   data, {
-      //     headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      //   },
-        await axios.put(
-          `${API_DUMMY}/user/profile`,
-          {
-            name: name,
-            hp: hp,
-            address: address,
-            picture: picture,
-          },
-          {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-          }
-        ),
-        await axios.post(
-        `https://api.byrtagihan.com/api/files`,
-        data, {
+      await axios.put(
+        `${API_DUMMY}/user/profile`,
+        {
+          name: name,
+          hp: hp,
+          address: address,
+          picture: picture,
+        },
+        {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
-        ).then((response) => {
-          const profile = response.data.data;
-          setProfile(profile);
-          setPicture(response.data.data)
-          console.log(response.data.data);
-        })
-      // );
-      //  {
-      //   headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      // });
-      // await axios.put(
-      //   `${API_DUMMY}/user/profile`,
-      //   {
-      //     name: name,
-      //     hp: hp,
-      //     address: address,
-      //     picture: picture,
-      //   },
-      //   {
-      //     headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      //   }
-      // );
+      ),
+        await axios
+          .post(`https://api.byrtagihan.com/api/files`, data, {
+            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          })
+          .then((response) => {
+            // const profile = response.data.data;
+            // setProfile(profile);
+            // setPicture(response.data.data);
+            // console.log(response.data.data);
+            const imageUrl = response.data.data;
+            setProfile((prevProfile) => ({
+              ...prevProfile,
+              picture: imageUrl,
+            }));
+            setPicture(imageUrl);
+
+            localStorage.setItem("profilePicture", imageUrl);
+          });
       setShow(false);
       Swal.fire({
         icon: "success",
@@ -185,17 +137,6 @@ function UserProfile() {
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> Email : {profile.email}
         </h6>
-        {/* <CForm onSubmit={add}>
-          <CInputGroup className="mb-3">
-            <CFormInput
-              autoComplete="picture"
-              onChange={(e) => setPicture(e.target.files[0])}
-              // value={file}
-              type="file"
-            />
-            <CButton type="submit">Post</CButton>
-          </CInputGroup>
-        </CForm> */}
         <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
