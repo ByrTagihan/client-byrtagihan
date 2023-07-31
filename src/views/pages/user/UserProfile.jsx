@@ -33,21 +33,6 @@ function UserProfile() {
   const [showAdd, setShowAdd] = useState(false);
   let navigate = useNavigate();
 
-  // const get = async () => {
-  //   await axios
-  //     .get(`https://api.byrtagihan.com/api/user/profile`, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     })
-  //     .then((res) => {
-  //       const profil = res.data.data[0];
-  //       setProfile(profil);
-  //       setPicture(profil.picture)
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
-
   useEffect(() => {
     axios
       .get(`https://api.byrtagihan.com/api/user/profile`, {
@@ -94,10 +79,6 @@ function UserProfile() {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
           })
           .then((response) => {
-            // const profile = response.data.data;
-            // setProfile(profile);
-            // setPicture(response.data.data);
-            // console.log(response.data.data);
             const imageUrl = response.data.data;
             setProfile((prevProfile) => ({
               ...prevProfile,
@@ -178,9 +159,7 @@ function UserProfile() {
               autoComplete="picture"
               onChange={(e) => setPicture(e.target.files[0])}
               type="file"
-              // value={file}
             />
-            {/* <CButton type="submit">Post</CButton> */}
           </CInputGroup>
           <CRow>
             <CCol xs={6}>
