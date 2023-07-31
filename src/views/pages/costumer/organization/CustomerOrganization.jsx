@@ -118,6 +118,8 @@ function CustomerOrganization() {
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <AppSidebar />
       <CCard className="mb-4">
         <CCardBody>
@@ -236,7 +238,10 @@ function CustomerOrganization() {
           </CForm>
         </CCardBody>
       </CCard>
-    </div>
+   </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )} </div>
   );
 }
 

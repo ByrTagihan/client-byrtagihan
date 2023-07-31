@@ -83,6 +83,8 @@ const GantiPass = () => {
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "member" ? (
+        <>
       <div className="bg-light min-vh-99 d-flex flex-row align-items-center">
         <CContainer>
           <CRow className="justify-content-center">
@@ -153,7 +155,10 @@ const GantiPass = () => {
           </CRow>
         </CContainer>
       </div>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 };
 

@@ -215,6 +215,8 @@ function Tagihan() {
   };
   return (
     <div>
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <div className="row">
         <div className="col" xs={12}>
         <div className="col inputSearch1">
@@ -440,7 +442,10 @@ function Tagihan() {
           </CModal>
         </div>
       </div>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

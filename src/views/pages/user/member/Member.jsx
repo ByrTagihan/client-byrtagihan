@@ -149,6 +149,8 @@ function Member() {
 
     return (
         <div className='mb-5'>
+            {localStorage.getItem("type_token") === "user" ? (
+                <>
             <CCard>
                 <CCardHeader>
                     <div className='d-flex justify-content-between'>
@@ -251,23 +253,10 @@ function Member() {
                     </div>
                 </CCardBody>
             </CCard>
-
-            {/* Modal add
-            <CModal visible={visible}>
-                <CModalHeader onClose={() => setVisible(false)}>
-                    <CModalTitle>Tambah data siswa</CModalTitle>
-                </CModalHeader>
-                <CModalBody>
-                    
-                </CModalBody>
-                <CModalFooter>
-                    <CButton color="secondary" onClick={() => setVisible(false)}>
-                        Close
-                    </CButton>
-                    <CButton onClick={addMember}>Simpan</CButton>
-                </CModalFooter>
-            </CModal> */}
-        </div>
+       </>
+            ):(
+                <><p>Page Tidak Tersedia</p></>
+            )} </div>
     )
 }
 

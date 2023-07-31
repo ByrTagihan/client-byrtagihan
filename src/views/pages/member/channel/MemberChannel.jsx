@@ -29,7 +29,7 @@ function MemberChannel() {
         }
       )
       .then((res) => {
-        setTotalPages(res.data.pagination.total_page);
+        setTotalPages(res.data.pagination.totalPages);
         setList(res.data.data);
         console.log(res.data.data);
       })
@@ -69,23 +69,23 @@ function MemberChannel() {
   };
 
   const renderPageNumbers = () => {
-    const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
+    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     const displayedPages = [];
   
-    if (total_page <= 5) {
+    if (totalPages <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(total_page - 1));
-      } else if (currentPage >= total_page - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(total_page - 5));
+        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+      } else if (currentPage >= totalPages - 2) {
+        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
           'dot',
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
           'dot',
-          ...pageNumbers.slice(total_page - 1)
+          ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
@@ -106,6 +106,8 @@ function MemberChannel() {
   };
   return (
     <div>
+      {localStorage.getItem("type_token") === "member" ? (
+        <>
       <div className="row">
         <div className="col" xs={12}>
                 <div className="inputSearch1 ">
@@ -251,7 +253,10 @@ function MemberChannel() {
           </div>
         </div>
       </div>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

@@ -164,6 +164,8 @@ function Organization() {
   };
   return (
     <div>
+      {localStorage.getItem("type_token") === "user" ? (
+        <>
       <div className="row">
         <div className="col" xs={12}>
           <div className="card mb-4">
@@ -307,7 +309,10 @@ function Organization() {
           </div>
         </div>
       </div>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

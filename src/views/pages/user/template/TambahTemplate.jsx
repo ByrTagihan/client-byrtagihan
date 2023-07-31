@@ -45,6 +45,8 @@ function TambahTemplate() {
 
     return (
         <div>
+            {localStorage.getItem("type_token") === "user" ? (
+                <>
             <div className="card mb-3">
                 <div className="card-header bg-transparent">
                     <h5>Tambah template</h5>
@@ -71,7 +73,10 @@ function TambahTemplate() {
                         </CCol>
                     </CForm>
                 </div>
-            </div>
+            </div></>
+            ):(
+                <><p>Page Tidak Tersedia</p></>
+            )}
         </div>
     )
 }

@@ -110,6 +110,8 @@ function BayarSemuaTagihan() {
 
     return (
         <div className='mb-5'>
+            {localStorage.getItem("type_token") === "member" ? (
+                <>
             {!showCard && (
                 <CCard>
                     <CListGroup flush>
@@ -180,7 +182,10 @@ function BayarSemuaTagihan() {
                     </CListGroup>
                 </CCard>
             )}
-        </div>
+        </>
+            ):(
+                <><p>Page Tidak Tersedia</p></>
+            )}</div>
     )
 }
 

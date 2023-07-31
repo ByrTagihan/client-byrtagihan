@@ -132,6 +132,8 @@ function MemberProfile() {
 
   return (
     <div className="allProfile">
+      {localStorage.getItem("type_token") === "member" ? (
+        <>
       <div className="box1">
         <h4 className="textProfile">Profile Member</h4>
 
@@ -203,7 +205,10 @@ function MemberProfile() {
           </CRow>
         </CForm>
       </div>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

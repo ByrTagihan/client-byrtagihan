@@ -51,6 +51,8 @@ function AddTagihanByMember() {
   };
   return (
     <div className="card mb-3">
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <div className="card-header bg-transparent">Tambah Tagihan</div>
       <div className="card-body">
         <form onSubmit={add}>
@@ -101,7 +103,10 @@ function AddTagihanByMember() {
           </button>
         </form>
       </div>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   )
 }
 

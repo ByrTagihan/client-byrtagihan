@@ -105,6 +105,7 @@ function UserProfile() {
 
   return (
     <div className="allProfile">
+      {localStorage.getItem("type_token") == "user"}
       <div className="box1">
         <h4 className="textProfile">Profile User</h4>
 

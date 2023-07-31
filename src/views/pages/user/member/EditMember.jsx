@@ -125,6 +125,8 @@ function EditMember() {
 
     return (
         <div>
+            {localStorage.getItem("type_token") === "user" ? (
+                <>
             <CCard>
                 <CCardBody>
                     <h4>Edit Data Siswa</h4>
@@ -216,7 +218,10 @@ function EditMember() {
 
                 </CCardBody>
             </CCard>
-        </div>
+        </>
+            ):(
+                <><p>Page Tidak Tersedia</p></>
+            )}</div>
     )
 }
 

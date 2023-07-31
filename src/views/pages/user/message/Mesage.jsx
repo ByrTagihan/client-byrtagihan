@@ -124,6 +124,8 @@ function Mesage() {
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "user" ? (
+        <>
       <div className="row">
         <div className="col" xs={12}>
         <div className='inputSearch1'>
@@ -233,7 +235,10 @@ function Mesage() {
           </div>
         </div>
       </div>
-    </div>
+    </>
+      ):(
+        <></>
+      )}</div>
   );
 }
 
