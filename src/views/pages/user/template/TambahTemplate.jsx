@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { CButton, CCol, CForm, CFormInput, CFormSelect } from "@coreui/react";
+import { CButton, CCol, CForm, CFormInput, CFormLabel } from "@coreui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../../utils/baseURL";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Import CSS dari React Quill
 
 function TambahTemplate() {
     const [name, setName] = useState();
@@ -37,6 +39,10 @@ function TambahTemplate() {
             });
     };
 
+    const handleChange = (value) => {
+        setContent(value);
+    };
+
     return (
         <div>
             <div className="card mb-3">
@@ -45,7 +51,7 @@ function TambahTemplate() {
                 </div>
                 <div className="card-body">
                     <CForm onSubmit={Post} className="row g-3">
-                        <CCol md={6}>
+                        <CCol md={12}>
                             <CFormInput
                                 type="text"
                                 placeholder="Nama"
@@ -55,15 +61,9 @@ function TambahTemplate() {
                                 required
                             />
                         </CCol>
-                        <CCol md={6}>
-                            <CFormInput
-                                id="content"
-                                type="text"
-                                placeholder="Content"
-                                onChange={(e) => setContent(e.target.value)}
-                                label="Content"
-                                required
-                            />
+                        <CCol md={12}>
+                            <CFormLabel htmlFor="content">Content</CFormLabel>
+                            <ReactQuill value={content} onChange={handleChange} />
                         </CCol>
 
                         <CCol xs={12}>
