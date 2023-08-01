@@ -62,7 +62,7 @@ function LIstDataSIswa() {
   const getAll = async () => {
     await axios
       .get(
-        `https://api.byrtagihan.com/api/customer/member?page=${currentPage}&limit=${limit}&filter=${searchTerm}`,
+        `${API_DUMMY}/customer/member?page=${currentPage}&limit=${limit}&filter=${searchTerm}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -132,7 +132,7 @@ function LIstDataSIswa() {
   const [idd, setId] = useState(0);
   const getById = async (id) => {
     await axios
-      .get(`https://api.byrtagihan.com/api/customer/member/` + id, {
+      .get(`${API_DUMMY}/customer/member/` + id, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -157,7 +157,7 @@ function LIstDataSIswa() {
 
     try {
       await axios.put(
-        `https://api.byrtagihan.com/api/customer/member/${idd}/password`,
+        `${API_DUMMY}/customer/member/${idd}/password`,
         data,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -225,7 +225,7 @@ function LIstDataSIswa() {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete("https://api.byrtagihan.com/api/customer/member/" + id, {
+        axios.delete("${API_DUMMY}/customer/member/" + id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         });
         Swal.fire({
@@ -247,7 +247,7 @@ function LIstDataSIswa() {
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     const displayedPages = [];
-  
+
     if (totalPages <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
@@ -265,7 +265,7 @@ function LIstDataSIswa() {
         );
       }
     }
-  
+
     return displayedPages.map((page, index) =>
       page === 'dot' ? (
         <span key={`dot${index}`}>...</span>
@@ -280,7 +280,7 @@ function LIstDataSIswa() {
       )
     );
   };
-  
+
   return (
     <div>
       <div className="row">
@@ -319,9 +319,9 @@ function LIstDataSIswa() {
                 </div>
                 <div className="col">
 
-                <Link to="/addListDataSiswa">
+                  <Link to="/addListDataSiswa">
                     <button className="btn btn-primary float-end">
-                      <CIcon icon={cilPlus} /> Tambah 
+                      <CIcon icon={cilPlus} /> Tambah
                     </button>
                   </Link>
                 </div>
@@ -516,11 +516,11 @@ function LIstDataSIswa() {
             </label>
             <CInputGroup className="mb-3">
               <CInputGroupText>
-              <span
-                    onClick={togglePassword}
-                  >
-                    <i class={passwordIcon}></i>
-                  </span>
+                <span
+                  onClick={togglePassword}
+                >
+                  <i class={passwordIcon}></i>
+                </span>
               </CInputGroupText>
               <CFormInput
                 placeholder="Password"

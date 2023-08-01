@@ -5,62 +5,62 @@ import Swal from 'sweetalert2';
 import { API_DUMMY } from '../../../../../utils/baseURL';
 
 function EditTaagihanByMember() {
-    const param = useParams();
-    const [description, setDescription] = useState("");
-    const [amount, setAmount] = useState("");
-    const [periode, setPeriode] = useState("");
-    const [showEdit, setShowEdit] = useState(false);
-    let navigate = useNavigate();
+  const param = useParams();
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [periode, setPeriode] = useState("");
+  const [showEdit, setShowEdit] = useState(false);
+  let navigate = useNavigate();
 
-    useEffect(() => {
-        axios
-          .get(`${API_DUMMY}/customer/bill/` + param.id, {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-          })
-          .then((response) => {
-            setDescription(response.data.data.description);
-            setAmount(response.data.data.amount);
-            setDescription(response.data.data.description);
-            // console.log(response.data.data);
-          })
-          .catch((error) => {
-            alert("Terjadi Kesalahan " + error);
-          });
-      }, [param.id]);
-    const put = async (e) => {
-        e.preventDefault();
-        e.persist();
-    
-        const data = {
-          amount: amount,
-          periode: periode,
-          description: description,
-        };
-        console.log(data);
-    
-        try {
-          await axios.put(
-            `https://api.byrtagihan.com/api/customer/bill/` + param.id,
-            data,
-            {
-              headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-            }
-          );
-          // alert("Success")
-          setShowEdit(false);
-        //   navigate("/lihattagihanmember/" + param.id)
-          Swal.fire({
-            icon: "success",
-            title: "Data berhasil diedit",
-            showConfirmButton: false,
-          });
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-        } catch (err) {
-          console.log(err);
+  useEffect(() => {
+    axios
+      .get(`${API_DUMMY}/customer/bill/` + param.id, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
+      .then((response) => {
+        setDescription(response.data.data.description);
+        setAmount(response.data.data.amount);
+        setDescription(response.data.data.description);
+        // console.log(response.data.data);
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan " + error);
+      });
+  }, [param.id]);
+  const put = async (e) => {
+    e.preventDefault();
+    e.persist();
+
+    const data = {
+      amount: amount,
+      periode: periode,
+      description: description,
+    };
+    console.log(data);
+
+    try {
+      await axios.put(
+        `${API_DUMMY}/customer/bill/` + param.id,
+        data,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
-      };
+      );
+      // alert("Success")
+      setShowEdit(false);
+      //   navigate("/lihattagihanmember/" + param.id)
+      Swal.fire({
+        icon: "success",
+        title: "Data berhasil diedit",
+        showConfirmButton: false,
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="card mb-3">
       <div className="card-header bg-transparent">Edit Tagihan</div>

@@ -4,13 +4,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 function AddTagihanByMember() {
-    const [description, setDescription] = useState("");
-    const [amount, setAmount] = useState("");
-    const [periode, setPeriode] = useState("");
-    const [showAdd, setShowAdd] = useState(false);
-    const param = useParams();
-    let navigate = useNavigate();
-    
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [periode, setPeriode] = useState("");
+  const [showAdd, setShowAdd] = useState(false);
+  const param = useParams();
+  let navigate = useNavigate();
+
   const add = async (e) => {
     e.preventDefault();
     e.persist();
@@ -22,7 +22,7 @@ function AddTagihanByMember() {
     };
     try {
       await axios.post(
-        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill`,
+        `${API_DUMMY}/customer/member/${param.id}/bill`,
         data,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },

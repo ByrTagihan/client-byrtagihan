@@ -54,7 +54,7 @@ function MemberProfile() {
         }
       ),
         await axios
-          .post(`https://api.byrtagihan.com/api/files`, data, {
+          .post(`${API_DUMMY}/files`, data, {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
           })
           .then((response) => {
@@ -84,8 +84,14 @@ function MemberProfile() {
   };
 
   const get = async () => {
+    // Check if profilePicture exists in localStorage
+    const imageUrl = localStorage.getItem("profilePicture");
+
+    // Set the profile picture from localStorage to the picture state
+    setPicture(imageUrl);
+
     await axios
-      .get(`https://api.byrtagihan.com/api/member/profile`, {
+      .get(`${API_DUMMY}/member/profile`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -99,7 +105,11 @@ function MemberProfile() {
         console.log(res.data.data[0]);
         console.log({ ...profil, id: profil.id });
         const imageUrl = localStorage.getItem("profilePicture");
-        setPicture(imageUrl);
+        // setPicture(imageUrl);
+        // If profilePicture is available in the response, update the picture state
+        if (profil.profilePicture) {
+          setPicture(profil.profilePicture);
+        }
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
