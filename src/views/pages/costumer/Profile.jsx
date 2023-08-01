@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import "../../../css/Profile.css";
 import { API_DUMMY } from "../../../utils/baseURL";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const [show, setShow] = useState(false);
@@ -32,8 +33,10 @@ function Profile() {
     address: "",
     picture: "",
   });
+  let navigate = useNavigate();
 
   const get = async () => {
+    if (localStorage.getItem("type_token") === "customer") {
     await axios
       .get(`${API_DUMMY}/customer/profile`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -49,6 +52,21 @@ function Profile() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   useEffect(() => {

@@ -1,4 +1,3 @@
-
 import { CCard, CCardHeader, CCardBody, CTable, CTableRow, CTableHead, CTableBody, CTableHeaderCell, CTableDataCell, CButton, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter, CFormLabel, CCol, CFormInput, CInputGroup, CForm, CFormSelect, CInputGroupText, } from '@coreui/react';
 import axios from 'axios';
 import React from 'react'
@@ -23,6 +22,7 @@ function Member() {
 
     // Function get
     const get = async () => {
+        if (localStorage.getItem("type_token") === "user") {
         try {
             const { data, status } = await axios.get(`${API_DUMMY}/user/member?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -36,6 +36,21 @@ function Member() {
         } catch (err) {
             alert("Terjadi Kesalahan" + err);
         }
+            
+        } else {
+            Swal.fire(
+              'Peringatan',
+              'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+              'error'      
+            ).then((result) => {
+                //Untuk munuju page selanjutnya
+                navigate("/");
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1500);
+                localStorage.clear();
+            });
+          }
     };
 
     const Delete = async (id) => {

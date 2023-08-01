@@ -13,8 +13,10 @@ function ListDataSiswaEdit() {
   const [show, setShow] = useState(false);
   const param = useParams();
   const navigate = useNavigate();
+  const [role, setRole] = useState("");
 
   useEffect(() => {
+    if (localStorage.getItem("type_token") === "customer") {
     axios
       .get(`${API_DUMMY}/customer/member/` + param.id, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -29,9 +31,29 @@ function ListDataSiswaEdit() {
       .catch((error) => {
         alert("Terjadi Kesalahan " + error);
       });
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   }, [param.id]);
 
+  useEffect(() => {
+    const userRoleFromServer = "customer"; // Ganti dengan peran aktual dari data yang diterima
+    setRole(userRoleFromServer);
+  }, [])
+
     const putData = async (e) => {
+      if (role === "customer") {
         e.preventDefault();
         e.persist();
 
@@ -62,6 +84,20 @@ function ListDataSiswaEdit() {
         } catch (err) {
           console.log(err);
         }
+      } else {
+        Swal.fire(
+          'Peringatan',
+          'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+          'error'      
+        ).then((result) => {
+            //Untuk munuju page selanjutnya
+            navigate("/");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+            localStorage.clear();
+        });
+      }
       };
     
   return (

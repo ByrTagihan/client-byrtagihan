@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
+import { useEffect } from "react";
 
 function AddTagihan() {
   const [memberId, setMemberId] = useState(0);
@@ -13,10 +14,16 @@ function AddTagihan() {
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const [suggestionsActive, setSuggestionsActive] = useState(false);
   const [value, setValue] = useState("");
-
+  const [role, setRole] = useState("");
   let navigate = useNavigate();
 
+  useEffect(() => {
+    const userRoleFromServer = "customer"; // Ganti dengan peran aktual dari data yang diterima
+    setRole(userRoleFromServer);
+  },[])
   const addTagihan = async (e) => {
+    if (role === "customer") {
+      
     e.preventDefault();
     const req = {
       member_id: memberId,
@@ -45,6 +52,20 @@ function AddTagihan() {
       .catch((error) => {
         console.log(error);
       });
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   const handleChange = async (e) => {
