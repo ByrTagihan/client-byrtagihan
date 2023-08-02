@@ -51,7 +51,7 @@ function LihatTagihanByMember() {
     if (role === "customer") {
     await axios
       .get(
-        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}&filter${searchTerm}`,
+        `${API_DUMMY}/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}&filter${searchTerm}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -175,7 +175,7 @@ function LihatTagihanByMember() {
 
   const getAll2 = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/customer/member/${param.id}`, {
+      .get(`${API_DUMMY}/customer/member/${param.id}`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -207,8 +207,8 @@ function LihatTagihanByMember() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(
-          `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/` +
-            id,
+          `${API_DUMMY}/customer/member/${param.id}/bill/` +
+          id,
           {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
           }
@@ -239,7 +239,7 @@ function LihatTagihanByMember() {
     try {
       await axios
         .put(
-          `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${paid_id}/paid`,
+          `${API_DUMMY}/customer/member/${param.id}/bill/${paid_id}/paid`,
           data,
           {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -275,7 +275,7 @@ function LihatTagihanByMember() {
       .then((result) => {
         if (result.isConfirmed) {
           axios.put(
-            `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${id}/unpaid`,
+            `${API_DUMMY}/customer/member/${param.id}/bill/${id}/unpaid`,
             {},
             {
               headers: {
@@ -302,7 +302,7 @@ function LihatTagihanByMember() {
   const getByIdSudahByr = async (id) => {
     await axios
       .get(
-        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/` + id,
+        `${API_DUMMY}/customer/member/${param.id}/bill/` + id,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }

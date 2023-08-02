@@ -36,7 +36,7 @@ function UserProfile() {
   useEffect(() => {
     if (localStorage.getItem("type_token") === "user") {
     axios
-      .get(`https://api.byrtagihan.com/api/user/profile`, {
+      .get(`${API_DUMMY}/user/profile`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((response) => {
@@ -91,7 +91,7 @@ function UserProfile() {
         }
       ),
         await axios
-          .post(`https://api.byrtagihan.com/api/files`, data, {
+          .post(`${API_DUMMY}/files`, data, {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
           })
           .then((response) => {

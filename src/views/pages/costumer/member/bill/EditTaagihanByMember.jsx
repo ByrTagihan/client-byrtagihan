@@ -5,14 +5,14 @@ import Swal from 'sweetalert2';
 import { API_DUMMY } from '../../../../../utils/baseURL';
 
 function EditTaagihanByMember() {
-    const param = useParams();
-    const [description, setDescription] = useState("");
-    const [amount, setAmount] = useState("");
-    const [periode, setPeriode] = useState("");
-    const [showEdit, setShowEdit] = useState(false);
-    let navigate = useNavigate();
+  const param = useParams();
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [periode, setPeriode] = useState("");
+  const [showEdit, setShowEdit] = useState(false);
+  let navigate = useNavigate();
 
-    useEffect(() => {
+  useEffect(() => {
         axios
           .get(`${API_DUMMY}/customer/bill/` + param.id, {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -61,7 +61,22 @@ function EditTaagihanByMember() {
         } catch (err) {
           console.log(err);
         }
-      };
+      );
+      // alert("Success")
+      setShowEdit(false);
+      //   navigate("/lihattagihanmember/" + param.id)
+      Swal.fire({
+        icon: "success",
+        title: "Data berhasil diedit",
+        showConfirmButton: false,
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="card mb-3">
       {localStorage.getItem("type_token") === "customer" ? (

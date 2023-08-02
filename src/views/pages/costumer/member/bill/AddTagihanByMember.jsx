@@ -5,14 +5,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 function AddTagihanByMember() {
-    const [description, setDescription] = useState("");
-    const [amount, setAmount] = useState("");
-    const [periode, setPeriode] = useState("");
-    const [showAdd, setShowAdd] = useState(false);
-    const param = useParams();
-    let navigate = useNavigate();
-    const [role, setRole] = useState("");
-    
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [periode, setPeriode] = useState("");
+  const [showAdd, setShowAdd] = useState(false);
+  const param = useParams();
+  let navigate = useNavigate();
+  const [role, setRole] = useState("");
   const add = async (e) => {
     if (role === "customer") {
     e.preventDefault();
@@ -25,7 +24,7 @@ function AddTagihanByMember() {
     };
     try {
       await axios.post(
-        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill`,
+        `${API_DUMMY}/customer/member/${param.id}/bill`,
         data,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -71,6 +70,7 @@ function AddTagihanByMember() {
     const userRoleFromServer = "customer"; // Ganti dengan peran aktual dari data yang diterima
     setRole(userRoleFromServer);
   }, [])
+  
   return (
     <div className="card mb-3">
       {localStorage.getItem("type_token") === "customer" ? (
