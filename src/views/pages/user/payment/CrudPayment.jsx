@@ -21,6 +21,7 @@ function CrudPayment() {
   const [sortDirection, setSortDirection] = useState("asc");
 
   const getAll = async () => {
+    if (localStorage.getItem("type_token") === "user") {
     await axios
       .get(
         `${API_DUMMY}/user/payment?page=${currentPage}&limit=${limit}&name=${payment}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${search}`,
@@ -35,6 +36,21 @@ function CrudPayment() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   useEffect(() => {
@@ -143,6 +159,8 @@ function CrudPayment() {
   };
   return (
     <div>
+      {localStorage.getItem("type_token") === "user" ? (
+        <>
       <div className="row">
         <div className="col" xs={12}>
           <div className="card mb-4">
@@ -280,7 +298,10 @@ function CrudPayment() {
           </div>
         </div>
       </div>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

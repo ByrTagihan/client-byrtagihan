@@ -48,6 +48,7 @@ function LIstDataSIswa() {
   });
   const [searchTerm, setSearchTerm] = useState("");
   let navigate = useNavigate();
+  const [role, setRole] = useState("");
 
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -60,6 +61,7 @@ function LIstDataSIswa() {
   };
 
   const getAll = async () => {
+    if (role === "customer") {
     await axios
       .get(
         `${API_DUMMY}/customer/member?page=${currentPage}&limit=${limit}&filter=${searchTerm}`,
@@ -76,6 +78,20 @@ function LIstDataSIswa() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   const handleSearch = (event) => {
@@ -131,6 +147,7 @@ function LIstDataSIswa() {
 
   const [idd, setId] = useState(0);
   const getById = async (id) => {
+    if (role === "customer") {
     await axios
       .get(`${API_DUMMY}/customer/member/` + id, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -145,7 +162,26 @@ function LIstDataSIswa() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admmin',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
+
+  useEffect(() => {
+    const userRoleFromServer = "customer"; // Ganti dengan peran aktual dari data yang diterima
+    setRole(userRoleFromServer);
+  }, []);
 
   const put = async (e) => {
     e.preventDefault();
@@ -283,6 +319,8 @@ function LIstDataSIswa() {
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <div className="row">
         <div className="col" xs={12}>
           <div className="inputSearch1">
@@ -641,7 +679,10 @@ function LIstDataSIswa() {
           </Modal.Footer>
         </form>
       </Modal>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

@@ -19,8 +19,10 @@ function TambahCostumer() {
     const [active, setActive] = useState("");
     const [passwordIcon, setPasswordIcon] = useState("fa-solid fa-eye-slash");
     const [passwordType, setPasswordType] = useState("password");
+    let navigate = useNavigate();
 
     const add = async (e) => {
+        if (localStorage.getItem("type_token") === 'user') {
         e.preventDefault();
         e.persist();
 
@@ -51,6 +53,21 @@ function TambahCostumer() {
         } catch (error) {
             console.log(error);
         }
+            
+        } else {
+            Swal.fire(
+              'Peringatan',
+              'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+              'error'      
+            ).then((result) => {
+                //Untuk munuju page selanjutnya
+                navigate("/");
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1500);
+                localStorage.clear();
+            });
+          }
     };
 
     const togglePassword = () => {
@@ -65,6 +82,8 @@ function TambahCostumer() {
 
     return (
         <div>
+            {localStorage.getItem("type_token") === "user" ? (
+                <>
             <div className="card mb-3">
                 <div className="card-header bg-transparent">
                     <h5>Tambah Costumer</h5>
@@ -137,7 +156,10 @@ function TambahCostumer() {
                     </CForm>
                 </div>
             </div>
-        </div>
+        </>
+            ):(
+                <><p>Page Tidak Tersedia</p></>
+            )}</div>
     )
 }
 

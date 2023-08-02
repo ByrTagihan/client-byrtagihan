@@ -14,10 +14,11 @@ function EditTagihan() {
   const [suggestionsActive, setSuggestionsActive] = useState(false);
   const [value, setValue] = useState("");
   const { id } = useParams();
-
+  const [role, setRole] = useState("");
   let navigate = useNavigate();
 
   const updateTagihan = async (e) => {
+    if (role === "customer") {
     e.preventDefault();
     const req = {
       member_id: memberId,
@@ -44,6 +45,20 @@ function EditTagihan() {
       .catch((error) => {
         console.log(error);
       });
+    }else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   const handleChange = async (e) => {
@@ -164,8 +179,15 @@ function EditTagihan() {
       });
   }, []);
 
+  useEffect(() => {
+    const userRoleFromServer = "customer"; // Ganti dengan peran aktual dari data yang diterima
+    setRole(userRoleFromServer);
+  }, [])
+
   return (
     <div>
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <div className="card mb-3">
         <div className="card-header bg-transparent">Edit Tagihan</div>
         <div className="card-body">
@@ -233,7 +255,10 @@ function EditTagihan() {
           </form>
         </div>
       </div>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

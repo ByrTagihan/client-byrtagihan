@@ -26,13 +26,14 @@ import { CChartBar, CChartLine } from "@coreui/react-chartjs";
 import CIcon from "@coreui/icons-react";
 import { cilArrowBottom, cilOptions } from "@coreui/icons";
 import { API_DUMMY } from "../../utils/baseURL";
+`import Swal from "sweetalert2";
 
 function DashboardMember() {
   const [list, setList] = useState([]);
   const [recapBill, setRecapBill] = useState([]);
   const [recapTransaction, setRecapTransaction] = useState([]);
   const [memberChannel, setmemberChannel] = useState([]);
-
+  const [role, setRole] = useState("");
   const param = useParams();
   const [show, setShow] = useState(false);
   const [amount, setAmount] = useState("");
@@ -53,6 +54,7 @@ function DashboardMember() {
   // const [limitRecapTransaction, setLimitRecapTransaction] = useState("100");
 
   const getAll = async () => {
+    if (role === "member") {
     await axios
       .get(`${API_DUMMY}/member/bill?limit=10000`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -76,6 +78,20 @@ function DashboardMember() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   const getRecapBill = async () => {
@@ -162,6 +178,8 @@ function DashboardMember() {
     getMemberchannel(0);
     getRecapBill(0);
     getRecapTransaction(0);
+    const userRoleFromServer = "member"; // Ganti dengan peran aktual dari data yang diterima
+    setRole(userRoleFromServer);
   }, []);
 
   const [bill, setBill] = useState([]);
@@ -267,6 +285,8 @@ function DashboardMember() {
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "member" ? (
+        <>
       <CRow>
         <CCol sm={6} lg={3}>
           <CWidgetStatsA
@@ -629,26 +649,6 @@ function DashboardMember() {
         </CCol>
       </CRow>
 
-      {/* <CChartBar
-        style={{ marginTop: "5em" }}
-        type="doughnut"
-        data={{
-          labels: ["Member", "Channel", "Rekap Bill", "Rekap Transaction"],
-          datasets: [
-            {
-              label: "All Data",
-              backgroundColor: ["#0B666A"],
-              data: [
-                list.length,
-                memberChannel.length,
-                recapBill.length,
-                recapTransaction.length,
-              ],
-            },
-          ],
-        }}
-      /> */}
-
       <div
         style={{
           display: "flex",
@@ -796,7 +796,10 @@ function DashboardMember() {
           </CCard>
         </div>
       )}
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

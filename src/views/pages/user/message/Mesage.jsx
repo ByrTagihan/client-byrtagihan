@@ -4,6 +4,7 @@ import { CButton, CFormInput } from "@coreui/react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../../utils/baseURL";
+import { useNavigate } from "react-router-dom";
 
 function Mesage() {
   const [message, setMessage] = useState([]);
@@ -17,8 +18,10 @@ function Mesage() {
     direction: "ascending",
   });
   const [limit, setLimit] = useState(10);
+  let navigate = useNavigate();
 
   const getAll = async () => {
+    if (localStorage.getItem("type_token") === "user") {
     await axios
       .get(`${API_DUMMY}/user/message?page=${currentPage}&limit=${limit}`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -32,6 +35,21 @@ function Mesage() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   const handleSearch = (event) => {
@@ -124,6 +142,8 @@ function Mesage() {
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "user" ? (
+        <>
       <div className="row">
         <div className="col" xs={12}>
         <div className='inputSearch1'>
@@ -233,7 +253,10 @@ function Mesage() {
           </div>
         </div>
       </div>
-    </div>
+    </>
+      ):(
+        <></>
+      )}</div>
   );
 }
 

@@ -25,6 +25,7 @@ function Template() {
   const navigate = useNavigate();
 
   const getAll = async () => {
+    if (localStorage.getItem("type_token") === "user") {
     await axios
       .get(`${API_DUMMY}/user/template?page=${currentPage}&limit=${limit}`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -37,6 +38,21 @@ function Template() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   const handleSearch = (event) => {
@@ -180,6 +196,8 @@ function Template() {
   };
   return (
     <div className="row">
+      {localStorage.getItem("type_token") === "user" ? (
+        <>
       <div className="col" xs={12}>
         <div className="inputSearch1">
           <CFormInput
@@ -341,6 +359,10 @@ function Template() {
           </div>
         </div>
       </div>
+        </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}
     </div>
   );
 }

@@ -25,6 +25,7 @@ function TambahTransaction() {
   let navigate = useNavigate();
 
   const Post = async (e) => {
+    if (localStorage.getItem("type_token") === "user") {
     e.preventDefault();
     const data = {
       organization_id: organization_id,
@@ -50,6 +51,21 @@ function TambahTransaction() {
       .catch((error) => {
         console.log(error);
       });
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   const handleChange = async (e) => {

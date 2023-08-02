@@ -1,3 +1,4 @@
+
 import {
   CCard,
   CCardBody,
@@ -21,6 +22,7 @@ function TambahTagihanMember() {
   const [amount, setAmount] = useState("");
 
   const Add = async (e) => {
+    if (localStorage.getItem("typer_token") === "customer") {
     e.preventDefault();
     e.persist();
 
@@ -51,10 +53,27 @@ function TambahTagihanMember() {
     } catch (error) {
       console.log(error);
     }
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <CCard className="p-4">
         <CCardBody>
           <CForm onSubmit={Add}>
@@ -114,7 +133,10 @@ function TambahTagihanMember() {
           </CForm>
         </CCardBody>
       </CCard>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

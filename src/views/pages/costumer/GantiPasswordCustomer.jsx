@@ -26,6 +26,7 @@ const GantiPasswordCustomer = () => {
   const navigate = useNavigate();
 
   const Put = async (e) => {
+    if (localStorage.getItem("typer_token") === "customer") {
     e.preventDefault();
     e.persist();
 
@@ -63,10 +64,27 @@ const GantiPasswordCustomer = () => {
         timer: 1500,
       });
     }
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <div className="bg-light min-vh-99 d-flex flex-row align-items-center">
         <CContainer>
           <CRow className="justify-content-center">
@@ -137,7 +155,10 @@ const GantiPasswordCustomer = () => {
           </CRow>
         </CContainer>
       </div>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 };
 

@@ -29,6 +29,7 @@ function EditMember() {
     const navigate = useNavigate();
 
     const Put = async (e) => {
+        if (localStorage.getItem("type_token") === "user") {
         e.preventDefault();
         e.persist();
 
@@ -56,6 +57,21 @@ function EditMember() {
         } catch (error) {
             console.log(error);
         }
+            
+        } else {
+            Swal.fire(
+              'Peringatan',
+              'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+              'error'      
+            ).then((result) => {
+                //Untuk munuju page selanjutnya
+                navigate("/");
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1500);
+                localStorage.clear();
+            });
+          }
     };
 
     const get = async () => {
@@ -125,6 +141,8 @@ function EditMember() {
 
     return (
         <div>
+            {localStorage.getItem("type_token") === "user" ? (
+                <>
             <CCard>
                 <CCardBody>
                     <h4>Edit Data Siswa</h4>
@@ -216,7 +234,10 @@ function EditMember() {
 
                 </CCardBody>
             </CCard>
-        </div>
+        </>
+            ):(
+                <><p>Page Tidak Tersedia</p></>
+            )}</div>
     )
 }
 

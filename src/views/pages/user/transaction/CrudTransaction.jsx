@@ -25,6 +25,7 @@ function CrudTransaction() {
   const [sortDirection, setSortDirection] = useState("asc");
 
   const getAll = async () => {
+    if (localStorage.getItem("typer_token") === "user") {
     await axios
       .get(
         `${API_DUMMY}/user/transaction?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
@@ -39,6 +40,21 @@ function CrudTransaction() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   useEffect(() => {

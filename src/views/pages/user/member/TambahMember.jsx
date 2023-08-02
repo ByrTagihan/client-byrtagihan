@@ -30,6 +30,7 @@ function TambahMember() {
     const navigate = useNavigate();
 
     const addMember = async (e) => {
+        if (localStorage.getItem("type_token") === "user") {
         e.preventDefault();
 
         const data = {
@@ -71,6 +72,21 @@ function TambahMember() {
                 timer: 1500,
             });
         }
+            
+        } else {
+            Swal.fire(
+              'Peringatan',
+              'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+              'error'      
+            ).then((result) => {
+                //Untuk munuju page selanjutnya
+                navigate("/");
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1500);
+                localStorage.clear();
+            });
+          }
     };
 
     const GetOrganization = async () => {
@@ -118,6 +134,8 @@ function TambahMember() {
 
     return (
         <div>
+            {localStorage.getItem("type_token") === "user" ? (
+                <>
             <div className="card mb-3">
                 <div className="card-header bg-transparent">
                     <h5>Tambah member</h5>
@@ -208,7 +226,10 @@ function TambahMember() {
                     </CForm>
                 </div>
             </div>
-        </div >
+        </>
+            ):(
+                <><p>Page Tidak Tersedia</p></>
+            )}</div >
     )
 }
 

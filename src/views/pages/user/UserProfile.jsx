@@ -34,6 +34,7 @@ function UserProfile() {
   let navigate = useNavigate();
 
   useEffect(() => {
+    if (localStorage.getItem("type_token") === "user") {
     axios
       .get(`${API_DUMMY}/user/profile`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -51,6 +52,21 @@ function UserProfile() {
         const imageUrl = localStorage.getItem("profilePicture");
         setPicture(imageUrl);
       });
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   }, []);
 
   const [show, setShow] = useState(false);
@@ -105,6 +121,7 @@ function UserProfile() {
 
   return (
     <div className="allProfile">
+      {localStorage.getItem("type_token") == "user"}
       <div className="box1">
         <h4 className="textProfile">Profile User</h4>
 

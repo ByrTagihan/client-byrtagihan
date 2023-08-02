@@ -15,6 +15,7 @@ import axios from "axios";
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_DUMMY } from '../../../../utils/baseURL';
 import "../../../css/ListDataSiswa.css"
+import Swal from 'sweetalert2';
 
 function ListTagihan() {
     const [bill, setBill] = useState([]);
@@ -25,9 +26,11 @@ function ListTagihan() {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortBy, setSortBy] = useState('id');
     const navigate = useNavigate();
+    const [role, setRole] = useState("");
 
     // Function get
     const get = async () => {
+        if (role === "member") {
         try {
             const { data, status } = await axios.get(`${API_DUMMY}/member/bill`, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -37,7 +40,21 @@ function ListTagihan() {
             }
         } catch (err) {
             console.log(err);
-        }
+        } 
+        } else {
+            Swal.fire(
+              'Peringatan',
+              'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa',
+              'error'      
+            ).then((result) => {
+                //Untuk munuju page selanjutnya
+                navigate("/");
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1500);
+                localStorage.clear();
+            });
+          }
     };
 
     const handleSelectAll = () => {
@@ -87,10 +104,14 @@ function ListTagihan() {
 
     useEffect(() => {
         get();
+        const userRoleFromServer = "member"; // Ganti dengan peran aktual dari data yang diterima
+        setRole(userRoleFromServer);
     }, []);
 
     return (
         <div>
+            {localStorage.getItem("type_token") === "member" ? (
+                <>
             {bill.length === 0 ? (
                 <div className='text-center'>
                     <img src="https://www.pawoon.com/wp-content/uploads/2022/06/checklist-1.png" style={{ width: '6.75rem', height: '6.125rem' }} />
@@ -161,7 +182,10 @@ function ListTagihan() {
                     </CCard>
                 </div>
             )}
-        </div>
+        </>
+            ):(
+                <><p>Page Tidak Tersedia</p></>
+            )}</div>
     )
 }
 

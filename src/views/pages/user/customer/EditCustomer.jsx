@@ -19,6 +19,7 @@ function EditCustomer() {
   const navigate = useNavigate();
 
   const update = async (e) => {
+    if (localStorage.getItem("type_token") === "user") {
     e.preventDefault();
 
     const req = {
@@ -52,6 +53,21 @@ function EditCustomer() {
       .catch((error) => {
         console.log(error);
       });
+      
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   useEffect(() => {
@@ -194,6 +210,8 @@ function EditCustomer() {
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "user" ? (
+        <>
       <CCard>
         <CCardBody>
           <h4>Edit Data Costumer</h4>
@@ -255,83 +273,10 @@ function EditCustomer() {
           </CForm>
         </CCardBody>
       </CCard>
-      {/* <form onSubmit={update} onKeyDown={onKeyDown}>
-        <div>
-          <p
-            style={{
-              fontWeight: "bold",
-              fontSize: "25px",
-              marginBottom: "50px",
-            }}
-          >
-            Edit User/Customer
-          </p>
-        </div>
-        <div className="box">
-          <div>
-            <label className="form-label" style={{ fontWeight: "bold" }}>
-              Name :
-            </label>
-            <input
-              type="text"
-              className="form-control inputName"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div>
-            <label className="form-label" style={{ fontWeight: "bold" }}>
-              Address :
-            </label>
-            <input
-              type="text"
-              className="form-control inputAddress"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="box">
-          <div>
-            <label className="form-label" style={{ fontWeight: "bold" }}>
-              Hp :
-            </label>
-            <input
-              type="number"
-              value={hp}
-              onChange={(e) => setHp(e.target.value)}
-              className="form-control inputHp"
-            />
-          </div>
-        </div>
-        <div className="box">
-          <div>
-            <label className="form-label" style={{ fontWeight: "bold" }}>
-              Organization_id :
-            </label>
-            <CFormInput
-              type="text"
-              autoComplete="off"
-              value={value}
-              onKeyDown={handleKeyDown}
-              onChange={handleChange}
-              required
-            />
-            {suggestionsActive && <Suggestions />}
-          </div>
-        </div>
-        <button
-          type="submit"
-          style={{
-            marginTop: "49px",
-            backgroundColor: "#213555",
-            color: "white",
-          }}
-        >
-          Simpan
-        </button>
-      </form> */}
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 

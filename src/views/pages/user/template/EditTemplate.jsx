@@ -18,6 +18,7 @@ function EditTemplate() {
     const navigate = useNavigate();
 
     const Put = async (e) => {
+        if (localStorage.getItem("type_token") === "user") {
         e.preventDefault();
         e.persist();
 
@@ -44,6 +45,21 @@ function EditTemplate() {
         } catch (error) {
             console.log(error);
         }
+            
+        } else {
+            Swal.fire(
+              'Peringatan',
+              'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+              'error'      
+            ).then((result) => {
+                //Untuk munuju page selanjutnya
+                navigate("/");
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1500);
+                localStorage.clear();
+            });
+          }
     };
 
     const get = async () => {
@@ -73,6 +89,8 @@ function EditTemplate() {
 
     return (
         <div>
+            {localStorage.getItem("type_token") === "user" ? (
+                <>
             <CCard>
                 <CCardBody>
                     <h4>Edit Data Template</h4>
@@ -110,7 +128,10 @@ function EditTemplate() {
                     </CForm>
                 </CCardBody>
             </CCard>
-        </div>
+       </>
+            ):(
+                <></>
+            )} </div>
     )
 }
 

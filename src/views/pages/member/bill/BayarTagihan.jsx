@@ -38,8 +38,10 @@ function BayarTagihan() {
     va_number: "",
     descriptions: [],
   });
+  const [role, setRole] = useState("");
 
   const GetChannel = async () => {
+    if (role === "member") {
     try {
       const { data, status } = await axios.get(`${API_DUMMY}/member/channel`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -50,6 +52,20 @@ function BayarTagihan() {
       }
     } catch (err) {
       console.log(err);
+    }
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
     }
   };
 
@@ -107,10 +123,14 @@ function BayarTagihan() {
 
   useEffect(() => {
     GetChannel();
+    const userRoleFromServer = "member"; // Ganti dengan peran aktual dari data yang diterima
+    setRole(userRoleFromServer);
   }, []);
 
   return (
     <div className="mb-5">
+      {localStorage.getItem("type_token") === "member" ? (
+        <>
       {!showCard && (
         <CCard>
           <CListGroup flush>
@@ -230,7 +250,10 @@ function BayarTagihan() {
           </CListGroup>
         </CCard>
       )}
-    </div>
+   </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )} </div>
   );
 }
 

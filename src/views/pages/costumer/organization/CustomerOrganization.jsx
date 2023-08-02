@@ -15,6 +15,7 @@ import { AppSidebar } from "../../../../components";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { API_DUMMY } from "../../../../utils/baseURL";
+import { useNavigate } from "react-router-dom";
 
 function CustomerOrganization() {
   const [show, setShow] = useState(false);
@@ -32,7 +33,7 @@ function CustomerOrganization() {
   const [bank_account_number, setBank_account_number] = useState("");
   const [bank_account_name, setBank_account_name] = useState("");
   const [bank_name, setBank_name] = useState("");
-
+  let navigate = useNavigate();
   //  
   const [organization, setOrganization] = useState({
     // id: "",
@@ -48,6 +49,7 @@ function CustomerOrganization() {
   });
 
   const get = async () => {
+    if (localStorage.getItem("typer-token") === "customer") {
     await axios
       .get(`${API_DUMMY}/customer/organization`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -71,6 +73,20 @@ function CustomerOrganization() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
+    }
   };
 
   useEffect(() => {
@@ -118,6 +134,8 @@ function CustomerOrganization() {
 
   return (
     <div>
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <AppSidebar />
       <CCard className="mb-4">
         <CCardBody>
@@ -236,7 +254,10 @@ function CustomerOrganization() {
           </CForm>
         </CCardBody>
       </CCard>
-    </div>
+   </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )} </div>
   );
 }
 

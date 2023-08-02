@@ -1,4 +1,3 @@
-
 import { CCard, CCardHeader, CCardBody, CTable, CTableRow, CTableHead, CTableBody, CTableHeaderCell, CTableDataCell, CButton, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter, CFormLabel, CCol, CFormInput, CInputGroup, CForm, CFormSelect, CInputGroupText, } from '@coreui/react';
 import axios from 'axios';
 import React from 'react'
@@ -23,6 +22,7 @@ function Member() {
 
     // Function get
     const get = async () => {
+        if (localStorage.getItem("type_token") === "user") {
         try {
             const { data, status } = await axios.get(`${API_DUMMY}/user/member?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -36,6 +36,21 @@ function Member() {
         } catch (err) {
             alert("Terjadi Kesalahan" + err);
         }
+            
+        } else {
+            Swal.fire(
+              'Peringatan',
+              'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+              'error'      
+            ).then((result) => {
+                //Untuk munuju page selanjutnya
+                navigate("/");
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1500);
+                localStorage.clear();
+            });
+          }
     };
 
     const Delete = async (id) => {
@@ -149,6 +164,8 @@ function Member() {
 
     return (
         <div className='mb-5'>
+            {localStorage.getItem("type_token") === "user" ? (
+                <>
             <CCard>
                 <CCardHeader>
                     <div className='d-flex justify-content-between'>
@@ -251,23 +268,10 @@ function Member() {
                     </div>
                 </CCardBody>
             </CCard>
-
-            {/* Modal add
-            <CModal visible={visible}>
-                <CModalHeader onClose={() => setVisible(false)}>
-                    <CModalTitle>Tambah data siswa</CModalTitle>
-                </CModalHeader>
-                <CModalBody>
-                    
-                </CModalBody>
-                <CModalFooter>
-                    <CButton color="secondary" onClick={() => setVisible(false)}>
-                        Close
-                    </CButton>
-                    <CButton onClick={addMember}>Simpan</CButton>
-                </CModalFooter>
-            </CModal> */}
-        </div>
+       </>
+            ):(
+                <><p>Page Tidak Tersedia</p></>
+            )} </div>
     )
 }
 

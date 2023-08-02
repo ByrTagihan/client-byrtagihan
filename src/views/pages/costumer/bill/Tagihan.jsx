@@ -18,7 +18,6 @@ function Tagihan() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("id");
   const [sortDirection, setSortDirection] = useState("asc");
-
   const [visible, setVisible] = useState(false);
   const [paidId, setPaidId] = useState(0);
   const [paidDate, setPaidDate] = useState("");
@@ -31,6 +30,7 @@ function Tagihan() {
   }, [currentPage, limit, searchTerm, sortBy, sortDirection]);
 
   const fetchBills = async () => {
+    if (localStorage.getItem("type_token") === "customer") {
     try {
       const response = await fetch(
         `${API_DUMMY}/customer/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
@@ -45,6 +45,20 @@ function Tagihan() {
       setTotalPages(data.pagination.total_page);
     } catch (error) {
       console.error("Error fetching bills:", error);
+    }
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+        'error'      
+      ).then((result) => {
+          //Untuk munuju page selanjutnya
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+          localStorage.clear();
+      });
     }
   };
 
@@ -215,6 +229,8 @@ function Tagihan() {
   };
   return (
     <div>
+      {localStorage.getItem("type_token") === "customer" ? (
+        <>
       <div className="row">
         <div className="col" xs={12}>
         <div className="col inputSearch1">
@@ -440,7 +456,10 @@ function Tagihan() {
           </CModal>
         </div>
       </div>
-    </div>
+    </>
+      ):(
+        <><p>Page Tidak Tersedia</p></>
+      )}</div>
   );
 }
 
