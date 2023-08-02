@@ -291,16 +291,13 @@ function Customer() {
                     gap: "5px",
                   }}
                 >
-                  <div>
-
-                    <button
-                      onClick={() => setShow(true)}
-                      className="btn btn-primary"
-                    >
-                      <CIcon icon={cilPlus} /> Tambah
+                     <div className="col">
+                  <Link to="/tambahCustomer">
+                    <button className="btn btn-primary float-end">
+                    <CIcon icon={cilPlus}/> Tambah
                     </button>
-
-                  </div>
+                  </Link>
+                </div>
                 </div>
               </div>
             </div>
