@@ -21,6 +21,7 @@ import axios from "axios";
 import "./../../../views/css/Login.css";
 import Swal from "sweetalert2";
 import "../../../views/pages/login/Login.css"
+import { API_DUMMY } from "../../../utils/baseURL";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -48,7 +49,7 @@ const Login = () => {
     try {
       if (type_token === "admin Sekolah") {
         const { data, status } = await axios.post(
-          "${API_DUMMY}/customer/login",
+          `${API_DUMMY}/customer/login`,
           {
             email: email,
             password: password,
@@ -62,7 +63,6 @@ const Login = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-          // alert("Successfully logged in Customer");
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
@@ -73,7 +73,7 @@ const Login = () => {
         }
       } else if (type_token === "guru") {
         const { data, status } = await axios.post(
-          "${API_DUMMY}/user/login",
+          `${API_DUMMY}/user/login`,
           {
             email: email,
             password: password,
@@ -96,7 +96,7 @@ const Login = () => {
         }
       } else if (type_token === "siswa") {
         const { data, status } = await axios.post(
-          "${API_DUMMY}/member/login",
+          `${API_DUMMY}/member/login`,
           {
             unique_id: unique_id,
             password: password,
@@ -182,39 +182,6 @@ const Login = () => {
                   </div>
                 </div>
               </div>
-              {/* <label className="selector-item_label">
-        <input className="selector-item_radio"
-          name="toggle"
-          type="radio"
-          value="siswa"
-          checked={type_token === 'siswa'}
-          onChange={handleOptionChange}
-
-        />
-        Siswa
-      </label>
-      <label className="selector-item_label">
-        <input className="selector-item_radio"
-          name="toggle"
-          type="radio"
-          value="admin Sekolah"
-          checked={type_token === 'admin Sekolah'}
-          onChange={handleOptionChange}
-
-        />
-        Admin sekolah
-      </label>
-      <label className="selector-item_label">
-        <input className="selector-item_radio"
-          name="toggle"
-          type="radio"
-          value="guru"
-          checked={type_token === 'guru'}
-          onChange={handleOptionChange}
-
-        />
-        Guru
-      </label> */}
               {type_token === "guru" ? (
                 <>
                   <CInputGroup className="mb-3">
