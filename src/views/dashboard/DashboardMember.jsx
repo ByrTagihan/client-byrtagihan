@@ -26,7 +26,7 @@ import { CChartBar, CChartLine } from "@coreui/react-chartjs";
 import CIcon from "@coreui/icons-react";
 import { cilArrowBottom, cilOptions } from "@coreui/icons";
 import { API_DUMMY } from "../../utils/baseURL";
-`import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 
 function DashboardMember() {
   const [list, setList] = useState([]);
@@ -54,7 +54,7 @@ function DashboardMember() {
   // const [limitRecapTransaction, setLimitRecapTransaction] = useState("100");
 
   const getAll = async () => {
-    if (role === "member") {
+    if ( localStorage.getItem("type_token") === "member" ) {
     await axios
       .get(`${API_DUMMY}/member/bill?limit=10000`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -77,7 +77,7 @@ function DashboardMember() {
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
-      });
+      }); 
     } else {
       Swal.fire(
         'Peringatan',
