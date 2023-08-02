@@ -1,4 +1,5 @@
-import React from "react";
+import { cilAddressBook, cilTablet, cilUser } from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
 import {
   CButton,
   CCol,
@@ -8,70 +9,72 @@ import {
   CInputGroupText,
   CRow,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
-import { cilAddressBook, cilTablet, cilUser } from "@coreui/icons";
-import Swal from "sweetalert2";
-import { useState } from "react";
-import { useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import "../../../css/Profile.css";
+import axios from "axios";
 import { API_DUMMY } from "../../../utils/baseURL";
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-
   const [name, setName] = useState("");
   const [hp, setHp] = useState("");
   const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
   const [picture, setPicture] = useState("");
+  const [foto, setFoto] = useState("");
+  const imageUrl = localStorage.getItem("profilePicture");
   const [profile, setProfile] = useState({
+    id: "",
     email: "",
     name: "",
     hp: "",
     address: "",
     picture: "",
   });
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const get = async () => {
-    if (localStorage.getItem("type_token") === "customer") {
-    await axios
-      .get(`${API_DUMMY}/customer/profile`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        const profil = res.data.data;
-        setProfile(profil);
-        setHp(profil.hp);
-        setName(profil.name);
-        setAddress(profil.address);
-        setPicture(profile.picture);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
+  const add = async (e) => {
+    e.preventDefault();
+    e.persist();
+
+    const data = new FormData();
+    data.append("file", foto);
+
+    try {
+      await axios
+        .post(`${API_DUMMY}/files`, data, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        })
+        .then((response) => {
+          const imageUrl = response.data.data;
+          setProfile((prevProfile) => ({
+            ...prevProfile,
+            picture: imageUrl,
+          }));
+          setFoto(imageUrl);
+          console.log(localStorage.getItem("profilePicture"));
+
+          // Store the image URL in local storage
+          localStorage.setItem("profilePicture", imageUrl);
+        });
+      setShow(false);
+      Swal.fire({
+        icon: "success",
+        title: "Foto berhasil ditambahkan",
+        showConfirmButton: false,
+        timer: 1500,
       });
-      
-    } else {
-      Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
-        'error'      
-      ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
-      });
+      // console.log(data);
+      setTimeout(() => {
+        navigate("/customerProfile");
+        // window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.log(error);
     }
   };
-
-  useEffect(() => {
-    get(0);
-  }, []);
 
   const Put = async (e) => {
     e.preventDefault();
@@ -79,13 +82,8 @@ function Profile() {
 
     try {
       await axios.put(
-        `${API_DUMMY}/customer/profile`,
-        {
-          name: name,
-          hp: hp,
-          address: address,
-          picture: picture,
-        },
+        `${API_DUMMY}/customer/profile`, profile,
+        // console.log(picture),
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -96,7 +94,7 @@ function Profile() {
         title: "Tersimpan",
         showConfirmButton: false,
         timer: 1500,
-      }); 
+      });
       setTimeout(() => {
         window.location.reload();
       }, 1500);
@@ -105,37 +103,41 @@ function Profile() {
     }
   };
 
-  const [file, setFile] = useState("");
+  const get = async () => {
+    const imageUrl = localStorage.getItem("profilePicture");
 
-  const Post = async (e) => {
-    e.preventDefault();
-    const data = {
-      data: file,
-    };
+    setFoto(imageUrl);
+
     await axios
-      .put(`${API_DUMMY}/files`, data, {
-        headers: {
-          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-        },
+      .get(`${API_DUMMY}/customer/profile`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
-      .then(() => {
-        // navigate("/payment");
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Edit foto",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+      .then((res) => {
+        const profil = res.data.data;
+        setHp(profil.hp);
+        setName(profil.name);
+        setEmail(profil.email);
+        setAddress(profil.address);
+        setProfile({ ...profil, id: profil.id });
+        setPicture(profile.picture)
+        console.log(res.data.data);
+        console.log({ ...profil, id: profil.id });
+        const imageUrl = localStorage.getItem("profilePicture");
+        if (profil.profilePicture) {
+          setFoto(profil.profilePicture);
+        }
       })
       .catch((error) => {
-        console.log(error);
+        alert("Terjadi Kesalahan" + error);
       });
   };
 
+  useEffect(() => {
+    get();
+  }, []);
+
   return (
     <div className="allProfile">
-      {localStorage.getItem("type_token") === "customer" ? (
-        <>
       <div className="box1">
         <h4 className="textProfile">Profile Customer</h4>
 
@@ -147,8 +149,18 @@ function Profile() {
       <div className="box2">
         <h6 className="mb-2">Id : {profile.id}</h6>
         <h6 className="mb-3">
-          <CIcon icon={cilUser} /> Email : {profile.email}
+          <CIcon icon={cilUser} /> email : {profile.email}
         </h6>
+        <CForm onSubmit={add}>
+          <CInputGroup className="mb-3">
+            <CFormInput
+              autoComplete="picture"
+              onChange={(e) => setFoto(e.target.files[0])}
+              type="file"
+            />
+            <CButton type="submit">Post</CButton>
+          </CInputGroup>
+        </CForm>
         <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
@@ -185,19 +197,17 @@ function Profile() {
               value={address}
             />
           </CInputGroup>
-
-          {/* <CForm onSubmit={Post}> */}
-            <CInputGroup className="mb-3">
-              <CFormInput
-                autoComplete="picture"
-                placeholder="link picture"
-                onChange={(e) => setPicture(e.target.value)}
-                // value={file}
-                type="link"
-              />
-              {/* <button type="submit">Post</button> */}
-            </CInputGroup>
-          {/* </CForm> */}
+          {/* <CInputGroup className="mb-3">
+            <CInputGroupText>
+              <CIcon icon={cilAddressBook} />
+            </CInputGroupText>
+            <CFormInput
+              placeholder="Address"
+              autoComplete="address"
+              onChange={(e) => setPicture(e.target.value)}
+            // value={foto}
+            />
+          </CInputGroup> */}
 
           <CRow>
             <CCol xs={6}>
@@ -209,10 +219,7 @@ function Profile() {
           </CRow>
         </CForm>
       </div>
-    </>
-      ):(
-        <><p>Page Tidak Tersedia</p></>
-      )}</div>
+    </div>
   );
 }
 
