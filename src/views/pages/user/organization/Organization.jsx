@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
@@ -42,7 +43,6 @@ function Organization() {
   // };
 
   const getAll = async () => {
-    if (localStorage.getItem("type_token") === "user") {
     await axios
       .get(
         `${API_DUMMY}/user/organization?page=${currentPage}&limit=${limit}&name=${searchTerm}`,
@@ -59,21 +59,6 @@ function Organization() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
-      
-    } else {
-      Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-        'error'      
-      ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
-      });
-    }
   };
 
   useEffect(() => {
@@ -263,21 +248,23 @@ function Organization() {
                           {data.bank_account_name}
                         </td>
                         <td data-cell="Update Date">{data.bank_name}</td>
-                        <td data-cell="Action">
+                        <td data-cell="Action" className="tdd">
                           <button
+                          style={{background:"blue"}}
                             onClick={() =>
                               navigate(`/editOrganization/${data.id}`)
                             }
                             type="button"
-                            className="edit btn btn-primary me-2"
+                            className="edit1"
                           >
-                           <CIcon icon={cilPencil} />
+                           <CIcon icon={cilPencil} style={{color: "white"}} />
                           </button>
 
                           <button
+                          style={{background:"red"}}
                             onClick={() => Delete(data.id)}
                             type="button"
-                            className="hapus btn btn-danger me-2"
+                            className="edit1"
                           >
                           <CIcon icon={cilTrash} style={{color: "white"}}/>
                           </button>

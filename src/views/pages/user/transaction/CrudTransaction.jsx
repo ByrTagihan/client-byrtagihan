@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -25,7 +26,6 @@ function CrudTransaction() {
   const [sortDirection, setSortDirection] = useState("asc");
 
   const getAll = async () => {
-    if (localStorage.getItem("typer_token") === "user") {
     await axios
       .get(
         `${API_DUMMY}/user/transaction?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
@@ -40,21 +40,6 @@ function CrudTransaction() {
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
       });
-      
-    } else {
-      Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-        'error'      
-      ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
-      });
-    }
   };
 
   useEffect(() => {
@@ -257,18 +242,20 @@ function CrudTransaction() {
                         <td data-cell="Nominal">{item.amount}</td>
                         <td data-cell="Create Date">{item.created_date}</td>
                         <td data-cell="Update Date">{item.updated_date}</td>
-                        <td data-cell="Action">
+                        <td data-cell="Action" className="tdd">
 
                         <button
+                          style={{background:"blue"}}
                           type="button"
-                          className="edit btn btn-primary me-2"
+                          className="edit1"
                           onClick={() => navigate(`/editTransaction/${item.id}`)}
                         >
                           <CIcon icon={cilPencil} />
                         </button>
                         <button
+                          style={{background:"red"}}
                           type="button"
-                          className="hapus btn btn-danger me-2"
+                          className="edit1"
                           onClick={() =>
                             Delete(item.id)
                           }
