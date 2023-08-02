@@ -23,51 +23,71 @@ function MemberProfile() {
   const [address, setAddress] = useState("");
   const [unique_id, setUnique_id] = useState("");
   const [picture, setPicture] = useState("");
+  const [foto, setFoto] = useState("");
   const [profile, setProfile] = useState({
     id: "",
     unique_id: "",
     name: "",
     hp: "",
     address: "",
-    picture: picture,
+    picture: "",
   });
   const navigate = useNavigate();
+
+  const add = async (e) => {
+    e.preventDefault();
+    e.persist();
+
+    const data = new FormData();
+    data.append("file", foto);
+
+    try {
+      await axios
+        .post(`${API_DUMMY}/files`, data, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        })
+        .then((response) => {
+          const imageUrl = response.data.data;
+          setProfile((prevProfile) => ({
+            ...prevProfile,
+            picture: imageUrl,
+          }));
+          setFoto(imageUrl);
+          console.log(localStorage.getItem("profilePicture"));
+
+          // Store the image URL in local storage
+          localStorage.setItem("profilePicture", imageUrl);
+        });
+      setShow(false);
+      // navigate("/lihattagihanmember")
+      Swal.fire({
+        icon: "success",
+        title: "Foto berhasil ditambahkan",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      // console.log(data);
+      setTimeout(() => {
+        navigate("/memberProfile");
+        // window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const Put = async (e) => {
     e.preventDefault();
     e.persist();
 
-    const data = new FormData();
-    data.append("file", picture);
-
     try {
       await axios.put(
-        `${API_DUMMY}/member/profile`,
-        {
-          name: name,
-          hp: hp,
-          address: address,
-          picture: picture,
-        },
+        `${API_DUMMY}/member/profile`, profile,
+        // console.log(picture),
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
-      ),
-        await axios
-          .post(`${API_DUMMY}/files`, data, {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-          })
-          .then((response) => {
-            const imageUrl = response.data.data;
-            setProfile((prevProfile) => ({
-              ...prevProfile,
-              picture: imageUrl,
-            }));
-            setPicture(imageUrl);
-
-            // Store the image URL in local storage
-            localStorage.setItem("profilePicture", imageUrl);
-          });
+      );
       setShow(false);
       Swal.fire({
         icon: "success",
@@ -84,12 +104,6 @@ function MemberProfile() {
   };
 
   const get = async () => {
-    // Check if profilePicture exists in localStorage
-    const imageUrl = localStorage.getItem("profilePicture");
-
-    // Set the profile picture from localStorage to the picture state
-    setPicture(imageUrl);
-
     await axios
       .get(`${API_DUMMY}/member/profile`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -101,14 +115,12 @@ function MemberProfile() {
         setUnique_id(profil.unique_id);
         setAddress(profil.address);
         setProfile({ ...profil, id: profil.id });
+        setPicture(profile.picture)
         console.log(res.data.data);
-        console.log(res.data.data[0]);
         console.log({ ...profil, id: profil.id });
-        const imageUrl = localStorage.getItem("profilePicture");
-        // setPicture(imageUrl);
         // If profilePicture is available in the response, update the picture state
         if (profil.profilePicture) {
-          setPicture(profil.profilePicture);
+          setFoto(profil.profilePicture);
         }
       })
       .catch((error) => {
@@ -126,7 +138,7 @@ function MemberProfile() {
         <h4 className="textProfile">Profile Member</h4>
 
         <div style={{ padding: "10px" }}>
-          <img style={{ width: "20rem" }} src={picture} alt="" />
+          <img style={{ width: "20rem" }} src={profile.picture} alt="" />
         </div>
       </div>
 
@@ -135,15 +147,17 @@ function MemberProfile() {
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> unique_id : {profile.unique_id}
         </h6>
-        <CForm onSubmit={Put}>
+        <CForm onSubmit={add}>
           <CInputGroup className="mb-3">
             <CFormInput
               autoComplete="picture"
-              onChange={(e) => setPicture(e.target.files[0])}
+              onChange={(e) => setFoto(e.target.files[0])}
               type="file"
             />
-            {/* <CButton type="submit">Post</CButton> */}
+            <CButton type="submit">Post</CButton>
           </CInputGroup>
+        </CForm>
+        <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
               <CIcon icon={cilUser} />
