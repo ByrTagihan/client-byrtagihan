@@ -1,3 +1,4 @@
+
 import {
   cilBook,
   cilDescription,
@@ -16,6 +17,7 @@ import { Button, Modal } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../../../../../views/css/ListDataSiswa.css";
+import { API_DUMMY } from "../../../../../utils/baseURL";
 
 function LihatTagihanByMember() {
   const [list, setList] = useState([]);
@@ -45,37 +47,37 @@ function LihatTagihanByMember() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("id");
   let navigate = useNavigate();
-  const[role, setRole] = useState("");
+  const [role, setRole] = useState("");
 
   const getAll = async () => {
-    if (role === "customer") {
-    await axios
-      .get(
-        `${API_DUMMY}/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}&filter${searchTerm}`,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
-      .then((res) => {
-        setTotalPages(res.data.pagination.total_page);
-        setList(res.data.data);
-        console.log(res.data.data);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
+    if (localStorage.getItem("type_token") === "customer") {
+      await axios
+        .get(
+          `${API_DUMMY}/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}&filter${searchTerm}`,
+          {
+            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          }
+        )
+        .then((res) => {
+          setTotalPages(res.data.pagination.total_page);
+          setList(res.data.data);
+          console.log(res.data.data);
+        })
+        .catch((error) => {
+          alert("Terjadi Kesalahan" + error);
+        });
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
-        'error'      
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin",
+        "error"
       ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
       });
     }
   };
@@ -206,13 +208,9 @@ function LihatTagihanByMember() {
       cancelButtonText: "Cencel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(
-          `${API_DUMMY}/customer/member/${param.id}/bill/` +
-          id,
-          {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-          }
-        );
+        axios.delete(`${API_DUMMY}/customer/member/${param.id}/bill/` + id, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        });
         Swal.fire({
           icon: "success",
           title: "Dihapus!",
@@ -301,12 +299,9 @@ function LihatTagihanByMember() {
   const [idd1, setId1] = useState(0);
   const getByIdSudahByr = async (id) => {
     await axios
-      .get(
-        `${API_DUMMY}/customer/member/${param.id}/bill/` + id,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
+      .get(`${API_DUMMY}/customer/member/${param.id}/bill/` + id, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
       .then((res) => {
         setPaid_amount(res.data.data.paid_amount);
         console.log(res.data.data.paid_amount);
@@ -322,95 +317,100 @@ function LihatTagihanByMember() {
     <div>
       {localStorage.getItem("type_token") === "customer" ? (
         <>
-      <div className="row">
-        <div className="col" xs={12}>
-          <div className="inputSearch1">
-            <CFormInput
-              type="search"
-              style={{
-                marginBottom: "2px",
-                width: "20em",
-                marginRight: "14px",
-                marginTop: "1px",
-              }}
-              placeholder="search data"
-              value={searchTerm}
-              onChange={handleSearch}
-            />
-          </div>
-          <div className="inputSearch1">
-            <select
-              className="form-select"
-              value={limit}
-              onChange={handleChangeLimit}
-            >
-              <option value="1">Show 1 Entries</option>
-              <option value="10">Show 10 Entries</option>
-              <option value="100">Show 100 Entries</option>
-              {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-            </select>
-          </div>
-          <div className="card mb-4">
-            <div className="card-header">
-              <div style={{ display: "flex" }}>
-                <div className="col">
-                  <h4>Lihat Tagihan By Member</h4>
-                </div>
-                <div
+          <div className="row">
+            <div className="col" xs={12}>
+              <div className="inputSearch1">
+                <CFormInput
+                  type="search"
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: "10px",
+                    marginBottom: "2px",
+                    width: "20em",
+                    marginRight: "14px",
+                    marginTop: "1px",
                   }}
+                  placeholder="search data"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                />
+              </div>
+              <div className="inputSearch1">
+                <select
+                  className="form-select"
+                  value={limit}
+                  onChange={handleChangeLimit}
                 >
-                  <div className="col">
-                    <Link to="/addListTagihanByMember">
-                      <button className="btn btn-primary float-end">
-                        <CIcon icon={cilPlus} /> Tambah
-                      </button>
-                    </Link>
+                  <option value="1">Show 1 Entries</option>
+                  <option value="10">Show 10 Entries</option>
+                  <option value="100">Show 100 Entries</option>
+                  {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                </select>
+              </div>
+              <div className="card mb-4">
+                <div className="card-header">
+                  <div style={{ display: "flex" }}>
+                    <div className="col">
+                      <h4>Lihat Tagihan By Member</h4>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: "10px",
+                      }}
+                    >
+                      <div className="col">
+                        {/* <Link to="/addListTagihanByMember"> */}
+                        <button
+                          onClick={() => {
+                            navigate(`/addListTagihanByMember/${param.id}`);
+                          }}
+                          className="btn btn-primary float-end"
+                        >
+                          <CIcon icon={cilPlus} /> Tambah
+                        </button>
+                        {/* </Link> */}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="card-body table-container">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: "10px",
-                }}
-              >
-                <div className="inputSearch">
-                  <select
-                    className="form-select"
-                    value={limit}
-                    onChange={handleChangeLimit}
-                  >
-                    <option value="1">Show 1 Entries</option>
-                    <option value="10">Show 10 Entries</option>
-                    <option value="100">Show 100 Entries</option>
-                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-                  </select>
-                </div>
-                <div className="inputSearch">
-                  <CFormInput
-                    type="search"
+                <div className="card-body table-container">
+                  <div
                     style={{
-                      marginBottom: "2px",
-                      width: "20em",
-                      marginRight: "14px",
-                      marginTop: "1px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: "10px",
                     }}
-                    placeholder="search data"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                  />
-                </div>
-              </div>
-              <table className="table responsive-3 table1">
-                <thead>
-                  {/* <tr>
+                  >
+                    <div className="inputSearch">
+                      <select
+                        className="form-select"
+                        value={limit}
+                        onChange={handleChangeLimit}
+                      >
+                        <option value="1">Show 1 Entries</option>
+                        <option value="10">Show 10 Entries</option>
+                        <option value="100">Show 100 Entries</option>
+                        {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                      </select>
+                    </div>
+                    <div className="inputSearch">
+                      <CFormInput
+                        type="search"
+                        style={{
+                          marginBottom: "2px",
+                          width: "20em",
+                          marginRight: "14px",
+                          marginTop: "1px",
+                        }}
+                        placeholder="search data"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                      />
+                    </div>
+                  </div>
+                  <table className="table responsive-3 table1">
+                    <thead>
+                      {/* <tr>
                     <th scope="col">No</th>
                     <th scope="col">Keterangan</th>
                     <th scope="col">Periode</th>
@@ -418,202 +418,208 @@ function LihatTagihanByMember() {
                     <th scope="col">Tanggal Dibayar</th>
                     <th scope="col">Action</th>
                   </tr> */}
-                  <tr>
-                    <th scope="col" onClick={() => handleSort("no")}>
-                      No{" "}
-                      {sortConfig &&
-                        sortConfig.key === "no" &&
-                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("keterangan")}>
-                      Keterangan{" "}
-                      {sortConfig &&
-                        sortConfig.key === "keterangan" &&
-                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("periode")}>
-                      Periode{" "}
-                      {sortConfig &&
-                        sortConfig.key === "periode" &&
-                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("status")}>
-                      status{" "}
-                      {sortConfig &&
-                        sortConfig.key === "status" &&
-                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("nominal")}>
-                      nominal{" "}
-                      {sortConfig &&
-                        sortConfig.key === "nominal" &&
-                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
-                    </th>
-                    <th
-                      scope="col"
-                      onClick={() => handleSort("tanggal_dibayar")}
-                    >
-                      Tanggal Dibayar{" "}
-                      {sortConfig &&
-                        sortConfig.key === "tanggal_dibayar" &&
-                        (sortConfig.direction === "ascending" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sortedList.map((data, i) => (
-                    <tr key={i}>
-                      <td data-cell="No">{i + 1}</td>
-                      <td data-cell="Deskripsi">{data.description}</td>
-                      <td data-cell="Periode">{data.periode}</td>
-                      <td data-cell="Status">
-                        {" "}
-                        {data.paid_id != 0 ? (
-                          <span>Sudah Bayar</span>
-                        ) : (
-                          <span>Belum Bayar</span>
-                        )}
-                      </td>
-                      <td data-cell="Tanggal">{data.amount}</td>
-                      <td data-cell="Tanggal">{data.paid_date}</td>
-                      <td data-cell="Action" className="tdd">
-                        <button
-                          className="edit1"
-                          type="submit"
-                          onClick={() =>
-                            navigate(`/editTagihanByMember/${data.id}`)
-                          }
+                      <tr>
+                        <th scope="col" onClick={() => handleSort("no")}>
+                          No{" "}
+                          {sortConfig &&
+                            sortConfig.key === "no" &&
+                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                        </th>
+                        <th
+                          scope="col"
+                          onClick={() => handleSort("keterangan")}
                         >
-                          <a>
+                          Keterangan{" "}
+                          {sortConfig &&
+                            sortConfig.key === "keterangan" &&
+                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("periode")}>
+                          Periode{" "}
+                          {sortConfig &&
+                            sortConfig.key === "periode" &&
+                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("status")}>
+                          status{" "}
+                          {sortConfig &&
+                            sortConfig.key === "status" &&
+                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("nominal")}>
+                          nominal{" "}
+                          {sortConfig &&
+                            sortConfig.key === "nominal" &&
+                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                        </th>
+                        <th
+                          scope="col"
+                          onClick={() => handleSort("tanggal_dibayar")}
+                        >
+                          Tanggal Dibayar{" "}
+                          {sortConfig &&
+                            sortConfig.key === "tanggal_dibayar" &&
+                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sortedList.map((data, i) => (
+                        <tr key={i}>
+                          <td data-cell="No">{i + 1}</td>
+                          <td data-cell="Deskripsi">{data.description}</td>
+                          <td data-cell="Periode">{data.periode}</td>
+                          <td data-cell="Status">
                             {" "}
-                            <CIcon icon={cilPencil} />
-                          </a>{" "}
-                        </button>
-                        <button
-                          className="edit1"
-                          onClick={() => deleteData(data.id)}
-                          style={{ background: "red", color: "white" }}
-                        >
-                          <CIcon icon={cilTrash} />
-                        </button>
-                        {data.paid_id != 0 ? (
-                          <button
-                            className="edit1"
-                            type="submit"
-                            onClick={() => putUnpaid(data.id)}
-                            style={{ background: "red", color: "white" }}
-                          >
-                            Batal Bayar
-                          </button>
-                        ) : (
-                          <button
-                            className="edit1"
-                            onClick={() => {
-                              setShowEditSudahByr(true);
-                              setPaid_amount(data.amount)
-                              setPaid_id(data.id);
-                            }}
-                            style={{ background: "green", color: "white" }}
-                          >
-                            Bayar
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <ul class="pagination float-end">
-                <li
-                  className={
-                    "page-item " + (currentPage === 1 ? "disabled" : "")
-                  }
-                  disabled={currentPage === 1}
-                >
-                  <a
-                    class="page-link"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                  >
-                    Previous
-                  </a>
-                </li>
-                {renderPageNumbers()}
-                <li
-                  className={
-                    "page-item " +
-                    (currentPage === totalPages ? "disabled" : "")
-                  }
-                  disabled={currentPage === totalPages}
-                >
-                  <a
-                    class="page-link"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                  >
-                    Next
-                  </a>
-                </li>
-              </ul>
+                            {data.paid_id != 0 ? (
+                              <span>Sudah Bayar</span>
+                            ) : (
+                              <span>Belum Bayar</span>
+                            )}
+                          </td>
+                          <td data-cell="Tanggal">{data.amount}</td>
+                          <td data-cell="Tanggal">{data.paid_date}</td>
+                          <td data-cell="Action" className="tdd">
+                            <button
+                              className="edit1"
+                              type="submit"
+                              onClick={() =>
+                                navigate(`/editTagihanByMember/${data.id}`)
+                              }
+                            >
+                              <a>
+                                {" "}
+                                <CIcon icon={cilPencil} />
+                              </a>{" "}
+                            </button>
+                            <button
+                              className="edit1"
+                              onClick={() => deleteData(data.id)}
+                              style={{ background: "red", color: "white" }}
+                            >
+                              <CIcon icon={cilTrash} />
+                            </button>
+                            {data.paid_id != 0 ? (
+                              <button
+                                className="edit1"
+                                type="submit"
+                                onClick={() => putUnpaid(data.id)}
+                                style={{ background: "red", color: "white" }}
+                              >
+                                Batal Bayar
+                              </button>
+                            ) : (
+                              <button
+                                className="edit1"
+                                onClick={() => {
+                                  setShowEditSudahByr(true);
+                                  setPaid_amount(data.amount);
+                                  setPaid_id(data.id);
+                                }}
+                                style={{ background: "green", color: "white" }}
+                              >
+                                Bayar
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <ul class="pagination float-end">
+                    <li
+                      className={
+                        "page-item " + (currentPage === 1 ? "disabled" : "")
+                      }
+                      disabled={currentPage === 1}
+                    >
+                      <a
+                        class="page-link"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                      >
+                        Previous
+                      </a>
+                    </li>
+                    {renderPageNumbers()}
+                    <li
+                      className={
+                        "page-item " +
+                        (currentPage === totalPages ? "disabled" : "")
+                      }
+                      disabled={currentPage === totalPages}
+                    >
+                      <a
+                        class="page-link"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                      >
+                        Next
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <Modal show={showEditSudahByr} onHide={!showEditSudahByr}>
-        <form onSubmit={putSudahByr}>
-          <Modal.Header style={{ background: "#526D82" }}>
-            <Modal.Title style={{ color: "white" }}>
-              Modal Pembayaran
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body style={{ color: "black" }}>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              Paid Date :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-                <CIcon icon={cilBook} />
-              </CInputGroupText>
-              <CFormInput
-                placeholder="Paid Date"
-                autoComplete="Paid Date"
-                type="date"
-                value={paid_date}
-                onChange={(e) => setPaid_date(e.target.value)}
-              />
-            </CInputGroup>
-            <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
-              nominal :
-            </label>
-            <CInputGroup className="mb-3">
-              <CInputGroupText>
-                <CIcon icon={cilBook} />
-              </CInputGroupText>
-              <CFormInput
-                id="paid_amount"
-                type="number"
-                value={paid_amount}
-                disabled
-              />
-            </CInputGroup>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={() => setShowEditSudahByr(false)}
-            >
-              Close
-            </Button>
-            <Button variant="primary" type="submit">
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </form>
-      </Modal>
-    </>
-      ):(
-        <><p>Page Tidak Tersedia</p></>
-      )}</div>
+          <Modal show={showEditSudahByr} onHide={!showEditSudahByr}>
+            <form onSubmit={putSudahByr}>
+              <Modal.Header style={{ background: "#526D82" }}>
+                <Modal.Title style={{ color: "white" }}>
+                  Modal Pembayaran
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body style={{ color: "black" }}>
+                <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+                  Paid Date :
+                </label>
+                <CInputGroup className="mb-3">
+                  <CInputGroupText>
+                    <CIcon icon={cilBook} />
+                  </CInputGroupText>
+                  <CFormInput
+                    placeholder="Paid Date"
+                    autoComplete="Paid Date"
+                    type="date"
+                    value={paid_date}
+                    onChange={(e) => setPaid_date(e.target.value)}
+                  />
+                </CInputGroup>
+                <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
+                  nominal :
+                </label>
+                <CInputGroup className="mb-3">
+                  <CInputGroupText>
+                    <CIcon icon={cilBook} />
+                  </CInputGroupText>
+                  <CFormInput
+                    id="paid_amount"
+                    type="number"
+                    value={paid_amount}
+                    disabled
+                  />
+                </CInputGroup>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
+                  variant="secondary"
+                  onClick={() => setShowEditSudahByr(false)}
+                >
+                  Close
+                </Button>
+                <Button variant="primary" type="submit">
+                  Save Changes
+                </Button>
+              </Modal.Footer>
+            </form>
+          </Modal>
+        </>
+      ) : (
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}
+    </div>
   );
 }
 

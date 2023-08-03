@@ -148,7 +148,7 @@ function LIstDataSIswa() {
 
   const [idd, setId] = useState(0);
   const getById = async (id) => {
-    if (role === "customer") {
+    if (localStorage.getItem("type_token") === "customer") {
     await axios
       .get(`https://api.byrtagihan.com/api/customer/member/` + id, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },

@@ -1,4 +1,5 @@
 
+
 import React from "react";
 // import Login from './pages/Login'
 // import Register from './pages/Register'
@@ -225,7 +226,7 @@ const routes = [
   //Customer
   { path: "/dashboardCustomer", name: "Dashboard", element: Dashboard },
   { path: "/addListDataSiswa", name: "Tambah List Data Siswa", element: AddListDataSiswa },
-  { path: "/addListTagihanByMember", name: "Tambah List Tagihan By Member", element: AddListTagihanByMember },
+  { path: "/addListTagihanByMember/:id", name: "Tambah List Tagihan By Member", element: AddListTagihanByMember },
   { path: "/editTagihanByMember/:id", name: "Edit Tagihan By Member", element: EditTagihanByMember },
   { path: "/dashboardd", name: "Dashboard Customer", element: DashboardCustomer },
   { path: "/customerProfile", name: "Profile", element: Profile },
