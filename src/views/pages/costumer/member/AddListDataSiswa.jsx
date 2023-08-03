@@ -1,6 +1,6 @@
+
 import axios from 'axios';
 import React, { useState } from 'react'
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
@@ -12,10 +12,8 @@ function AddListDataSiswa() {
     const [password, setPassword] = useState("");
     const [show, setShow] = useState(false);
     let navigate = useNavigate();
-    const [role, setRole] = useState("");
 
     const add = async (e) => {
-      if (role === "customer") {
         e.preventDefault();
         e.persist();
     
@@ -28,7 +26,7 @@ function AddListDataSiswa() {
         };
         try {
           await axios.post(
-            `http://staging-api.byrtagihan.com/api/customer/member`,
+            `https://api.byrtagihan.com/api/customer/member`,
             data,
             {
               headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -49,26 +47,7 @@ function AddListDataSiswa() {
         } catch (error) {
           console.log(error);
         }
-      }else {
-        Swal.fire(
-          'Peringatan',
-          'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
-          'error'      
-        ).then((result) => {
-            //Untuk munuju page selanjutnya
-            navigate("/");
-            setTimeout(() => {
-              window.location.reload();
-            }, 1500);
-            localStorage.clear();
-        });
-      }
       };
-
-      useEffect(() => {
-        const userRoleFromServer = "customer"; // Ganti dengan peran aktual dari data yang diterima
-        setRole(userRoleFromServer);
-      }, [])
   return (
     <div className="card mb-3">
       {localStorage.getItem("type_token") === "customer" ? (

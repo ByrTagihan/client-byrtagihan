@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState } from "react";
 import gambar from "../../../assets/images/byrtagihan1.png";
 import { Form, Link, useNavigate } from "react-router-dom";
@@ -21,7 +22,6 @@ import axios from "axios";
 import "./../../../views/css/Login.css";
 import Swal from "sweetalert2";
 import "../../../views/pages/login/Login.css"
-import { API_DUMMY } from "../../../utils/baseURL";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -49,7 +49,7 @@ const Login = () => {
     try {
       if (type_token === "admin Sekolah") {
         const { data, status } = await axios.post(
-          `${API_DUMMY}/customer/login`,
+          "https://api.byrtagihan.com/api/customer/login",
           {
             email: email,
             password: password,
@@ -59,10 +59,11 @@ const Login = () => {
         if (status === 200) {
           Swal.fire({
             icon: "success",
-            title: "Berhasil Login Sebagai Customer",
+            title:  "Berhasil Login Sebagai Customer",
             showConfirmButton: false,
             timer: 1500,
           });
+          // alert("Successfully logged in Customer");
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
@@ -73,7 +74,7 @@ const Login = () => {
         }
       } else if (type_token === "guru") {
         const { data, status } = await axios.post(
-          `${API_DUMMY}/user/login`,
+          "https://api.byrtagihan.com/api/user/login",
           {
             email: email,
             password: password,
@@ -96,7 +97,7 @@ const Login = () => {
         }
       } else if (type_token === "siswa") {
         const { data, status } = await axios.post(
-          `${API_DUMMY}/member/login`,
+          "https://api.byrtagihan.com/api/member/login",
           {
             unique_id: unique_id,
             password: password,
@@ -128,7 +129,7 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
+   useEffect(() => {
     setUnique_id(""); // Reset unique_id when type_token changes
   }, [type_token]);
 
@@ -165,23 +166,56 @@ const Login = () => {
               >
                 Masuk ke akun anda
               </p>
-              <div class="container1">
-                <div class="selector">
-                  <div class="selector-item">
-                    <input type="radio" id="radio1" name="selector" class="selector-item_radio"
-                      checked={type_token === 'siswa'} value="siswa" onChange={handleOptionChange} />
-                    <label for="radio1" class="selector-item_label">Siswa</label>
-                  </div>
-                  <div class="selector-item">
-                    <input type="radio" id="radio2" name="selector" class="selector-item_radio" checked={type_token === 'admin Sekolah'} value="admin Sekolah" onChange={handleOptionChange} />
-                    <label for="radio2" class="selector-item_label">Admin</label>
-                  </div>
-                  <div class="selector-item">
-                    <input type="radio" id="radio3" name="selector" class="selector-item_radio" onChange={handleOptionChange} checked={type_token === 'guru'} value="guru" />
-                    <label for="radio3" class="selector-item_label">Guru</label>
-                  </div>
-                </div>
-              </div>
+                    <div class="container1">
+    <div class="selector">
+        <div class="selector-item">
+            <input type="radio" id="radio1" name="selector" class="selector-item_radio" 
+          checked={type_token === 'siswa'} value="siswa" onChange={handleOptionChange}/>
+            <label for="radio1" class="selector-item_label">Siswa</label>
+        </div>
+        <div class="selector-item">
+            <input type="radio" id="radio2" name="selector" class="selector-item_radio" checked={type_token === 'admin Sekolah'} value="admin Sekolah" onChange={handleOptionChange}/>
+            <label for="radio2" class="selector-item_label">Admin</label>
+        </div>
+        <div class="selector-item">
+            <input type="radio" id="radio3" name="selector" class="selector-item_radio" onChange={handleOptionChange} checked={type_token === 'guru'} value="guru"/>
+            <label for="radio3" class="selector-item_label">Guru</label>
+        </div>
+    </div>
+</div>
+      {/* <label className="selector-item_label">
+        <input className="selector-item_radio"
+          name="toggle"
+          type="radio"
+          value="siswa"
+          checked={type_token === 'siswa'}
+          onChange={handleOptionChange}
+
+        />
+        Siswa
+      </label>
+      <label className="selector-item_label">
+        <input className="selector-item_radio"
+          name="toggle"
+          type="radio"
+          value="admin Sekolah"
+          checked={type_token === 'admin Sekolah'}
+          onChange={handleOptionChange}
+
+        />
+        Admin sekolah
+      </label>
+      <label className="selector-item_label">
+        <input className="selector-item_radio"
+          name="toggle"
+          type="radio"
+          value="guru"
+          checked={type_token === 'guru'}
+          onChange={handleOptionChange}
+
+        />
+        Guru
+      </label> */}
               {type_token === "guru" ? (
                 <>
                   <CInputGroup className="mb-3">
@@ -242,18 +276,19 @@ const Login = () => {
                 />
               </CInputGroup>
               <CRow>
-                <CButton
-                  color="link"
-                  style={{
-                    marginTop: "-20px",
-                    marginLeft: "33.5%",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <a href="/#/reset"> Forgot password</a>
-                </CButton>
+                    <CButton
+                      color="link"
+                      style={{
+                        marginTop: "-20px",
+                        marginLeft: "33.5%",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <a href="/#/reset"> Forgot password</a>
+                    </CButton>
                 <CCol xs={6}>
                   <button
+                  type="button"
                     className="px-4"
                     onClick={login}
                     style={{

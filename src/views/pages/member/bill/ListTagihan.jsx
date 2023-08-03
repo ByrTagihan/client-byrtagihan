@@ -30,7 +30,7 @@ function ListTagihan() {
 
     // Function get
     const get = async () => {
-        if (role === "member") {
+        if (localStorage.getItem("type_token") === "member") {
         try {
             const { data, status } = await axios.get(`${API_DUMMY}/member/bill`, {
                 headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },

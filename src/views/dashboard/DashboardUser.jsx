@@ -1,3 +1,4 @@
+
 import {
   cilArrowBottom,
   cilArrowThickTop,
@@ -975,7 +976,7 @@ function DashboardUser() {
                         <td data-cell="Create Date">{item.created_date}</td>
                         <td data-cell="Update Date">{item.updated_date}</td>
 
-                        <td data-cell="Action">
+                        <td data-cell="Action" className="tdd">
                           <button
                             onClick={() =>
                               navigate(`/editTransaction/${item.id}`)

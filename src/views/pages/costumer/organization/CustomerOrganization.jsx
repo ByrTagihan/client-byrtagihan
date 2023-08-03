@@ -49,7 +49,7 @@ function CustomerOrganization() {
   });
 
   const get = async () => {
-    if (localStorage.getItem("typer-token") === "customer") {
+    if (localStorage.getItem("type_token") === "customer") {
     await axios
       .get(`${API_DUMMY}/customer/organization`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },

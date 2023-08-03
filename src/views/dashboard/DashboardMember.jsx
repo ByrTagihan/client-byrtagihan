@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../css/DashboardMember.css";
@@ -54,7 +55,7 @@ function DashboardMember() {
   // const [limitRecapTransaction, setLimitRecapTransaction] = useState("100");
 
   const getAll = async () => {
-    if ( localStorage.getItem("type_token") === "member" ) {
+    if (localStorage.getItem("type_token") === "member") {
     await axios
       .get(`${API_DUMMY}/member/bill?limit=10000`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -77,7 +78,7 @@ function DashboardMember() {
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
-      }); 
+      });
     } else {
       Swal.fire(
         'Peringatan',

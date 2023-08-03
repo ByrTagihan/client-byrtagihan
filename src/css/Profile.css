@@ -51,6 +51,12 @@
     margin-left: 9.5rem;
     margin-top: 10px;
 }
+.gambar {
+    padding: 10px;
+}
+img {
+    width: 20rem;
+}
 @media (max-width: 991px) {
     .allProfile {
         display: block;

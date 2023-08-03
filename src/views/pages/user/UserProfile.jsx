@@ -1,3 +1,4 @@
+
 import { cilAddressBook, cilTablet, cilUser } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import {
@@ -28,15 +29,31 @@ function UserProfile() {
     name: "",
     hp: "",
     address: "",
-    picture: picture,
+    picture: "",
   });
   const [showAdd, setShowAdd] = useState(false);
   let navigate = useNavigate();
 
+  const getAll = async () => {
+    await axios
+      .get("https://api.byrtagihan.com/api/user/profile" , {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
+      .then((res) => {
+        setProfile(res.data.data[0]);
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
+      });
+  };
+
   useEffect(() => {
-    if (localStorage.getItem("type_token") === "user") {
+    getAll(0)
+  },[])
+
+  useEffect(() => {
     axios
-      .get(`${API_DUMMY}/user/profile`, {
+      .get(`https://api.byrtagihan.com/api/user/profile`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((response) => {
@@ -50,23 +67,8 @@ function UserProfile() {
         console.log(response.data.data[0]);
         console.log({ ...profil, id: profil.id });
         const imageUrl = localStorage.getItem("profilePicture");
-        setPicture(imageUrl);
+        setPicture(profile.picture);
       });
-      
-    } else {
-      Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-        'error'      
-      ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
-      });
-    }
   }, []);
 
   const [show, setShow] = useState(false);
@@ -91,18 +93,13 @@ function UserProfile() {
         }
       ),
         await axios
-          .post(`${API_DUMMY}/files`, data, {
+          .post(`https://api.byrtagihan.com/api/files`, data, {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
           })
           .then((response) => {
             const imageUrl = response.data.data;
-            setProfile((prevProfile) => ({
-              ...prevProfile,
-              picture: imageUrl,
-            }));
             setPicture(imageUrl);
-
-            localStorage.setItem("profilePicture", imageUrl);
+            console.log(response.data.data);
           });
       setShow(false);
       Swal.fire({
@@ -126,7 +123,7 @@ function UserProfile() {
         <h4 className="textProfile">Profile User</h4>
 
         <div style={{ padding: "10px" }}>
-          <img style={{ width: "20rem" }} src={picture} alt="" />
+          <img style={{ width: "20rem" }} src={profile.picture} alt="" />
         </div>
       </div>
 
