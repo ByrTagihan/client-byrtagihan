@@ -25,12 +25,7 @@ function BayarSemuaTagihan() {
     const [channel_id, setChannel_id] = useState("")
     const [visible, setVisible] = useState(false)
     const [showCard, setShowCard] = useState(false);
-    const { id } = useParams();
     const navigate = useNavigate();
-    const [amount, setAmount] = useState("");
-    const [va_expired_date, setVa_expired_date] = useState("");
-    const [channel_name, setChannel_name] = useState("");
-    const [va_number, setVa_number] = useState("");
     const [bayar, setBayar] = useState({
         amount: "",
         va_expired_date: "",
@@ -39,34 +34,36 @@ function BayarSemuaTagihan() {
     });
     const [role, setRole] = useState('');
 
+    // function get channel
     const GetChannel = async () => {
-        if (role === "member") {
-        try {
-            const { data, status } = await axios.get(`${API_DUMMY}/member/channel`, {
-                headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-            })
-            if (status === 200) {
-                setChannel(data.data);
+        if (localStorage.getItem("type_token") === "member") {
+            try {
+                const { data, status } = await axios.get(`${API_DUMMY}/member/channel`, {
+                    headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+                })
+                if (status === 200) {
+                    setChannel(data.data);
+                }
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
-        }  
         } else {
             Swal.fire(
-              'Peringatan',
-              'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa',
-              'error'      
+                'Peringatan',
+                'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa',
+                'error'
             ).then((result) => {
                 //Untuk munuju page selanjutnya
                 navigate("/");
                 setTimeout(() => {
-                  window.location.reload();
+                    window.location.reload();
                 }, 1500);
                 localStorage.clear();
             });
-          }
+        }
     };
 
+    // function bayar
     const bayarTagihan = async (e) => {
         e.preventDefault();
         e.persist();
@@ -92,6 +89,7 @@ function BayarSemuaTagihan() {
                     setVa_expired_date(byr.va_expired_date);
                     setChannel_name(byr.channel_name);
                     setVa_number(byr.va_number);
+                    setShowCard(true); // Menampilkan card
                 })
                 .catch((error) => {
                     console.log(error);
@@ -111,6 +109,8 @@ function BayarSemuaTagihan() {
                     }
                 });
 
+            // Jika terjadi error, atur state bayar dengan objek kosong
+            setBayar({});
             setShowCard(true); // Menampilkan card
             setVisible(false); // Menyembunyikan modal
         } catch (error) {
@@ -130,78 +130,81 @@ function BayarSemuaTagihan() {
         <div className='mb-5'>
             {localStorage.getItem("type_token") === "member" ? (
                 <>
-            {!showCard && (
-                <CCard>
-                    <CListGroup flush>
-                        <CListGroupItem>
-                            <b>Metode pembayaran</b>
-                        </CListGroupItem>
-                        <CListGroupItem>
-                            <CFormSelect
-                                aria-label="Default select example"
-                                value={channel_id} onChange={(e) =>
-                                    setChannel_id(e.target.value.toString())
-                                }>
+                    {!showCard && (
+                        <CCard>
+                            <CListGroup flush>
+                                <CListGroupItem>
+                                    <b>Metode pembayaran</b>
+                                </CListGroupItem>
+                                <CListGroupItem>
+                                    <CFormSelect
+                                        aria-label="Default select example"
+                                        value={channel_id} onChange={(e) =>
+                                            setChannel_id(e.target.value.toString())
+                                        }>
 
-                                <option>Pilih metode pembayaran</option>
-                                {channel.map((chan, i) => {
-                                    return (
-                                        <option value={chan.id} key={i}>{chan.name}</option>
-                                    )
-                                })}
-                            </CFormSelect>
-                        </CListGroupItem>
-                        <CListGroupItem className='d-flex justify-content-end'>
-                            <CButton color="danger" className='me-2' onClick={() => navigate(`/listTagihanMember`)}>Kembali</CButton>
-                            <CButton color="primary" onClick={bayarTagihan}>Konfirmasi</CButton>
-                        </CListGroupItem>
-                    </CListGroup>
-                </CCard>
-            )}
-            {showCard && (
-                <CCard>
-                    <CListGroup flush>
-                        <CListGroupItem>
-                            <h3>Pembayaran</h3>
-                        </CListGroupItem>
-                        <CListGroupItem>
-                            <p>Rincian: </p>
-                            {bayar.descriptions.map((desc, index) => (
-                                <ul key={index} className="ms-5">
-                                    <div className='d-flex justify-content-between'>
-                                        <ul>
-                                            <li>{desc.description}:</li>
+                                        <option>Pilih metode pembayaran</option>
+                                        {channel.map((chan, i) => {
+                                            return (
+                                                <option value={chan.id} key={i}>{chan.name}</option>
+                                            )
+                                        })}
+                                    </CFormSelect>
+                                </CListGroupItem>
+                                <CListGroupItem className='d-flex justify-content-end'>
+                                    <CButton color="danger" className='me-2' onClick={() => navigate(`/listTagihanMember`)}>Kembali</CButton>
+                                    <CButton color="primary" onClick={bayarTagihan}>Konfirmasi</CButton>
+                                </CListGroupItem>
+                            </CListGroup>
+                        </CCard>
+                    )}
+                    {showCard && (
+                        <CCard>
+                            <CListGroup flush>
+                                <CListGroupItem>
+                                    <h3>Pembayaran</h3>
+                                </CListGroupItem>
+                                <CListGroupItem>
+                                    <p>Rincian: </p>
+                                    {bayar.descriptions && bayar.descriptions.length > 0 && ((desc, index) => (
+                                        <ul key={index} className="ms-5">
+                                            <div className='d-flex justify-content-between'>
+                                                <ul>
+                                                    <li>{desc.description}:</li>
+                                                </ul>
+                                                <div>
+                                                    <p className='text-end'><b className='text-primary'>Rp.{desc.amount}</b></p>
+                                                </div>
+                                            </div>
                                         </ul>
-                                        <div>
-                                            <p className='text-end'><b className='text-primary'>Rp.{desc.amount}</b></p>
-                                        </div>
-                                    </div>
-                                </ul>
-                            ))}
-                        </CListGroupItem>
-                        <CListGroupItem className='d-flex justify-content-between'><p>Total pembayaran: </p><b className='text-primary'>Rp.{bayar.descriptions.reduce((total, item) => total + item.amount, 0)}</b></CListGroupItem>
-                        <CListGroupItem className='d-flex justify-content-between'><p>Jatuh tempo pada: </p><b className='text-primary'>{bayar.va_expired_date ? new Date(bayar.va_expired_date).toISOString().slice(0, -5) : ''}</b></CListGroupItem>
-                        <CListGroupItem>
-                            <div className='d-flex justify-content-between'><p>Bank: </p><b className='text-primary'>{bayar.channel_name}</b></div>
-                            <div className='d-flex justify-content-between'><p>NO.Rekening: </p><b className='text-primary'>{bayar.va_number}</b></div>
-                        </CListGroupItem>
-                        <CAccordion flush>
-                            <CAccordionItem itemKey={1}>
-                                <CAccordionHeader><p>Petunjuk Transfer</p></CAccordionHeader>
-                                <CAccordionBody>
-                                    <p>1. Pilih Transfer Virtual Account Billing.</p>
-                                    <p>2. Pilih Rekening Debet lalu masukkan nomor Virtual Account <b className='text-primary'>{bayar.va_number}</b>.</p>
-                                    <p>3. Tagihan yang harus dibayar akan muncul konfirmasi.</p>
-                                    <p>4. Periksa informasi yang tertera dilayar. Pastikan Merchant adalah byrtagihan. Total tagihan sudah benar?. Jika benar, masukan password transaksi dan pilih lanjut</p>
-                                </CAccordionBody>
-                            </CAccordionItem>
-                        </CAccordion>
-                        <CListGroupItem className='text-center'><CButton className='gap-2 col-4 mx-auto' onClick={() => navigate(`/listTagihanMember`)}>Oke</CButton></CListGroupItem>
-                    </CListGroup>
-                </CCard>
-            )}
-        </>
-            ):(
+                                    ))}
+                                </CListGroupItem>
+                                <CListGroupItem className='d-flex justify-content-between'><p>Total pembayaran: </p><b className='text-primary'>
+                                    Rp.{bayar.descriptions && bayar.descriptions.length > 0 ?
+                                        bayar.descriptions.reduce((total, item) => total + item.amount, 0) : 0}
+                                </b></CListGroupItem>
+                                <CListGroupItem className='d-flex justify-content-between'><p>Jatuh tempo pada: </p><b className='text-primary'>{bayar.va_expired_date ? new Date(bayar.va_expired_date).toISOString().slice(0, -5) : ''}</b></CListGroupItem>
+                                <CListGroupItem>
+                                    <div className='d-flex justify-content-between'><p>Bank: </p><b className='text-primary'>{bayar.channel_name}</b></div>
+                                    <div className='d-flex justify-content-between'><p>NO.Rekening: </p><b className='text-primary'>{bayar.va_number}</b></div>
+                                </CListGroupItem>
+                                <CAccordion flush>
+                                    <CAccordionItem itemKey={1}>
+                                        <CAccordionHeader><p>Petunjuk Transfer</p></CAccordionHeader>
+                                        <CAccordionBody>
+                                            <p>1. Pilih Transfer Virtual Account Billing.</p>
+                                            <p>2. Pilih Rekening Debet lalu masukkan nomor Virtual Account <b className='text-primary'>{bayar.va_number}</b>.</p>
+                                            <p>3. Tagihan yang harus dibayar akan muncul konfirmasi.</p>
+                                            <p>4. Periksa informasi yang tertera dilayar. Pastikan Merchant adalah byrtagihan. Total tagihan sudah benar?. Jika benar, masukan password transaksi dan pilih lanjut</p>
+                                        </CAccordionBody>
+                                    </CAccordionItem>
+                                </CAccordion>
+                                <CListGroupItem className='text-center'><CButton className='gap-2 col-4 mx-auto' onClick={() => navigate(`/listTagihanMember`)}>Oke</CButton></CListGroupItem>
+                            </CListGroup>
+                        </CCard>
+                    )}
+                </>
+            ) : (
                 <><p>Page Tidak Tersedia</p></>
             )}</div>
     )

@@ -31,32 +31,33 @@ function ListTagihan() {
     // Function get
     const get = async () => {
         if (localStorage.getItem("type_token") === "member") {
-        try {
-            const { data, status } = await axios.get(`${API_DUMMY}/member/bill`, {
-                headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-            })
-            if (status === 200) {
-                setBill(data.data);
+            try {
+                const { data, status } = await axios.get(`${API_DUMMY}/member/bill`, {
+                    headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+                })
+                if (status === 200) {
+                    setBill(data.data);
+                }
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
-        } 
         } else {
             Swal.fire(
-              'Peringatan',
-              'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa',
-              'error'      
+                'Peringatan',
+                'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa',
+                'error'
             ).then((result) => {
                 //Untuk munuju page selanjutnya
                 navigate("/");
                 setTimeout(() => {
-                  window.location.reload();
+                    window.location.reload();
                 }, 1500);
                 localStorage.clear();
             });
-          }
+        }
     };
 
+    // function select all
     const handleSelectAll = () => {
         if (selectAll) {
             setSelectedBills([]);
@@ -66,16 +67,18 @@ function ListTagihan() {
         setSelectAll(!selectAll);
     };
 
-    const handleSearch = (event) => {
-        setSearchTerm(event.target.value);
-    };
-
-    const handleSort = (event) => {
-        setSortBy(event.target.value);
-    };
-
+    // function page change
     const handlePageChange = (page) => {
         setCurrentPage(page);
+    };
+
+    // function lunas
+    const handleLunas = () => {
+        Swal.fire({
+            title: 'Informasi',
+            text: 'Tagihan sudah lunas',
+            icon: 'info',
+        });
     };
 
     const filteredBills = bill.filter((bill) =>
@@ -112,78 +115,96 @@ function ListTagihan() {
         <div>
             {localStorage.getItem("type_token") === "member" ? (
                 <>
-            {bill.length === 0 ? (
-                <div className='text-center'>
-                    <img src="https://www.pawoon.com/wp-content/uploads/2022/06/checklist-1.png" style={{ width: '6.75rem', height: '6.125rem' }} />
-                    <p>Tidak ada tagihan untuk saat ini</p>
-                    <CButton to="/home">silahkan kembali ke beranda</CButton>
-                </div>
-            ) : (
-                <div>
-                    <CCard className='mb-5'>
-                        <CCardBody>
-                            <CTable className="table table1 responsive-3">
-                                <CTableHead>
-                                    <CTableRow>
-                                        <CTableHeaderCell scope="col">
-                                            <CFormCheck id="flexCheckDefault" onChange={handleSelectAll} checked={selectAll} />
-                                        </CTableHeaderCell>
-                                        <CTableHeaderCell scope="col">Id</CTableHeaderCell>
-                                        <CTableHeaderCell scope="col">Keterangan</CTableHeaderCell>
-                                        <CTableHeaderCell scope="col">Periode</CTableHeaderCell>
-                                        <CTableHeaderCell scope="col">Nominal</CTableHeaderCell>
-                                        <CTableHeaderCell scope="col">Status</CTableHeaderCell>
-                                        <CTableHeaderCell scope="col">Tanggal dibayar</CTableHeaderCell>
-                                        <CTableHeaderCell scope="col">Nominal dibayar</CTableHeaderCell>
-                                        <CTableHeaderCell scope="col">Action</CTableHeaderCell>
-                                    </CTableRow>
-                                </CTableHead>
-                                <CTableBody>
-                                    {bill.map((bil, index) => {
-                                        return (
-                                            <CTableRow key={index}>
-                                                <CTableHeaderCell scope="row">
+                    {bill.length === 0 ? (
+                        <div className='text-center'>
+                            <img src="https://www.pawoon.com/wp-content/uploads/2022/06/checklist-1.png" style={{ width: '6.75rem', height: '6.125rem' }} />
+                            <p>Tidak ada tagihan untuk saat ini</p>
+                            <CButton to="/home">silahkan kembali ke beranda</CButton>
+                        </div>
+                    ) : (
+                        <div>
+                            <CCard className='mb-5'>
+                                <CCardBody>
+                                    <CTable className="table table1 responsive-3">
+                                        <CTableHead>
+                                            <CTableRow>
+                                                <CTableHeaderCell scope="col">
+                                                    <CFormCheck id="flexCheckDefault" onChange={handleSelectAll} checked={selectAll} />
                                                 </CTableHeaderCell>
-                                                <CTableHeaderCell data-cell="No">{index + 1}</CTableHeaderCell>
-                                                <CTableDataCell data-cell="Deskripsi">{bil.description}</CTableDataCell>
-                                                <CTableDataCell data-cell="Periode">{bil.periode}</CTableDataCell>
-                                                <CTableDataCell data-cell="Nominal">{bil.amount}</CTableDataCell>
-                                                <CTableDataCell data-cell="Status">{bil.payment_id}</CTableDataCell>
-                                                <CTableDataCell data-cell="Tanggal Bayar">{bil.paid_date}</CTableDataCell>
-                                                <CTableDataCell data-cell="Nominal Bayar">{bil.paid_amount}</CTableDataCell>
-                                                <CTableDataCell data-cell="Action"><CButton onClick={() => navigate(`/bayarTagihan/${bil.id}`)}>Bayar</CButton></CTableDataCell>
+                                                <CTableHeaderCell scope="col">Id</CTableHeaderCell>
+                                                <CTableHeaderCell scope="col">Keterangan</CTableHeaderCell>
+                                                <CTableHeaderCell scope="col">Periode</CTableHeaderCell>
+                                                <CTableHeaderCell scope="col">Nominal</CTableHeaderCell>
+                                                <CTableHeaderCell scope="col">Status</CTableHeaderCell>
+                                                <CTableHeaderCell scope="col">Tanggal dibayar</CTableHeaderCell>
+                                                <CTableHeaderCell scope="col">Nominal dibayar</CTableHeaderCell>
+                                                <CTableHeaderCell scope="col">Action</CTableHeaderCell>
                                             </CTableRow>
-                                        )
-                                    })}
-                                </CTableBody>
-                            </CTable>
-                            <ul className="pagination float-end">
-                                <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
-                                    <a className="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
-                                </li>
-                                {getPageNumbers()}
-                                <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
-                                    <a className="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
-                                </li>
-                            </ul>
-                        </CCardBody>
-                    </CCard>
-                    <CCard>
-                        <CCardBody className='d-flex justify-content-between'>
-                            <CFormCheck id="flexCheckDefault" onChange={handleSelectAll} checked={selectAll} label="Pilih semua" />
-                            <p>Total Pembayaran: Rp.{selectedBills.reduce((total, bil) => total + bil.amount, 0)}</p>
-                            <CButton
-                                disabled={selectedBills.length === 0} // Menonaktifkan tombol jika tidak ada tagihan yang dipilih
-                                onClick={() => navigate(`/bayarSemuaTagihan`)}
-                            >
-                                Bayar Semua
-                            </CButton>
-                        </CCardBody>
-                    </CCard>
-                </div>
-            )}
-        </>
-            ):(
+                                        </CTableHead>
+                                        <CTableBody>
+                                            {bill.map((bil, index) => {
+                                                return (
+                                                    <CTableRow key={index}>
+                                                        <CTableHeaderCell scope="row">
+                                                        </CTableHeaderCell>
+                                                        <CTableHeaderCell data-cell="No">{index + 1}</CTableHeaderCell>
+                                                        <CTableDataCell data-cell="Deskripsi">{bil.description}</CTableDataCell>
+                                                        <CTableDataCell data-cell="Periode">{bil.periode}</CTableDataCell>
+                                                        <CTableDataCell data-cell="Nominal">{bil.amount}</CTableDataCell>
+                                                        <CTableDataCell data-cell="Status">
+                                                            {bil.paid_id === 0 ? (
+                                                                <span>belum terbayar</span>
+                                                            ) : bil.paid_id === 1 ? (
+                                                                <span>terbayar manual</span>
+                                                            ) : (
+                                                                <span>terbayar oleh sistem</span>
+                                                            )}
+                                                        </CTableDataCell>
+                                                        <CTableDataCell data-cell="Tanggal Bayar">{bil.paid_date}</CTableDataCell>
+                                                        <CTableDataCell data-cell="Nominal Bayar">{bil.paid_amount}</CTableDataCell>
+                                                        <CTableDataCell data-cell="Action">
+                                                            {bil.amount === bil.paid_amount ? (
+                                                                <CButton color='danger' onClick={handleLunas}>
+                                                                    Lunas
+                                                                </CButton>
+                                                            ) : (
+                                                                <CButton onClick={() => navigate(`/bayarTagihan/${bil.id}`)}>
+                                                                    Bayar
+                                                                </CButton>
+                                                            )}
+                                                        </CTableDataCell>
+                                                    </CTableRow>
+                                                )
+                                            })}
+                                        </CTableBody>
+                                    </CTable>
+                                    <ul className="pagination float-end">
+                                        <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
+                                            <a className="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
+                                        </li>
+                                        {getPageNumbers()}
+                                        <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
+                                            <a className="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
+                                        </li>
+                                    </ul>
+                                </CCardBody>
+                            </CCard>
+                            <CCard>
+                                <CCardBody className='d-flex justify-content-between'>
+                                    <CFormCheck id="flexCheckDefault" onChange={handleSelectAll} checked={selectAll} label="Pilih semua" />
+                                    <p>Total Pembayaran: Rp.{selectedBills.reduce((total, bil) => total + bil.amount, 0)}</p>
+                                    <CButton
+                                        disabled={selectedBills.length === 0} // Menonaktifkan tombol jika tidak ada tagihan yang dipilih
+                                        onClick={() => navigate(`/bayarSemuaTagihan`)}
+                                    >
+                                        Bayar Semua
+                                    </CButton>
+                                </CCardBody>
+                            </CCard>
+                        </div>
+                    )}
+                </>
+            ) : (
                 <><p>Page Tidak Tersedia</p></>
             )}</div>
     )

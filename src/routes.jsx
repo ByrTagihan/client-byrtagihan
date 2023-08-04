@@ -32,6 +32,15 @@ const CrudTransaction = React.lazy(() =>
 const TambahTransaction = React.lazy(() =>
   import("./views/pages/user/transaction/TambahTransaction")
 );
+const TambahCustomer = React.lazy(() =>
+  import("./views/pages/user/customer/TambahCostumer")
+);
+const TambahUserMember = React.lazy(() =>
+  import("./views/pages/user/member/TambahMember")
+);
+const EditCustomer = React.lazy(() =>
+  import("./views/pages/user/customer/EditCustomer")
+);
 const EditTransaction = React.lazy(() =>
   import("./views/pages/user/transaction/EditTransaction")
 );
@@ -185,6 +194,21 @@ const routes = [
     path: "/tambahTransaction",
     name: "Tambah Tagihan",
     element: TambahTransaction,
+  },
+  {
+    path: "/tambahCustomer",
+    name: "Tambah Customer",
+    element: TambahCustomer,
+  },
+  {
+    path: "/tambahMember",
+    name: "Tambah Member",
+    element: TambahUserMember,
+  },
+  {
+    path: "/editCustomer/:id",
+    name: "Edit Customer",
+    element: EditCustomer,
   },
   {
     path: "/tambahTemplate",
