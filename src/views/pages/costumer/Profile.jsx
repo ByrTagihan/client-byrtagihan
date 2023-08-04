@@ -77,12 +77,19 @@ function Profile() {
   };
 
   const Put = async (e) => {
+    const data = {
+      name: name, // Update the name field with the new value
+      hp: hp,
+      address: address,
+      picture: profile.picture, // Keep the existing picture value
+    };
+
     e.preventDefault();
     e.persist();
 
     try {
       await axios.put(
-        `${API_DUMMY}/customer/profile`, profile,
+        `${API_DUMMY}/customer/profile`, data,
         // console.log(picture),
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
