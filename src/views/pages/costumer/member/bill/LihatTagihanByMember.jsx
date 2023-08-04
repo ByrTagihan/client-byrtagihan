@@ -1,3 +1,4 @@
+
 import {
   cilBook,
   cilDescription,
@@ -67,9 +68,9 @@ function LihatTagihanByMember() {
         });
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
-        'error'
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin",
+        "error"
       ).then((result) => {
         //Untuk munuju page selanjutnya
         navigate("/");
@@ -207,13 +208,9 @@ function LihatTagihanByMember() {
       cancelButtonText: "Cencel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(
-          `${API_DUMMY}/customer/member/${param.id}/bill/` +
-          id,
-          {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-          }
-        );
+        axios.delete(`${API_DUMMY}/customer/member/${param.id}/bill/` + id, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        });
         Swal.fire({
           icon: "success",
           title: "Dihapus!",
@@ -302,12 +299,9 @@ function LihatTagihanByMember() {
   const [idd1, setId1] = useState(0);
   const getByIdSudahByr = async (id) => {
     await axios
-      .get(
-        `${API_DUMMY}/customer/member/${param.id}/bill/` + id,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
+      .get(`${API_DUMMY}/customer/member/${param.id}/bill/` + id, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
       .then((res) => {
         setPaid_amount(res.data.data.paid_amount);
         console.log(res.data.data.paid_amount);
@@ -365,11 +359,16 @@ function LihatTagihanByMember() {
                       }}
                     >
                       <div className="col">
-                        <Link to="/addListTagihanByMember">
-                          <button className="btn btn-primary float-end">
-                            <CIcon icon={cilPlus} /> Tambah
-                          </button>
-                        </Link>
+                        {/* <Link to="/addListTagihanByMember"> */}
+                        <button
+                          onClick={() => {
+                            navigate(`/addListTagihanByMember/${param.id}`);
+                          }}
+                          className="btn btn-primary float-end"
+                        >
+                          <CIcon icon={cilPlus} /> Tambah
+                        </button>
+                        {/* </Link> */}
                       </div>
                     </div>
                   </div>
@@ -426,7 +425,10 @@ function LihatTagihanByMember() {
                             sortConfig.key === "no" &&
                             (sortConfig.direction === "ascending" ? "▲" : "▼")}
                         </th>
-                        <th scope="col" onClick={() => handleSort("keterangan")}>
+                        <th
+                          scope="col"
+                          onClick={() => handleSort("keterangan")}
+                        >
                           Keterangan{" "}
                           {sortConfig &&
                             sortConfig.key === "keterangan" &&
@@ -512,7 +514,7 @@ function LihatTagihanByMember() {
                                 className="edit1"
                                 onClick={() => {
                                   setShowEditSudahByr(true);
-                                  setPaid_amount(data.amount)
+                                  setPaid_amount(data.amount);
                                   setPaid_id(data.id);
                                 }}
                                 style={{ background: "green", color: "white" }}
@@ -613,8 +615,11 @@ function LihatTagihanByMember() {
           </Modal>
         </>
       ) : (
-        <><p>Page Tidak Tersedia</p></>
-      )}</div>
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}
+    </div>
   );
 }
 

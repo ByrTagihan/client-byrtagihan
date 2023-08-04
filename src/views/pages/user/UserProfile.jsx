@@ -1,4 +1,3 @@
-
 import { cilAddressBook, cilTablet, cilUser } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import {
@@ -17,90 +16,87 @@ import { API_DUMMY } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-function UserProfile() {
+function MemberProfile() {
+  const [show, setShow] = useState(false);
   const [name, setName] = useState("");
   const [hp, setHp] = useState("");
   const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
+  const [unique_id, setUnique_id] = useState("");
   const [picture, setPicture] = useState("");
+  const [foto, setFoto] = useState("");
+  const navigate = useNavigate();
   const [profile, setProfile] = useState({
     id: "",
-    email: "",
+    unique_id: "",
     name: "",
     hp: "",
     address: "",
     picture: "",
   });
-  const [showAdd, setShowAdd] = useState(false);
-  let navigate = useNavigate();
 
-  const getAll = async () => {
-    await axios
-      .get("https://api.byrtagihan.com/api/user/profile" , {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        setProfile(res.data.data[0]);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-  };
-
-  useEffect(() => {
-    getAll(0)
-  },[])
-
-  useEffect(() => {
-    axios
-      .get(`https://api.byrtagihan.com/api/user/profile`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((response) => {
-        const profil = response.data.data[0];
-        setHp(profil.hp);
-        setName(profil.name);
-        setProfile({ ...profil, email: profil.email });
-        setAddress(profil.address);
-        setProfile({ ...profil, id: profil.id });
-        console.log(response.data.data);
-        console.log(response.data.data[0]);
-        console.log({ ...profil, id: profil.id });
-        const imageUrl = localStorage.getItem("profilePicture");
-        setPicture(profile.picture);
-      });
-  }, []);
-
-  const [show, setShow] = useState(false);
-  const Put = async (e) => {
+  // function add picture
+  const add = async (e) => {
     e.preventDefault();
     e.persist();
 
     const data = new FormData();
-    data.append("file", picture);
+    data.append("file", foto);
 
     try {
+      await axios
+        .post(`${API_DUMMY}/files`, data, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        })
+        .then((response) => {
+          const imageUrl = response.data.data;
+          setProfile((prevProfile) => ({
+            ...prevProfile,
+            picture: imageUrl,
+          }));
+          setFoto(imageUrl);
+          console.log(localStorage.getItem("profilePicture"));
+
+          // Store the image URL in local storage
+          localStorage.setItem("profilePicture", imageUrl);
+        });
+      setShow(false);
+      // navigate("/lihattagihanmember")
+      Swal.fire({
+        icon: "success",
+        title: "Foto berhasil ditambahkan",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      // console.log(data);
+      setTimeout(() => {
+        navigate("/userProfile");
+        // window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // function update profile
+  const Put = async (e) => {
+    e.preventDefault();
+    e.persist();
+
+    try {
+      const data = {
+        name: name, // Update the name field with the new value
+        hp: hp,
+        address: address,
+        picture: profile.picture, // Keep the existing picture value
+      };
+
       await axios.put(
-        `${API_DUMMY}/user/profile`,
-        {
-          name: name,
-          hp: hp,
-          address: address,
-          picture: picture,
-        },
+        `${API_DUMMY}/user/profile`, data,
+        // console.log(picture),
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
-      ),
-        await axios
-          .post(`https://api.byrtagihan.com/api/files`, data, {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-          })
-          .then((response) => {
-            const imageUrl = response.data.data;
-            setPicture(imageUrl);
-            console.log(response.data.data);
-          });
+      );
       setShow(false);
       Swal.fire({
         icon: "success",
@@ -116,22 +112,60 @@ function UserProfile() {
     }
   };
 
+  // function get profile
+  const get = async () => {
+    await axios
+      .get(`${API_DUMMY}/user/profile`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      })
+      .then((res) => {
+        const profil = res.data.data[0];
+        setHp(profil.hp);
+        setName(profil.name);
+        setUnique_id(profil.email);
+        setAddress(profil.address);
+        setProfile({ ...profil, id: profil.id });
+        setPicture(profile.picture)
+        console.log(res.data.data);
+        console.log({ ...profil, id: profil.id });
+        // If profilePicture is available in the response, update the picture state
+        if (profil.profilePicture) {
+          setFoto(profil.profilePicture);
+        }
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
+      });
+  };
+
+  useEffect(() => {
+    get();
+  }, []);
+
   return (
     <div className="allProfile">
-      {localStorage.getItem("type_token") == "user"}
       <div className="box1">
         <h4 className="textProfile">Profile User</h4>
-
         <div style={{ padding: "10px" }}>
           <img style={{ width: "20rem" }} src={profile.picture} alt="" />
         </div>
       </div>
 
       <div className="box2">
-        <h6 className="mb-2">Id : {profile?.id}</h6>
+        <h6 className="mb-2">Id : {profile.id}</h6>
         <h6 className="mb-3">
-          <CIcon icon={cilUser} /> Email : {profile.email}
+          <CIcon icon={cilUser} /> email: {profile.email}
         </h6>
+        <CForm onSubmit={add}>
+          <CInputGroup className="mb-3">
+            <CFormInput
+              autoComplete="picture"
+              onChange={(e) => setFoto(e.target.files[0])}
+              type="file"
+            />
+            <CButton type="submit">Post</CButton>
+          </CInputGroup>
+        </CForm>
         <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
@@ -168,13 +202,7 @@ function UserProfile() {
               value={address}
             />
           </CInputGroup>
-          <CInputGroup className="mb-3">
-            <CFormInput
-              autoComplete="picture"
-              onChange={(e) => setPicture(e.target.files[0])}
-              type="file"
-            />
-          </CInputGroup>
+
           <CRow>
             <CCol xs={6}>
               <CButton className="buttonSave" type="submit" color="primary">
@@ -189,4 +217,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default MemberProfile;
