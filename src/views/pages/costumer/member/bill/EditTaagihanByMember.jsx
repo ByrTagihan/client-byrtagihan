@@ -124,4 +124,4 @@ return (
     )}</div>
 )
 
-export default EditTaagihanByMember
+export default EditTaagihanByMember;
