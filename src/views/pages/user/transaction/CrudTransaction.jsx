@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,11 +5,7 @@ import Swal from "sweetalert2";
 import "../../../../css/Transaction.css";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import { CFormInput } from "@coreui/react";
-import {
-  cilPencil,
-  cilPlus,
-  cilTrash,
-} from "@coreui/icons";
+import { cilPencil, cilPlus, cilTrash } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 
 function CrudTransaction() {
@@ -109,33 +104,41 @@ function CrudTransaction() {
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
     const displayedPages = [];
-  
+
     if (total_page <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(total_page - 1));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(total_page - 1)
+        );
       } else if (currentPage >= total_page - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(total_page - 5));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(total_page - 5)
+        );
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(total_page - 1)
         );
       }
     }
-  
+
     return displayedPages.map((page, index) =>
-      page === 'dot' ? (
+      page === "dot" ? (
         <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? ' active' : '')}
+          className={"page-item" + (currentPage === page ? " active" : "")}
         >
           <a className="page-link">{page}</a>
         </li>
@@ -179,7 +182,6 @@ function CrudTransaction() {
                 </div>
                 <div className="col">
                   <CFormInput
-                    // style={{ width: "50%", marginLeft: "15em" }}
                     className="filter-data-t"
                     type="search"
                     placeholder="search data"
@@ -233,7 +235,7 @@ function CrudTransaction() {
                 >
                   {filteredBills.map((item, index) => {
                     return (
-                      <tr key={index}>
+                      <tr style={{ height: "4.1em"}} key={index}>
                         <td data-cell="No">{index + 1}</td>
                         <td data-cell="Description">{item.description}</td>
                         <td data-cell="Organization">
@@ -242,27 +244,32 @@ function CrudTransaction() {
                         <td data-cell="Nominal">{item.amount}</td>
                         <td data-cell="Create Date">{item.created_date}</td>
                         <td data-cell="Update Date">{item.updated_date}</td>
-                        <td data-cell="Action" className="tdd">
+                        <td
+                          data-cell="Action" style={{display: "flex", gap: "5px", height: "4.1em"}}
+                        >
+                          <button
+                            style={{ background: "blue" }}
+                            onClick={() =>
+                              navigate(`/editTransaction/${item.id}`)
+                            }
+                            type="button"
+                            className="edit"
+                          >
+                            <CIcon
+                              icon={cilPencil}
+                              style={{ color: "white" }}
+                            />
+                          </button>
 
-                        <button
-                          style={{background:"blue"}}
-                          type="button"
-                          className="edit1"
-                          onClick={() => navigate(`/editTransaction/${item.id}`)}
-                        >
-                          <CIcon icon={cilPencil} />
-                        </button>
-                        <button
-                          style={{background:"red"}}
-                          type="button"
-                          className="edit1"
-                          onClick={() =>
-                            Delete(item.id)
-                          }
-                        >
-                          <CIcon icon={cilTrash} style={{ color: "white" }} />
-                        </button>
-                          </td>
+                          <button
+                            style={{ background: "red" }}
+                            onClick={() => Delete(item.id)}
+                            type="button"
+                            className="hapus"
+                          >
+                            <CIcon icon={cilTrash} style={{ color: "white" }} />
+                          </button>
+                        </td>
                       </tr>
                     );
                   })}

@@ -26,44 +26,43 @@ function TambahTransaction() {
 
   const Post = async (e) => {
     if (localStorage.getItem("type_token") === "user") {
-    e.preventDefault();
-    const data = {
-      organization_id: organization_id,
-      member_id: member_id,
-      description: description,
-      amount: amount,
-    };
-    await axios
-      .post(`${API_DUMMY}/user/transaction`, data, {
-        headers: {
-          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-        },
-      })
-      .then(() => {
-        navigate("/transaction");
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Menambahkan",
-          showConfirmButton: false,
-          timer: 1500,
+      e.preventDefault();
+      const data = {
+        organization_id: organization_id,
+        member_id: member_id,
+        description: description,
+        amount: amount,
+      };
+      await axios
+        .post(`${API_DUMMY}/user/transaction`, data, {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+          },
+        })
+        .then(() => {
+          navigate("/transaction");
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Menambahkan",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-      
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-        'error'      
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru",
+        "error"
       ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
       });
     }
   };
@@ -73,12 +72,9 @@ function TambahTransaction() {
     setValue(query);
 
     try {
-      const response = await fetch(
-        `${API_DUMMY}/user/member?name=${query}`,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      );
+      const response = await fetch(`${API_DUMMY}/user/member?name=${query}`, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      });
 
       if (query.length > 0 && response.ok) {
         const res = await response.json();
@@ -161,7 +157,6 @@ function TambahTransaction() {
     );
   };
 
-
   // organization
 
   const GetOrganization = async () => {
@@ -183,6 +178,100 @@ function TambahTransaction() {
   useEffect(() => {
     GetOrganization();
   }, []);
+
+  const onKeyDown1 = (keyEvent) => {
+    if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+      keyEvent.preventDefault();
+    }
+  };
+
+  const handleKeyDown1 = (e) => {
+    // UP ARROW
+    if (e.keyCode === 38) {
+      if (suggestionIndex1 === 0) {
+        return;
+      }
+      setSuggestionIndex1(suggestionIndex1 - 1);
+    }
+    // DOWN ARROW
+    else if (e.keyCode === 40) {
+      if (suggestionIndex1 - 1 === suggestions1.length) {
+        return;
+      }
+      setSuggestionIndex1(suggestionIndex1 + 1);
+    }
+    // ENTER
+    else if (e.keyCode === 13) {
+      setValue1(` ${suggestions1[suggestionIndex1].name}`);
+      setOrganizationId(suggestions1[suggestionIndex1].id);
+      setSuggestionIndex1(0);
+      setSuggestionsActive1(false);
+    }
+  };
+
+  const handleChange1 = async (e) => {
+    const name = e.target.value;
+    setValue1(name);
+
+    try {
+      const response = await fetch(
+        `${API_DUMMY}/user/organization?name=${name}`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      );
+
+      if (name.length > 0 && response.ok) {
+        const res = await response.json();
+        setSuggestions1(res.data);
+        setSuggestionsActive1(true);
+      } else {
+        setSuggestionsActive1(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleClick1 = (e, id) => {
+    setSuggestions1([]);
+    setValue1(e.target.innerText);
+    setOrganizationId(id);
+    setSuggestionsActive1(false);
+  };
+
+  const Suggestions1 = () => {
+    return (
+      <div
+        className="card border-secondary border-top-0"
+        style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
+      >
+        <ul className="list-group list-group-flush">
+          {suggestions1.length != 0 ? (
+            <>
+              {suggestions1.map((data, index) => (
+                <li
+                  className={
+                    index === suggestionIndex1
+                      ? "list-group-item  list-group-item-action active"
+                      : "list-group-item  list-group-item-action"
+                  }
+                  key={index}
+                  onClick={(e) => handleClick1(e, data.id)}
+                >
+                  {data.name}
+                </li>
+              ))}
+            </>
+          ) : (
+            <>
+              <li className="list-group-item ">Organization Tidak Ditemukan</li>
+            </>
+          )}
+        </ul>
+      </div>
+    );
+  };
   return (
     <div>
       {/* {localStorage.getItem("type_token") === "user" ? ( */}
@@ -191,7 +280,12 @@ function TambahTransaction() {
           <h5>Tambah transaction</h5>
         </div>
         <div className="card-body">
-          <CForm onSubmit={Post} onKeyDown={onKeyDown}  className="row g-3">
+          <CForm
+            onSubmit={Post}
+            onKeyDown={onKeyDown}
+            onKeyDown1={onKeyDown1}
+            className="row g-3"
+          >
             <CCol xs={12}>
               <CFormInput
                 id="description"
@@ -212,7 +306,7 @@ function TambahTransaction() {
                 required
               />
             </CCol>
-            <CCol md={6}>
+            {/* <CCol md={6}>
               <CFormSelect
                 aria-label="Default select example"
                 value={organization_id}
@@ -228,22 +322,23 @@ function TambahTransaction() {
                   );
                 })}
               </CFormSelect>
-            </CCol>
-
-              {/* <CFormInput
-                id="organization_id"
+            </CCol> */}
+            <CCol md={6}>
+              <CFormInput
+                id="number_id"
                 type="text"
                 placeholder="Organization..."
                 className="form-control"
                 value={value1}
                 label="Organization"
                 autoComplete="off"
-                onKeyDown1={handleKeyDown1}
-                onChange1={handleChange1}
+                onKeyDown={handleKeyDown1}
+                onChange={handleChange1}
                 required
               />
-              {suggestionsActive1 && <Suggestions1 />} */}
-           
+              {suggestionsActive1 && <Suggestions1 />}
+            </CCol>
+
             <CCol md={6}>
               <CFormInput
                 id="number_id"
