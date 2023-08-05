@@ -10,7 +10,6 @@ import { CFormInput, CCard, CCardBody, CForm, CCol, CButton, } from "@coreui/rea
 
 function EditCustomer() {
   const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
   const [hp, setHp] = useState("");
   const [password, setPassword] = useState("");
   const [active, setActive] = useState("");
@@ -20,52 +19,51 @@ function EditCustomer() {
 
   const update = async (e) => {
     if (localStorage.getItem("type_token") === "user") {
-    e.preventDefault();
+      e.preventDefault();
 
-    const req = {
-      name: name,
-      address: address,
-      hp: hp,
-      password: password,
-      active: active,
-      organization_id: memberId,
-    };
-    console.log(req);
+      const req = {
+        name: name,
+        hp: hp,
+        password: password,
+        active: active,
+        organization_id: memberId,
+      };
+      console.log(req);
 
-    await axios
-      .put(`${API_DUMMY}/user/customer/` + param.id, req, {
-        headers: {
-          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-        },
-      })
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Mengedit",
-          showConfirmButton: false,
-          timer: 1500,
+      await axios
+        .put(`${API_DUMMY}/user/customer/` + param.id, req, {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+          },
+        })
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Mengedit",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          setTimeout(() => {
+            navigate("/userCustomer");
+            window.location.reload();
+          }, 1500);
+        })
+        .catch((error) => {
+          console.log(error);
         });
-        setTimeout(() => {
-          navigate("/userCustomer");
-          window.location.reload();
-        }, 1500);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-      
+
     } else {
       Swal.fire(
         'Peringatan',
         'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-        'error'      
+        'error'
       ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
       });
     }
   };
@@ -89,7 +87,6 @@ function EditCustomer() {
             // const user_customer = ress.data.data;
             setName(response.name);
             setHp(response.hp);
-            setAddress(response.address);
             setPassword(response.password);
             setActive(response.active);
             // setValue(
@@ -212,69 +209,61 @@ function EditCustomer() {
     <div>
       {localStorage.getItem("type_token") === "user" ? (
         <>
-      <CCard>
-        <CCardBody>
-          <h4>Edit Data Costumer</h4>
-          <CForm className="row g-3">
-            <CCol md={6}>
-              <CFormInput
-                type="text"
-                placeholder="Nama"
-                id="nama"
-                onChange={(e) => setName(e.target.value)}
-                label="Nama"
-                value={name}
-                required
-              />
-            </CCol>
-            <CCol md={6}>
-              <CFormInput
-                id="address"
-                type="text"
-                placeholder="address"
-                onChange={(e) => setAddress(e.target.value)}
-                label="Alamat"
-                value={address}
-                required
-              />
-            </CCol>
-            <CCol md={6}>
-              <CFormInput
-                type="text"
-                placeholder="No hp"
-                id="No hp"
-                onChange={(e) => setHp(e.target.value)}
-                label="No hp"
-                value={hp}
-                required
-              />
-            </CCol>
-            <CCol md={6}>
-              <CFormInput
-                type="text"
-                autoComplete="off"
-                value={organization_id}
-                onKeyDown={handleKeyDown}
-                onChange={handleChange}
-                label="Organization_id"
-                required
-              />
-              {suggestionsActive && <Suggestions />}
-            </CCol>
+          <CCard>
+            <CCardBody>
+              <h4>Edit Data Costumer</h4>
+              <CForm className="row g-3">
+                <CCol md={6}>
+                  <CFormInput
+                    type="text"
+                    placeholder="Nama"
+                    id="nama"
+                    onChange={(e) => setName(e.target.value)}
+                    label="Nama"
+                    value={name}
+                    required
+                  />
+                </CCol>
+                <CCol md={6}>
+                  <CFormInput
+                    type="text"
+                    placeholder="No hp"
+                    id="No hp"
+                    onChange={(e) => setHp(e.target.value)}
+                    label="No hp"
+                    value={hp}
+                    required
+                  />
+                </CCol>
+                <CCol md={6}>
+                  <CFormInput
+                    type="text"
+                    autoComplete="off"
+                    value={organization_id}
+                    onKeyDown={handleKeyDown}
+                    onChange={(e) => {
+                      setOrganization_id(e.target.value);
+                      handleChange(e); // Panggil fungsi handleChange juga
+                    }}
+                    label="Organization_id"
+                    required
+                  />
+                  {suggestionsActive && <Suggestions />}
+                </CCol>
 
-            <CCol xs={12}>
-              <CButton onClick={update}>Simpan</CButton>
-            </CCol>
-            {/* <CCol xs={12}>
+                <CCol xs={12}>
+                  <CButton onClick={update}>Simpan</CButton>
+                </CCol>
+                {/* <CCol xs={12}>
               <Link to="/#/userCustomer">
                 <CButton>Batal</CButton>
               </Link>
             </CCol> */}
-          </CForm>
-        </CCardBody>
-      </CCard>
-    </>
-      ):(
+              </CForm>
+            </CCardBody>
+          </CCard>
+        </>
+      ) : (
         <><p>Page Tidak Tersedia</p></>
       )}</div>
   );
