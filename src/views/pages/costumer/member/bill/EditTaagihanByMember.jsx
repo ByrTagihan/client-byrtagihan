@@ -1,9 +1,8 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import { API_DUMMY } from '../../../../../utils/baseURL';
-
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../../../utils/baseURL";
 function EditTaagihanByMember() {
   const param = useParams();
   const [description, setDescription] = useState("");
@@ -11,7 +10,6 @@ function EditTaagihanByMember() {
   const [periode, setPeriode] = useState("");
   const [showEdit, setShowEdit] = useState(false);
   let navigate = useNavigate();
-
   useEffect(() => {
     axios
       .get(`${API_DUMMY}/customer/bill/` + param.id, {
@@ -27,26 +25,19 @@ function EditTaagihanByMember() {
         alert("Terjadi Kesalahan " + error);
       });
   }, [param.id]);
-
   const put = async (e) => {
     e.preventDefault();
     e.persist();
-
     const data = {
       amount: amount,
       periode: periode,
       description: description,
     };
     console.log(data);
-
     try {
-      await axios.put(
-        `${API_DUMMY}/customer/bill/` + param.id,
-        data,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      );
+      await axios.put(`${API_DUMMY}/customer/bill/` + param.id, data, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      });
       // alert("Success")
       setShowEdit(false);
       //   navigate("/lihattagihanmember/" + param.id)
@@ -60,10 +51,9 @@ function EditTaagihanByMember() {
       }, 1500);
     } catch (err) {
       console.log(err);
-    };
-  }
-};
-
+    }
+  };
+}
 return (
   <div className="card mb-3">
     {localStorage.getItem("type_token") === "customer" ? (
@@ -120,8 +110,10 @@ return (
         </div>
       </>
     ) : (
-      <><p>Page Tidak Tersedia</p></>
-    )}</div>
-)
-
+      <>
+        <p>Page Tidak Tersedia</p>
+      </>
+    )}
+  </div>
+);
 export default EditTaagihanByMember;
