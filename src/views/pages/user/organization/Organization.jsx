@@ -248,7 +248,8 @@ function Organization() {
                           {data.bank_account_name}
                         </td>
                         <td data-cell="Update Date">{data.bank_name}</td>
-                        <td data-cell="Action" className="tdd">
+                        <td data-cell="Action">
+                          <div className="tdd">
                           <button
                           style={{background:"blue"}}
                             onClick={() =>
@@ -268,6 +269,7 @@ function Organization() {
                           >
                           <CIcon icon={cilTrash} style={{color: "white"}}/>
                           </button>
+                          </div>
                         </td>
                       </tr>
                     );

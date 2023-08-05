@@ -79,13 +79,24 @@ tbody {
     background-color: #007bff;
     color: #fff;
   }
+  .inputSearch1 {
+    display: none;
+  }
 @media(max-width: 600px) {
+    .action {
+        display: block;
+        float: right;
+    }
+   .card {
+    margin-top: 10px;
+   }
     .inputSearch {
         display:none;
     }
     .inputSearch1 {
+        display: block;
+        margin-top: 10px;
         margin-bottom: 10px;
-        display: flex;
     }
     .listTagihan{
         font-size: 15px;

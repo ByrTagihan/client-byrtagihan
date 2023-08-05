@@ -16,7 +16,7 @@ import { API_DUMMY } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-function MemberProfile() {
+function UserProfile() {
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
   const [hp, setHp] = useState("");
@@ -217,4 +217,4 @@ function MemberProfile() {
   );
 }
 
-export default MemberProfile;
+export default UserProfile;

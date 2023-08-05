@@ -107,7 +107,7 @@ function AddListDataSiswa() {
             <label className="form-label">Passwod</label>
             <input
               id="password"
-              type="number"
+              type="password"
               className="form-control"
               onChange={(e) => setPassword(e.target.value)}
               value={password}

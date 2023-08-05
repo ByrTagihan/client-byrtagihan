@@ -227,7 +227,7 @@ function Tagihan() {
             </select>
           </div>
           <div className="col inputSearch1">
-            <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} />
+            <input type="text" class="form-control float-end" placeholder="Filter Deskripsi" value={searchTerm} onChange={handleSearch} />
           </div>
           <div className="card mb-4">
             <div className="card-header">
@@ -254,7 +254,7 @@ function Tagihan() {
                   </select>
                 </div>
                 <div className="col inputSearch">
-                  <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} style={{ width: "40%" }} />
+                  <input type="text" class="form-control float-end" placeholder="Filter Deskripsi" value={searchTerm} onChange={handleSearch} style={{ width: "40%" }} />
                 </div>
               </div>
               <table className="table">

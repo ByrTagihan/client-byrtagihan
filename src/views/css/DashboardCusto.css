@@ -22,4 +22,64 @@
   .scroll-to-top-button.visible {
     opacity: 1;
   }
+  /* responsive.css */
+@media (max-width: 991px) {
+  /* Adjust columns layout */
+  .col-xs-12 {
+    width: 100%;
+    flex: 0 0 100%;
+  }
+
+  /* Center pagination on small screens */
+  .pagination {
+    justify-content: center;
+  }
+
+  /* Hide some elements on small screens */
+  .inputSearch1 {
+    display: none;
+  }
+
+  /* Adjust the table font size and cell padding for better readability on small screens */
+  .table {
+    font-size: 14px;
+    overflow-y: scroll;
+  }
+
+  /* Adjust table header font size */
+  .table thead th {
+    font-size: 16px;
+  }
+}
+
+/* Hide the scroll-to-top button on small screens */
+.scroll-to-top-button {
+  display: none;
+}
+
+/* Show the scroll-to-top button on large screens */
+@media (min-width: 992px) {
+  .scroll-to-top-button {
+    display: block;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .scroll-to-top-button:hover {
+    opacity: 0.8;
+  }
+}
+
   
