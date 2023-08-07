@@ -17,32 +17,32 @@ function ListDataSiswaEdit() {
 
   useEffect(() => {
     if (localStorage.getItem("type_token") === "customer") {
-    axios
-      .get(`${API_DUMMY}/customer/member/` + param.id, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((response) => {
-        const list_data = response.data.data;
-        setUnique_id(list_data.unique_id);
-        setHp(list_data.hp);
-        setAddress(list_data.address);
-        setName(list_data.name);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan " + error);
-      });
+      axios
+        .get(`${API_DUMMY}/customer/member/` + param.id, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        })
+        .then((response) => {
+          const list_data = response.data.data;
+          setUnique_id(list_data.unique_id);
+          setHp(list_data.hp);
+          setAddress(list_data.address);
+          setName(list_data.name);
+        })
+        .catch((error) => {
+          alert("Terjadi Kesalahan " + error);
+        });
     } else {
       Swal.fire(
         'Peringatan',
         'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
-        'error'      
+        'error'
       ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
       });
     }
   }, [param.id]);
@@ -52,125 +52,125 @@ function ListDataSiswaEdit() {
     setRole(userRoleFromServer);
   }, [])
 
-    const putData = async (e) => {
-      if (role === "customer") {
-        e.preventDefault();
-        e.persist();
+  const putData = async (e) => {
+    if (localStorage.getItem("type_token") === "customer") {
+      e.preventDefault();
+      e.persist();
 
-        const data = {
-            unique_id: unique_id,
-            hp: hp,
-            address: address,
-            name: name
-        }
-        try {
-          await axios.put(
-            `${API_DUMMY}/customer/member/` + param.id, data,
-            {
-              headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-            }
-          );
-          setShow(false);
-          Swal.fire({
-            icon: "success",
-            title: "Success",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          setTimeout(() => {
-            navigate("/customerMember")
-            window.location.reload();
-          }, 1500);
-        } catch (err) {
-          console.log(err);
-        }
-      } else {
-        Swal.fire(
-          'Peringatan',
-          'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
-          'error'      
-        ).then((result) => {
-            //Untuk munuju page selanjutnya
-            navigate("/");
-            setTimeout(() => {
-              window.location.reload();
-            }, 1500);
-            localStorage.clear();
-        });
+      const data = {
+        unique_id: unique_id,
+        hp: hp,
+        address: address,
+        name: name
       }
-      };
-    
+      try {
+        await axios.put(
+          `${API_DUMMY}/customer/member/` + param.id, data,
+          {
+            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          }
+        );
+        setShow(false);
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setTimeout(() => {
+          navigate("/customerMember")
+          window.location.reload();
+        }, 1500);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      Swal.fire(
+        'Peringatan',
+        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
+        'error'
+      ).then((result) => {
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
+      });
+    }
+  };
+
   return (
-    <div style={{padding:"10px", borderRadius:"20px"}}>
+    <div style={{ padding: "10px", borderRadius: "20px" }}>
       {localStorage.getItem("type_token") === "customer" ? (
         <>
-      <form onSubmit={putData}>
-        <div>
-            <p style={{fontWeight:"bold", fontSize:"25px", marginBottom:"50px"}}>Edit LIst Data</p>
-        </div>
-        <div className="box">
-        <div>
-          <label className="form-label" style={{fontWeight:"bold"}}>
-            Nisn :
-          </label>
-          <input
-            type="text"
-            className="form-control inputNisn"
-            aria-describedby="emailHelp"
-            value={unique_id}
-            onChange={(e) => setUnique_id(e.target.value)}
-          />
-        </div>
-        <div>
-          <label className="form-label" style={{fontWeight:"bold"}}>
-            Name :
-          </label>
-          <input
-            type="text"
-            className="form-control inputNama"
-            aria-describedby="emailHelp"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        </div>
-        <div className="box1">
-        <div>
-          <label className="form-label" style={{fontWeight:"bold"}}>
-            Address :
-          </label>
-          <textarea
-            type="text"
-            className="form-control inputAddress"
-            aria-describedby="emailHelp"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          ></textarea>
-        </div>
-        <div>
-          <label className="form-label" style={{fontWeight:"bold"}}>
-            hp :
-          </label>
-          <input
-            type="number"
-            className="form-control inputHp"
-            aria-describedby="emailHelp"
-            value={hp}
-            onChange={(e) => setHp(e.target.value)}
-          />
-        </div>
-        </div>
+          <form onSubmit={putData}>
+            <div>
+              <p style={{ fontWeight: "bold", fontSize: "25px", marginBottom: "50px" }}>Edit LIst Data</p>
+            </div>
+            <div className="box">
+              <div>
+                <label className="form-label" style={{ fontWeight: "bold" }}>
+                  Nisn :
+                </label>
+                <input
+                  type="text"
+                  className="form-control inputNisn"
+                  aria-describedby="emailHelp"
+                  value={unique_id}
+                  onChange={(e) => setUnique_id(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="form-label" style={{ fontWeight: "bold" }}>
+                  Name :
+                </label>
+                <input
+                  type="text"
+                  className="form-control inputNama"
+                  aria-describedby="emailHelp"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="box1">
+              <div>
+                <label className="form-label" style={{ fontWeight: "bold" }}>
+                  Address :
+                </label>
+                <textarea
+                  type="text"
+                  className="form-control inputAddress"
+                  aria-describedby="emailHelp"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                ></textarea>
+              </div>
+              <div>
+                <label className="form-label" style={{ fontWeight: "bold" }}>
+                  hp :
+                </label>
+                <input
+                  type="number"
+                  className="form-control inputHp"
+                  aria-describedby="emailHelp"
+                  value={hp}
+                  onChange={(e) => setHp(e.target.value)}
+                />
+              </div>
+            </div>
 
-        <button type="submit" style={{marginTop:"49px", backgroundColor:"#213555", color:"white"}}>
-          Save
-        </button>
-        <Link to ="/customerMember">
-        <button style={{marginTop:"49px", backgroundColor:"#213555", color:"white", marginLeft:"30px"}}>Cancelled
-        </button>
-        </Link>
-      </form>
-    </>
-      ):(
+            <button type="submit" style={{ marginTop: "49px", backgroundColor: "#213555", color: "white" }}>
+              Save
+            </button>
+            <Link to="/customerMember">
+              <button style={{ marginTop: "49px", backgroundColor: "#213555", color: "white", marginLeft: "30px" }}>Cancelled
+              </button>
+            </Link>
+          </form>
+        </>
+      ) : (
         <><p>Page Tidak Tersedia</p></>
       )}</div>
   );

@@ -18,45 +18,45 @@ function EditTagihan() {
   let navigate = useNavigate();
 
   const updateTagihan = async (e) => {
-    if (role === "customer") {
-    e.preventDefault();
-    const req = {
-      member_id: memberId,
-      description: desc,
-      periode: periode,
-      amount: amount,
-    };
-    console.log(req);
+    if (localStorage.getItem("type_token") === "customer") {
+      e.preventDefault();
+      const req = {
+        member_id: memberId,
+        description: desc,
+        periode: periode,
+        amount: amount,
+      };
+      console.log(req);
 
-    await axios
-      .put(`${API_DUMMY}/customer/bill/${id}`, req, {
-        headers: {
-          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-        },
-      })
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Mengedit",
-          showConfirmButton: false,
-          timer: 1500,
+      await axios
+        .put(`${API_DUMMY}/customer/bill/${id}`, req, {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+          },
+        })
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Mengedit",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    }else {
+    } else {
       Swal.fire(
         'Peringatan',
         'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
-        'error'      
+        'error'
       ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
       });
     }
   };
@@ -141,7 +141,7 @@ function EditTagihan() {
                   : "list-group-item  list-group-item-action"
               }
               key={index}
-              onClick={(e)=> handleClick(e, data.id)}
+              onClick={(e) => handleClick(e, data.id)}
             >
               NIK = {data.unique_id}, Nama = {data.name}
             </li>
@@ -188,75 +188,75 @@ function EditTagihan() {
     <div>
       {localStorage.getItem("type_token") === "customer" ? (
         <>
-      <div className="card mb-3">
-        <div className="card-header bg-transparent">Edit Tagihan</div>
-        <div className="card-body">
-          <form onSubmit={updateTagihan} onKeyDown={onKeyDown}>
-            <div className="mb-3 autocomplete">
-              <label className="form-label">Member</label>
-              <input
-                id="number_id"
-                type="text"
-                className="form-control"
-                autoComplete="off"
-                value={value}
-                onKeyDown={handleKeyDown}
-                onChange={handleChange}
-                disabled
-                required
-              />
-              {suggestionsActive && <Suggestions />}
+          <div className="card mb-3">
+            <div className="card-header bg-transparent">Edit Tagihan</div>
+            <div className="card-body">
+              <form onSubmit={updateTagihan} onKeyDown={onKeyDown}>
+                <div className="mb-3 autocomplete">
+                  <label className="form-label">Member</label>
+                  <input
+                    id="number_id"
+                    type="text"
+                    className="form-control"
+                    autoComplete="off"
+                    value={value}
+                    onKeyDown={handleKeyDown}
+                    onChange={handleChange}
+                    disabled
+                    required
+                  />
+                  {suggestionsActive && <Suggestions />}
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Keterangan</label>
+                  <input
+                    id="description"
+                    type="text"
+                    className="form-control"
+                    value={desc}
+                    onChange={(e) => setDesc(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Nominal</label>
+                  <input
+                    id="amount"
+                    type="number"
+                    className="form-control"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Periode</label>
+                  <input
+                    id="periode"
+                    type="date"
+                    className="form-control"
+                    value={periode}
+                    onChange={(e) => setPeriode(e.target.value)}
+                    required
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-secondary float-start"
+                  onClick={() => {
+                    navigate("/customerBill");
+                  }}
+                >
+                  Close
+                </button>
+                <button type="submit" className="btn btn-primary float-end">
+                  Submit
+                </button>
+              </form>
             </div>
-            <div className="mb-3">
-              <label className="form-label">Keterangan</label>
-              <input
-                id="description"
-                type="text"
-                className="form-control"
-                value={desc}
-                onChange={(e) => setDesc(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Nominal</label>
-              <input
-                id="amount"
-                type="number"
-                className="form-control"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Periode</label>
-              <input
-                id="periode"
-                type="date"
-                className="form-control"
-                value={periode}
-                onChange={(e) => setPeriode(e.target.value)}
-                required
-              />
-            </div>
-            <button
-              type="button"
-              className="btn btn-secondary float-start"
-              onClick={() => {
-                navigate("/customerBill");
-              }}
-            >
-              Close
-            </button>
-            <button type="submit" className="btn btn-primary float-end">
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-    </>
-      ):(
+          </div>
+        </>
+      ) : (
         <><p>Page Tidak Tersedia</p></>
       )}</div>
   );
