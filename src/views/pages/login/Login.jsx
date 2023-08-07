@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import gambar from "../../../assets/images/byrtagihan1.png";
 import { Form, Link, useNavigate } from "react-router-dom";
@@ -21,7 +19,7 @@ import { cilLockLocked, cilUser } from "@coreui/icons";
 import axios from "axios";
 import "./../../../views/css/Login.css";
 import Swal from "sweetalert2";
-import "../../../views/pages/login/Login.css"
+import "../../../views/pages/login/Login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -59,11 +57,10 @@ const Login = () => {
         if (status === 200) {
           Swal.fire({
             icon: "success",
-            title:  "Berhasil Login Sebagai Customer",
+            title: "Berhasil Login Sebagai Customer",
             showConfirmButton: false,
             timer: 1500,
           });
-          // alert("Successfully logged in Customer");
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
@@ -120,20 +117,19 @@ const Login = () => {
         }
       }
     } catch (error) {
-      // alert("username / Password No Valid");
       Swal.fire({
-        icon: 'error',
-        title: 'email / Password Salah'
-      })
+        icon: "error",
+        title: "email / Password Salah",
+      });
       console.log(error);
     }
   };
 
-   useEffect(() => {
+  useEffect(() => {
     setUnique_id(""); // Reset unique_id when type_token changes
   }, [type_token]);
 
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState("");
   const handleOptionChange = (event) => {
     setType_token(event.target.value);
   };
@@ -166,56 +162,52 @@ const Login = () => {
               >
                 Masuk ke akun anda
               </p>
-                    <div class="container1">
-    <div class="selector">
-        <div class="selector-item">
-            <input type="radio" id="radio1" name="selector" class="selector-item_radio" 
-          checked={type_token === 'siswa'} value="siswa" onChange={handleOptionChange}/>
-            <label for="radio1" class="selector-item_label">Siswa</label>
-        </div>
-        <div class="selector-item">
-            <input type="radio" id="radio2" name="selector" class="selector-item_radio" checked={type_token === 'admin Sekolah'} value="admin Sekolah" onChange={handleOptionChange}/>
-            <label for="radio2" class="selector-item_label">Admin</label>
-        </div>
-        <div class="selector-item">
-            <input type="radio" id="radio3" name="selector" class="selector-item_radio" onChange={handleOptionChange} checked={type_token === 'guru'} value="guru"/>
-            <label for="radio3" class="selector-item_label">Guru</label>
-        </div>
-    </div>
-</div>
-      {/* <label className="selector-item_label">
-        <input className="selector-item_radio"
-          name="toggle"
-          type="radio"
-          value="siswa"
-          checked={type_token === 'siswa'}
-          onChange={handleOptionChange}
-
-        />
-        Siswa
-      </label>
-      <label className="selector-item_label">
-        <input className="selector-item_radio"
-          name="toggle"
-          type="radio"
-          value="admin Sekolah"
-          checked={type_token === 'admin Sekolah'}
-          onChange={handleOptionChange}
-
-        />
-        Admin sekolah
-      </label>
-      <label className="selector-item_label">
-        <input className="selector-item_radio"
-          name="toggle"
-          type="radio"
-          value="guru"
-          checked={type_token === 'guru'}
-          onChange={handleOptionChange}
-
-        />
-        Guru
-      </label> */}
+              <div class="container1">
+                <div class="selector">
+                  <div class="selector-item">
+                    <input
+                      type="radio"
+                      id="radio1"
+                      name="selector"
+                      class="selector-item_radio"
+                      checked={type_token === "siswa"}
+                      value="siswa"
+                      onChange={handleOptionChange}
+                    />
+                    <label for="radio1" class="selector-item_label">
+                      Siswa
+                    </label>
+                  </div>
+                  <div class="selector-item">
+                    <input
+                      type="radio"
+                      id="radio2"
+                      name="selector"
+                      class="selector-item_radio"
+                      checked={type_token === "admin Sekolah"}
+                      value="admin Sekolah"
+                      onChange={handleOptionChange}
+                    />
+                    <label for="radio2" class="selector-item_label">
+                      Admin
+                    </label>
+                  </div>
+                  <div class="selector-item">
+                    <input
+                      type="radio"
+                      id="radio3"
+                      name="selector"
+                      class="selector-item_radio"
+                      onChange={handleOptionChange}
+                      checked={type_token === "guru"}
+                      value="guru"
+                    />
+                    <label for="radio3" class="selector-item_label">
+                      Guru
+                    </label>
+                  </div>
+                </div>
+              </div>
               {type_token === "guru" ? (
                 <>
                   <CInputGroup className="mb-3">
@@ -260,10 +252,7 @@ const Login = () => {
               )}
               <CInputGroup className="mb-4">
                 <CInputGroupText>
-                  {/* <CIcon icon={cilLockLocked} /> */}
-                  <span
-                    onClick={togglePassword}
-                  >
+                  <span onClick={togglePassword}>
                     <i class={passwordIcon}></i>
                   </span>
                 </CInputGroupText>
@@ -276,19 +265,19 @@ const Login = () => {
                 />
               </CInputGroup>
               <CRow>
-                    <CButton
-                      color="link"
-                      style={{
-                        marginTop: "-20px",
-                        marginLeft: "33.5%",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      <a href="/#/reset"> Forgot password</a>
-                    </CButton>
+                <CButton
+                  color="link"
+                  style={{
+                    marginTop: "-20px",
+                    marginLeft: "33.5%",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <a href="/#/reset"> Forgot password</a>
+                </CButton>
                 <CCol xs={6}>
                   <button
-                  type="button"
+                    type="button"
                     className="px-4"
                     onClick={login}
                     style={{

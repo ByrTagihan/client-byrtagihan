@@ -1,182 +1,142 @@
 .readonly {
-    display: flex;
-    justify-content: center;
-    gap: 5%;
+  display: flex;
+  justify-content: center;
+  gap: 5%;
 }
 .readonly1 {
-    display: flex;
-    justify-content: space-around;
-    gap: 40px;
+  display: flex;
+  justify-content: space-around;
+  gap: 40px;
 }
 .readonly2 {
-    display: flex;
-    justify-content: space-around;
-    gap: 40px;
+  display: flex;
+  justify-content: space-around;
+  gap: 40px;
 }
 .responsive-3 {
-    overflow-y: auto;
+  overflow-y: auto;
 }
 .tdd {
-    display: flex;
-    justify-content: left;
-    gap: 5px;
-    width: 100%;
-    /* padding-right: 60px; */
+  display: flex;
+  justify-content: left;
+  gap: 5px;
+  width: 100%;
 }
 .table-container {
-    max-width: 100%;
-    overflow-x: auto;
+  max-width: 100%;
+  overflow-x: auto;
 }
 .table1 {
-    text-align: left;
-    background: none;
+  text-align: left;
+  background: none;
 }
 .edit1 {
-    padding: 2px 10px 2px 10px;
-    background: blue;
-    color: white;
-    font-size: 15px;
+  padding: 2px 10px 2px 10px;
+  background: blue;
+  color: white;
+  font-size: 15px;
 }
 tbody {
-    text-align: left;
+  text-align: left;
 }
 .listTagihan {
-    margin-left: 4px;
-    font-size: 19px;
-    font-weight: bold;
-    margin-top: 5px;
-    margin-bottom: 8px;
+  margin-left: 4px;
+  font-size: 19px;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 8px;
 }
 .inputSearch {
-    margin-bottom: 2px;
-    width: 20em;
-    margin-right: 14px;
-    margin-top: 1px;
+  margin-bottom: 2px;
+  width: 20em;
+  margin-right: 14px;
+  margin-top: 1px;
 }
 .inputSearch1 {
-    display: none;
+  display: none;
 }
 .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination li {
+  list-style: none;
+  margin: 0 5px;
+}
+
+.pagination a {
+  padding: 5px 10px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #333;
+}
+
+.pagination .active a {
+  background-color: #007bff;
+  color: #fff;
+}
+.inputSearch1 {
+  display: none;
+}
+@media (max-width: 600px) {
+  .action {
+    display: block;
+    float: right;
   }
-  
-  .pagination li {
-    list-style: none;
-    margin: 0 5px;
+  .card {
+    margin-top: 10px;
   }
-  
-  .pagination a {
-    padding: 5px 10px;
-    text-decoration: none;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    color: #333;
-  }
-  
-  .pagination .active a {
-    background-color: #007bff;
-    color: #fff;
-  }
-  .inputSearch1 {
+  .inputSearch {
     display: none;
   }
-@media(max-width: 600px) {
-    .action {
-        display: block;
-        float: right;
-    }
-   .card {
+  .inputSearch1 {
+    display: block;
     margin-top: 10px;
-   }
-    .inputSearch {
-        display:none;
-    }
-    .inputSearch1 {
-        display: block;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-    .listTagihan{
-        font-size: 15px;
-    }
-    .tdd{
-        justify-content: left;
-        /* padding-right: none; */
-    }
-    tbody {
-        text-align: left;
-    }
-    .readonly2 {
-        gap: 10px;
-    }
-    .readonly {
-        display: block;
-    }
-    .bungkus {
-        width: 100%;
-    }
-    .td {
-        padding-right: none;
-        display: flex;
-        justify-content: left;
-    }
-   .responsive-3 {
-        width: 100%;
-    } 
-    /* .responsive-3 thead th.column-primary {
-        width: 100%;
-    }  */
- 
-    /* .responsive-3 thead th.column-primary {
-        display:none;
-    } */
-
-    /* .responsive-3 th {
-        display: block;
-        width: auto;
-        text-align: justify;
-        border-right: 1px solid #e1edff;
-    }
-     
-    .responsive-3 td {
-        display: block;
-        width: auto;
-        text-align: justify;
-        border-right: 1px solid #e1edff;
-    }
-    .responsive-3 thead th::before {
-        text-transform: uppercase;
-        font-weight: bold;
-        content: attr(data-header);
-    }
-    .responsive-3 thead th:first-child span {
-        display: none;
-    }
-    .responsive-3 td::before {
-        float: left;
-        text-transform: uppercase;
-        font-weight: bold;
-        content: attr(data-header);
-    } */
-    th {
-        display: none;
-    }
-    td {
-        display: grid;
-        gap: 0.5rem;
-        grid-template-columns: 15ch auto;
-        padding: 0.75em 1rem;
-    }
-    td:first-child{
-        padding-top: 2rem;
-    }
-    /* td:last-child{
-        padding-bottom: 2rem;
-    } */
-    td::before{
-        content: attr(data-cell) "  : ";
-        font-weight: bold;
-    }
+    margin-bottom: 10px;
+  }
+  .listTagihan {
+    font-size: 15px;
+  }
+  .tdd {
+    justify-content: left;
+  }
+  tbody {
+    text-align: left;
+  }
+  .readonly2 {
+    gap: 10px;
+  }
+  .readonly {
+    display: block;
+  }
+  .bungkus {
+    width: 100%;
+  }
+  .td {
+    padding-right: none;
+    display: flex;
+    justify-content: left;
+  }
+  .responsive-3 {
+    width: 100%;
+  }
+  th {
+    display: none;
+  }
+  td {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 15ch auto;
+    padding: 0.75em 1rem;
+  }
+  td:first-child {
+    padding-top: 2rem;
+  }
+  td::before {
+    content: attr(data-cell) "  : ";
+    font-weight: bold;
+  }
 }

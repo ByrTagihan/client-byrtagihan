@@ -1,16 +1,16 @@
 .box {
-    display: flex;
-    gap: 35%;
+  display: flex;
+  gap: 35%;
 }
 .box input {
-    margin-bottom: 10px;
-   width: 217%; 
+  margin-bottom: 10px;
+  width: 217%;
 }
-@media(max-width:600px) {
-    .box {
-        display: block;
-    }
-    .box input {
-        width: 100%;
-    }
-    }
+@media (max-width: 600px) {
+  .box {
+    display: block;
+  }
+  .box input {
+    width: 100%;
+  }
+}

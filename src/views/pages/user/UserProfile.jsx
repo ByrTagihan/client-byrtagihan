@@ -91,7 +91,8 @@ function UserProfile() {
       };
 
       await axios.put(
-        `${API_DUMMY}/user/profile`, data,
+        `${API_DUMMY}/user/profile`,
+        data,
         // console.log(picture),
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -125,7 +126,7 @@ function UserProfile() {
         setUnique_id(profil.email);
         setAddress(profil.address);
         setProfile({ ...profil, id: profil.id });
-        setPicture(profile.picture)
+        setPicture(profile.picture);
         console.log(res.data.data);
         console.log({ ...profil, id: profil.id });
         // If profilePicture is available in the response, update the picture state

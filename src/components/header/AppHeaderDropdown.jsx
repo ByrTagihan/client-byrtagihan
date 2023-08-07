@@ -134,7 +134,7 @@ const AppHeaderDropdown = () => {
       });
   };
 
-  const getAllTemplate= async () => {
+  const getAllTemplate = async () => {
     await axios
       .get(`${API_DUMMY}/user/template?limit=10000`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -146,45 +146,6 @@ const AppHeaderDropdown = () => {
         alert("Terjadi Kesalahan" + error);
       });
   };
-
-  // const getCustomerOrganization = async () => {
-  //   await axios
-  //     .get(`${API_DUMMY}/customer/organization?limit=10000`, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     })
-  //     .then((res) => {
-  //       setCustomerOrganization(res.data.data);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
-
-  // const getCustomerMember = async () => {
-  //   await axios
-  //     .get(`${API_DUMMY}/customer/member?limit=10000`, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     })
-  //     .then((res) => {
-  //       setCustomerMember(res.data.data);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
-  // const getCustomerBill = async () => {
-  //   await axios
-  //     .get(`${API_DUMMY}/customer/bill?limit=10000`, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     })
-  //     .then((res) => {
-  //       setCustomerBill(res.data.data);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
-
   useEffect(() => {
     getAllPayment();
     getAllTransaction();

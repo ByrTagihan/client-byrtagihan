@@ -1,77 +1,74 @@
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .allProfile {
-    display: flex;
-    gap: 2rem;
+  display: flex;
+  gap: 2rem;
 }
 
 .box1 {
-    border-radius: 10px;
-    width: 21.5rem;
-    height: 25rem;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-
+  border-radius: 10px;
+  width: 21.5rem;
+  height: 25rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .boxProfile {
-    margin-left: 18%;
-    border-radius: 10px;
-    width: 40rem;
-    height: 25rem;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    padding: 30px;
-    margin-bottom: 15px;
+  margin-left: 18%;
+  border-radius: 10px;
+  width: 40rem;
+  height: 25rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 30px;
+  margin-bottom: 15px;
 }
 .textProfile {
-    text-align: center;
-    padding: 10px;
+  text-align: center;
+  padding: 10px;
 }
 
 .box2 {
-    border-radius: 10px;
-    width: 40rem;
-    height: 25rem;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    padding: 30px;
-    margin-bottom: 15px;
-
+  border-radius: 10px;
+  width: 40rem;
+  height: 25rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 30px;
+  margin-bottom: 15px;
 }
 
 .buttonSave {
-    padding: 6px;
-    margin-top: 10px;
-    
+  padding: 6px;
+  margin-top: 10px;
 }
 
 .buttonUbah {
-    text-decoration: none;
-    padding: 6px;
-    margin-left: 9.5rem;
-    margin-top: 10px;
+  text-decoration: none;
+  padding: 6px;
+  margin-left: 9.5rem;
+  margin-top: 10px;
 }
 .gambar {
-    padding: 10px;
+  padding: 10px;
 }
 img {
-    width: 20rem;
+  width: 20rem;
 }
 @media (max-width: 991px) {
-    .allProfile {
-        display: block;
-    }
+  .allProfile {
+    display: block;
+  }
 
-    .box1 {
-        margin-bottom: 2em;
-    }
+  .box1 {
+    margin-bottom: 2em;
+  }
 
-    .box2 {
-        width: 21.5rem;
-    }
+  .box2 {
+    width: 21.5rem;
+  }
 
-    .buttonUbah {
-        margin-left: 6px;
-        margin-top: 10px;
-    }
+  .buttonUbah {
+    margin-left: 6px;
+    margin-top: 10px;
+  }
 }

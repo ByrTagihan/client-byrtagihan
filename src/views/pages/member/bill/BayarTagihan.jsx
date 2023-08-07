@@ -23,10 +23,14 @@ import Swal from "sweetalert2";
 function BayarTagihan() {
   const [channel, setChannel] = useState([]);
   const [channel_id, setChannel_id] = useState("");
+  const [visible, setVisible] = useState(false);
   const [showCard, setShowCard] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-  const [role, setRole] = useState("");
+  const [amount, setAmount] = useState("");
+  const [va_expired_date, setVa_expired_date] = useState("");
+  const [channel_name, setChannel_name] = useState("");
+  const [va_number, setVa_number] = useState("");
   const [bayar, setBayar] = useState({
     amount: "",
     va_expired_date: "",
@@ -34,14 +38,17 @@ function BayarTagihan() {
     va_number: "",
     descriptions: [],
   });
+  const [role, setRole] = useState("");
 
-  // function get channel
   const GetChannel = async () => {
-    if (localStorage.getItem("type_token") === "member") {
+    if (role === "member") {
       try {
-        const { data, status } = await axios.get(`${API_DUMMY}/member/channel`, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+        const { data, status } = await axios.get(
+          `${API_DUMMY}/member/channel`,
+          {
+            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          }
+        );
         if (status === 200) {
           setChannel(data.data);
           console.log(data.data);
@@ -51,9 +58,9 @@ function BayarTagihan() {
       }
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa',
-        'error'
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa",
+        "error"
       ).then((result) => {
         //Untuk munuju page selanjutnya
         navigate("/");
@@ -65,7 +72,6 @@ function BayarTagihan() {
     }
   };
 
-  // function bayar
   const bayarTagihan = async (e) => {
     e.preventDefault();
     e.persist();
@@ -74,7 +80,6 @@ function BayarTagihan() {
       const data = {
         channel_id: channel_id,
       };
-      // console.log(data);
       await axios
         .post(`${API_DUMMY}/member/bill/${id}/payment`, data, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -202,7 +207,9 @@ function BayarTagihan() {
                   <p>Jatuh tempo pada: </p>
                   <b className="text-primary">
                     {bayar.va_expired_date
-                      ? new Date(bayar.va_expired_date).toISOString().slice(0, -5)
+                      ? new Date(bayar.va_expired_date)
+                          .toISOString()
+                          .slice(0, -5)
                       : ""}
                   </b>
                 </CListGroupItem>
@@ -224,14 +231,17 @@ function BayarTagihan() {
                     <CAccordionBody>
                       <p>1. Pilih Transfer Virtual Account Billing.</p>
                       <p>
-                        2. Pilih Rekening Debet lalu masukkan nomor Virtual Account{" "}
+                        2. Pilih Rekening Debet lalu masukkan nomor Virtual
+                        Account{" "}
                         <b className="text-primary">{bayar.va_number}</b>.
                       </p>
-                      <p>3. Tagihan yang harus dibayar akan muncul konfirmasi.</p>
                       <p>
-                        4. Periksa informasi yang tertera dilayar. Pastikan Merchant
-                        adalah byrtagihan. Total tagihan sudah benar?. Jika benar,
-                        masukan password transaksi dan pilih lanjut
+                        3. Tagihan yang harus dibayar akan muncul konfirmasi.
+                      </p>
+                      <p>
+                        4. Periksa informasi yang tertera dilayar. Pastikan
+                        Merchant adalah byrtagihan. Total tagihan sudah benar?.
+                        Jika benar, masukan password transaksi dan pilih lanjut
                       </p>
                     </CAccordionBody>
                   </CAccordionItem>
@@ -249,8 +259,11 @@ function BayarTagihan() {
           )}
         </>
       ) : (
-        <><p>Page Tidak Tersedia</p></>
-      )} </div>
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}{" "}
+    </div>
   );
 }
 

@@ -117,7 +117,6 @@ function TambahMember() {
       });
       if (status === 200) {
         setCostumer(data.data);
-        // console.log(data.data);
       }
     } catch (err) {
       console.log(err);

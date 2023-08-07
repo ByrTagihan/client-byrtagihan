@@ -1,3 +1,5 @@
+
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -147,7 +149,7 @@ function CrudTransaction() {
   };
   return (
     <div>
-      {/* {localStorage.getItem("type_token") === "user" ? ( */}
+      {localStorage.getItem("type_token") === "user" ? (
       <div className="row">
         <div className="col" xs={12}>
           <div className="card mb-4">
@@ -182,6 +184,7 @@ function CrudTransaction() {
                 </div>
                 <div className="col">
                   <CFormInput
+                    // style={{ width: "50%", marginLeft: "15em" }}
                     className="filter-data-t"
                     type="search"
                     placeholder="search data"
@@ -191,7 +194,7 @@ function CrudTransaction() {
                 </div>
               </div>
               <table className="tabel-transaction table  table1 responsive-3">
-                <thead className="text-center">
+                <thead>
                   <tr>
                     <th scope="col" onClick={() => handleSort("id")}>
                       No{" "}
@@ -228,14 +231,10 @@ function CrudTransaction() {
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody
-                  id="myTable"
-                  className="bg-white"
-                  style={{ textAlign: "center" }}
-                >
+                <tbody id="myTable" className="bg-white">
                   {filteredBills.map((item, index) => {
                     return (
-                      <tr style={{ height: "4.1em"}} key={index}>
+                      <tr key={index}>
                         <td data-cell="No">{index + 1}</td>
                         <td data-cell="Description">{item.description}</td>
                         <td data-cell="Organization">
@@ -244,31 +243,30 @@ function CrudTransaction() {
                         <td data-cell="Nominal">{item.amount}</td>
                         <td data-cell="Create Date">{item.created_date}</td>
                         <td data-cell="Update Date">{item.updated_date}</td>
-                        <td
-                          data-cell="Action" style={{display: "flex", gap: "5px", height: "4.1em"}}
-                        >
-                          <button
-                            style={{ background: "blue" }}
-                            onClick={() =>
-                              navigate(`/editTransaction/${item.id}`)
-                            }
-                            type="button"
-                            className="edit"
-                          >
-                            <CIcon
-                              icon={cilPencil}
-                              style={{ color: "white" }}
-                            />
-                          </button>
-
-                          <button
-                            style={{ background: "red" }}
-                            onClick={() => Delete(item.id)}
-                            type="button"
-                            className="hapus"
-                          >
-                            <CIcon icon={cilTrash} style={{ color: "white" }} />
-                          </button>
+                        <td data-cell="Action">
+                          <div className="tdd">
+                            <button
+                              style={{ background: "blue" }}
+                              type="button"
+                              className="edit1"
+                              onClick={() =>
+                                navigate(`/editTransaction/${item.id}`)
+                              }
+                            >
+                              <CIcon icon={cilPencil} />
+                            </button>
+                            <button
+                              style={{ background: "red" }}
+                              type="button"
+                              className="edit1"
+                              onClick={() => Delete(item.id)}
+                            >
+                              <CIcon
+                                icon={cilTrash}
+                                style={{ color: "white" }}
+                              />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
@@ -313,9 +311,9 @@ function CrudTransaction() {
           </div>
         </div>
       </div>
-      {/* ) : (
+     ) : (
         <></>
-       )}  */}
+       )}  
     </div>
   );
 }

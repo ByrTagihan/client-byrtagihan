@@ -26,31 +26,30 @@ function Template() {
 
   const getAll = async () => {
     if (localStorage.getItem("type_token") === "user") {
-    await axios
-      .get(`${API_DUMMY}/user/template?page=${currentPage}&limit=${limit}`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        setTotalPages(res.data.pagination.total_page);
-        setListTemplate(res.data.data);
-        console.log(res.data.data);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-      
+      await axios
+        .get(`${API_DUMMY}/user/template?page=${currentPage}&limit=${limit}`, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        })
+        .then((res) => {
+          setTotalPages(res.data.pagination.total_page);
+          setListTemplate(res.data.data);
+          console.log(res.data.data);
+        })
+        .catch((error) => {
+          alert("Terjadi Kesalahan" + error);
+        });
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-        'error'      
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru",
+        "error"
       ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
       });
     }
   };
@@ -61,7 +60,6 @@ function Template() {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    // getAll(page);
   };
 
   const handleSort = (key) => {
@@ -117,17 +115,6 @@ function Template() {
     getAll();
   }, [currentPage, searchTerm, sortBy, limit]);
 
-  // const getPageNumbers = () => {
-  //   const pageNumbers = [];
-  //   for (let i = 1; i <= totalPages; i++) {
-  //     pageNumbers.push(
-  //       <li key={i} className={"page-item " + (currentPage === i  ? 'active' : '')}  aria-current="page" onClick={() => handlePageChange(i)}>
-  //         <a class="page-link">{i}</a>
-  //       </li>
-  //     );
-  //   }
-  //   return pageNumbers;
-  // };
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     const displayedPages = [];
@@ -136,28 +123,36 @@ function Template() {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
 
     return displayedPages.map((page, index) =>
-      page === 'dot' ? (
+      page === "dot" ? (
         <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? ' active' : '')}
+          className={"page-item" + (currentPage === page ? " active" : "")}
         >
           <a className="page-link">{page}</a>
         </li>
@@ -167,7 +162,6 @@ function Template() {
 
   const deleteT = async (id) => {
     Swal.fire({
-
       title: "Anda Ingin Menghapus Data ?",
 
       icon: "warning",
@@ -176,7 +170,6 @@ function Template() {
       cancelButtonColor: "#d33",
       confirmButtonText: "Delete",
       cancelButtonText: "Cancel",
-
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(`${API_DUMMY}/user/template/` + id, {
@@ -187,7 +180,6 @@ function Template() {
           title: "Dihapus!",
           showConfirmButton: false,
         });
-        // console.log(id);
       }
       setTimeout(() => {
         window.location.reload();
@@ -198,170 +190,182 @@ function Template() {
     <div className="row">
       {localStorage.getItem("type_token") === "user" ? (
         <>
-      <div className="col" xs={12}>
-        <div className="inputSearch1">
-          <CFormInput
-            type="search"
-            placeholder="search data"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-        </div>
-        <div className="inputSearch1">
-          <select
-            className="form-select"
-            value={limit}
-            onChange={handleChangeLimit}
-          >
-            <option value="1">Show 1 Entries</option>
-            <option value="10">Show 10 Entries</option>
-            <option value="100">Show 100 Entries</option>
-            {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-          </select>
-        </div>
-        <div className="card mb-4">
-          <div className="card-header">
-            <div style={{ display: "flex" }}>
-              <div className="col">
-                <h4>Template</h4>
-              </div>
-              <div className="">
-                <Link to="/tambahTemplate">
-                  <button className="btn btn-primary float-end">
-
-                  <CIcon icon={cilPlus} /> Tambah
-                  </button>
-                </Link>
-              </div>
+          <div className="col" xs={12}>
+            <div className="inputSearch1">
+              <CFormInput
+                type="search"
+                placeholder="search data"
+                value={searchTerm}
+                onChange={handleSearch}
+              />
             </div>
-          </div>
-          <div className="card-body table-container">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <div className="inputSearch">
-                <select
-                  className="form-select"
-                  value={limit}
-                  onChange={handleChangeLimit}
+            <div className="inputSearch1">
+              <select
+                className="form-select"
+                value={limit}
+                onChange={handleChangeLimit}
+              >
+                <option value="1">Show 1 Entries</option>
+                <option value="10">Show 10 Entries</option>
+                <option value="100">Show 100 Entries</option>
+                {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+              </select>
+            </div>
+            <div className="card mb-4">
+              <div className="card-header">
+                <div style={{ display: "flex" }}>
+                  <div className="col">
+                    <h4>Template</h4>
+                  </div>
+                  <div className="">
+                    <Link to="/tambahTemplate">
+                      <button className="btn btn-primary float-end">
+                        <CIcon icon={cilPlus} /> Tambah
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+              <div className="card-body table-container">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
                 >
-                  <option value="1">Show 1 Entries</option>
-                  <option value="10">Show 10 Entries</option>
-                  <option value="100">Show 100 Entries</option>
-                  {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-                </select>
-              </div>
-              <div className="inputSearch">
-                <CFormInput
-                  type="search"
-                  placeholder="search data"
-                  value={searchTerm}
-                  onChange={handleSearch}
-                />
-              </div>
-            </div>
-            <table className="table responsive-3 table1">
-              <thead>
-                <tr>
-                  <th scope="col" onClick={() => handleSort("no")}>
-                    No{" "}
-                    {sortConfig && sortConfig.key === "no" && (
-                      (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                    )}
-                  </th>
-                  <th scope="col" onClick={() => handleSort("nama")}>
-                    Nama{" "}
-                    {sortConfig && sortConfig.key === "nama" && (
-                      (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                    )}
-                  </th>
-                  <th scope="col" onClick={() => handleSort("created_date")}>
-                    Created date{" "}
-                    {sortConfig && sortConfig.key === "created_date" && (
-                      (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                    )}
-                  </th>
-                  <th scope="col" onClick={() => handleSort("updated_date")}>
-                    Updated date{" "}
-                    {sortConfig && sortConfig.key === "updated_date" && (
-                      (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                    )}
-                  </th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sortedList.map((data, index) => {
-                  return (
-                    <tr key={index}>
-                      <td data-cell="Id" scope="row">
-                        {" "}
-                        {index + 1}
-                      </td>
-                      <td data-cell="Name">{data.name}</td>
-                      <td data-cell="Create Date">{data.created_date}</td>
-                      <td data-cell="Update Date">{data.updated_date}</td>
-                      <td data-cell="Action">
-                        <div className="tdd">
-                          <button
-                            className="edit1"
-                            type="button"
-                            style={{ background: "blue" }}
-                            onClick={() => navigate(`/EditTemplate/${data.id}`)}
-                          >
-                            {" "}
-                            <CIcon icon={cilPencil} />
-                          </button>
-                          <button
-                            onClick={() => deleteT(data.id)}
-                            className="edit1"
-                            style={{ background: "red", color: "white" }}
-                          >
-                            <CIcon icon={cilTrash} />
-                          </button>
-                        </div>
-                      </td>
+                  <div className="inputSearch">
+                    <select
+                      className="form-select"
+                      value={limit}
+                      onChange={handleChangeLimit}
+                    >
+                      <option value="1">Show 1 Entries</option>
+                      <option value="10">Show 10 Entries</option>
+                      <option value="100">Show 100 Entries</option>
+                      {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                    </select>
+                  </div>
+                  <div className="inputSearch">
+                    <CFormInput
+                      type="search"
+                      placeholder="search data"
+                      value={searchTerm}
+                      onChange={handleSearch}
+                    />
+                  </div>
+                </div>
+                <table className="table responsive-3 table1">
+                  <thead>
+                    <tr>
+                      <th scope="col" onClick={() => handleSort("no")}>
+                        No{" "}
+                        {sortConfig &&
+                          sortConfig.key === "no" &&
+                          (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("nama")}>
+                        Nama{" "}
+                        {sortConfig &&
+                          sortConfig.key === "nama" &&
+                          (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                      </th>
+                      <th
+                        scope="col"
+                        onClick={() => handleSort("created_date")}
+                      >
+                        Created date{" "}
+                        {sortConfig &&
+                          sortConfig.key === "created_date" &&
+                          (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                      </th>
+                      <th
+                        scope="col"
+                        onClick={() => handleSort("updated_date")}
+                      >
+                        Updated date{" "}
+                        {sortConfig &&
+                          sortConfig.key === "updated_date" &&
+                          (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col">Action</th>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            <ul class="pagination float-end">
-              <li
-                className={"page-item " + (currentPage === 1 ? "disabled" : "")}
-                disabled={currentPage === 1}
-              >
-                <a
-                  class="page-link"
-                  onClick={() => handlePageChange(currentPage - 1)}
-                >
-                  Previous
-                </a>
-              </li>
-              {renderPageNumbers()}
-              <li
-                className={
-                  "page-item " + (currentPage === totalPages ? "disabled" : "")
-                }
-                disabled={currentPage === totalPages}
-              >
-                <a
-                  class="page-link"
-                  onClick={() => handlePageChange(currentPage + 1)}
-                >
-                  Next
-                </a>
-              </li>
-            </ul>
+                  </thead>
+                  <tbody>
+                    {sortedList.map((data, index) => {
+                      return (
+                        <tr key={index}>
+                          <td data-cell="Id" scope="row">
+                            {" "}
+                            {index + 1}
+                          </td>
+                          <td data-cell="Name">{data.name}</td>
+                          <td data-cell="Create Date">{data.created_date}</td>
+                          <td data-cell="Update Date">{data.updated_date}</td>
+                          <td data-cell="Action">
+                            <div className="tdd">
+                              <button
+                                className="edit1"
+                                type="button"
+                                style={{ background: "blue" }}
+                                onClick={() =>
+                                  navigate(`/EditTemplate/${data.id}`)
+                                }
+                              >
+                                {" "}
+                                <CIcon icon={cilPencil} />
+                              </button>
+                              <button
+                                onClick={() => deleteT(data.id)}
+                                className="edit1"
+                                style={{ background: "red", color: "white" }}
+                              >
+                                <CIcon icon={cilTrash} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+                <ul class="pagination float-end">
+                  <li
+                    className={
+                      "page-item " + (currentPage === 1 ? "disabled" : "")
+                    }
+                    disabled={currentPage === 1}
+                  >
+                    <a
+                      class="page-link"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                      Previous
+                    </a>
+                  </li>
+                  {renderPageNumbers()}
+                  <li
+                    className={
+                      "page-item " +
+                      (currentPage === totalPages ? "disabled" : "")
+                    }
+                    disabled={currentPage === totalPages}
+                  >
+                    <a
+                      class="page-link"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
         </>
-      ):(
-        <><p>Page Tidak Tersedia</p></>
+      ) : (
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
       )}
     </div>
   );

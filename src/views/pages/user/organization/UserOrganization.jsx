@@ -55,42 +55,41 @@ function UserOrganization() {
 
   const get = async () => {
     if (localStorage.getItem("type_token") === "user") {
-    await axios
-      .get(`${API_DUMMY}/user/organization/` + param.id, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        const organization = res.data.data;
-        setOrganization(organization);
-        setId(organization.id);
-        setName(organization.name);
-        setAddress(organization.address);
-        setHp(organization.hp);
-        setEmail(organization.email);
-        setCity(organization.city);
-        setCustomer_id(organization.customer_id);
-        setProvinsi(organization.provinsi);
-        setBalance(organization.balance);
-        setBank_account_number(organization.bank_account_number);
-        setBank_account_name(organization.bank_account_name);
-        setBank_name(organization.bank_name);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-      
+      await axios
+        .get(`${API_DUMMY}/user/organization/` + param.id, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        })
+        .then((res) => {
+          const organization = res.data.data;
+          setOrganization(organization);
+          setId(organization.id);
+          setName(organization.name);
+          setAddress(organization.address);
+          setHp(organization.hp);
+          setEmail(organization.email);
+          setCity(organization.city);
+          setCustomer_id(organization.customer_id);
+          setProvinsi(organization.provinsi);
+          setBalance(organization.balance);
+          setBank_account_number(organization.bank_account_number);
+          setBank_account_name(organization.bank_account_name);
+          setBank_name(organization.bank_name);
+        })
+        .catch((error) => {
+          alert("Terjadi Kesalahan" + error);
+        });
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-        'error'      
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru",
+        "error"
       ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
       });
     }
   };
@@ -253,181 +252,184 @@ function UserOrganization() {
     <div>
       {localStorage.getItem("type_token") === "user" ? (
         <>
-      <CCard className="mb-4">
-        <CCardBody>
-          <CForm onKeyDown={onKeyDown} onSubmit={Put}>
-            <CRow className="mb-3">
-              <CFormLabel className="col-sm-2 col-form-label text-dark">
-                Id
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  placeholder="Id"
-                  autoComplete="Id"
-                  value={id}
-                  readOnly
-                />
-              </CCol>
-            </CRow>
+          <CCard className="mb-4">
+            <CCardBody>
+              <CForm onKeyDown={onKeyDown} onSubmit={Put}>
+                <CRow className="mb-3">
+                  <CFormLabel className="col-sm-2 col-form-label text-dark">
+                    Id
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      placeholder="Id"
+                      autoComplete="Id"
+                      value={id}
+                      readOnly
+                    />
+                  </CCol>
+                </CRow>
 
-            <CRow className="mb-3">
-              <CFormLabel className="col-sm-2 col-form-label text-dark">
-                Name
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  placeholder="Name"
-                  autoComplete="name"
-                  onChange={(e) => setName(e.target.value)}
-                  value={name}
-                />
-              </CCol>
-            </CRow>
-            <CRow className="mb-3">
-              <CFormLabel className="col-sm-2 col-form-label text-dark">
-                Customer Id
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  id="customer_id"
-                  type="text"
-                  onKeyDown={handleKeyDown}
-                  onChange={handleChange}
-                  value={value}
-                  placeholder="Customer Id..."
-                  required
-                />
-                {suggestionsActive && <Suggestions />}
-              </CCol>
-            </CRow>
-            <CRow className="mb-3">
-              <CFormLabel className="col-sm-2 col-form-label text-dark">
-                Address
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  placeholder="address"
-                  autoComplete="address"
-                  onChange={(e) => setAddress(e.target.value)}
-                  value={address}
-                />
-              </CCol>
-            </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel className="col-sm-2 col-form-label text-dark">
+                    Name
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      placeholder="Name"
+                      autoComplete="name"
+                      onChange={(e) => setName(e.target.value)}
+                      value={name}
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel className="col-sm-2 col-form-label text-dark">
+                    Customer Id
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      id="customer_id"
+                      type="text"
+                      onKeyDown={handleKeyDown}
+                      onChange={handleChange}
+                      value={value}
+                      placeholder="Customer Id..."
+                      required
+                    />
+                    {suggestionsActive && <Suggestions />}
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel className="col-sm-2 col-form-label text-dark">
+                    Address
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      placeholder="address"
+                      autoComplete="address"
+                      onChange={(e) => setAddress(e.target.value)}
+                      value={address}
+                    />
+                  </CCol>
+                </CRow>
 
-            <CRow className="mb-3">
-              <CFormLabel className="col-sm-2 col-form-label text-dark">
-                Hp
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  type="number"
-                  placeholder="hp"
-                  autoComplete="hp"
-                  onChange={(e) => setHp(e.target.value)}
-                  value={hp}
-                />
-              </CCol>
-            </CRow>
-            <CRow className="mb-3">
-              <CFormLabel className="col-sm-2 col-form-label text-dark">
-                Email
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  placeholder="email"
-                  autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                />
-              </CCol>
-            </CRow>
-            <CRow className="mb-3">
-              <CFormLabel className="col-sm-2 col-form-label text-dark">
-                Kota
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  placeholder="kota"
-                  autoComplete="kota"
-                  onChange={(e) => setCity(e.target.value)}
-                  value={city}
-                />
-              </CCol>
-            </CRow>
-            <CRow className="mb-3">
-              <CFormLabel className="col-sm-2 col-form-label text-dark">
-                Provinsi
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  placeholder="provinsi"
-                  autoComplete="provinsi"
-                  onChange={(e) => setProvinsi(e.target.value)}
-                  value={provinsi}
-                />
-              </CCol>
-            </CRow>
-            <CRow className="mb-3">
-              <CFormLabel className="col-sm-2 col-form-label text-dark">
-                No Rekening
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  type="number"
-                  placeholder="nomor rekening"
-                  autoComplete="nomor rekening"
-                  onChange={(e) => setBank_account_number(e.target.value)}
-                  value={bank_account_number}
-                />
-              </CCol>
-            </CRow>
-            <CRow className="mb-3">
-              <CFormLabel className="col-sm-2 col-form-label text-dark">
-                Nama Rekening
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  placeholder="nama rekening"
-                  autoComplete="nama rekening"
-                  onChange={(e) => setBank_account_name(e.target.value)}
-                  value={bank_account_name}
-                />
-              </CCol>
-            </CRow>
-            <CRow className="mb-3">
-              <CFormLabel className="col-sm-2 col-form-label text-dark">
-                Nama Bank
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  placeholder="nama bank"
-                  autoComplete="nama bank"
-                  onChange={(e) => setBank_name(e.target.value)}
-                  value={bank_name}
-                />
-              </CCol>
-            </CRow>
-            <CRow className="mb-3">
-              <CFormLabel className="col-sm-2 col-form-label text-dark">
-                Saldo
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  placeholder="saldo"
-                  autoComplete="saldo"
-                  value={balance}
-                  onChange={(e) => setBalance(e.target.value)}
-                />
-              </CCol>
-            </CRow>
-            <CButton type="submit">Simpan</CButton>
-          </CForm>
-        </CCardBody>
-      </CCard>
-   </>
-      ):(
-        <><p>Page Tidak Tersedia</p></>
-      )} </div>
+                <CRow className="mb-3">
+                  <CFormLabel className="col-sm-2 col-form-label text-dark">
+                    Hp
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      type="number"
+                      placeholder="hp"
+                      autoComplete="hp"
+                      onChange={(e) => setHp(e.target.value)}
+                      value={hp}
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel className="col-sm-2 col-form-label text-dark">
+                    Email
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      placeholder="email"
+                      autoComplete="email"
+                      onChange={(e) => setEmail(e.target.value)}
+                      value={email}
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel className="col-sm-2 col-form-label text-dark">
+                    Kota
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      placeholder="kota"
+                      autoComplete="kota"
+                      onChange={(e) => setCity(e.target.value)}
+                      value={city}
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel className="col-sm-2 col-form-label text-dark">
+                    Provinsi
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      placeholder="provinsi"
+                      autoComplete="provinsi"
+                      onChange={(e) => setProvinsi(e.target.value)}
+                      value={provinsi}
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel className="col-sm-2 col-form-label text-dark">
+                    No Rekening
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      type="number"
+                      placeholder="nomor rekening"
+                      autoComplete="nomor rekening"
+                      onChange={(e) => setBank_account_number(e.target.value)}
+                      value={bank_account_number}
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel className="col-sm-2 col-form-label text-dark">
+                    Nama Rekening
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      placeholder="nama rekening"
+                      autoComplete="nama rekening"
+                      onChange={(e) => setBank_account_name(e.target.value)}
+                      value={bank_account_name}
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel className="col-sm-2 col-form-label text-dark">
+                    Nama Bank
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      placeholder="nama bank"
+                      autoComplete="nama bank"
+                      onChange={(e) => setBank_name(e.target.value)}
+                      value={bank_name}
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel className="col-sm-2 col-form-label text-dark">
+                    Saldo
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      placeholder="saldo"
+                      autoComplete="saldo"
+                      value={balance}
+                      onChange={(e) => setBalance(e.target.value)}
+                    />
+                  </CCol>
+                </CRow>
+                <CButton type="submit">Simpan</CButton>
+              </CForm>
+            </CCardBody>
+          </CCard>
+        </>
+      ) : (
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}{" "}
+    </div>
   );
 }
 

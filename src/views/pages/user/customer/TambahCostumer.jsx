@@ -136,6 +136,7 @@ function TambahCostumer() {
                                     autoComplete="current-password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
+                                    required
                                 />
                             </CInputGroup>
                         </CCol>
@@ -149,7 +150,7 @@ function TambahCostumer() {
                                 required
                             />
                         </CCol>
-
+                    
                         <CCol xs={12}>
                             <CButton onClick={add}>Simpan</CButton>
                         </CCol>

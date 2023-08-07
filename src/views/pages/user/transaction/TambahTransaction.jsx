@@ -1,3 +1,5 @@
+
+
 import React, { useEffect } from "react";
 import { CButton, CCol, CForm, CFormInput, CFormSelect } from "@coreui/react";
 import axios from "axios";
@@ -178,114 +180,15 @@ function TambahTransaction() {
   useEffect(() => {
     GetOrganization();
   }, []);
-
-  const onKeyDown1 = (keyEvent) => {
-    if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
-      keyEvent.preventDefault();
-    }
-  };
-
-  const handleKeyDown1 = (e) => {
-    // UP ARROW
-    if (e.keyCode === 38) {
-      if (suggestionIndex1 === 0) {
-        return;
-      }
-      setSuggestionIndex1(suggestionIndex1 - 1);
-    }
-    // DOWN ARROW
-    else if (e.keyCode === 40) {
-      if (suggestionIndex1 - 1 === suggestions1.length) {
-        return;
-      }
-      setSuggestionIndex1(suggestionIndex1 + 1);
-    }
-    // ENTER
-    else if (e.keyCode === 13) {
-      setValue1(` ${suggestions1[suggestionIndex1].name}`);
-      setOrganizationId(suggestions1[suggestionIndex1].id);
-      setSuggestionIndex1(0);
-      setSuggestionsActive1(false);
-    }
-  };
-
-  const handleChange1 = async (e) => {
-    const name = e.target.value;
-    setValue1(name);
-
-    try {
-      const response = await fetch(
-        `${API_DUMMY}/user/organization?name=${name}`,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      );
-
-      if (name.length > 0 && response.ok) {
-        const res = await response.json();
-        setSuggestions1(res.data);
-        setSuggestionsActive1(true);
-      } else {
-        setSuggestionsActive1(false);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleClick1 = (e, id) => {
-    setSuggestions1([]);
-    setValue1(e.target.innerText);
-    setOrganizationId(id);
-    setSuggestionsActive1(false);
-  };
-
-  const Suggestions1 = () => {
-    return (
-      <div
-        className="card border-secondary border-top-0"
-        style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
-      >
-        <ul className="list-group list-group-flush">
-          {suggestions1.length != 0 ? (
-            <>
-              {suggestions1.map((data, index) => (
-                <li
-                  className={
-                    index === suggestionIndex1
-                      ? "list-group-item  list-group-item-action active"
-                      : "list-group-item  list-group-item-action"
-                  }
-                  key={index}
-                  onClick={(e) => handleClick1(e, data.id)}
-                >
-                  {data.name}
-                </li>
-              ))}
-            </>
-          ) : (
-            <>
-              <li className="list-group-item ">Organization Tidak Ditemukan</li>
-            </>
-          )}
-        </ul>
-      </div>
-    );
-  };
   return (
     <div>
-      {/* {localStorage.getItem("type_token") === "user" ? ( */}
+      {localStorage.getItem("type_token") === "user" ? ( 
       <div className="card mb-3">
         <div className="card-header bg-transparent">
           <h5>Tambah transaction</h5>
         </div>
         <div className="card-body">
-          <CForm
-            onSubmit={Post}
-            onKeyDown={onKeyDown}
-            onKeyDown1={onKeyDown1}
-            className="row g-3"
-          >
+          <CForm onSubmit={Post} onKeyDown={onKeyDown} className="row g-3">
             <CCol xs={12}>
               <CFormInput
                 id="description"
@@ -306,38 +209,37 @@ function TambahTransaction() {
                 required
               />
             </CCol>
-            {/* <CCol md={6}>
+            <CCol md={6}>
               <CFormSelect
                 aria-label="Default select example"
                 value={organization_id}
                 label="Organization"
                 onChange={(e) => setOrganizationId(e.target.value.toString())}
               >
-                <select style={{height: "100px"}}>Pilih Organization</select>{" "}
+                <select style={{ height: "100px" }}>Pilih Organization</select>{" "}
                 {organization.map((cos, i) => {
                   return (
-                    <option  value={cos.id} key={i}>
+                    <option value={cos.id} key={i}>
                       {cos.organization_name}
                     </option>
                   );
                 })}
               </CFormSelect>
-            </CCol> */}
-            <CCol md={6}>
-              <CFormInput
-                id="number_id"
+            </CCol>
+
+            {/* <CFormInput
+                id="organization_id"
                 type="text"
                 placeholder="Organization..."
                 className="form-control"
                 value={value1}
                 label="Organization"
                 autoComplete="off"
-                onKeyDown={handleKeyDown1}
-                onChange={handleChange1}
+                onKeyDown1={handleKeyDown1}
+                onChange1={handleChange1}
                 required
               />
-              {suggestionsActive1 && <Suggestions1 />}
-            </CCol>
+              {suggestionsActive1 && <Suggestions1 />} */}
 
             <CCol md={6}>
               <CFormInput
@@ -361,9 +263,9 @@ function TambahTransaction() {
           </CForm>
         </div>
       </div>
-      {/* ) : (
+       ) : (
          <></>
-       )} */}
+       )} 
     </div>
   );
 }

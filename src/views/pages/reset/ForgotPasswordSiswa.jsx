@@ -16,17 +16,15 @@ import "../../../css/ForgotPasswordSiswa.css";
 import { API_DUMMY } from "../../../utils/baseURL";
 import CIcon from "@coreui/icons-react";
 import { cilMobile } from "@coreui/icons";
-// import { useNavigate } from "react-router";
 
 function ForgotPasswordSiswa() {
   const [unique_id, setUniqueId] = useState("");
-  // const navigate = useNavigate();
 
   const Add = (e) => {
     e.preventDefault();
     const data = {
-      unique_id: unique_id
-    }
+      unique_id: unique_id,
+    };
     axios
       .post(`${API_DUMMY}/member/forgot_password`, data)
       .then((res) => {
@@ -37,11 +35,9 @@ function ForgotPasswordSiswa() {
           showConfirmButton: false,
           timer: 1500,
         });
-        // navigate("/login");
         window.location.reload();
       })
       .catch((err) => {
-        // alert("Terjadi Kesalahan " + err);
         Swal.fire({
           icon: "error",
           title: "Nomor Hp tidak ada",
@@ -63,7 +59,7 @@ function ForgotPasswordSiswa() {
                 <br />
                 <CInputGroup className="mb-3">
                   <CInputGroupText>
-                    <CIcon icon={cilMobile}/>
+                    <CIcon icon={cilMobile} />
                   </CInputGroupText>
                   <CFormInput
                     placeholder="No Handphone"

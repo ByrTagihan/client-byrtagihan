@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,7 +19,7 @@ function EditTagihan() {
   let navigate = useNavigate();
 
   const updateTagihan = async (e) => {
-    if (localStorage.getItem("type_token") === "customer") {
+    if (role === "customer") {
       e.preventDefault();
       const req = {
         member_id: memberId,
@@ -47,9 +48,9 @@ function EditTagihan() {
         });
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
-        'error'
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin",
+        "error"
       ).then((result) => {
         //Untuk munuju page selanjutnya
         navigate("/");
@@ -182,7 +183,7 @@ function EditTagihan() {
   useEffect(() => {
     const userRoleFromServer = "customer"; // Ganti dengan peran aktual dari data yang diterima
     setRole(userRoleFromServer);
-  }, [])
+  }, []);
 
   return (
     <div>
@@ -257,8 +258,11 @@ function EditTagihan() {
           </div>
         </>
       ) : (
-        <><p>Page Tidak Tersedia</p></>
-      )}</div>
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}
+    </div>
   );
 }
 

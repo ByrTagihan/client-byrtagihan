@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { API_DUMMY } from '../../../../utils/baseURL';
-import axios from 'axios';
-import "../../../css/ListDataSiswa.css"
+import React, { useEffect, useState } from "react";
+import { API_DUMMY } from "../../../../utils/baseURL";
+import axios from "axios";
+import "../../../css/ListDataSiswa.css";
 
 function Bill() {
-    const [rekapBill, setRekapBill] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [sortedList, setSortedList] = useState([]);
-    const [sortConfig, setSortConfig] = useState({
-      key: null,
-      direction: "ascending",
-    });
+  const [rekapBill, setRekapBill] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortedList, setSortedList] = useState([]);
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: "ascending",
+  });
 
   const getAll = async () => {
     await axios
@@ -18,7 +18,6 @@ function Bill() {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
-        // setTotalPages(res.data.pagination.total_page);
         setRekapBill(res.data.data);
         console.log(res.data.data);
       })
@@ -78,49 +77,48 @@ function Bill() {
                   justifyContent: "center",
                   gap: "10px",
                 }}
-              >
-              </div>
+              ></div>
             </div>
           </div>
           <div className="card-body table-container">
             <table className="table responsive-3 table1">
               <thead>
                 <tr>
-                    <th scope="col" onClick={() => handleSort("no")}>
-                      No{" "}
-                      {sortConfig && sortConfig.key === "no" && (
-                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
-                    </th>
+                  <th scope="col" onClick={() => handleSort("no")}>
+                    No{" "}
+                    {sortConfig &&
+                      sortConfig.key === "no" &&
+                      (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                  </th>
                   <th scope="col" onClick={() => handleSort("periode")}>
                     periode{" "}
-                    {sortConfig && sortConfig.key === "periode" && (
-                       (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                    )}
+                    {sortConfig &&
+                      sortConfig.key === "periode" &&
+                      (sortConfig.direction === "ascending" ? "▲" : "▼")}
                   </th>
-                    <th scope="col" onClick={() => handleSort("count_bill")}>
-                      Count Bill{" "}
-                      {sortConfig && sortConfig.key === "count_bill" && (
-                         (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
-                    </th>
+                  <th scope="col" onClick={() => handleSort("count_bill")}>
+                    Count Bill{" "}
+                    {sortConfig &&
+                      sortConfig.key === "count_bill" &&
+                      (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                  </th>
                   <th scope="col" onClick={() => handleSort("total_bill")}>
                     Total Bill{" "}
-                    {sortConfig && sortConfig.key === "total_bill" && (
-                       (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                    )}
+                    {sortConfig &&
+                      sortConfig.key === "total_bill" &&
+                      (sortConfig.direction === "ascending" ? "▲" : "▼")}
                   </th>
                   <th scope="col" onClick={() => handleSort("unpaid_bill")}>
                     Unpaid Bill{" "}
-                    {sortConfig && sortConfig.key === "unpaid_bill" && (
-                       (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                    )}
+                    {sortConfig &&
+                      sortConfig.key === "unpaid_bill" &&
+                      (sortConfig.direction === "ascending" ? "▲" : "▼")}
                   </th>
                   <th scope="col" onClick={() => handleSort("paid_bill")}>
                     Paid Bill{" "}
-                    {sortConfig && sortConfig.key === "paid_bill" && (
-                       (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                    )}
+                    {sortConfig &&
+                      sortConfig.key === "paid_bill" &&
+                      (sortConfig.direction === "ascending" ? "▲" : "▼")}
                   </th>
                 </tr>
               </thead>
@@ -146,7 +144,7 @@ function Bill() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Bill
+export default Bill;

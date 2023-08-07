@@ -12,18 +12,6 @@
 .two {
   margin-bottom: 15px;
 }
-.edit {
-  margin-left: 1em;
-  /* position: absolute; */
-  width: 3em;
-  padding: 0;
-  height: 2.3em;
-}
-.hapus {
-  width: 3em;
-  padding: 0;
-  height: 2.3em;
-}
 
 .tabel-transaction {
   margin-top: 1em;
@@ -45,12 +33,15 @@
   .tabel-transaction {
     margin-top: 0;
   }
-  .edit {
-    margin-left: 9.5em;
-    position: absolute;
+  .edit1 {
+    padding: 2px 10px 2px 10px;
+    background: blue;
+    color: white;
+    font-size: 15px;
   }
   .hapus {
-    margin-left: 5.5em;
+    margin-left: 4.5em;
+    width: 2.8em;
     position: relative;
   }
   .two {

@@ -35,7 +35,6 @@ export default function ResetPassword() {
       .post(`${API_DUMMY}/member/forgot_password`, {
         email,
         unique_id,
-        // email: email,
       })
       .then((res) => {
         console.log(res);
