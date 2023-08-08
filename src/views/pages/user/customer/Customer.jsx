@@ -1,3 +1,4 @@
+
 import {
   CButton,
   CFormInput,
@@ -36,14 +37,6 @@ import {
 import CIcon from "@coreui/icons-react";
 
 function Customer() {
-  const [userCustomer, setUserCustomer] = useState([]);
-  const [show, setShow] = useState(false);
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [hp, setHp] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [active, setActive] = useState("");
 
   const deleteE = async (id) => {
     Swal.fire({
@@ -64,7 +57,6 @@ function Customer() {
           title: "Dihapus!",
           showConfirmButton: false,
         });
-        // console.log(id);
       }
       setTimeout(() => {
         window.location.reload();
@@ -84,34 +76,33 @@ function Customer() {
   });
   const [limit, setLimit] = useState(10);
   let navigate = useNavigate();
-  
+
   const getAllData1 = async () => {
     if (localStorage.getItem("type_token") === "user") {
-    await axios
-      .get(`${API_DUMMY}/user/customer?page=${currentPage}&limit=${limit}`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        setTotalPages(res.data.pagination.total_page);
-        setUserCustomer1(res.data.data);
-        console.log(res.data.data);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-      
+      await axios
+        .get(`${API_DUMMY}/user/customer?page=${currentPage}&limit=${limit}`, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        })
+        .then((res) => {
+          setTotalPages(res.data.pagination.total_page);
+          setUserCustomer1(res.data.data);
+          console.log(res.data.data);
+        })
+        .catch((error) => {
+          alert("Terjadi Kesalahan" + error);
+        });
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-        'error'      
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru",
+        "error"
       ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
       });
     }
   };
@@ -149,7 +140,6 @@ function Customer() {
       sortedData = sortedData.filter((data) => {
         return (
           data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          // data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           data.email.toLowerCase().includes(searchTerm) ||
           data.hp.toString().includes(searchTerm.toLowerCase()) ||
           data.active.toString().includes(searchTerm.toLowerCase())
@@ -166,17 +156,6 @@ function Customer() {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredUserCustomer = userCustomer1.filter((bill) =>
-    bill.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  // const sortedUserCustomer = filteredUserCustomer.sort((a, b) => {
-  //   if (sortBy === 'name') {
-  //     return a.name.localeCompare(b.name);
-  //   } else {
-  //     return a[sortBy] - b[sortBy];
-  //   }
-  // });
 
   useEffect(() => {
     getAllData1();
@@ -190,28 +169,36 @@ function Customer() {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
 
     return displayedPages.map((page, index) =>
-      page === 'dot' ? (
+      page === "dot" ? (
         <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? ' active' : '')}
+          className={"page-item" + (currentPage === page ? " active" : "")}
         >
           <a className="page-link">{page}</a>
         </li>
@@ -219,229 +206,199 @@ function Customer() {
     );
   };
 
-  // const add = async (e) => {
-  //   e.preventDefault();
-  //   e.persist();
-
-  //   const data = {
-  //     name,
-  //     active,
-  //     email,
-  //     address,
-  //     hp,
-  //     password,
-  //   };
-  //   try {
-  //     await axios.post(`${API_DUMMY}/user/customer`, data, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     });
-  //     // console.log(unique_id);
-  //     setShow(false);
-  //     Swal.fire({
-  //       icon: "success",
-  //       title: "Berhasil DiTambahkan",
-  //       showConfirmButton: false,
-  //       timer: 1500,
-  //     });
-  //     // console.log(data);
-  //     setTimeout(() => {
-  //       window.location.reload();
-  //     }, 1500);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   return (
     <div>
       {localStorage.getItem("type_token") === "user" ? (
         <>
-      <div className="row">
-        <div className="col" xs={12}>
-          <div className="inputSearch1">
-            <CFormInput
-              type="search"
-              placeholder="search Nama"
-              value={searchTerm}
-              onChange={handleSearch}
-            />
-          </div>
-          <div className="inputSearch1">
-            <select
-              className="form-select"
-              value={limit}
-              onChange={handleChangeLimit}
-            >
-              <option value="1">Show 1 Entries</option>
-              <option value="10">Show 10 Entries</option>
-              <option value="100">Show 100 Entries</option>
-              {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-            </select>
-          </div>
-          <div className="card mb-4">
-            <div className="card-header">
-              <div style={{ display: "flex" }}>
-                <div className="col">
-                  <h4>Customer</h4>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: "5px",
-                  }}
+          <div className="row">
+            <div className="col" xs={12}>
+              <div className="inputSearch1">
+                <CFormInput
+                  type="search"
+                  placeholder="search Nama"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                />
+              </div>
+              <div className="inputSearch1">
+                <select
+                  className="form-select"
+                  value={limit}
+                  onChange={handleChangeLimit}
                 >
-                     <div className="col">
-                  <Link to="/tambahCustomer">
-                    <button className="btn btn-primary float-end">
-                    <CIcon icon={cilPlus}/> Tambah
-                    </button>
-                  </Link>
+                  <option value="1">Show 1 Entries</option>
+                  <option value="10">Show 10 Entries</option>
+                  <option value="100">Show 100 Entries</option>
+                  {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                </select>
+              </div>
+              <div className="card mb-4">
+                <div className="card-header">
+                  <div style={{ display: "flex" }}>
+                    <div className="col">
+                      <h4>Customer</h4>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: "5px",
+                      }}
+                    >
+                      <div>
+                        <Link to="/tambahCostumer">
+                          <button className="btn btn-primary">
+                            <CIcon icon={cilPlus} /> Tambah
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                <div className="card-body table-container">
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div className="inputSearch">
+                      <select
+                        className="form-select"
+                        value={limit}
+                        onChange={handleChangeLimit}
+                      >
+                        <option value="1">Show 1 Entries</option>
+                        <option value="10">Show 10 Entries</option>
+                        <option value="100">Show 100 Entries</option>
+                        {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                      </select>
+                    </div>
+                    <div>
+                      <CFormInput
+                        className="inputSearch"
+                        type="search"
+                        placeholder="search data"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                      />
+                    </div>
+                  </div>
+                  <table className="table responsive-3 table1">
+                    <thead>
+                      <tr>
+                        <th scope="col" onClick={() => handleSort("no")}>
+                          No{" "}
+                          {sortConfig &&
+                            sortConfig.key === "no" &&
+                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("email")}>
+                          Email{" "}
+                          {sortConfig &&
+                            sortConfig.key === "email" &&
+                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("nama")}>
+                          Nama{" "}
+                          {sortConfig &&
+                            sortConfig.key === "nama" &&
+                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("hp")}>
+                          hp{" "}
+                          {sortConfig &&
+                            sortConfig.key === "hp" &&
+                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("active")}>
+                          Active{" "}
+                          {sortConfig &&
+                            sortConfig.key === "active" &&
+                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sortedList.map((data, i) => (
+                        <tr key={i}>
+                          <td scope="row" data-cell="No">
+                            {i + 1}
+                          </td>
+                          <td data-cell="Email">{data.email}</td>
+                          <td data-cell="Name">{data.name}</td>
+                          <td data-cell="Hp">{data.hp}</td>
+                          <td data-cell="Active">{data.active}</td>
+                          <td data-cell="Action">
+                            <div className="tdd">
+                              <button
+                                className="edit1"
+                                type="button"
+                                style={{ background: "blue" }}
+                              >
+                                <a
+                                  href={"/#/editUserCustomer/" + data.id}
+                                  style={{ color: "white" }}
+                                >
+                                  {" "}
+                                  <CIcon icon={cilPencil} />
+                                </a>{" "}
+                              </button>
+                              <button
+                                className="edit1"
+                                onClick={() => deleteE(data.id)}
+                                style={{ background: "red", color: "white" }}
+                              >
+                                <CIcon icon={cilTrash} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <ul class="pagination float-end">
+                    <li
+                      className={
+                        "page-item " + (currentPage === 1 ? "disabled" : "")
+                      }
+                      disabled={currentPage === 1}
+                    >
+                      <a
+                        class="page-link"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                      >
+                        Previous
+                      </a>
+                    </li>
+                    {renderPageNumbers()}
+                    <li
+                      className={
+                        "page-item " +
+                        (currentPage === totalPages ? "disabled" : "")
+                      }
+                      disabled={currentPage === totalPages}
+                    >
+                      <a
+                        class="page-link"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                      >
+                        Next
+                      </a>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
-            <div className="card-body table-container">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between"
-                }}
-              >
-                <div className="inputSearch">
-                  <select
-                    className="form-select"
-                    value={limit}
-                    onChange={handleChangeLimit}
-                  >
-                    <option value="1">Show 1 Entries</option>
-                    <option value="10">Show 10 Entries</option>
-                    <option value="100">Show 100 Entries</option>
-                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-                  </select>
-                </div>
-                <div>
-                  <CFormInput
-                    className="inputSearch"
-                    type="search"
-                    placeholder="search data"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                  />
-                </div>
-              </div>
-              <table className="table responsive-3 table1">
-                <thead>
-                  <tr>
-                    <th scope="col" onClick={() => handleSort("no")}>
-                      No{" "}
-                      {sortConfig && sortConfig.key === "no" && (
-                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("email")}>
-                      Email{" "}
-                      {sortConfig && sortConfig.key === "email" && (
-                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("nama")}>
-                      Nama{" "}
-                      {sortConfig && sortConfig.key === "nama" && (
-                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("hp")}>
-                      hp{" "}
-                      {sortConfig && sortConfig.key === "hp" && (
-                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("active")}>
-                      Active{" "}
-                      {sortConfig && sortConfig.key === "active" && (
-                        (sortConfig.direction === 'ascending' ? '▲' : '▼')
-                      )}
-                    </th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sortedList.map((data, i) => (
-                    <tr key={i}>
-                      <td scope="row" data-cell="No">
-                        {i + 1}
-                      </td>
-                      <td data-cell="Email">{data.email}</td>
-                      <td data-cell="Name">{data.name}</td>
-                      <td data-cell="Hp">{data.hp}</td>
-                      <td data-cell="Active">{data.active}</td>
-                      <td data-cell="Action">
-                        <div className="tdd">
-                          <button
-                            className="edit1"
-                            type="button"
-                            style={{ background: "blue" }}
-                          >
-                            <a
-                              href={"/#/editUserCustomer/" + data.id}
-                              style={{ color: "white" }}
-                            >
-                              {" "}
-                              <CIcon icon={cilPencil} />
-                            </a>{" "}
-                          </button>
-                          <button
-                            className="edit1"
-                            onClick={() => deleteE(data.id)}
-                            style={{ background: "red", color: "white" }}
-                          >
-                            <CIcon icon={cilTrash} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <ul class="pagination float-end">
-                <li
-                  className={
-                    "page-item " + (currentPage === 1 ? "disabled" : "")
-                  }
-                  disabled={currentPage === 1}
-                >
-                  <a
-                    class="page-link"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                  >
-                    Previous
-                  </a>
-                </li>
-                {renderPageNumbers()}
-                <li
-                  className={
-                    "page-item " +
-                    (currentPage === totalPages ? "disabled" : "")
-                  }
-                  disabled={currentPage === totalPages}
-                >
-                  <a
-                    class="page-link"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                  >
-                    Next
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
-        </div>
-      </div>
-    </>
-      ):(
-        <><p>Page Tidak Tersedia</p></>
-      )}</div>
+        </>
+      ) : (
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}
+    </div>
   );
 }
 

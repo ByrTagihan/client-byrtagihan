@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { deleteData, getAllData } from "../../../../utils/controller";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,7 +7,7 @@ import { API_DUMMY, API_URL } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { cilPencil, cilPlus, cilTrash } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
-import "../../../css/ListDataSiswa.css"
+import "../../../css/ListDataSiswa.css";
 
 function Tagihan() {
   const [bills, setBills] = useState([]);
@@ -23,8 +22,6 @@ function Tagihan() {
   const [paidId, setPaidId] = useState(0);
   const [paidDate, setPaidDate] = useState("");
   const [paidAmount, setPaidAmount] = useState(0);
-
-  let navigate = useNavigate();
 
   useEffect(() => {
     fetchBills();
@@ -47,25 +44,6 @@ function Tagihan() {
       console.error("Error fetching bills:", error);
     }
   };
-
-  const fetchBills2 = async () => {
-    try {
-      const response = await fetch(
-        `${API_URL}/customer/bill/?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
-        {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwidHlwZV90b2tlbiI6IkN1c3RvbWVyIiwiYXVkIjoiQ3VzdG9tZXIiLCJzdWIiOiJpYm51bGplZnJ5OTlAZ21haWwuY29tIiwiZXhwIjoxNjg4MDIxNzIwfQ.ESKhjQdNzNhdC6aSMqrcQluOWikeHeG5zl7CJ1FysvPN1MMv_e8sdD4FaRT-LWb_4q3vt6g5g_UywjXAOk9ojA`,
-          },
-        }
-      );
-      const data = await response.json();
-      setBills(data.data);
-      setTotalPages(data.pagination.total_page);
-    } catch (error) {
-      console.error("Error fetching bills:", error);
-    }
-  };
-
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -160,53 +138,44 @@ function Tagihan() {
       });
   };
 
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <li
-          key={i}
-          className={"page-item " + (currentPage === i ? "active" : "")}
-          aria-current="page"
-          onClick={() => handlePageChange(i)}
-        >
-          <a class="page-link">{i}</a>
-        </li>
-      );
-    }
-    return pageNumbers;
-  };
-
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     const displayedPages = [];
-  
+
     if (totalPages <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
-  
+
     return displayedPages.map((page, index) =>
-      page === 'dot' ? (
+      page === "dot" ? (
         <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? ' active' : '')}
+          className={"page-item" + (currentPage === page ? " active" : "")}
         >
           <a className="page-link">{page}</a>
         </li>
@@ -217,235 +186,284 @@ function Tagihan() {
     <div>
       {localStorage.getItem("type_token") === "customer" ? (
         <>
-      <div className="row">
-        <div className="col" xs={12}>
-        <div className="col inputSearch1">
-            <select className="form-select" value={limit} onChange={handleLimit}>
-              <option value="1">Show 1 Entries</option>
-              <option value="10">Show 10 Entries</option>
-              <option value="100">Show 100 Entries</option>
-            </select>
-          </div>
-          <div className="col inputSearch1">
-            <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} />
-          </div>
-          <div className="card mb-4">
-            <div className="card-header">
-              <div className="row">
-                <div className="col">
-                  <h4>List Tagihan</h4>
+          <div className="row">
+            <div className="col" xs={12}>
+              <div className="col inputSearch1">
+                <select
+                  className="form-select"
+                  value={limit}
+                  onChange={handleLimit}
+                >
+                  <option value="1">Show 1 Entries</option>
+                  <option value="10">Show 10 Entries</option>
+                  <option value="100">Show 100 Entries</option>
+                </select>
+              </div>
+              <div className="col inputSearch1">
+                <input
+                  type="text"
+                  class="form-control float-end"
+                  placeholder="Filter Deskripsi"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                />
+              </div>
+              <div className="card mb-4">
+                <div className="card-header">
+                  <div className="row">
+                    <div className="col">
+                      <h4>List Tagihan</h4>
+                    </div>
+                    <div className="col">
+                      <Link to="/addtagihan">
+                        <button className="btn btn-primary float-end">
+                          <CIcon icon={cilPlus} /> Tambah
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-                <div className="col">
-                  <Link to="/addtagihan">
-                    <button className="btn btn-primary float-end">
-                      <CIcon icon={cilPlus} /> Tambah
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col inputSearch">
+                      <select
+                        className="form-select"
+                        value={limit}
+                        onChange={handleLimit}
+                        style={{ width: "40%" }}
+                      >
+                        <option value="1">Show 1 Entries</option>
+                        <option value="10">Show 10 Entries</option>
+                        <option value="100">Show 100 Entries</option>
+                      </select>
+                    </div>
+                    <div className="col inputSearch">
+                      <input
+                        type="text"
+                        class="form-control float-end"
+                        placeholder="Filter Deskripsi"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        style={{ width: "40%" }}
+                      />
+                    </div>
+                  </div>
+                  <table className="table">
+                    <thead className="text-center">
+                      <tr>
+                        <th scope="col" onClick={() => handleSort("id")}>
+                          Id{" "}
+                          {sortBy === "id" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th
+                          scope="col"
+                          onClick={() => handleSort("member_name")}
+                        >
+                          Nama Murid{" "}
+                          {sortBy === "member_name" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th
+                          scope="col"
+                          onClick={() => handleSort("description")}
+                        >
+                          Description{" "}
+                          {sortBy === "description" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("periode")}>
+                          Period{" "}
+                          {sortBy === "periode" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("amount")}>
+                          Nominal{" "}
+                          {sortBy === "amount" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("paid_id")}>
+                          Status{" "}
+                          {sortBy === "paid_id" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("paid_date")}>
+                          Tgl Bayar{" "}
+                          {sortBy === "paid_date" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th
+                          scope="col"
+                          onClick={() => handleSort("paid_amount")}
+                        >
+                          Nominal Bayar{" "}
+                          {sortBy === "paid_amount" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" style={{ width: "20%" }}>
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-center">
+                      {sortedBills.map((data) => (
+                        <tr key={data.id}>
+                          <th scope="row">{data.id}</th>
+                          <td data-cell="Nama Murid">{data.member_name}</td>
+                          <td data-cell="Description">{data.description}</td>
+                          <td data-cell="Periode">{data.periode}</td>
+                          <td data-cell="Nominal">{data.amount}</td>
+                          <td data-cell="Status">
+                            {data.paid_id != 0 ? (
+                              <span>Sudah Bayar</span>
+                            ) : (
+                              <span>Belum Bayar</span>
+                            )}
+                          </td>
+                          <td data-cell="Tgl Bayar">{data.paid_date}</td>
+                          <td data-cell="Nominal Bayar">{data.paid_amount}</td>
+                          <td data-cell="Action" className="tdd">
+                            <button
+                              className="edit1"
+                              type="button"
+                              style={{ background: "blue" }}
+                            >
+                              <Link
+                                to={`/edittagihan/${data.id}`}
+                                style={{ color: "white" }}
+                              >
+                                {" "}
+                                <CIcon icon={cilPencil} />
+                              </Link>{" "}
+                            </button>
+                            <button
+                              className="edit1"
+                              onClick={() =>
+                                deleteData(data.id, "customer/bill", setBills)
+                              }
+                              style={{ background: "red", color: "white" }}
+                            >
+                              <CIcon icon={cilTrash} />
+                            </button>
+                            {data.paid_id != 0 ? (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  unBayarTagihan(data.id);
+                                }}
+                                className="edit1"
+                                style={{
+                                  background: "#B22222",
+                                  color: "white",
+                                }}
+                              >
+                                Batal Bayar
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setVisible(!visible);
+                                  setPaidId(data.id);
+                                  setPaidAmount(data.amount);
+                                }}
+                                className="edit1"
+                                style={{ background: "green" }}
+                              >
+                                Bayar
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div>
+                <ul class="pagination float-end">
+                  <li
+                    className={
+                      "page-item " + (currentPage === 1 ? "disabled" : "")
+                    }
+                    disabled={currentPage === 1}
+                  >
+                    <a
+                      class="page-link"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                      Previous
+                    </a>
+                  </li>
+                  {renderPageNumbers()}
+                  <li
+                    className={
+                      "page-item " +
+                      (currentPage === totalPages ? "disabled" : "")
+                    }
+                    disabled={currentPage === totalPages}
+                  >
+                    <a
+                      class="page-link"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <CModal visible={visible} onClose={() => setVisible(false)}>
+                <form onSubmit={bayarTagihan}>
+                  <div
+                    className="modal-header"
+                    onClose={() => setVisible(false)}
+                  >
+                    <h5 className="modal-title">Bayar Tagihan</h5>
+                  </div>
+                  <div className="modal-body">
+                    <div className="mb-3">
+                      <label className="form-label">Tanggal Bayar</label>
+                      <input
+                        id="paid_date"
+                        type="date"
+                        className="form-control"
+                        onChange={(e) => setPaidDate(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label">Nominal</label>
+                      <input
+                        id="paid_amount"
+                        type="number"
+                        className="form-control"
+                        value={paidAmount}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => setVisible(false)}
+                    >
+                      Close
                     </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="card-body">
-              <div className="row">
-                <div className="col inputSearch">
-                  <select className="form-select" value={limit} onChange={handleLimit} style={{ width: "40%" }}>
-                    <option value="1">Show 1 Entries</option>
-                    <option value="10">Show 10 Entries</option>
-                    <option value="100">Show 100 Entries</option>
-                  </select>
-                </div>
-                <div className="col inputSearch">
-                  <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} style={{ width: "40%" }} />
-                </div>
-              </div>
-              <table className="table">
-                <thead className="text-center">
-                  <tr>
-                    <th scope="col" onClick={() => handleSort("id")}>
-                      Id{" "}
-                      {sortBy === "id" && (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("member_name")}>
-                      Nama Murid{" "}
-                      {sortBy === "member_name" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("description")}>
-                      Description{" "}
-                      {sortBy === "description" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("periode")}>
-                      Period{" "}
-                      {sortBy === "periode" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("amount")}>
-                      Nominal{" "}
-                      {sortBy === "amount" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("paid_id")}>
-                      Status{" "}
-                      {sortBy === "paid_id" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("paid_date")}>
-                      Tgl Bayar{" "}
-                      {sortBy === "paid_date" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("paid_amount")}>
-                      Nominal Bayar{" "}
-                      {sortBy === "paid_amount" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" style={{width:"20%"}}>Action</th>
-                  </tr>
-                </thead>
-                <tbody className="text-center">
-                  {sortedBills.map((data) => (
-                    <tr key={data.id}>
-                      <th scope="row">{data.id}</th>
-                      <td data-cell="Nama Murid">{data.member_name}</td>
-                      <td data-cell="Description">{data.description}</td>
-                      <td data-cell="Periode">{data.periode}</td>
-                      <td data-cell="Nominal">{data.amount}</td>
-                      <td data-cell="Status">
-                        {data.paid_id != 0 ? (
-                          <span>Sudah Bayar</span>
-                        ) : (
-                          <span>Belum Bayar</span>
-                        )}
-                      </td>
-                      <td data-cell="Tgl Bayar">{data.paid_date}</td>
-                      <td data-cell="Nominal Bayar">{data.paid_amount}</td>
-                      <td data-cell="Action" className="tdd">
-                        <button
-                          className="edit1"
-                          type="button"
-                          style={{ background: "blue" }}
-                        >
-                          <Link to={`/edittagihan/${data.id}`}
-                            style={{ color: "white" }}
-                          >
-                            {" "}
-                            <CIcon icon={cilPencil} />
-                          </Link>{" "}
-                        </button>
-                        <button
-                          className="edit1"
-                          onClick={() => deleteData(data.id, "customer/bill", setBills)}
-                          style={{ background: "red", color: "white" }}
-                        >
-                          <CIcon icon={cilTrash} />
-                        </button>
-                        {data.paid_id != 0 ? (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              unBayarTagihan(data.id);
-                            }}
-                            className="edit1"
-                            style={{ background: "#B22222", color: "white" }}
-                          >
-                            Batal Bayar
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setVisible(!visible);
-                              setPaidId(data.id);
-                              setPaidAmount(data.amount);
-                            }}
-                            className="edit1"
-                            style={{ background: "green" }}
-                          >
-                            Bayar
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                    <button className="btn btn-primary" type="submit">
+                      Bayar
+                    </button>
+                  </div>
+                </form>
+              </CModal>
             </div>
           </div>
-          <div>
-            <ul class="pagination float-end">
-              <li
-                className={"page-item " + (currentPage === 1 ? "disabled" : "")}
-                disabled={currentPage === 1}
-              >
-                <a
-                  class="page-link"
-                  onClick={() => handlePageChange(currentPage - 1)}
-                >
-                  Previous
-                </a>
-              </li>
-              {renderPageNumbers()}
-              <li
-                className={
-                  "page-item " + (currentPage === totalPages ? "disabled" : "")
-                }
-                disabled={currentPage === totalPages}
-              >
-                <a
-                  class="page-link"
-                  onClick={() => handlePageChange(currentPage + 1)}
-                >
-                  Next
-                </a>
-              </li>
-            </ul>
-          </div>
-          <CModal visible={visible} onClose={() => setVisible(false)}>
-            <form onSubmit={bayarTagihan}>
-              <div className="modal-header" onClose={() => setVisible(false)}>
-                <h5 className="modal-title">Bayar Tagihan</h5>
-              </div>
-              <div className="modal-body">
-                <div className="mb-3">
-                  <label className="form-label">Tanggal Bayar</label>
-                  <input
-                    id="paid_date"
-                    type="date"
-                    className="form-control"
-                    onChange={(e) => setPaidDate(e.target.value)}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Nominal</label>
-                  <input
-                    id="paid_amount"
-                    type="number"
-                    className="form-control"
-                    value={paidAmount}
-                    disabled
-                  />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setVisible(false)}
-                >
-                  Close
-                </button>
-                <button className="btn btn-primary" type="submit">
-                  Bayar
-                </button>
-              </div>
-            </form>
-          </CModal>
-        </div>
-      </div>
-    </>
-      ):(
-        <><p>Page Tidak Tersedia</p></>
-      )}</div>
+        </>
+      ) : (
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}
+    </div>
   );
 }
 

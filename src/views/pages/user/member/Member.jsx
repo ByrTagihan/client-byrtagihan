@@ -1,3 +1,4 @@
+
 import {
   CCard,
   CCardHeader,
@@ -56,8 +57,6 @@ function Member() {
         if (status === 200) {
           setMember(data.data);
           setTotal_Page(data.pagination.total_page);
-          // console.log(data.pagination.total_page);
-          // console.log(data.data);
         }
       } catch (err) {
         alert("Terjadi Kesalahan" + err);
@@ -97,7 +96,6 @@ function Member() {
           title: "Dihapus!",
           showConfirmButton: false,
         });
-        // console.log(id);
       }
       setTimeout(() => {
         window.location.reload();
@@ -113,12 +111,6 @@ function Member() {
     setCurrentPage(page);
   };
 
-  // const filteredMembers = member.filter((mem) => {
-  //     if (mem.description) {
-  //         return mem.description.toLowerCase().includes(searchTerm.toLowerCase());
-  //     }
-  //     return false;
-  // });
 
   const filteredMembers = member.filter((member) =>
     member.name.toLowerCase().includes(searchTerm.toLowerCase())

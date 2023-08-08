@@ -1,3 +1,5 @@
+
+
 import { cilAddressBook, cilTablet, cilUser } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import {
@@ -24,7 +26,6 @@ function MemberProfile() {
   const [unique_id, setUnique_id] = useState("");
   const [picture, setPicture] = useState("");
   const [foto, setFoto] = useState("");
-  const navigate = useNavigate();
   const [profile, setProfile] = useState({
     id: "",
     unique_id: "",
@@ -33,8 +34,8 @@ function MemberProfile() {
     address: "",
     picture: "",
   });
+  const navigate = useNavigate();
 
-  // function add picture
   const add = async (e) => {
     e.preventDefault();
     e.persist();
@@ -60,39 +61,28 @@ function MemberProfile() {
           localStorage.setItem("profilePicture", imageUrl);
         });
       setShow(false);
-      // navigate("/lihattagihanmember")
       Swal.fire({
         icon: "success",
         title: "Foto berhasil ditambahkan",
         showConfirmButton: false,
         timer: 1500,
       });
-      // console.log(data);
       setTimeout(() => {
         navigate("/memberProfile");
-        // window.location.reload();
       }, 1500);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // function update profile
   const Put = async (e) => {
     e.preventDefault();
     e.persist();
 
     try {
-      const data = {
-        name: name, // Update the name field with the new value
-        hp: hp,
-        address: address,
-        picture: profile.picture, // Keep the existing picture value
-      };
-
       await axios.put(
-        `${API_DUMMY}/member/profile`, data,
-        // console.log(picture),
+        `${API_DUMMY}/member/profile`,
+        profile,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -112,7 +102,6 @@ function MemberProfile() {
     }
   };
 
-  // function get profile
   const get = async () => {
     await axios
       .get(`${API_DUMMY}/member/profile`, {
@@ -125,7 +114,7 @@ function MemberProfile() {
         setUnique_id(profil.unique_id);
         setAddress(profil.address);
         setProfile({ ...profil, id: profil.id });
-        setPicture(profile.picture)
+        setPicture(profile.picture);
         console.log(res.data.data);
         console.log({ ...profil, id: profil.id });
         // If profilePicture is available in the response, update the picture state
@@ -146,6 +135,7 @@ function MemberProfile() {
     <div className="allProfile">
       <div className="box1">
         <h4 className="textProfile">Profile Member</h4>
+
         <div style={{ padding: "10px" }}>
           <img style={{ width: "20rem" }} src={profile.picture} alt="" />
         </div>

@@ -1,108 +1,134 @@
 .readonly {
-    display: flex;
-    justify-content: center;
-    gap: 5%;
+  display: flex;
+  justify-content: center;
+  gap: 5%;
 }
 .readonly1 {
-    display: flex;
-    justify-content: space-around;
-    gap: 40px;
+  display: flex;
+  justify-content: space-around;
+  gap: 40px;
 }
 .readonly2 {
-    display: flex;
-    justify-content: space-around;
-    gap: 40px;
+  display: flex;
+  justify-content: space-around;
+  gap: 40px;
 }
 .responsive-3 {
-    overflow-y: auto;
+  overflow-y: auto;
 }
 .tdd {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    width: 100%;
-    padding-right: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  padding-right: 50px;
 }
 .table-container {
-    max-width: 100%;
-    overflow-x: auto;
+  max-width: 100%;
+  overflow-x: auto;
 }
 .table1 {
-    text-align: center;
+  text-align: center;
 }
 .edit1 {
-    padding: 2px 10px 2px 10px;
-    background: blue;
-    color: white;
-    font-size: 15px;
+  padding: 2px 10px 2px 10px;
+  background: blue;
+  color: white;
+  font-size: 15px;
 }
 tbody {
-    text-align: center;
+  text-align: center;
 }
 .listTagihan {
-    margin-left: 4px;
-    font-size: 19px;
-    font-weight: bold;
-    margin-top: 5px;
-    margin-bottom: 8px;
+  margin-left: 4px;
+  font-size: 19px;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 8px;
 }
 .bok {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 .bok2 {
-    display: flex;
-    justify-content: space-around;
-    padding: 16px;
-    margin-top: 25px;
+  display: flex;
+  justify-content: space-around;
+  padding: 16px;
+  margin-top: 25px;
 }
 .bok1 {
-    width: 30%;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: 30%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .bok3 {
-    display: flex;
-    justify-content: space-between;
-    background: #213555;
-    color: white;
-    padding: 5px;
-    padding-bottom: 0;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  background: #213555;
+  color: white;
+  padding: 5px;
+  padding-bottom: 0;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 }
 .bok3 p {
-    font-weight: bold;
-    padding-top: 2px;
+  font-weight: bold;
+  padding-top: 2px;
 }
 .bok3 svg {
-    margin-top: 5px;
-    font-size: 20px;
+  margin-top: 5px;
+  font-size: 20px;
 }
 .bok3 i {
-    margin-top: 5px;
-    font-size: 20px;
+  margin-top: 5px;
+  font-size: 20px;
 }
 .jumlah {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    background: white;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  background: white;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 .jumlah svg {
-    font-size: 25px;
-    margin-top: 10px;
+  font-size: 25px;
+  margin-top: 10px;
 }
 
 .jumlah p {
-    font-size: 25px;
-    margin-top: 6px;
+  font-size: 25px;
+  margin-top: 6px;
 }
 .scroll-to-top-button {
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+  z-index: 9999;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #007bff;
+  /* background-color: white; */
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  padding: 10px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.scroll-to-top-button.visible {
+  opacity: 1;
+}
+@media (max-width: 600px) {
+  .scroll-to-top-button {
     position: fixed;
     bottom: 50px;
     right: 30px;
+    /* left: 5%; */
     z-index: 9999;
     width: 40px;
     height: 40px;
@@ -119,86 +145,60 @@ tbody {
     padding: 10px;
     transition: opacity 0.3s ease-in-out;
   }
-  
-  .scroll-to-top-button.visible {
-    opacity: 1;
+  .bok {
+    display: block;
   }
-@media(max-width: 600px) {
-    .scroll-to-top-button {
-        position: fixed;
-        bottom: 50px;
-        right: 30px;
-        /* left: 5%; */
-        z-index: 9999;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #007bff;
-        /* background-color: white; */
-        color: white;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        padding: 10px;
-        transition: opacity 0.3s ease-in-out;
-      }
-    .bok {
-        display: block;
-    }
-    .bok1 {
-        width: 100%;
-        margin-top: 20px;
-    }
-    .bok2 {
-        display: block;
-    }
-    .listTagihan{
-        font-size: 15px;
-    }
-    .tdd{
-        justify-content: left;
-        padding-right: none;
-    }
-    tbody {
-        text-align: left;
-    }
-    .readonly2 {
-        gap: 10px;
-    }
-    .readonly {
-        display: block;
-    }
-    .bungkus {
-        width: 100%;
-    }
-    .td {
-        padding-right: none;
-        display: flex;
-        justify-content: left;
-    }
-   .responsive-3 {
-        width: 100%;
-    } 
-    th {
-        display: none;
-    }
-    td {
-        display: grid;
-        gap: 0.5rem;
-        grid-template-columns: 15ch auto;
-        padding: 0.75em 1rem;
-    }
-    td:first-child{
-        padding-top: 2rem;
-    }
-    /* td:last-child{
+  .bok1 {
+    width: 100%;
+    margin-top: 20px;
+  }
+  .bok2 {
+    display: block;
+  }
+  .listTagihan {
+    font-size: 15px;
+  }
+  .tdd {
+    justify-content: left;
+    padding-right: none;
+  }
+  tbody {
+    text-align: left;
+  }
+  .readonly2 {
+    gap: 10px;
+  }
+  .readonly {
+    display: block;
+  }
+  .bungkus {
+    width: 100%;
+  }
+  .td {
+    padding-right: none;
+    display: flex;
+    justify-content: left;
+  }
+  .responsive-3 {
+    width: 100%;
+  }
+  th {
+    display: none;
+  }
+  td {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 15ch auto;
+    padding: 0.75em 1rem;
+  }
+  td:first-child {
+    padding-top: 2rem;
+  }
+  /* td:last-child{
         padding-bottom: 2rem;
     } */
-    td::before{
-        content: attr(data-cell) "  : ";
-        font-weight: bold;
-    }
+  td::before {
+    content: attr(data-cell) "  : ";
+    font-weight: bold;
+  }
 }

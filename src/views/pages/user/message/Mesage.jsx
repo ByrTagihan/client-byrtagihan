@@ -10,8 +10,8 @@ function Mesage() {
   const [message, setMessage] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('id');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("id");
   const [sortedList, setSortedList] = useState([]);
   const [sortConfig, setSortConfig] = useState({
     key: null,
@@ -22,32 +22,29 @@ function Mesage() {
 
   const getAll = async () => {
     if (localStorage.getItem("type_token") === "user") {
-    await axios
-      .get(`${API_DUMMY}/user/message?page=${currentPage}&limit=${limit}`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        setTotalPages(res.data.pagination.total_page);
-        // setPages(res.data.data.total_page);
-        setMessage(res.data.data);
-        // console.log(res.data.data);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-      
+      await axios
+        .get(`${API_DUMMY}/user/message?page=${currentPage}&limit=${limit}`, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        })
+        .then((res) => {
+          setTotalPages(res.data.pagination.total_page);
+          setMessage(res.data.data);
+        })
+        .catch((error) => {
+          alert("Terjadi Kesalahan" + error);
+        });
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-        'error'      
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru",
+        "error"
       ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
       });
     }
   };
@@ -55,19 +52,6 @@ function Mesage() {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
-
-  const handleSort = (key) => {
-    let direction = "ascending";
-    if (
-      sortConfig &&
-      sortConfig.key === key &&
-      sortConfig.direction === "ascending"
-    ) {
-      direction = "descending";
-    }
-    setSortConfig({ key, direction });
-  };
-
   useEffect(() => {
     let sortedData = [...message];
     if (sortConfig !== null) {
@@ -83,9 +67,7 @@ function Mesage() {
     }
     if (searchTerm !== "") {
       sortedData = sortedData.filter((data) => {
-        return (
-          data.send_as.toLowerCase().includes(searchTerm.toLowerCase()) 
-        );
+        return data.send_as.toLowerCase().includes(searchTerm.toLowerCase());
       });
     }
     setSortedList(sortedData);
@@ -105,33 +87,41 @@ function Mesage() {
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     const displayedPages = [];
-  
+
     if (totalPages <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
-  
+
     return displayedPages.map((page, index) =>
-      page === 'dot' ? (
+      page === "dot" ? (
         <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? ' active' : '')}
+          className={"page-item" + (currentPage === page ? " active" : "")}
         >
           <a className="page-link">{page}</a>
         </li>
@@ -139,124 +129,145 @@ function Mesage() {
     );
   };
 
-
   return (
     <div>
       {localStorage.getItem("type_token") === "user" ? (
         <>
-      <div className="row">
-        <div className="col" xs={12}>
-        <div className='inputSearch1'>
-              <CFormInput
-                type="search"
-                placeholder="search Nama"
-                value={searchTerm} onChange={handleSearch} 
-              />
-            </div>
-                <div className="inputSearch1">
-                  <select className="form-select" value={limit} onChange={handleChangeLimit}>
-                  <option value="1">Show 1 Entries</option>
-                  <option value="10">Show 10 Entries</option>
-                  <option value="100">Show 100 Entries</option>
-                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-                  </select>
-                </div>
-          <div className="card mb-4">
-            <div className="card-header">
-              <div style={{display:"flex"}}>
-                <div className="col">
-                  <h4>Message</h4>
-                </div>
-              </div>
-            </div>
-            <div className="card-body table-container">
-            <div style={{display:"flex", justifyContent:"space-between"}}>
-                <div className="inputSearch">
-                  <select className="form-select" value={limit} onChange={handleChangeLimit}>
-                  <option value="1">Show 1 Entries</option>
-                  <option value="10">Show 10 Entries</option>
-                  <option value="100">Show 100 Entries</option>
-                    {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
-                  </select>
-                </div>
-                <div>
-                <CFormInput className="inputSearch"
+          <div className="row">
+            <div className="col" xs={12}>
+              <div className="inputSearch1">
+                <CFormInput
                   type="search"
-                  placeholder="search data"
-                  value={searchTerm} onChange={handleSearch} 
+                  placeholder="search Nama"
+                  value={searchTerm}
+                  onChange={handleSearch}
                 />
               </div>
+              <div className="inputSearch1">
+                <select
+                  className="form-select"
+                  value={limit}
+                  onChange={handleChangeLimit}
+                >
+                  <option value="1">Show 1 Entries</option>
+                  <option value="10">Show 10 Entries</option>
+                  <option value="100">Show 100 Entries</option>
+                  {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                </select>
+              </div>
+              <div className="card mb-4">
+                <div className="card-header">
+                  <div style={{ display: "flex" }}>
+                    <div className="col">
+                      <h4>Message</h4>
+                    </div>
+                  </div>
                 </div>
-              <table className="table table1 responsive-3">
-                <thead>
-                  <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Receiver</th>
-                    <th scope="col">Send As</th>
-                    <th scope="col">Message type id</th>
-                    <th scope="col">message status id</th>
-                    <th scope="col">message status name</th>
-                    <th scope="col">Created date</th>
-                    <th scope="col">Updated date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sortedList.map((data, i) => (
-                    <tr key={i}>
-                      <td data-cell="No" scope="row">
-                        {i + 1}
-                      </td>
-                      <td data-cell="Receiver">{data.receiver}</td>
-                      <td data-cell="Send As">{data.send_as}</td>
-                      <td data-cell="Message type id">
-                        {data.message_type_id}
-                      </td>
-                      <td data-cell="Message status id">{data.message_status_id}</td>
-                      <td data-cell="Message status name">{data.message_status_name}</td>
-                      <td data-cell="Message created date">{data.created_date}</td>
-                      <td data-cell="Message update date">{data.updated_date}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <ul class="pagination float-end">
-                <li
-                  className={
-                    "page-item " + (currentPage === 1 ? "disabled" : "")
-                  }
-                  disabled={currentPage === 1}
-                >
-                  <a
-                    class="page-link"
-                    onClick={() => handlePageChange(currentPage - 1)}
+                <div className="card-body table-container">
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    Previous
-                  </a>
-                </li>
-                {renderPageNumbers()}
-                <li
-                  className={
-                    "page-item " +
-                    (currentPage === totalPages ? "disabled" : "")
-                  }
-                  disabled={currentPage === totalPages}
-                >
-                  <a
-                    class="page-link"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                  >
-                    Next
-                  </a>
-                </li>
-              </ul>
+                    <div className="inputSearch">
+                      <select
+                        className="form-select"
+                        value={limit}
+                        onChange={handleChangeLimit}
+                      >
+                        <option value="1">Show 1 Entries</option>
+                        <option value="10">Show 10 Entries</option>
+                        <option value="100">Show 100 Entries</option>
+                        {/* Tambahkan lebih banyak pilihan sesuai kebutuhan */}
+                      </select>
+                    </div>
+                    <div>
+                      <CFormInput
+                        className="inputSearch"
+                        type="search"
+                        placeholder="search data"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                      />
+                    </div>
+                  </div>
+                  <table className="table table1 responsive-3">
+                    <thead>
+                      <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Receiver</th>
+                        <th scope="col">Send As</th>
+                        <th scope="col">Message type id</th>
+                        <th scope="col">message status id</th>
+                        <th scope="col">message status name</th>
+                        <th scope="col">Created date</th>
+                        <th scope="col">Updated date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sortedList.map((data, i) => (
+                        <tr key={i}>
+                          <td data-cell="No" scope="row">
+                            {i + 1}
+                          </td>
+                          <td data-cell="Receiver">{data.receiver}</td>
+                          <td data-cell="Send As">{data.send_as}</td>
+                          <td data-cell="Message type id">
+                            {data.message_type_id}
+                          </td>
+                          <td data-cell="Message status id">
+                            {data.message_status_id}
+                          </td>
+                          <td data-cell="Message status name">
+                            {data.message_status_name}
+                          </td>
+                          <td data-cell="Message created date">
+                            {data.created_date}
+                          </td>
+                          <td data-cell="Message update date">
+                            {data.updated_date}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <ul class="pagination float-end">
+                    <li
+                      className={
+                        "page-item " + (currentPage === 1 ? "disabled" : "")
+                      }
+                      disabled={currentPage === 1}
+                    >
+                      <a
+                        class="page-link"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                      >
+                        Previous
+                      </a>
+                    </li>
+                    {renderPageNumbers()}
+                    <li
+                      className={
+                        "page-item " +
+                        (currentPage === totalPages ? "disabled" : "")
+                      }
+                      disabled={currentPage === totalPages}
+                    >
+                      <a
+                        class="page-link"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                      >
+                        Next
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </>
-      ):(
+        </>
+      ) : (
         <></>
-      )}</div>
+      )}
+    </div>
   );
 }
 

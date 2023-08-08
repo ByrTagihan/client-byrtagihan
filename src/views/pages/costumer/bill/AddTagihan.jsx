@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -20,10 +21,9 @@ function AddTagihan() {
   useEffect(() => {
     const userRoleFromServer = "customer"; // Ganti dengan peran aktual dari data yang diterima
     setRole(userRoleFromServer);
-  }, [])
+  }, []);
   const addTagihan = async (e) => {
-    if (localStorage.getItem("type_token") === "customer") {
-
+    if (role === "customer") {
       e.preventDefault();
       const req = {
         member_id: memberId,
@@ -45,7 +45,7 @@ function AddTagihan() {
             timer: 1500,
           });
           setTimeout(() => {
-            navigate("/customerBill")
+            navigate("/customerBill");
             window.location.reload();
           }, 1500);
         })
@@ -54,9 +54,9 @@ function AddTagihan() {
         });
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
-        'error'
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin",
+        "error"
       ).then((result) => {
         //Untuk munuju page selanjutnya
         navigate("/");
@@ -140,25 +140,27 @@ function AddTagihan() {
         style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
       >
         <ul className="list-group list-group-flush">
-          {suggestions.length != 0 ? (<>
-            {suggestions.map((data, index) => (
-              <li
-                className={
-                  index === suggestionIndex
-                    ? "list-group-item  list-group-item-action active"
-                    : "list-group-item  list-group-item-action"
-                }
-                key={index}
-                onClick={(e) => handleClick(e, data.id)}
-              >
-                NIK = {data.unique_id}, Nama = {data.name}
-              </li>
-            ))}</>) : (<>
-              <li
-                className="list-group-item "
-              >
-                Member Tidak Ditemukan
-              </li></>)}
+          {suggestions.length != 0 ? (
+            <>
+              {suggestions.map((data, index) => (
+                <li
+                  className={
+                    index === suggestionIndex
+                      ? "list-group-item  list-group-item-action active"
+                      : "list-group-item  list-group-item-action"
+                  }
+                  key={index}
+                  onClick={(e) => handleClick(e, data.id)}
+                >
+                  NIK = {data.unique_id}, Nama = {data.name}
+                </li>
+              ))}
+            </>
+          ) : (
+            <>
+              <li className="list-group-item ">Member Tidak Ditemukan</li>
+            </>
+          )}
         </ul>
       </div>
     );
@@ -233,8 +235,11 @@ function AddTagihan() {
           </div>
         </>
       ) : (
-        <><p>Page Tidak Tersedia</p></>
-      )}</div>
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}
+    </div>
   );
 }
 

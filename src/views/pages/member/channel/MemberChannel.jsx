@@ -4,18 +4,19 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { CFormInput } from "@coreui/react";
-import "../../../css/ListDataSiswa.css"
+import "../../../css/ListDataSiswa.css";
 
 function MemberChannel() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [list, setList] = useState([]);
+
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
+
   const [sortBy, setSortBy] = useState("id");
   const [sortDirection, setSortDirection] = useState("asc");
 
-  // function get channel
   const getAll = async () => {
     await axios
       .get(
@@ -33,6 +34,10 @@ function MemberChannel() {
         alert("Terjadi Kesalahan" + error);
       });
   };
+
+  useEffect(() => {
+    getAll(0);
+  }, [currentPage, limit, searchTerm, sortBy, sortDirection]);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -68,39 +73,42 @@ function MemberChannel() {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
 
-    useEffect(() => {
-      getAll(0);
-    }, [currentPage, limit, searchTerm, sortBy, sortDirection]);
-
     return displayedPages.map((page, index) =>
-      page === 'dot' ? (
+      page === "dot" ? (
         <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? ' active' : '')}
+          className={"page-item" + (currentPage === page ? " active" : "")}
         >
           <a className="page-link">{page}</a>
         </li>
       )
     );
   };
-
   return (
     <div>
       {localStorage.getItem("type_token") === "member" ? (
@@ -164,7 +172,8 @@ function MemberChannel() {
                       <tr>
                         <th onClick={() => handleSort("id")}>
                           No{" "}
-                          {sortBy === "id" && (sortDirection === "asc" ? "▲" : "▼")}
+                          {sortBy === "id" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
                         </th>
                         <th onClick={() => handleSort("name")}>
                           Name{" "}
@@ -252,8 +261,11 @@ function MemberChannel() {
           </div>
         </>
       ) : (
-        <><p>Page Tidak Tersedia</p></>
-      )}</div>
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}
+    </div>
   );
 }
 

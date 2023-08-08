@@ -638,7 +638,7 @@ function DashboardCoba2() {
         </CCol>
       </CRow>
     <div>
-      <div className="row">
+      <div className="row ">
         <div className="col" xs={12}>
                 <div className="col inputSearch1">
                 <select className="form-select" value={limit} onChange={handleLimit}>
@@ -665,7 +665,7 @@ function DashboardCoba2() {
                 </div>
               </div>
             </div>
-            <div className="card-body">
+            <div className="card-body table-container">
             <div className="row">
                 <div className="col inputSearch">
                 <select className="form-select" value={limit} onChange={handleLimit} style={{width: "40%"}}>

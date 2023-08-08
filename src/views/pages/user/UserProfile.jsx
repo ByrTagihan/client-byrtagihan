@@ -16,7 +16,7 @@ import { API_DUMMY } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-function MemberProfile() {
+function UserProfile() {
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
   const [hp, setHp] = useState("");
@@ -91,7 +91,8 @@ function MemberProfile() {
       };
 
       await axios.put(
-        `${API_DUMMY}/user/profile`, data,
+        `${API_DUMMY}/user/profile`,
+        data,
         // console.log(picture),
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -125,7 +126,7 @@ function MemberProfile() {
         setUnique_id(profil.email);
         setAddress(profil.address);
         setProfile({ ...profil, id: profil.id });
-        setPicture(profile.picture)
+        setPicture(profile.picture);
         console.log(res.data.data);
         console.log({ ...profil, id: profil.id });
         // If profilePicture is available in the response, update the picture state
@@ -217,4 +218,4 @@ function MemberProfile() {
   );
 }
 
-export default MemberProfile;
+export default UserProfile;

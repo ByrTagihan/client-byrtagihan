@@ -84,9 +84,7 @@ const EditTemplate = React.lazy(() =>
 
 //================================================
 //Customer Role
-const Dashboard = React.lazy(() => import("./views/dashboard/DashboardTes"));
 const DashboardCustomer = React.lazy(() => import("./views/dashboard/DashboardCoba2"));
-const DashboardTes = React.lazy(() => import("./views/dashboard/DashboardTes"));
 const Profile = React.lazy(() => import("./views/pages/costumer/Profile"));
 const GantiPasswordCustomer = React.lazy(() =>
   import("./views/pages/costumer/GantiPasswordCustomer")
@@ -122,9 +120,6 @@ const LihatTagihanMember = React.lazy(() =>
 );
 const TambahTagihanMember = React.lazy(() =>
   import("./views/pages/costumer/member/bill/TambahTagihanMember")
-);
-const EditTagihanMember = React.lazy(() =>
-  import("./views/pages/costumer/member/bill/EditTagihanMember")
 );
 
 //Bill Section
@@ -248,13 +243,11 @@ const routes = [
   { path: "/UserTemplate", name: "UserTemplate", element: UserTemplate },
   //================================================================
   //Customer
-  { path: "/dashboardCustomer", name: "Dashboard", element: Dashboard },
   { path: "/addListDataSiswa", name: "Tambah List Data Siswa", element: AddListDataSiswa },
   { path: "/addListTagihanByMember/:id", name: "Tambah List Tagihan By Member", element: AddListTagihanByMember },
   { path: "/editTagihanByMember/:id", name: "Edit Tagihan By Member", element: EditTagihanByMember },
   { path: "/dashboardd", name: "Dashboard Customer", element: DashboardCustomer },
   { path: "/customerProfile", name: "Profile", element: Profile },
-  { path: "/dashboardTes", name: "Dashboard Tes", element: DashboardTes },
   {
     path: "/gantiPasswordCustomer",
     name: "Ganti Password Customer",
@@ -280,11 +273,6 @@ const routes = [
     path: "/tambahTagihanMember",
     name: "TambahTagihanMember",
     element: TambahTagihanMember,
-  },
-  {
-    path: "/editTagihanMember",
-    name: "EditTagihanMember",
-    element: EditTagihanMember,
   },
   { path: "/customerBill", name: "Tagihan", element: ListTagihan },
   { path: "/addtagihan", name: "Tambah Tagihan", element: AddTagihan },

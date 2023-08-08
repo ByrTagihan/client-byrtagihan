@@ -22,33 +22,32 @@ function CrudPayment() {
 
   const getAll = async () => {
     if (localStorage.getItem("type_token") === "user") {
-    await axios
-      .get(
-        `${API_DUMMY}/user/payment?page=${currentPage}&limit=${limit}&name=${payment}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${search}`,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
-      .then((res) => {
-        setTotal_Page(res.data.pagination.total_page);
-        setBills(res.data.data);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-      
+      await axios
+        .get(
+          `${API_DUMMY}/user/payment?page=${currentPage}&limit=${limit}&name=${payment}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${search}`,
+          {
+            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          }
+        )
+        .then((res) => {
+          setTotal_Page(res.data.pagination.total_page);
+          setBills(res.data.data);
+        })
+        .catch((error) => {
+          alert("Terjadi Kesalahan" + error);
+        });
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-        'error'      
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru",
+        "error"
       ).then((result) => {
-          //Untuk munuju page selanjutnya
-          navigate("/");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-          localStorage.clear();
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
       });
     }
   };
@@ -79,7 +78,7 @@ function CrudPayment() {
         console.log(id);
       }
       setTimeout(() => {
-        // window.location.reload();
+        window.location.reload();
       }, 1500);
     });
   };
@@ -92,19 +91,9 @@ function CrudPayment() {
     setCurrentPage(page);
   };
 
-  
-
   const filteredBills = bills.filter((bill) =>
     bill.description.toLowerCase().includes(search.toLowerCase())
   );
-
-  const sortedBills = bills.sort((a, b) => {
-    if (sortDirection === "asc") {
-      return a[sortBy] - b[sortBy];
-    } else {
-      return b[sortBy] - a[sortBy];
-    }
-  });
 
   // untuk limit
 
@@ -124,33 +113,41 @@ function CrudPayment() {
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: total_page }, (_, i) => i + 1);
     const displayedPages = [];
-  
+
     if (total_page <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(total_page - 1));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(total_page - 1)
+        );
       } else if (currentPage >= total_page - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(total_page - 5));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(total_page - 5)
+        );
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(total_page - 1)
         );
       }
     }
-  
+
     return displayedPages.map((page, index) =>
-      page === 'dot' ? (
+      page === "dot" ? (
         <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? ' active' : '')}
+          className={"page-item" + (currentPage === page ? " active" : "")}
         >
           <a className="page-link">{page}</a>
         </li>
@@ -161,147 +158,165 @@ function CrudPayment() {
     <div>
       {localStorage.getItem("type_token") === "user" ? (
         <>
-      <div className="row">
-        <div className="col" xs={12}>
-          <div className="card mb-4">
-            <div className="card-header">
-              <div style={{ height: "2.4em" }} className="row">
-                <div className="col">
-                  <div style={{ display: "flex" }}>
+          <div className="row">
+            <div className="col" xs={12}>
+              <div className="card mb-4">
+                <div className="card-header">
+                  <div style={{ height: "2.4em" }} className="row">
                     <div className="col">
-                      <h4 className="textt">Payment</h4>
+                      <div style={{ display: "flex" }}>
+                        <div className="col">
+                          <h4 className="textt">Payment</h4>
+                        </div>
+                      </div>
                     </div>
+                  </div>
+                </div>
+
+                <div className="card-body">
+                  <div className="two row">
+                    <div className="col">
+                      <select
+                        className="pilih form-select"
+                        value={limit}
+                        onChange={handleLimit}
+                      >
+                        <option className="option-select" value="1">
+                          Show 1 Entries
+                        </option>
+                        <option className="option-select" value="10">
+                          Show 10 Entries
+                        </option>
+                        <option className="option-select" value="100">
+                          Show 100 Entries
+                        </option>
+                      </select>
+                    </div>
+                    <div className="col">
+                      <CFormInput
+                        className="filter-data-p"
+                        type="search"
+                        placeholder="search data"
+                        value={search}
+                        onChange={handleSearch}
+                      />
+                    </div>
+                  </div>
+                  <table className="tabel-payment table table1 responsive-3">
+                    <thead className="text-center">
+                      <tr>
+                        <th scope="col" onClick={() => handleSort("id")}>
+                          No{" "}
+                          {sortBy === "id" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th
+                          scope="col"
+                          onClick={() => handleSort("description")}
+                        >
+                          Description{" "}
+                          {sortBy === "description" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th
+                          scope="col"
+                          onClick={() => handleSort("organization_name")}
+                        >
+                          Organization Name{" "}
+                          {sortBy === "organization_name" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("periode")}>
+                          Periode{" "}
+                          {sortBy === "periode" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th scope="col" onClick={() => handleSort("amount")}>
+                          Nominal{" "}
+                          {sortBy === "amount" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th
+                          scope="col"
+                          onClick={() => handleSort("created_date")}
+                        >
+                          Create Date{" "}
+                          {sortBy === "created_date" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                        <th
+                          scope="col"
+                          onClick={() => handleSort("updated_date")}
+                        >
+                          Update Date{" "}
+                          {sortBy === "updated_date" &&
+                            (sortDirection === "asc" ? "▲" : "▼")}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white" style={{ textAlign: "center" }}>
+                      {filteredBills.map((data, index) => {
+                        return (
+                          <tr key={index}>
+                            <td data-cell="No">{index + 1}</td>
+                            <td data-cell="Description">{data.description}</td>
+                            <td data-cell="Organization">
+                              {data.organization_name}
+                            </td>
+                            <td data-cell="Periode">{data.periode}</td>
+                            <td data-cell="Nominal">{data.amount}</td>
+                            <td data-cell="Create Date">{data.created_date}</td>
+                            <td data-cell="Update Date">{data.updated_date}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+
+                  {/* Pagination */}
+                  <div>
+                    <ul class="pagination float-end">
+                      <li
+                        className={
+                          "page-item " + (currentPage === 1 ? "disabled" : "")
+                        }
+                        disabled={currentPage === 1}
+                      >
+                        <a
+                          class="page-link"
+                          onClick={() => handlePageChange(currentPage - 1)}
+                        >
+                          Previous
+                        </a>
+                      </li>
+                      {renderPageNumbers()}
+                      <li
+                        className={
+                          "page-item " +
+                          (currentPage === total_page ? "disabled" : "")
+                        }
+                        disabled={currentPage === total_page}
+                      >
+                        <a
+                          class="page-link"
+                          onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                          Next
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div className="card-body">
-            <div className="two row">
-                <div className="col">
-                  <select
-                    className="pilih form-select"
-                    value={limit}
-                    onChange={handleLimit}
-                   
-                  >
-                    <option className="option-select" value="1">Show 1 Entries</option>
-                    <option className="option-select" value="10">Show 10 Entries</option>
-                    <option className="option-select" value="100">Show 100 Entries</option>
-                  </select>
-                </div>
-                <div className="col">
-                  <CFormInput
-                    className="filter-data-p"
-                    type="search"
-                    placeholder="search data"
-                    value={search}
-                    onChange={handleSearch}
-                  />
-                </div>
-              </div>
-              <table  className="tabel-payment table table1 responsive-3">
-                <thead className="text-center">
-                <tr>
-                    <th scope="col" onClick={() => handleSort("id")}>
-                      No{" "}
-                      {sortBy === "id" && (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("description")}>
-                      Description{" "}
-                      {sortBy === "description" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th
-                      scope="col"
-                      onClick={() => handleSort("organization_name")}
-                    >
-                      Organization Name{" "}
-                      {sortBy === "organization_name" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("periode")}>
-                      Periode{" "}
-                      {sortBy === "periode" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("amount")}>
-                      Nominal{" "}
-                      {sortBy === "amount" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("created_date")}>
-                      Create Date{" "}
-                      {sortBy === "created_date" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("updated_date")}>
-                      Update Date{" "}
-                      {sortBy === "updated_date" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white" style={{ textAlign: "center" }}>
-                  {filteredBills.map((data, index) => {
-                    return (
-                      <tr key={index}>
-                        <td data-cell="No">{index + 1}</td>
-                        <td data-cell="Description">{data.description}</td>
-                        <td data-cell="Organization">
-                          {data.organization_name}
-                        </td>
-                        <td data-cell="Periode">{data.periode}</td>
-                        <td data-cell="Nominal">{data.amount}</td>
-                        <td data-cell="Create Date">{data.created_date}</td>
-                        <td data-cell="Update Date">{data.updated_date}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-
-              {/* Pagination */}
-              <div>
-              <ul class="pagination float-end">
-                  <li
-                    className={
-                      "page-item " + (currentPage === 1 ? "disabled" : "")
-                    }
-                    disabled={currentPage === 1}
-                  >
-                    <a
-                      class="page-link"
-                      onClick={() => handlePageChange(currentPage - 1)}
-                    >
-                      Previous
-                    </a>
-                  </li>
-                  {renderPageNumbers()}
-                  <li
-                    className={
-                      "page-item " +
-                      (currentPage === total_page ? "disabled" : "")
-                    }
-                    disabled={currentPage === total_page}
-                  >
-                    <a
-                      class="page-link"
-                      onClick={() => handlePageChange(currentPage + 1)}
-                    >
-                      Next
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
           </div>
-        </div>
-      </div>
-    </>
-      ):(
-        <><p>Page Tidak Tersedia</p></>
-      )}</div>
+        </>
+      ) : (
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}
+    </div>
   );
 }
 

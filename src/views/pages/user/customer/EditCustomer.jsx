@@ -1,3 +1,5 @@
+
+
 import axios from "axios";
 import React, { useEffect } from "react";
 import { API_DUMMY } from "../../../../utils/baseURL";
@@ -6,10 +8,18 @@ import { useState } from "react";
 import { act } from "react-dom/test-utils";
 import "../../../../views/css/EditUserCustomer.css";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { CFormInput, CCard, CCardBody, CForm, CCol, CButton, } from "@coreui/react";
+import {
+  CFormInput,
+  CCard,
+  CCardBody,
+  CForm,
+  CCol,
+  CButton,
+} from "@coreui/react";
 
 function EditCustomer() {
   const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
   const [hp, setHp] = useState("");
   const [password, setPassword] = useState("");
   const [active, setActive] = useState("");
@@ -23,6 +33,7 @@ function EditCustomer() {
 
       const req = {
         name: name,
+        address: address,
         hp: hp,
         password: password,
         active: active,
@@ -51,12 +62,11 @@ function EditCustomer() {
         .catch((error) => {
           console.log(error);
         });
-
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-        'error'
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru",
+        "error"
       ).then((result) => {
         //Untuk munuju page selanjutnya
         navigate("/");
@@ -84,16 +94,12 @@ function EditCustomer() {
             },
           })
           .then((ress) => {
-            // const user_customer = ress.data.data;
             setName(response.name);
             setHp(response.hp);
+            setAddress(response.address);
             setPassword(response.password);
             setActive(response.active);
-            // setValue(
-            //   `Id = ${user_customer.id}, Email = ${user_customer.email}, Nama = ${user_customer.name}`
-            // );
             console.log(response.address);
-            // console.log(res.data.data);
           });
       })
       .catch((error) => {
@@ -130,12 +136,6 @@ function EditCustomer() {
       }
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const onKeyDown = (keyEvent) => {
-    if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
-      keyEvent.preventDefault();
     }
   };
 
@@ -226,6 +226,17 @@ function EditCustomer() {
                 </CCol>
                 <CCol md={6}>
                   <CFormInput
+                    id="address"
+                    type="text"
+                    placeholder="address"
+                    onChange={(e) => setAddress(e.target.value)}
+                    label="Alamat"
+                    value={address}
+                    required
+                  />
+                </CCol>
+                <CCol md={6}>
+                  <CFormInput
                     type="text"
                     placeholder="No hp"
                     id="No hp"
@@ -241,10 +252,7 @@ function EditCustomer() {
                     autoComplete="off"
                     value={organization_id}
                     onKeyDown={handleKeyDown}
-                    onChange={(e) => {
-                      setOrganization_id(e.target.value);
-                      handleChange(e); // Panggil fungsi handleChange juga
-                    }}
+                    onChange={handleChange}
                     label="Organization_id"
                     required
                   />
@@ -254,18 +262,16 @@ function EditCustomer() {
                 <CCol xs={12}>
                   <CButton onClick={update}>Simpan</CButton>
                 </CCol>
-                {/* <CCol xs={12}>
-              <Link to="/#/userCustomer">
-                <CButton>Batal</CButton>
-              </Link>
-            </CCol> */}
               </CForm>
             </CCardBody>
           </CCard>
         </>
       ) : (
-        <><p>Page Tidak Tersedia</p></>
-      )}</div>
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}
+    </div>
   );
 }
 

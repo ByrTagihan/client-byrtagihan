@@ -1,4 +1,3 @@
-
 import {
   cilBook,
   cilDescription,
@@ -181,7 +180,6 @@ function LihatTagihanByMember() {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
-        // setPages(res.data.data.total_page);
         setList1(res.data.data);
         console.log(res.data.data);
       })
@@ -359,7 +357,6 @@ function LihatTagihanByMember() {
                       }}
                     >
                       <div className="col">
-                        {/* <Link to="/addListTagihanByMember"> */}
                         <button
                           onClick={() => {
                             navigate(`/addListTagihanByMember/${param.id}`);
@@ -410,14 +407,6 @@ function LihatTagihanByMember() {
                   </div>
                   <table className="table responsive-3 table1">
                     <thead>
-                      {/* <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Keterangan</th>
-                    <th scope="col">Periode</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Tanggal Dibayar</th>
-                    <th scope="col">Action</th>
-                  </tr> */}
                       <tr>
                         <th scope="col" onClick={() => handleSort("no")}>
                           No{" "}

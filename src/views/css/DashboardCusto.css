@@ -1,25 +1,82 @@
 .scroll-to-top-button {
-    position: fixed;
-    bottom: 50px;
-    right: 30px;
-    z-index: 9999;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #007bff;
-    /* background-color: white; */
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: flex;
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+  z-index: 9999;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  padding: 10px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.scroll-to-top-button.visible {
+  opacity: 1;
+}
+/* responsive.css */
+@media (max-width: 991px) {
+  /* Adjust columns layout */
+  .col-xs-12 {
+    width: 100%;
+    flex: 0 0 100%;
+  }
+
+  /* Center pagination on small screens */
+  .pagination {
     justify-content: center;
-    align-items: center;
-    opacity: 0;
-    padding: 10px;
+  }
+
+  /* Hide some elements on small screens */
+  .inputSearch1 {
+    display: none;
+  }
+
+  /* Adjust the table font size and cell padding for better readability on small screens */
+  .table {
+    font-size: 14px;
+    overflow-y: scroll;
+  }
+
+  /* Adjust table header font size */
+  .table thead th {
+    font-size: 16px;
+  }
+}
+
+/* Hide the scroll-to-top button on small screens */
+.scroll-to-top-button {
+  display: none;
+}
+
+/* Show the scroll-to-top button on large screens */
+@media (min-width: 992px) {
+  .scroll-to-top-button {
+    display: block;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
     transition: opacity 0.3s ease-in-out;
   }
-  
-  .scroll-to-top-button.visible {
-    opacity: 1;
+
+  .scroll-to-top-button:hover {
+    opacity: 0.8;
   }
-  
+}

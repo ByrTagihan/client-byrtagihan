@@ -414,7 +414,6 @@ function DashboardUser() {
           key="dot"
           style={{
             width: "40px",
-            textAlign: "center",
             borderRight: "none",
             borderLeft: "none",
           }}
@@ -781,7 +780,7 @@ function DashboardUser() {
                 </div>
               </div>
               <table  className="tabel-payment table table1 responsive-3">
-                <thead className="text-center">
+                <thead>
                 <tr>
                     <th scope="col" onClick={() => handleSort("id")}>
                       No{" "}
@@ -822,7 +821,7 @@ function DashboardUser() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white" style={{ textAlign: "center" }}>
+                <tbody className="bg-white">
                   {sortedPayment.map((data, index) => {
                     return (
                       <tr key={index}>
@@ -922,7 +921,7 @@ function DashboardUser() {
                 </div>
               </div>
               <table className="tabel-transaction table  table1 responsive-3">
-                <thead className="text-center">
+                <thead>
                   <tr>
                     <th scope="col" onClick={() => handleSort("id")}>
                       No{" "}
@@ -960,9 +959,11 @@ function DashboardUser() {
                   </tr>
                 </thead>
                 <tbody
+
+
                   id="myTable"
                   className="bg-white"
-                  style={{ textAlign: "center" }}
+                  // style={{ textAlign: "center" }}
                 >
                   {sortedTransaction.map((item, index) => {
                     return (
@@ -976,7 +977,8 @@ function DashboardUser() {
                         <td data-cell="Create Date">{item.created_date}</td>
                         <td data-cell="Update Date">{item.updated_date}</td>
 
-                        <td data-cell="Action" className="tdd">
+                        <td data-cell="Action">
+                          <div className="tdd">
                           <button
                             onClick={() =>
                               navigate(`/editTransaction/${item.id}`)
@@ -995,7 +997,7 @@ function DashboardUser() {
                           >
                             <CIcon icon={cilTrash} />
                           </button>
-
+                            </div>
                         </td>
                       </tr>
                     );

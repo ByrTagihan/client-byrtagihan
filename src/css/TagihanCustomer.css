@@ -12,68 +12,67 @@
   margin-top: 9px;
   width: 7em;
 }
-  @media (max-width: 600px) {
-    .textt {
-      font-size: 20px;
-    }
-  
-    .search-tagihan {
-      width: 100%;
-      margin-left: 0;
-    }
-    .limit-tagihan {
-      width: 80%;
-      margin-left: 0;
-    }
-    .edit {
-      margin-left: 9.5em;
-      position: absolute;
-    }
-    .hapus {
-      margin-left: 4.5em;
-      width: 2.8em;
-      position: relative;
-    }
-    .batal_bayar {
-        margin-left: 8.8em; 
-        width: 8em;
-    }
-    .bayar {
-        margin-left: 8.5em; 
-        width: 8em;
-    }
-    tbody {
-      text-align: left;
-    }
-    .option-select {
-      font-size: 12px;
-    }
-  
-    .td {
-      padding-right: none;
-      display: flex;
-      justify-content: left;
-    }
-    .responsive-3 {
-      width: 100%;
-    }
-  
-    th {
-      display: none;
-    }
-    td {
-      display: grid;
-      gap: 0.5rem;
-      grid-template-columns: 15ch auto;
-      padding: 0.75em 1rem;
-    }
-    td:first-child {
-      padding-top: 2rem;
-    }
-  
-    td::before {
-      content: attr(data-cell) "  : ";
-      font-weight: bold;
-    }
+@media (max-width: 600px) {
+  .textt {
+    font-size: 20px;
   }
-  
+
+  .search-tagihan {
+    width: 100%;
+    margin-left: 0;
+  }
+  .limit-tagihan {
+    width: 80%;
+    margin-left: 0;
+  }
+  .edit {
+    margin-left: 9.5em;
+    position: absolute;
+  }
+  .hapus {
+    margin-left: 4.5em;
+    width: 2.8em;
+    position: relative;
+  }
+  .batal_bayar {
+    margin-left: 8.8em;
+    width: 8em;
+  }
+  .bayar {
+    margin-left: 8.5em;
+    width: 8em;
+  }
+  tbody {
+    text-align: left;
+  }
+  .option-select {
+    font-size: 12px;
+  }
+
+  .td {
+    padding-right: none;
+    display: flex;
+    justify-content: left;
+  }
+  .responsive-3 {
+    width: 100%;
+  }
+
+  th {
+    display: none;
+  }
+  td {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 15ch auto;
+    padding: 0.75em 1rem;
+  }
+  td:first-child {
+    padding-top: 2rem;
+  }
+
+  td::before {
+    content: attr(data-cell) "  : ";
+    font-weight: bold;
+  }
+}

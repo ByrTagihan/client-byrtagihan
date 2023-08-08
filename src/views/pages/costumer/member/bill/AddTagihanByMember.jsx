@@ -1,8 +1,9 @@
-import axios from 'axios';
-import React, { useState } from 'react'
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import Swal from 'sweetalert2';
+
+import axios from "axios";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function AddTagihanByMember() {
   const [description, setDescription] = useState("");
@@ -13,7 +14,7 @@ function AddTagihanByMember() {
   let navigate = useNavigate();
   const [role, setRole] = useState("");
   const add = async (e) => {
-    if (localStorage.getItem("type_token") === "customer") {
+    if (role === "customer") {
       e.preventDefault();
       e.persist();
 
@@ -29,10 +30,6 @@ function AddTagihanByMember() {
           {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
           }
-          // data,
-          // {
-          //   headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-          // }
         );
         setShowAdd(false);
         // navigate("/lihattagihanmember")
@@ -44,7 +41,7 @@ function AddTagihanByMember() {
         });
         console.log(data);
         setTimeout(() => {
-          navigate("/lihattagihanmember")
+          navigate("/lihattagihanmember");
           window.location.reload();
         }, 1500);
       } catch (error) {
@@ -52,9 +49,9 @@ function AddTagihanByMember() {
       }
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin',
-        'error'
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin",
+        "error"
       ).then((result) => {
         //Untuk munuju page selanjutnya
         navigate("/");
@@ -69,7 +66,7 @@ function AddTagihanByMember() {
   useEffect(() => {
     const userRoleFromServer = "customer"; // Ganti dengan peran aktual dari data yang diterima
     setRole(userRoleFromServer);
-  }, [])
+  }, []);
 
   return (
     <div className="card mb-3">
@@ -127,9 +124,12 @@ function AddTagihanByMember() {
           </div>
         </>
       ) : (
-        <><p>Page Tidak Tersedia</p></>
-      )}</div>
-  )
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}
+    </div>
+  );
 }
 
-export default AddTagihanByMember
+export default AddTagihanByMember;

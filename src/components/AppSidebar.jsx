@@ -24,10 +24,10 @@ import Gambar from "../assets/images/branding-identity-corporate-b-logo-vector-d
 // import "../css/AppSidebar.css"
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import "../css/AppSidebar.css"
+import "../css/AppSidebar.css";
 
 const AppSidebar = () => {
-  const userRole = localStorage.getItem("type_token"); 
+  const userRole = localStorage.getItem("type_token");
   const dispatch = useDispatch();
   const unfoldable = useSelector((state) => state.sidebarUnfoldable);
   const sidebarShow = useSelector((state) => state.sidebarShow);
@@ -109,10 +109,6 @@ const AppSidebar = () => {
           <i className="fas fa-sign-out-alt"></i> Logout
         </button>
       </CSidebarBrand>
-      {/* <CSidebarToggler
-      className="d-none d-lg-flex"
-      onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}
-    /> */}
     </CSidebar>
   );
 };

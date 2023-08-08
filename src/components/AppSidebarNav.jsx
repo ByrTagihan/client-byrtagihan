@@ -1,11 +1,11 @@
-import React from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
-import { CBadge } from '@coreui/react'
+import { CBadge } from "@coreui/react";
 import PropTypes from "prop-types";
 
 export const AppSidebarNav = ({ items, userRoles }) => {
-  const location = useLocation()
+  const location = useLocation();
 
   const navLink = (name, icon, badge) => {
     return (
@@ -67,8 +67,8 @@ export const AppSidebarNav = ({ items, userRoles }) => {
       </Component>
     );
   };
-  
-console.log(userRoles);
+
+  console.log(userRoles);
 
   return (
     <React.Fragment>

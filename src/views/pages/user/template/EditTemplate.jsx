@@ -72,7 +72,6 @@ function EditTemplate() {
                 setTemplate(template);
                 setName(template.name)
                 setContent(template.content)
-                // console.log(res.data.data);
             })
             .catch((error) => {
                 alert("Terjadi Kesalahan" + error);
@@ -106,17 +105,6 @@ function EditTemplate() {
                                 required
                             />
                         </CCol>
-                        {/* <CCol md={6}>
-                            <CFormInput
-                                id="content"
-                                type="text"
-                                placeholder="Content"
-                                onChange={(e) => setContent(e.target.value)}
-                                label="Content"
-                                value={content}
-                                required
-                            />
-                        </CCol> */}
                         <CCol md={12}>
                             <CFormLabel htmlFor="content">Content</CFormLabel>
                             <ReactQuill value={content} onChange={handleChange} />
