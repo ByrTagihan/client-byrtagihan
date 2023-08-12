@@ -149,7 +149,7 @@ function CrudTransaction() {
   };
   return (
     <div>
-      {localStorage.getItem("type_token") === "user" ? (
+      {localStorage.getItem("type_token") === "User" ? (
       <div className="row">
         <div className="col" xs={12}>
           <div className="card mb-4">

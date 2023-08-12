@@ -20,7 +20,7 @@ function Tagihan() {
 
   const [visible, setVisible] = useState(false);
   const [paidId, setPaidId] = useState(0);
-  const [paidDate, setPaidDate] = useState("");
+  const [paid_date, setPaid_date] = useState("");
   const [paidAmount, setPaidAmount] = useState(0);
 
   useEffect(() => {
@@ -39,6 +39,7 @@ function Tagihan() {
       );
       const data = await response.json();
       setBills(data.data);
+      console.log(data.data);
       setTotalPages(data.pagination.total_page);
     } catch (error) {
       console.error("Error fetching bills:", error);
@@ -76,7 +77,7 @@ function Tagihan() {
   const bayarTagihan = async (e) => {
     e.preventDefault();
     const req = {
-      paid_date: paidDate,
+      paid_date: paid_date,
       paid_amount: paidAmount,
     };
 
@@ -182,9 +183,35 @@ function Tagihan() {
       )
     );
   };
+
+  const deleteData = async (id) => {
+    Swal.fire({
+      title: "Anda ingin Menghapus Data ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`${API_DUMMY}/customer/bill/` + id, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Menghapus!",
+          showConfirmButton: false,
+        });
+      }
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    });
+  };
   return (
     <div>
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "Customer" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>
@@ -273,7 +300,7 @@ function Tagihan() {
                             (sortDirection === "asc" ? "▲" : "▼")}
                         </th>
                         <th scope="col" onClick={() => handleSort("periode")}>
-                          Period{" "}
+                          Periode{" "}
                           {sortBy === "periode" &&
                             (sortDirection === "asc" ? "▲" : "▼")}
                         </th>
@@ -339,7 +366,7 @@ function Tagihan() {
                             <button
                               className="edit1"
                               onClick={() =>
-                                deleteData(data.id, "customer/bill", setBills)
+                                deleteData(data.id)
                               }
                               style={{ background: "red", color: "white" }}
                             >
@@ -427,7 +454,8 @@ function Tagihan() {
                         id="paid_date"
                         type="date"
                         className="form-control"
-                        onChange={(e) => setPaidDate(e.target.value)}
+                        onChange={(e) => setPaid_date(e.target.value)}
+                        value={paid_date}
                       />
                     </div>
                     <div className="mb-3">

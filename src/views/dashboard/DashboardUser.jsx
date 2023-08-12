@@ -229,34 +229,34 @@ function DashboardUser() {
     );
   };
 
-  const getAllTotal = async () => {
-    await axios
-      .get(
-        `${API_DUMMY}/user/report/total`,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
-      .then((res) => {
-        if (Array.isArray(res.data.data)) {
-          setTotal(res.data.data);
+  // const getAllTotal = async () => {
+  //   await axios
+  //     .get(
+  //       `${API_DUMMY}/user/report/total`,
+  //       {
+  //         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       if (Array.isArray(res.data.data)) {
+  //         setTotal(res.data.data);
 
-          // Menghitung jumlah member setiap bulan
-          const monthlyData = new Array(12).fill(0); // Inisialisasi array dengan nilai 0 untuk setiap bulan
-          res.data.data.forEach((item) => {
-            const createdMonth = new Date(item.periode).getMonth();
-            monthlyData[createdMonth]++;
-          });
-          setMonthlyDataTotal(monthlyData);
-          const combinedData = [...res.data.data];
-          setCombinedData(combinedData);
-          //   console.log([...res.data.data]);
-        }
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-  };
+  //         // Menghitung jumlah member setiap bulan
+  //         const monthlyData = new Array(12).fill(0); // Inisialisasi array dengan nilai 0 untuk setiap bulan
+  //         res.data.data.forEach((item) => {
+  //           const createdMonth = new Date(item.periode).getMonth();
+  //           monthlyData[createdMonth]++;
+  //         });
+  //         setMonthlyDataTotal(monthlyData);
+  //         const combinedData = [...res.data.data];
+  //         setCombinedData(combinedData);
+  //         //   console.log([...res.data.data]);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       alert("Terjadi Kesalahan" + error);
+  //     });
+  // };
   const getAllBill = async () => {
     await axios
       .get(
@@ -332,7 +332,7 @@ function DashboardUser() {
 
   useEffect(() => {
     getAllTransaction();
-    getAllTotal();
+    // getAllTotal();
     getAllBill();
   }, []);
 
@@ -436,7 +436,7 @@ function DashboardUser() {
   return (
     <>
       <CRow>
-        <CCol sm={6} lg={3}>
+        {/* <CCol sm={6} lg={3}>
           <CWidgetStatsA
             className="mb-4"
             color="primary"
@@ -545,7 +545,7 @@ function DashboardUser() {
               />
             }
           />
-        </CCol>
+        </CCol> */}
         <CCol sm={6} lg={3}>
           <CWidgetStatsA
             className="mb-4"

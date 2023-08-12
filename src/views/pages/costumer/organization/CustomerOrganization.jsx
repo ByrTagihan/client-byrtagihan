@@ -49,13 +49,14 @@ function CustomerOrganization() {
   });
 
   const get = async () => {
-    if (localStorage.getItem("type_token") === "customer") {
+    if (localStorage.getItem("type_token") === "Customer") {
       await axios
         .get(`${API_DUMMY}/customer/organization`, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         })
         .then((res) => {
           const organization = res.data.data;
+          console.log(res.data.data);
           setOrganization(organization);
           setId(organization.id);
           setName(organization.name);
@@ -134,7 +135,7 @@ function CustomerOrganization() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "Customer" ? (
         <>
           <AppSidebar />
           <CCard className="mb-4">

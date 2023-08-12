@@ -18,7 +18,7 @@ function TambahTagihanMember() {
   const param = useParams();
   const [description, setKeterangan] = useState("");
   const [periode, setPeriode] = useState();
-  const [amount, setAmount] = useState("");
+  const [paid_amount, setPaid_amount] = useState("");
 
   const Add = async (e) => {
     if (localStorage.getItem("typer_token") === "customer") {
@@ -26,9 +26,9 @@ function TambahTagihanMember() {
       e.persist();
 
       const data = {
-        description,
-        periode,
-        amount,
+        description: description,
+        periode: periode,
+        paid_amount: paid_amount,
       };
 
       try {
@@ -66,7 +66,7 @@ function TambahTagihanMember() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "Customer" ? (
         <>
           <CCard className="p-4">
             <CCardBody>
@@ -108,8 +108,8 @@ function TambahTagihanMember() {
                     placeholder="Nominal..."
                     autoComplete="nominal"
                     type="number"
-                    onChange={(e) => setAmount(e.target.value)}
-                    value={amount}
+                    onChange={(e) => setPaid_amount(e.target.value)}
+                    value={paid_amount}
                   />
                 </CInputGroup>
 

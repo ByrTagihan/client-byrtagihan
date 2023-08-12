@@ -36,7 +36,7 @@ function BayarSemuaTagihan() {
 
     // function get channel
     const GetChannel = async () => {
-        if (localStorage.getItem("type_token") === "member") {
+        if (localStorage.getItem("type_token") === "Member") {
             try {
                 const { data, status } = await axios.get(`${API_DUMMY}/member/channel`, {
                     headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -128,7 +128,7 @@ function BayarSemuaTagihan() {
 
     return (
         <div className='mb-5'>
-            {localStorage.getItem("type_token") === "member" ? (
+            {localStorage.getItem("type_token") === "Member" ? (
                 <>
                     {!showCard && (
                         <CCard>

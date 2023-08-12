@@ -33,8 +33,8 @@ function Organization() {
         }
       )
       .then((res) => {
-        setTotalPages(res.data.pagination.total_page);
-        console.log(res.data.pagination.total_page);
+        // setTotalPages(res.data.pagination.total_page);
+        // console.log(res.data.pagination.total_page);
         setList(res.data.data);
         console.log(res.data.data);
       })
@@ -146,7 +146,7 @@ function Organization() {
   };
   return (
     <div>
-      {localStorage.getItem("type_token") === "user" ? (
+      {localStorage.getItem("type_token") === "User" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>
@@ -265,7 +265,7 @@ function Organization() {
                   </table>
 
                   {/* Pagination */}
-                  <div>
+                  {/* <div>
                     <ul class="pagination float-end">
                       <li
                         className={
@@ -296,7 +296,7 @@ function Organization() {
                         </a>
                       </li>
                     </ul>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

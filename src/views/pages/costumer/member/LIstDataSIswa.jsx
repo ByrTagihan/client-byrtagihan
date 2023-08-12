@@ -22,6 +22,7 @@ import {
 } from "@coreui/icons";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
+import { API_DUMMY } from "../../../../utils/baseURL";
 
 function LIstDataSIswa() {
   const [name, setName] = useState("");
@@ -58,10 +59,10 @@ function LIstDataSIswa() {
   };
 
   const getAll = async () => {
-    if (localStorage.getItem("type_token") === "customer") {
+    if (localStorage.getItem("type_token") === "Customer") {
       await axios
         .get(
-          `https://api.byrtagihan.com/api/customer/member?page=${currentPage}&limit=${limit}&filter=${searchTerm}`,
+          `${API_DUMMY}/customer/member?page=${currentPage}&limit=${limit}&filter=${searchTerm}`,
           {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
           }
@@ -124,10 +125,7 @@ function LIstDataSIswa() {
     if (searchTerm !== "") {
       sortedData = sortedData.filter((data) => {
         return (
-          data.unique_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          data.hp.toString().includes(searchTerm) ||
-          data.address.toLowerCase().includes(searchTerm.toLowerCase())
+          data.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
       });
     }
@@ -144,9 +142,9 @@ function LIstDataSIswa() {
 
   const [idd, setId] = useState(0);
   const getById = async (id) => {
-    if (localStorage.getItem("type_token") === "customer") {
+    if (localStorage.getItem("type_token") === "Customer") {
       await axios
-        .get(`https://api.byrtagihan.com/api/customer/member/` + id, {
+        .get(`${API_DUMMY}/customer/member/` + id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         })
         .then((res) => {
@@ -189,13 +187,9 @@ function LIstDataSIswa() {
     };
 
     try {
-      await axios.put(
-        `https://api.byrtagihan.com/api/customer/member/${idd}/password`,
-        data,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      );
+      await axios.put(`${API_DUMMY}/customer/member/${idd}/password`, data, {
+        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+      });
       setShow1(false);
       Swal.fire({
         icon: "success",
@@ -211,42 +205,6 @@ function LIstDataSIswa() {
     }
   };
 
-  const add = async (e) => {
-    e.preventDefault();
-    e.persist();
-
-    const data = {
-      unique_id,
-      name,
-      address,
-      hp,
-      password,
-    };
-    try {
-      await axios.post(
-        `http://staging-api.byrtagihan.com/api/customer/member`,
-        data,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      );
-      // console.log(unique_id);
-      setShow(false);
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil DiTambahkan",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      // console.log(data);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const deleteData = async (id) => {
     Swal.fire({
       title: "Anda ingin Menghapus Data ?",
@@ -258,7 +216,7 @@ function LIstDataSIswa() {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete("https://api.byrtagihan.com/api/customer/member/" + id, {
+        axios.delete(`${API_DUMMY}/customer/member/` + id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         });
         Swal.fire({
@@ -324,7 +282,7 @@ function LIstDataSIswa() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "Customer" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>

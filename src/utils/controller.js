@@ -33,36 +33,42 @@ export const getAllDataById = async (item, path, setPath) => {
       console.log(error);
     });
 };
-
 export const deleteData = async (item, path, setPath) => {
   Swal.fire({
-    title: "Do you want to delete ?",
+    title: "Do you want to delete?",
     text: "Data changes are non-refundable!",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
     confirmButtonText: "Delete",
-    cancelButtonText: "Cencel",
+    cancelButtonText: "Cancel",
   })
     .then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`${API_DUMMY}/${path}/${item}`, {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Dihapus!",
-          showConfirmButton: false,
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+        axios
+          .delete(`${API_DUMMY}/${path}/${item}`, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+            },
+          })
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "Deleted!",
+              showConfirmButton: false,
+            });
+            setTimeout(() => {
+              window.location.reload(); // Refresh the page after deleting
+            }, 1500);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     })
     .catch((err) => {
       console.log(err);
     });
 };
+

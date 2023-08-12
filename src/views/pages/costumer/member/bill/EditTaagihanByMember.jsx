@@ -53,10 +53,9 @@ function EditTaagihanByMember() {
       console.log(err);
     }
   };
-}
 return (
   <div className="card mb-3">
-    {localStorage.getItem("type_token") === "customer" ? (
+    {localStorage.getItem("type_token") === "Customer" ? (
       <>
         <div className="card-header bg-transparent">Edit Tagihan</div>
         <div className="card-body">
@@ -116,4 +115,5 @@ return (
     )}
   </div>
 );
+}
 export default EditTaagihanByMember;

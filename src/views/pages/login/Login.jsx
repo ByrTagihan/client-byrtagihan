@@ -20,6 +20,7 @@ import axios from "axios";
 import "./../../../views/css/Login.css";
 import Swal from "sweetalert2";
 import "../../../views/pages/login/Login.css";
+import { API_DUMMY } from "../../../utils/baseURL";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -47,7 +48,7 @@ const Login = () => {
     try {
       if (type_token === "admin Sekolah") {
         const { data, status } = await axios.post(
-          "https://api.byrtagihan.com/api/customer/login",
+          `${API_DUMMY}/customer/login`,
           {
             email: email,
             password: password,
@@ -62,7 +63,7 @@ const Login = () => {
             timer: 1500,
           });
           localStorage.setItem("type_token", data.data.type_token);
-          localStorage.setItem("id", data.data.id);
+          localStorage.setItem("id", data.data.data.id);
           localStorage.setItem("token", data.data.token);
           navigate("/dashboardd");
           setTimeout(() => {
@@ -71,7 +72,7 @@ const Login = () => {
         }
       } else if (type_token === "guru") {
         const { data, status } = await axios.post(
-          "https://api.byrtagihan.com/api/user/login",
+          `${API_DUMMY}/user/login`,
           {
             email: email,
             password: password,
@@ -85,7 +86,7 @@ const Login = () => {
             showConfirmButton: false,
           });
           localStorage.setItem("type_token", data.data.type_token);
-          localStorage.setItem("id", data.data.id);
+          localStorage.setItem("id", data.data.data.id);
           localStorage.setItem("token", data.data.token);
           navigate("/dashboardUser");
           setTimeout(() => {
@@ -94,7 +95,7 @@ const Login = () => {
         }
       } else if (type_token === "siswa") {
         const { data, status } = await axios.post(
-          "https://api.byrtagihan.com/api/member/login",
+          `${API_DUMMY}/member/login`,
           {
             unique_id: unique_id,
             password: password,
@@ -108,7 +109,7 @@ const Login = () => {
             showConfirmButton: false,
           });
           localStorage.setItem("type_token", data.data.type_token);
-          localStorage.setItem("id", data.data.id);
+          localStorage.setItem("id", data.data.data.id);
           localStorage.setItem("token", data.data.token);
           navigate("/dashboardMember");
           setTimeout(() => {

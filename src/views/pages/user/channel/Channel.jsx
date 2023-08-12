@@ -111,7 +111,7 @@ function Channel() {
   };
   return (
     <div>
-      {localStorage.getItem("type_token") === "user" ? (
+      {localStorage.getItem("type_token") === "User" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>

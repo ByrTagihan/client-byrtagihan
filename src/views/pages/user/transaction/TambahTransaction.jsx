@@ -27,7 +27,7 @@ function TambahTransaction() {
   let navigate = useNavigate();
 
   const Post = async (e) => {
-    if (localStorage.getItem("type_token") === "user") {
+    if (localStorage.getItem("type_token") === "User") {
       e.preventDefault();
       const data = {
         organization_id: organization_id,
@@ -164,13 +164,14 @@ function TambahTransaction() {
   const GetOrganization = async () => {
     try {
       const { data, status } = await axios.get(
-        `${API_DUMMY}/user/transaction?limit=100`,
+        `${API_DUMMY}/user/organization`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
       );
       if (status === 200) {
         setOrganization(data.data);
+        console.log(data.data);
       }
     } catch (err) {
       console.log(err);
@@ -179,10 +180,11 @@ function TambahTransaction() {
 
   useEffect(() => {
     GetOrganization();
+    console.log(organization_id);
   }, []);
   return (
     <div>
-      {localStorage.getItem("type_token") === "user" ? ( 
+      {localStorage.getItem("type_token") === "User" ? ( 
       <div className="card mb-3">
         <div className="card-header bg-transparent">
           <h5>Tambah transaction</h5>
@@ -220,7 +222,7 @@ function TambahTransaction() {
                 {organization.map((cos, i) => {
                   return (
                     <option value={cos.id} key={i}>
-                      {cos.organization_name}
+                      {cos.name}
                     </option>
                   );
                 })}

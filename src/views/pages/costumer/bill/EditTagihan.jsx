@@ -42,6 +42,10 @@ function EditTagihan() {
             showConfirmButton: false,
             timer: 1500,
           });
+          setTimeout(() => {
+            navigate("/customerBill")
+            window.location.reload();
+          }, 1500);
         })
         .catch((error) => {
           console.log(error);
@@ -187,7 +191,7 @@ function EditTagihan() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "Customer" ? (
         <>
           <div className="card mb-3">
             <div className="card-header bg-transparent">Edit Tagihan</div>

@@ -49,7 +49,7 @@ function DashboardMember() {
 
   // function get bill
   const getAll = async () => {
-    if (localStorage.getItem("type_token") === "member") {
+    if (localStorage.getItem("type_token") === "Member") {
       await axios
         .get(`${API_DUMMY}/member/bill?limit=10000`, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -280,7 +280,7 @@ function DashboardMember() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "member" ? (
+      {localStorage.getItem("type_token") === "Member" ? (
         <>
           <CRow>
             <CCol sm={6} lg={3}>

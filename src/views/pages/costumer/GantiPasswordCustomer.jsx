@@ -25,7 +25,7 @@ const GantiPasswordCustomer = () => {
   const navigate = useNavigate();
 
   const Put = async (e) => {
-    if (localStorage.getItem("typer_token") === "customer") {
+    if (localStorage.getItem("type_token") === "Customer") {
       e.preventDefault();
       e.persist();
 
@@ -52,7 +52,7 @@ const GantiPasswordCustomer = () => {
             }
           });
         setTimeout(() => {
-          navigate("/profile");
+          navigate("/customerProfile");
           window.location.reload();
         }, 1500);
       } catch (eror) {
@@ -81,7 +81,7 @@ const GantiPasswordCustomer = () => {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "Customer" ? (
         <>
           <div className="bg-light min-vh-99 d-flex flex-row align-items-center">
             <CContainer>

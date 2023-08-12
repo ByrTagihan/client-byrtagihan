@@ -16,7 +16,7 @@ function ListDataSiswaEdit() {
   const [role, setRole] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("type_token") === "customer") {
+    if (localStorage.getItem("type_token") === "Customer") {
       axios
         .get(`${API_DUMMY}/customer/member/` + param.id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -53,7 +53,7 @@ function ListDataSiswaEdit() {
   }, [])
 
   const putData = async (e) => {
-    if (localStorage.getItem("type_token") === "customer") {
+    if (localStorage.getItem("type_token") === "Customer") {
       e.preventDefault();
       e.persist();
 
@@ -102,7 +102,7 @@ function ListDataSiswaEdit() {
 
   return (
     <div style={{ padding: "10px", borderRadius: "20px" }}>
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "Customer" ? (
         <>
           <form onSubmit={putData}>
             <div>
