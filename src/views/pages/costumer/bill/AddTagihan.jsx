@@ -168,7 +168,7 @@ function AddTagihan() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "Customer" ? (
         <>
           <div className="card mb-3">
             <div className="card-header bg-transparent">Tambah Tagihan</div>

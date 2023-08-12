@@ -18,7 +18,7 @@ import { API_DUMMY } from "../../../../utils/baseURL";
 function TambahMember() {
   const [organization, setOrganization] = useState([]);
   const [member, setMember] = useState([]);
-  const [organization_id, setOrganization_id] = useState();
+  const [organization_id, setOrganizationId] = useState();
   const [customer_id, setCustomer_id] = useState();
   const [show, setShow] = useState(false);
   const [unique_id, setUnique_id] = useState("");
@@ -36,7 +36,7 @@ function TambahMember() {
   const navigate = useNavigate();
 
   const addMember = async (e) => {
-    if (localStorage.getItem("type_token") === "user") {
+    if (localStorage.getItem("type_token") === "User") {
       e.preventDefault();
       console.log(customer_id);
       console.log(organization_id);
@@ -136,11 +136,12 @@ function TambahMember() {
   useEffect(() => {
     GetOrganization();
     GetCostumer();
+    console.log(organization_id);
   }, []);
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "user" ? (
+      {localStorage.getItem("type_token") === "User" ? (
         <>
           <div className="card mb-3">
             <div className="card-header bg-transparent">
@@ -186,19 +187,20 @@ function TambahMember() {
                 </CCol>
                 <CCol md={6}>
                   <CFormSelect
-                    id="countries"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg md:float-right focus:ring-blue-500 focus:border-blue-500 block w-[15rem] md:p-1.5 p-1 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-700 dark:focus:ring-blue-500 dark:focus:border-blue-500 "
-                    onChange={(e) => setOrganization_id(e.target.value)}
-                    label="Organisasi"
+                    aria-label="Default select example"
                     value={organization_id}
+                    label="Organization"
+                    onChange={(e) =>
+                      setOrganizationId(e.target.value.toString())
+                    }
                   >
-                    <option value="" selected>
-                      Pilih Organisasi
-                    </option>
-                    {organization.map((down, idx) => {
+                    <select style={{ height: "100px" }}>
+                      Pilih Organization
+                    </select>{" "}
+                    {organization.map((cos, i) => {
                       return (
-                        <option key={idx} value={down.id}>
-                          <p>{down.name}</p>
+                        <option value={cos.id} key={i}>
+                          {cos.name}
                         </option>
                       );
                     })}

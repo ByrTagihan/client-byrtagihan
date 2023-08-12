@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../../utils/baseURL";
 
 function AddListDataSiswa() {
   const [name, setName] = useState("");
@@ -24,7 +25,7 @@ function AddListDataSiswa() {
       password,
     };
     try {
-      await axios.post(`https://api.byrtagihan.com/api/customer/member`, data, {
+      await axios.post(`${API_DUMMY}/customer/member`, data, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       });
       // console.log(unique_id);
@@ -45,7 +46,7 @@ function AddListDataSiswa() {
   };
   return (
     <div className="card mb-3">
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "Customer" ? (
         <>
           <div className="card-header bg-transparent">
             Tambah List Data Siswa

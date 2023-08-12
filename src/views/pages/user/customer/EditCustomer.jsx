@@ -28,7 +28,7 @@ function EditCustomer() {
   const navigate = useNavigate();
 
   const update = async (e) => {
-    if (localStorage.getItem("type_token") === "user") {
+    if (localStorage.getItem("type_token") === "User") {
       e.preventDefault();
 
       const req = {
@@ -207,7 +207,7 @@ function EditCustomer() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "user" ? (
+      {localStorage.getItem("type_token") === "User" ? (
         <>
           <CCard>
             <CCardBody>

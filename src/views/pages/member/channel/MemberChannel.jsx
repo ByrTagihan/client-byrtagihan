@@ -111,7 +111,7 @@ function MemberChannel() {
   };
   return (
     <div>
-      {localStorage.getItem("type_token") === "member" ? (
+      {localStorage.getItem("type_token") === "Member" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>

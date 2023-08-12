@@ -131,7 +131,7 @@ function BayarTagihan() {
 
   return (
     <div className="mb-5">
-      {localStorage.getItem("type_token") === "member" ? (
+      {localStorage.getItem("type_token") === "Member" ? (
         <>
           {!showCard && (
             <CCard>

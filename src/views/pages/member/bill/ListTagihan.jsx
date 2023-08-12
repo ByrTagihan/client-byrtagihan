@@ -30,7 +30,7 @@ function ListTagihan() {
 
     // Function get
     const get = async () => {
-        if (localStorage.getItem("type_token") === "member") {
+        if (localStorage.getItem("type_token") === "Member") {
             try {
                 const { data, status } = await axios.get(`${API_DUMMY}/member/bill`, {
                     headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -113,7 +113,7 @@ function ListTagihan() {
 
     return (
         <div>
-            {localStorage.getItem("type_token") === "member" ? (
+            {localStorage.getItem("type_token") === "Member" ? (
                 <>
                     {bill.length === 0 ? (
                         <div className='text-center'>

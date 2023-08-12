@@ -49,7 +49,7 @@ function LihatTagihanByMember() {
   const [role, setRole] = useState("");
 
   const getAll = async () => {
-    if (localStorage.getItem("type_token") === "customer") {
+    if (localStorage.getItem("type_token") === "Customer") {
       await axios
         .get(
           `${API_DUMMY}/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}&filter${searchTerm}`,
@@ -226,17 +226,19 @@ function LihatTagihanByMember() {
     e.preventDefault();
     e.persist();
 
-    const data = {
-      paid_date: paid_date,
-      paid_amount: paid_amount,
-    };
-    console.log(data);
+    // const data = {
+    //   paid_date: paid_date,
+    //   paid_amount: paid_amount,
+    // };
+    // console.log(data);
 
     try {
       await axios
         .put(
-          `${API_DUMMY}/customer/member/${param.id}/bill/${paid_id}/paid`,
-          data,
+          `${API_DUMMY}/customer/member/${param.id}/bill/${paid_id}/paid`, {
+            paid_date: paid_date,
+            paid_amount: paid_amount,
+          },
           {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
           }
@@ -294,26 +296,26 @@ function LihatTagihanByMember() {
       });
   };
 
-  const [idd1, setId1] = useState(0);
-  const getByIdSudahByr = async (id) => {
-    await axios
-      .get(`${API_DUMMY}/customer/member/${param.id}/bill/` + id, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        setPaid_amount(res.data.data.paid_amount);
-        console.log(res.data.data.paid_amount);
-        setPaid_date(res.data.data.paid_date);
-        setId1(res.data.data.id);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-  };
+  // const [idd1, setId1] = useState(0);
+  // const getByIdSudahByr = async (id) => {
+  //   await axios
+  //     .get(`${API_DUMMY}/customer/member/${param.id}/bill/` + id, {
+  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+  //     })
+  //     .then((res) => {
+  //       setPaid_amount(res.data.data.paid_amount);
+  //       console.log(res.data.data.paid_amount);
+  //       setPaid_date(res.data.data.paid_date);
+  //       setId1(res.data.data.id);
+  //     })
+  //     .catch((error) => {
+  //       alert("Terjadi Kesalahan" + error);
+  //     });
+  // };
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "Customer" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>

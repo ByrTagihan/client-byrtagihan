@@ -18,7 +18,7 @@ function EditTemplate() {
     const navigate = useNavigate();
 
     const Put = async (e) => {
-        if (localStorage.getItem("type_token") === "user") {
+        if (localStorage.getItem("type_token") === "User") {
         e.preventDefault();
         e.persist();
 
@@ -88,7 +88,7 @@ function EditTemplate() {
 
     return (
         <div>
-            {localStorage.getItem("type_token") === "user" ? (
+            {localStorage.getItem("type_token") === "User" ? (
                 <>
             <CCard>
                 <CCardBody>

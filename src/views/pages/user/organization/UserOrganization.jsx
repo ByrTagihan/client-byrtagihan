@@ -54,7 +54,7 @@ function UserOrganization() {
   });
 
   const get = async () => {
-    if (localStorage.getItem("type_token") === "user") {
+    if (localStorage.getItem("type_token") === "User") {
       await axios
         .get(`${API_DUMMY}/user/organization/` + param.id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -250,7 +250,7 @@ function UserOrganization() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "user" ? (
+      {localStorage.getItem("type_token") === "User" ? (
         <>
           <CCard className="mb-4">
             <CCardBody>

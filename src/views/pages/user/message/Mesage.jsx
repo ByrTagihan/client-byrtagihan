@@ -21,7 +21,7 @@ function Mesage() {
   let navigate = useNavigate();
 
   const getAll = async () => {
-    if (localStorage.getItem("type_token") === "user") {
+    if (localStorage.getItem("type_token") === "User") {
       await axios
         .get(`${API_DUMMY}/user/message?page=${currentPage}&limit=${limit}`, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -131,7 +131,7 @@ function Mesage() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "user" ? (
+      {localStorage.getItem("type_token") === "User" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>

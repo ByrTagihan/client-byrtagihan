@@ -102,7 +102,7 @@ const Put = async (e) => {
 
 return (
   <div>
-    {localStorage.getItem("type_token") === "member" ? (
+    {localStorage.getItem("type_token") === "Member" ? (
       <>
         <div className="bg-light min-vh-99 d-flex flex-row align-items-center">
           <CContainer>

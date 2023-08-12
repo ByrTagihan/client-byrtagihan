@@ -21,7 +21,7 @@ function CrudPayment() {
   const [sortDirection, setSortDirection] = useState("asc");
 
   const getAll = async () => {
-    if (localStorage.getItem("type_token") === "user") {
+    if (localStorage.getItem("type_token") === "User") {
       await axios
         .get(
           `${API_DUMMY}/user/payment?page=${currentPage}&limit=${limit}&name=${payment}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${search}`,
@@ -156,7 +156,7 @@ function CrudPayment() {
   };
   return (
     <div>
-      {localStorage.getItem("type_token") === "user" ? (
+      {localStorage.getItem("type_token") === "User" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>

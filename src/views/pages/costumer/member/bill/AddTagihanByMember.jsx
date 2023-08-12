@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../../../utils/baseURL";
 
 function AddTagihanByMember() {
   const [description, setDescription] = useState("");
@@ -70,7 +71,7 @@ function AddTagihanByMember() {
 
   return (
     <div className="card mb-3">
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "Customer" ? (
         <>
           <div className="card-header bg-transparent">Tambah Tagihan</div>
           <div className="card-body">

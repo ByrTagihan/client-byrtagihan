@@ -14,7 +14,7 @@ function TambahTemplate() {
     const navigate = useNavigate();
 
     const Post = async (e) => {
-        if (localStorage.getItem("type_token") === "user") {
+        if (localStorage.getItem("type_token") === "User") {
         e.preventDefault();
         const data = {
             name: name,
@@ -61,7 +61,7 @@ function TambahTemplate() {
 
     return (
         <div>
-            {localStorage.getItem("type_token") === "user" ? (
+            {localStorage.getItem("type_token") === "User" ? (
                 <>
             <div className="card mb-3">
                 <div className="card-header bg-transparent">
