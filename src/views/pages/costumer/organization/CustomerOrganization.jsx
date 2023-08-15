@@ -56,7 +56,7 @@ function CustomerOrganization() {
         })
         .then((res) => {
           const organization = res.data.data;
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setOrganization(organization);
           setId(organization.id);
           setName(organization.name);

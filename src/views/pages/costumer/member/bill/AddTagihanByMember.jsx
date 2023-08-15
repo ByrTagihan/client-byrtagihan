@@ -42,7 +42,7 @@ function AddTagihanByMember() {
         });
         console.log(data);
         setTimeout(() => {
-          navigate("/lihattagihanmember");
+          navigate("/lihattagihanmember:{/id}");
           window.location.reload();
         }, 1500);
       } catch (error) {

@@ -22,6 +22,7 @@ function EditCustomer() {
   const [address, setAddress] = useState("");
   const [hp, setHp] = useState("");
   const [password, setPassword] = useState("");
+
   const [active, setActive] = useState("false");
   const [organization_id, setOrganization_id] = useState("");
   const param = useParams();
@@ -37,7 +38,7 @@ function EditCustomer() {
         hp: hp,
         password: password,
         active: active,
-        organization_id: memberId,
+        organization_id: organization_id,
       };
       console.log(req);
 
@@ -97,6 +98,7 @@ function EditCustomer() {
             setName(response.name);
             setHp(response.hp);
             setAddress(response.address);
+            setOrganization_id(response.organization_id);
             setPassword(response.password);
             // setActive(response.active);
             console.log(response.address);
@@ -142,7 +144,7 @@ function EditCustomer() {
   const handleClick = (e, id) => {
     setSuggestions([]);
     setValue(e.target.innerText);
-    setMemberId(id);
+    setOrganization_id(id);
     setSuggestionsActive(false);
   };
 
@@ -166,7 +168,7 @@ function EditCustomer() {
       setValue(
         `Id = ${suggestions[suggestionIndex].id}, Email = ${suggestions[suggestionIndex].email}, Nama = ${suggestions[suggestionIndex].name}`
       );
-      setMemberId(suggestions[suggestionIndex].id);
+      setOrganization_id(suggestions[suggestionIndex].id);
       setSuggestionIndex(0);
       setSuggestionsActive(false);
     }

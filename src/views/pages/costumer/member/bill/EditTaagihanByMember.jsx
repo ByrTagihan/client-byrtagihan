@@ -47,6 +47,7 @@ function EditTaagihanByMember() {
         showConfirmButton: false,
       });
       setTimeout(() => {
+        // navigate(`/lihattagihanmember/${id}`);
         window.location.reload();
       }, 1500);
     } catch (err) {

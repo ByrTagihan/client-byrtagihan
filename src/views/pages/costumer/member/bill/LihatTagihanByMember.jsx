@@ -226,12 +226,6 @@ function LihatTagihanByMember() {
     e.preventDefault();
     e.persist();
 
-    // const data = {
-    //   paid_date: paid_date,
-    //   paid_amount: paid_amount,
-    // };
-    // console.log(data);
-
     try {
       await axios
         .put(
@@ -251,7 +245,6 @@ function LihatTagihanByMember() {
             showConfirmButton: false,
           });
         });
-      // alert("Success")
       setTimeout(() => {
         window.location.reload();
       }, 1500);

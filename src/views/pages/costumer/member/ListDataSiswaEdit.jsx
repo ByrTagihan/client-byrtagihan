@@ -106,7 +106,7 @@ function ListDataSiswaEdit() {
         <>
           <form onSubmit={putData}>
             <div>
-              <p style={{ fontWeight: "bold", fontSize: "25px", marginBottom: "50px" }}>Edit LIst Data</p>
+              <p style={{ fontWeight: "bold", fontSize: "25px", marginBottom: "50px" }}>Edit List Data</p>
             </div>
             <div className="box">
               <div>
