@@ -1,5 +1,3 @@
-
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -150,170 +148,174 @@ function CrudTransaction() {
   return (
     <div>
       {localStorage.getItem("type_token") === "User" ? (
-      <div className="row">
-        <div className="col" xs={12}>
-          <div className="card mb-4">
-            <div className="card-header">
-              <div className="row">
-                <div className="col">
-                  <h4 className="textt">Transaction</h4>
-                </div>
+        <div className="row">
+          <div className="col" xs={12}>
+            <div className="card mb-4">
+              <div className="card-header">
+                <div className="row">
+                  <div className="col">
+                    <h4 className="textt">Transaction</h4>
+                  </div>
 
-                <div className="col">
-                  <Link to="/tambahtransaction">
-                    <button className="btn btn-primary float-end">
-                      <CIcon icon={cilPlus} className="color-q" /> Tambah
-                    </button>
-                  </Link>
+                  <div className="col">
+                    <Link to="/tambahtransaction">
+                      <button className="btn btn-primary float-end">
+                        <CIcon icon={cilPlus} className="color-q" /> Tambah
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="card-body">
-              <div className="row">
-                <div className="col">
-                  <select
-                    className="choise form-select"
-                    value={limit}
-                    onChange={handleLimit}
-                  >
-                    <option value="1">Show 1 Entries</option>
-                    <option value="10">Show 10 Entries</option>
-                    <option value="100">Show 100 Entries</option>
-                  </select>
-                </div>
-                <div className="col">
-                  <CFormInput
-                    // style={{ width: "50%", marginLeft: "15em" }}
-                    className="filter-data-t"
-                    type="search"
-                    placeholder="search data"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                  />
-                </div>
-              </div>
-              <table className="tabel-transaction table  table1 responsive-3">
-                <thead>
-                  <tr>
-                    <th scope="col" onClick={() => handleSort("id")}>
-                      No{" "}
-                      {sortBy === "id" && (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("description")}>
-                      Description{" "}
-                      {sortBy === "description" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th
-                      scope="col"
-                      onClick={() => handleSort("organization_name")}
+              <div className="card-body">
+                <div className="row">
+                  <div className="col">
+                    <select
+                      className="choise form-select"
+                      value={limit}
+                      onChange={handleLimit}
                     >
-                      Organization Name{" "}
-                      {sortBy === "organization_name" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("amount")}>
-                      Nominal{" "}
-                      {sortBy === "amount" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>{" "}
-                    <th scope="col" onClick={() => handleSort("created_date")}>
-                      Create Date{" "}
-                      {sortBy === "created_date" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("updated_date")}>
-                      Update Date{" "}
-                      {sortBy === "updated_date" &&
-                        (sortDirection === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody id="myTable" className="bg-white">
-                  {filteredBills.map((item, index) => {
-                    return (
-                      <tr key={index}>
-                        <td data-cell="No">{index + 1}</td>
-                        <td data-cell="Description">{item.description}</td>
-                        <td data-cell="Organization">
-                          {item.organization_name}
-                        </td>
-                        <td data-cell="Nominal">{item.amount}</td>
-                        <td data-cell="Create Date">{item.created_date}</td>
-                        <td data-cell="Update Date">{item.updated_date}</td>
-                        <td data-cell="Action">
-                          <div className="tdd">
+                      <option value="1">Show 1 Entries</option>
+                      <option value="10">Show 10 Entries</option>
+                      <option value="100">Show 100 Entries</option>
+                    </select>
+                  </div>
+                  <div className="col">
+                    <CFormInput
+                      // style={{ width: "50%", marginLeft: "15em" }}
+                      className="filter-data-t"
+                      type="search"
+                      placeholder="search data"
+                      value={searchTerm}
+                      onChange={handleSearch}
+                    />
+                  </div>
+                </div>
+                <table className="tabel-transaction table  table1 responsive-3">
+                  <thead>
+                    <tr>
+                      <th scope="col" onClick={() => handleSort("id")}>
+                        No{" "}
+                        {sortBy === "id" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("description")}>
+                        Description{" "}
+                        {sortBy === "description" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th
+                        scope="col"
+                        onClick={() => handleSort("organization_name")}
+                      >
+                        Organization Name{" "}
+                        {sortBy === "organization_name" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("amount")}>
+                        Nominal{" "}
+                        {sortBy === "amount" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>{" "}
+                      <th
+                        scope="col"
+                        onClick={() => handleSort("created_date")}
+                      >
+                        Create Date{" "}
+                        {sortBy === "created_date" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th
+                        scope="col"
+                        onClick={() => handleSort("updated_date")}
+                      >
+                        Update Date{" "}
+                        {sortBy === "updated_date" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="myTable" className="bg-white">
+                    {filteredBills.map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td data-cell="No">{index + 1}</td>
+                          <td data-cell="Description">{item.description}</td>
+                          <td data-cell="Organization">
+                            {item.organization_name}
+                          </td>
+                          <td data-cell="Nominal">{item.amount}</td>
+                          <td data-cell="Create Date">{item.created_date}</td>
+                          <td data-cell="Update Date">{item.updated_date}</td>
+                          <td data-cell="Action">
                             <button
+                              className="edit"
+                              type="button"
                               style={{ background: "blue" }}
-                              type="button"
-                              className="edit1"
-                              onClick={() =>
-                                navigate(`/editTransaction/${item.id}`)
-                              }
                             >
-                              <CIcon icon={cilPencil} />
+                              <a
+                                href={"/#/editTransaction/" + item.id}
+                                style={{ color: "white" }}
+                              >
+                                {" "}
+                                <CIcon icon={cilPencil} />
+                              </a>{" "}
                             </button>
                             <button
-                              style={{ background: "red" }}
-                              type="button"
-                              className="edit1"
+                              className="hapus"
                               onClick={() => Delete(item.id)}
+                              style={{ background: "red", color: "white" }}
                             >
-                              <CIcon
-                                icon={cilTrash}
-                                style={{ color: "white" }}
-                              />
+                              <CIcon icon={cilTrash} />
                             </button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
 
-              {/* Pagination */}
-              <div>
-                <ul class="pagination float-end">
-                  <li
-                    className={
-                      "page-item " + (currentPage === 1 ? "disabled" : "")
-                    }
-                    disabled={currentPage === 1}
-                  >
-                    <a
-                      class="page-link"
-                      onClick={() => handlePageChange(currentPage - 1)}
+                {/* Pagination */}
+                <div>
+                  <ul class="pagination float-end">
+                    <li
+                      className={
+                        "page-item " + (currentPage === 1 ? "disabled" : "")
+                      }
+                      disabled={currentPage === 1}
                     >
-                      Previous
-                    </a>
-                  </li>
-                  {renderPageNumbers()}
-                  <li
-                    className={
-                      "page-item " +
-                      (currentPage === total_page ? "disabled" : "")
-                    }
-                    disabled={currentPage === total_page}
-                  >
-                    <a
-                      class="page-link"
-                      onClick={() => handlePageChange(currentPage + 1)}
+                      <a
+                        class="page-link"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                      >
+                        Previous
+                      </a>
+                    </li>
+                    {renderPageNumbers()}
+                    <li
+                      className={
+                        "page-item " +
+                        (currentPage === total_page ? "disabled" : "")
+                      }
+                      disabled={currentPage === total_page}
                     >
-                      Next
-                    </a>
-                  </li>
-                </ul>
+                      <a
+                        class="page-link"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                      >
+                        Next
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-     ) : (
+      ) : (
         <></>
-       )}  
+      )}
     </div>
   );
 }

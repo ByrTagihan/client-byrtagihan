@@ -239,7 +239,7 @@ function Tagihan() {
                 <div className="card-header">
                   <div className="row">
                     <div className="col">
-                      <h4>List Tagihan</h4>
+                      <h4>List Tagihan </h4>
                     </div>
                     <div className="col">
                       <Link to="/addtagihan">

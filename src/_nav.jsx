@@ -1,4 +1,3 @@
-
 import React from "react";
 import CIcon from "@coreui/icons-react";
 import {
@@ -18,6 +17,7 @@ import {
   cilMoney,
   cilNotes,
   cilPencil,
+  cilPlaylistAdd,
   cilPuzzle,
   cilSpeedometer,
   cilStar,
@@ -51,11 +51,19 @@ const _nav = [
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
     roles: ["Member"],
   },
+ 
   {
     component: CNavTitle,
     name: "Menu",
   },
   //User Navigation
+  {
+    component: CNavItem,
+    name: "Payment",
+    to: "/payment",
+    icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
+    roles: ["User"],
+  },
   {
     component: CNavItem,
     name: "Organization",

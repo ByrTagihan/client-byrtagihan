@@ -28,7 +28,6 @@ function AddListDataSiswa() {
       await axios.post(`${API_DUMMY}/customer/member`, data, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       });
-      // console.log(unique_id);
       setShow(false);
       Swal.fire({
         icon: "success",
@@ -36,8 +35,8 @@ function AddListDataSiswa() {
         showConfirmButton: false,
         timer: 1500,
       });
-      // console.log(data);
-      setTimeout(() => {
+        setTimeout(() => {
+        navigate("/customerMember")
         window.location.reload();
       }, 1500);
     } catch (error) {
@@ -49,7 +48,7 @@ function AddListDataSiswa() {
       {localStorage.getItem("type_token") === "Customer" ? (
         <>
           <div className="card-header bg-transparent">
-            Tambah List Data Siswa
+            Tambah List Data Siswa 
           </div>
           <div className="card-body">
             <form onSubmit={add}>

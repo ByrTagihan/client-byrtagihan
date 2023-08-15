@@ -293,29 +293,29 @@ function DashboardCoba2() {
     );
   };
 
-  const getAllTotal = async () => {
-    await axios
-      .get(`${API_DUMMY}/customer/report/total`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        const total = res.data.data;
-        setTotal(total);
-        setMember(total.member);
-        setBill(total.bill);
-        setTransaction(total.transaction);
-        console.log(total);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-  };
+  // const getAllTotal = async () => {
+  //   await axios
+  //     .get(`${API_DUMMY}/customer/report/total`, {
+  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+  //     })
+  //     .then((res) => {
+  //       const total = res.data.data;
+  //       setTotal(total);
+  //       setMember(total.member);
+  //       setBill(total.bill);
+  //       setTransaction(total.transaction);
+  //       console.log(total);
+  //     })
+  //     .catch((error) => {
+  //       alert("Terjadi Kesalahan" + error);
+  //     });
+  // };
 
   useEffect(() => {
     getAllTransaction();
     getAllBill();
     getAllBill1();
-    getAllTotal();
+    // getAllTotal(); 
   }, [currentPage, limit, searchTerm, sortBy, sortDirection]);
 
   return (
