@@ -22,7 +22,7 @@ function TambahCostumer() {
     let navigate = useNavigate();
 
     const add = async (e) => {
-        if (localStorage.getItem("type_token") === 'user') {
+        if (localStorage.getItem("type_token") === 'User') {
         e.preventDefault();
         e.persist();
 
@@ -121,6 +121,16 @@ function TambahCostumer() {
                             />
                         </CCol>
                         <CCol md={6}>
+                            <CFormInput
+                                id="Email"
+                                type="text"
+                                placeholder="Email"
+                                onChange={(e) => setEmail(e.target.value)}
+                                label="Email"
+                                required
+                            />
+                        </CCol>
+                        <CCol md={6}>
                             <CFormLabel>Password</CFormLabel>
                             <CInputGroup>
                                 <CInputGroupText>
@@ -144,10 +154,11 @@ function TambahCostumer() {
                             <CFormInput
                                 id="active"
                                 type="text"
-                                placeholder="active"
                                 onChange={(e) => setActive(e.target.value)}
                                 label="active"
+                                value={active}
                                 required
+                                // disabled
                             />
                         </CCol>
                     

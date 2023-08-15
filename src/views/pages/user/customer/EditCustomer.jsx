@@ -22,7 +22,7 @@ function EditCustomer() {
   const [address, setAddress] = useState("");
   const [hp, setHp] = useState("");
   const [password, setPassword] = useState("");
-  const [active, setActive] = useState("");
+  const [active, setActive] = useState("false");
   const [organization_id, setOrganization_id] = useState("");
   const param = useParams();
   const navigate = useNavigate();
@@ -98,7 +98,7 @@ function EditCustomer() {
             setHp(response.hp);
             setAddress(response.address);
             setPassword(response.password);
-            setActive(response.active);
+            // setActive(response.active);
             console.log(response.address);
           });
       })
@@ -249,8 +249,30 @@ function EditCustomer() {
                 <CCol md={6}>
                   <CFormInput
                     type="text"
+                    placeholder="Active"
+                    id="Active"
+                    onChange={(e) => setActive(e.target.value)}
+                    label="Active"
+                    value={active}
+                    required
+                  />
+                </CCol>
+                <CCol md={6}>
+                  <CFormInput
+                    type="password"
+                    placeholder="Password"
+                    id="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    label="Password"
+                    value={password}
+                    required
+                  />
+                </CCol>
+                <CCol md={6}>
+                  <CFormInput
+                    type="text"
                     autoComplete="off"
-                    value={organization_id}
+                    value={value}
                     onKeyDown={handleKeyDown}
                     onChange={handleChange}
                     label="Organization_id"
