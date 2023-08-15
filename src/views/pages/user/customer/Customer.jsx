@@ -329,7 +329,13 @@ function Customer() {
                           <td data-cell="Email">{data.email}</td>
                           <td data-cell="Name">{data.name}</td>
                           <td data-cell="Hp">{data.hp}</td>
-                          <td data-cell="Active">{data.active}</td>
+                          <td data-cell="Active">
+                              {data.active === true ? (
+                                <span>true</span>
+                              ) : (
+                                <span>false</span>
+                              )}
+                            </td>
                           <td data-cell="Action">
                             <div className="tdd">
                               <button
