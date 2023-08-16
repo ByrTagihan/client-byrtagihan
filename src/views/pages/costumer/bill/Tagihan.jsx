@@ -3,7 +3,7 @@ import { deleteData, getAllData } from "../../../../utils/controller";
 import { Link, useNavigate } from "react-router-dom";
 import { CFormInput, CModal } from "@coreui/react";
 import axios from "axios";
-import { API_DUMMY, API_URL } from "../../../../utils/baseURL";
+import { API_DUMMY } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { cilPencil, cilPlus, cilTrash } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
