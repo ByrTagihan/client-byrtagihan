@@ -17,6 +17,7 @@ function Tagihan() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("id");
   const [sortDirection, setSortDirection] = useState("asc");
+  const [show, setShow] = useState(false);
 
   const [visible, setVisible] = useState(false);
   const [paidId, setPaidId] = useState(0);
@@ -74,32 +75,65 @@ function Tagihan() {
     }
   });
 
+  // const bayarTagihan = async (e) => {
+  //   e.preventDefault();
+  //   const req = {
+  //     id : paidId,
+  //     paid_date: paid_date,
+  //     paid_amount: paidAmount,
+  //   };
+
+  //   await axios
+  //     .put(`${API_DUMMY}/customer/bill/${paidId}/paid`, req, {
+  //       headers: {
+  //         "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+  //       },
+  //     })
+  //     .then(() => {
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "Berhasil Membayar",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       }).then(() => {
+  //         window.location.reload();
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
   const bayarTagihan = async (e) => {
     e.preventDefault();
-    const req = {
-      paid_date: paid_date,
-      paid_amount: paidAmount,
-    };
+    e.persist();
 
-    await axios
-      .put(`${API_DUMMY}/customer/bill/${paidId}/paid`, req, {
-        headers: {
-          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-        },
-      })
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Membayar",
-          showConfirmButton: false,
-          timer: 1500,
-        }).then(() => {
-          window.location.reload();
-        });
-      })
-      .catch((error) => {
-        console.log(error);
+    try {
+      const data = {
+        id: paidId,
+        paid_date: paid_date,
+        paid_amount: paidAmount,
+      };
+      await axios.put(
+        `${API_DUMMY}/customer/bill/${paidId}/paid`,
+        data,
+        // console.log(picture),
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      );
+      setShow(false);
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil Membayar",
+        showConfirmButton: false,
+        timer: 1500,
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const unBayarTagihan = async (paidIds) => {
@@ -365,9 +399,7 @@ function Tagihan() {
                             </button>
                             <button
                               className="edit1"
-                              onClick={() =>
-                                deleteData(data.id)
-                              }
+                              onClick={() => deleteData(data.id)}
                               style={{ background: "red", color: "white" }}
                             >
                               <CIcon icon={cilTrash} />
@@ -447,7 +479,7 @@ function Tagihan() {
                   >
                     <h5 className="modal-title">Bayar Tagihan</h5>
                   </div>
-                  <div className="modal-body">
+                  <div className="modal-body">  
                     <div className="mb-3">
                       <label className="form-label">Tanggal Bayar</label>
                       <input
