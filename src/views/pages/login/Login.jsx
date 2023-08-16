@@ -20,7 +20,7 @@ import { cilLockLocked, cilUser } from "@coreui/icons";
 import axios from "axios";
 import "./../../../views/css/Login.css";
 import Swal from "sweetalert2";
-import { API_DUMMY } from "../../utils/baseURL";
+import { API_DUMMY } from "../../../utils/baseURL";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -48,7 +48,7 @@ const Login = () => {
     try {
       if (type_token === "admin Sekolah") {
         const { data, status } = await axios.post(
-          "${API_DUMMY}/customer/login",
+            `${API_DUMMY}/customer/login`,
           {
             email: email,
             password: password,

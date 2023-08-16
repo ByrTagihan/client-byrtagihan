@@ -23,7 +23,7 @@ import {
 import CIcon from "@coreui/icons-react";
 import { useState } from "react";
 import axios from "axios";
-import { API_DUMMY } from "../../../utils/baseURL";
+import { API_DUMMY } from "../../utils/baseURL";
 
 import avatar8 from "./../../views/avatars/8.jpg";
 
