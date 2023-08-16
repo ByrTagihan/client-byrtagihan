@@ -73,7 +73,7 @@ const Login = () => {
         }
       } else if (type_token === "guru") {
         const { data, status } = await axios.post(
-          "https://api.byrtagihan.com/api/user/login",
+            `${API_DUMMY}/user/login`,
           {
             email: email,
             password: password,
@@ -96,7 +96,7 @@ const Login = () => {
         }
       } else if (type_token === "siswa") {
         const { data, status } = await axios.post(
-          "https://api.byrtagihan.com/api/member/login",
+          `${API_DUMMY}/member/login`,
           {
             unique_id: unique_id,
             password: password,

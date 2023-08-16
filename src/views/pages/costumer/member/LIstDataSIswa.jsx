@@ -11,6 +11,7 @@ import {
 import CIcon from "@coreui/icons-react";
 import { cilAddressBook, cilLockLocked, cilLockUnlocked, cilMoney, cilPencil, cilPhone, cilPlus, cilTrash, cilUser } from "@coreui/icons";
 import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../../utils/baseURL";
 // import ReactPaginate from "react-paginate"; Aku hapus ya fat :)
 
 function LIstDataSIswa() {
@@ -43,7 +44,7 @@ function LIstDataSIswa() {
   const getAll = async () => {
     await axios
       .get(
-        `https://api.byrtagihan.com/api/customer/member?page=${currentPage}&limit=${limit}`,
+        `${API_DUMMY}/customer/member?page=${currentPage}&limit=${limit}`,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -142,7 +143,7 @@ function LIstDataSIswa() {
   const [idd, setId] = useState(0);
   const getById = async (id) => {
     await axios
-      .get(`https://api.byrtagihan.com/api/customer/member/` + id, {
+      .get(`${API_DUMMY}/customer/member/` + id, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -169,7 +170,7 @@ function LIstDataSIswa() {
 
     try {
       await axios.put(
-        `https://api.byrtagihan.com/api/customer/member/${idd}/password`,
+        `${API_DUMMY}/customer/member/${idd}/password`,
         data,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -204,7 +205,7 @@ function LIstDataSIswa() {
     };
     try {
       await axios.post(
-        `http://staging-api.byrtagihan.com/api/customer/member`,
+        `${API_DUMMY}/customer/member`,
         data,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -243,7 +244,7 @@ function LIstDataSIswa() {
       cancelButtonText: "Cencel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete("https://api.byrtagihan.com/api/customer/member/" + id, {
+        axios.delete("${API_DUMMY}/customer/member/" + id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         });
         Swal.fire({

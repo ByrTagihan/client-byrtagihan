@@ -12,6 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import "../../../css/Profile.css";
 import axios from "axios";
+import { API_DUMMY } from "../../../utils/baseURL";
 
 function UserProfile() {
 const [name, setName] = useState("");
@@ -30,7 +31,7 @@ const [picture, setPicture] = useState("");
 
   const get = async () => {
       await axios
-        .get(`https://api.byrtagihan.com/api/user/profile`, {
+        .get(`${API_DUMMY}/user/profile`, {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         })
         .then((res) => {
@@ -40,7 +41,7 @@ const [picture, setPicture] = useState("");
           setProfile({ ...profil, email: profil.email });
           setAddress(profil.address);
           setPicture(profile.picture);
-          setProfile({ ...profil, id: profil.id }); 
+          setProfile({ ...profil, id: profil.id });
           console.log(res.data.data[0]);
           console.log({ ...profil, id: profil.id });
         })

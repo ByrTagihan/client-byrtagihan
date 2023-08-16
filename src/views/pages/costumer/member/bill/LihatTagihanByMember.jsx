@@ -11,6 +11,7 @@ import { Button, Modal } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../../../../../views/css/ListDataSiswa.css";
+import { API_DUMMY } from "../../../../../utils/baseURL";
 
 function LihatTagihanByMember() {
   const [unique_id, setUnique_id] = useState("");
@@ -47,7 +48,7 @@ function LihatTagihanByMember() {
 
   const getAll = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}`, {
+      .get(`${API_DUMMY}/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -164,7 +165,7 @@ function LihatTagihanByMember() {
 
   const getAll2 = async () => {
     await axios
-      .get(`https://api.byrtagihan.com/api/customer/member/${param.id}`, {
+      .get(`${API_DUMMY}/customer/member/${param.id}`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
@@ -192,7 +193,7 @@ function LihatTagihanByMember() {
     };
     try {
       await axios.post(
-        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill`,
+        `${API_DUMMY}/customer/member/${param.id}/bill`,
         data,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -231,7 +232,7 @@ function LihatTagihanByMember() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(
-          `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/` +
+          `${API_DUMMY}/customer/member/${param.id}/bill/` +
             id,
           {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -263,7 +264,7 @@ function LihatTagihanByMember() {
 
     try {
       await axios.put(
-        `https://api.byrtagihan.com/api/customer/bill/` + idd,
+        `${API_DUMMY}/customer/bill/` + idd,
         data,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -297,7 +298,7 @@ function LihatTagihanByMember() {
     try {
       await axios
         .put(
-          `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${idd1}/paid`,
+          `${API_DUMMY}/customer/member/${param.id}/bill/${idd1}/paid`,
           data,
           {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -333,7 +334,7 @@ function LihatTagihanByMember() {
       .then((result) => {
         if (result.isConfirmed) {
           axios.put(
-            `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/${id}/unpaid`,
+            `${API_DUMMY}/customer/member/${param.id}/bill/${id}/unpaid`,
             {},
             {
               headers: {
@@ -360,7 +361,7 @@ function LihatTagihanByMember() {
   const getByIdSudahByr = async (id) => {
     await axios
       .get(
-        `https://api.byrtagihan.com/api/customer/member/${param.id}/bill/` + id,
+        `${API_DUMMY}/customer/member/${param.id}/bill/` + id,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -378,7 +379,7 @@ function LihatTagihanByMember() {
   const [idd, setId] = useState(0);
   const getById = async (id) => {
     await axios
-      .get("https://api.byrtagihan.com/api/customer/bill/" + id, {
+      .get("${API_DUMMY}/customer/bill/" + id, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
       .then((res) => {
