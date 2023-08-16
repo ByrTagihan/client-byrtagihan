@@ -3,7 +3,7 @@ import { deleteData, getAllData } from "../../../../utils/controller";
 import { Link, useNavigate } from "react-router-dom";
 import { CModal } from "@coreui/react";
 import axios from "axios";
-import { API_DUMMY, API_URL } from "../../../../utils/baseURL";
+import { API_DUMMY } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { cilPencil, cilPlus, cilTrash } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
@@ -16,7 +16,7 @@ function Tagihan() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('id');
   const [sortDirection, setSortDirection] = useState('asc');
-  
+
   const [visible, setVisible] = useState(false);
   const [paidId, setPaidId] = useState(0);
   const [paidDate, setPaidDate] = useState("");
@@ -46,7 +46,7 @@ function Tagihan() {
   const fetchBills2 = async () => {
     try {
       const response = await fetch(
-        `${API_URL}/customer/bill/?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`, {
+        `${API_DUMMY}/customer/bill/?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`, {
             headers: {
               "Authorization": `Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwidHlwZV90b2tlbiI6IkN1c3RvbWVyIiwiYXVkIjoiQ3VzdG9tZXIiLCJzdWIiOiJpYm51bGplZnJ5OTlAZ21haWwuY29tIiwiZXhwIjoxNjg4MDIxNzIwfQ.ESKhjQdNzNhdC6aSMqrcQluOWikeHeG5zl7CJ1FysvPN1MMv_e8sdD4FaRT-LWb_4q3vt6g5g_UywjXAOk9ojA`,
             },
@@ -59,7 +59,7 @@ function Tagihan() {
       console.error('Error fetching bills:', error);
     }
   };
-  
+
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -151,7 +151,7 @@ function Tagihan() {
         console.log(err);
       });
   };
-  
+
   const getPageNumbers = () => {
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -298,7 +298,7 @@ function Tagihan() {
                             setPaidId(data.id);
                             setPaidAmount(data.amount);
                           }}
-                          className="btn btn-info " 
+                          className="btn btn-info "
                         >
                           Bayar
                         </button>
