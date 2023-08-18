@@ -220,6 +220,7 @@ function EditMember() {
                       autoComplete="current-password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      disabled
                     />
                   </CInputGroup>
                 </CCol>

@@ -19,8 +19,8 @@ import { useNavigate } from "react-router-dom";
 function UserProfile() {
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
-  const [hp, setHp] = useState("");
-  const [address, setAddress] = useState("");
+  const [origin, setOrigin] = useState("");
+  const [domain, setDomain] = useState("");
   const [unique_id, setUnique_id] = useState("");
   const [picture, setPicture] = useState("");
   const [foto, setFoto] = useState("");
@@ -29,53 +29,53 @@ function UserProfile() {
     id: "",
     unique_id: "",
     name: "",
-    hp: "",
-    address: "",
+    origin: "",
+    domain: "",
     picture: "",
   });
 
   // function add picture
-  const add = async (e) => {
-    e.preventDefault();
-    e.persist();
+  // const add = async (e) => {
+  //   e.preventDefault();
+  //   e.persist();
 
-    const data = new FormData();
-    data.append("file", foto);
+  //   const data = new FormData();
+  //   data.append("file", foto);
 
-    try {
-      await axios
-        .post(`${API_DUMMY}/files`, data, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
-        .then((response) => {
-          const imageUrl = response.data.data;
-          setProfile((prevProfile) => ({
-            ...prevProfile,
-            picture: imageUrl,
-          }));
-          setFoto(imageUrl);
-          console.log(localStorage.getItem("profilePicture"));
+  //   try {
+  //     await axios
+  //       .post(`${API_DUMMY}/files`, data, {
+  //         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+  //       })
+  //       .then((response) => {
+  //         const imageUrl = response.data.data;
+  //         setProfile((prevProfile) => ({
+  //           ...prevProfile,
+  //           picture: imageUrl,
+  //         }));
+  //         setFoto(imageUrl);
+  //         console.log(localStorage.getItem("profilePicture"));
 
-          // Store the image URL in local storage
-          localStorage.setItem("profilePicture", imageUrl);
-        });
-      setShow(false);
-      // navigate("/lihattagihanmember")
-      Swal.fire({
-        icon: "success",
-        title: "Foto berhasil ditambahkan",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      // console.log(data);
-      setTimeout(() => {
-        navigate("/userProfile");
-        // window.location.reload();
-      }, 1500);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //         // Store the image URL in local storage
+  //         localStorage.setItem("profilePicture", imageUrl);
+  //       });
+  //     setShow(false);
+  //     // navigate("/lihattagihanmember")
+  //     Swal.fire({
+  //       icon: "success",
+  //       title: "Foto berhasil ditambahkan",
+  //       showConfirmButton: false,
+  //       timer: 1500,
+  //     });
+  //     // console.log(data);
+  //     setTimeout(() => {
+  //       navigate("/userProfile");
+  //       // window.location.reload();
+  //     }, 1500);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // function update profile
   const Put = async (e) => {
@@ -85,11 +85,10 @@ function UserProfile() {
     try {
       const data = {
         name: name, // Update the name field with the new value
-        hp: hp,
-        address: address,
-        picture: profile.picture, // Keep the existing picture value
+        hp: origin,
+        address: domain,
+        picture: picture, // Keep the existing picture value
       };
-
       await axios.put(
         `${API_DUMMY}/user/profile`,
         data,
@@ -113,34 +112,24 @@ function UserProfile() {
     }
   };
 
-  // function get profile
-  const get = async () => {
-    await axios
+  useEffect(() => {
+    axios
       .get(`${API_DUMMY}/user/profile`, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
       })
-      .then((res) => {
-        const profil = res.data.data[0];
-        setHp(profil.hp);
-        setName(profil.name);
-        setUnique_id(profil.email);
-        setAddress(profil.address);
-        setProfile({ ...profil, id: profil.id });
+      .then((response) => {
+        const profil = response.data.data;
         setPicture(profile.picture);
-        console.log(res.data.data);
-        console.log({ ...profil, id: profil.id });
-        // If profilePicture is available in the response, update the picture state
-        if (profil.profilePicture) {
-          setFoto(profil.profilePicture);
-        }
+        setName(profil.name);
+        setDomain(profil.domain);
+        setUnique_id(profil.email);
+        setOrigin(profil.origin);
+        setProfile({ ...profil, id: profil.id });
+        // setPassword(profil.password);
       })
       .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
+        alert("Terjadi Kesalahan " + error);
       });
-  };
-
-  useEffect(() => {
-    get();
   }, []);
 
   return (
@@ -148,7 +137,7 @@ function UserProfile() {
       <div className="box1">
         <h4 className="textProfile">Profile User</h4>
         <div style={{ padding: "10px" }}>
-          <img style={{ width: "20rem" }} src={profile.picture} alt="" />
+          <img style={{ width: "20rem", borderRadius:"3%" }} src={profile.picture} alt="" />
         </div>
       </div>
 
@@ -157,7 +146,7 @@ function UserProfile() {
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> email: {profile.email}
         </h6>
-        <CForm onSubmit={add}>
+        {/* <CForm onSubmit={add}>
           <CInputGroup className="mb-3">
             <CFormInput
               autoComplete="picture"
@@ -166,7 +155,7 @@ function UserProfile() {
             />
             <CButton type="submit">Post</CButton>
           </CInputGroup>
-        </CForm>
+        </CForm> */}
         <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
@@ -185,10 +174,10 @@ function UserProfile() {
               <CIcon icon={cilTablet} />
             </CInputGroupText>
             <CFormInput
-              placeholder="No Hp"
-              autoComplete="hp"
-              onChange={(e) => setHp(e.target.value)}
-              value={hp}
+              placeholder="No origin"
+              autoComplete="origin"
+              onChange={(e) => setOrigin(e.target.value)}
+              value={origin}
             />
           </CInputGroup>
 
@@ -197,11 +186,21 @@ function UserProfile() {
               <CIcon icon={cilAddressBook} />
             </CInputGroupText>
             <CFormInput
-              placeholder="Address"
-              autoComplete="address"
-              onChange={(e) => setAddress(e.target.value)}
-              value={address}
+              placeholder="domain"
+              autoComplete="domain"
+              onChange={(e) => setDomain(e.target.value)}
+              value={domain}
             />
+          </CInputGroup>
+          <CInputGroup className="mb-3">
+            <CFormInput
+              autoComplete="picture"
+              onChange={(e) => setPicture(e.target.value)}
+              // accept="image/png, image/jpg, image/jpeg"
+              // type="file"
+              value={picture}
+            />
+            {/* <CButton type="submit">Post</CButton> */}
           </CInputGroup>
 
           <CRow>
