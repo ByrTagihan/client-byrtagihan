@@ -19,8 +19,8 @@ import { useNavigate } from "react-router-dom";
 function UserProfile() {
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
-  const [origin, setOrigin] = useState("");
-  const [domain, setDomain] = useState("");
+  const [origin, setHp] = useState("");
+  const [domain, setAddress] = useState("");
   const [unique_id, setUnique_id] = useState("");
   const [picture, setPicture] = useState("");
   const [foto, setFoto] = useState("");
@@ -35,47 +35,47 @@ function UserProfile() {
   });
 
   // function add picture
-  // const add = async (e) => {
-  //   e.preventDefault();
-  //   e.persist();
+  const add = async (e) => {
+    e.preventDefault();
+    e.persist();
 
-  //   const data = new FormData();
-  //   data.append("file", foto);
+    const data = new FormData();
+    data.append("file", picture);
 
-  //   try {
-  //     await axios
-  //       .post(`${API_DUMMY}/files`, data, {
-  //         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //       })
-  //       .then((response) => {
-  //         const imageUrl = response.data.data;
-  //         setProfile((prevProfile) => ({
-  //           ...prevProfile,
-  //           picture: imageUrl,
-  //         }));
-  //         setFoto(imageUrl);
-  //         console.log(localStorage.getItem("profilePicture"));
+    try {
+      await axios
+        .post(` https://api.byrtagihan.com/api/files`, data, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        })
+        .then((response) => {
+          const imageUrl = response.data.data;
+          setProfile((prevProfile) => ({
+            ...prevProfile,
+            picture: imageUrl,
+          }));
+          setFoto(imageUrl);
+          console.log(localStorage.getItem("profilePicture"));
 
-  //         // Store the image URL in local storage
-  //         localStorage.setItem("profilePicture", imageUrl);
-  //       });
-  //     setShow(false);
-  //     // navigate("/lihattagihanmember")
-  //     Swal.fire({
-  //       icon: "success",
-  //       title: "Foto berhasil ditambahkan",
-  //       showConfirmButton: false,
-  //       timer: 1500,
-  //     });
-  //     // console.log(data);
-  //     setTimeout(() => {
-  //       navigate("/userProfile");
-  //       // window.location.reload();
-  //     }, 1500);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+          // Store the image URL in local storage
+          localStorage.setItem("profilePicture", imageUrl);
+        });
+      setShow(false);
+      // navigate("/lihattagihanmember")
+      Swal.fire({
+        icon: "success",
+        title: "Foto berhasil ditambahkan",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      // console.log(data);
+      setTimeout(() => {
+        navigate("/userProfile");
+        // window.location.reload();
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // function update profile
   const Put = async (e) => {
@@ -121,9 +121,9 @@ function UserProfile() {
         const profil = response.data.data;
         setPicture(profile.picture);
         setName(profil.name);
-        setDomain(profil.domain);
+        setAddress(profil.address);
         setUnique_id(profil.email);
-        setOrigin(profil.origin);
+        setHp(profil.hp);
         setProfile({ ...profil, id: profil.id });
         // setPassword(profil.password);
       })
@@ -146,16 +146,16 @@ function UserProfile() {
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> email: {profile.email}
         </h6>
-        {/* <CForm onSubmit={add}>
+        <CForm onSubmit={add}>
           <CInputGroup className="mb-3">
             <CFormInput
               autoComplete="picture"
-              onChange={(e) => setFoto(e.target.files[0])}
+              onChange={(e) => setPicture(e.target.files[0])}
               type="file"
             />
             <CButton type="submit">Post</CButton>
           </CInputGroup>
-        </CForm> */}
+        </CForm>
         <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
@@ -176,7 +176,7 @@ function UserProfile() {
             <CFormInput
               placeholder="No origin"
               autoComplete="origin"
-              onChange={(e) => setOrigin(e.target.value)}
+              onChange={(e) => setHp(e.target.value)}
               value={origin}
             />
           </CInputGroup>
@@ -188,20 +188,20 @@ function UserProfile() {
             <CFormInput
               placeholder="domain"
               autoComplete="domain"
-              onChange={(e) => setDomain(e.target.value)}
+              onChange={(e) => setAddress(e.target.value)}
               value={domain}
             />
           </CInputGroup>
-          <CInputGroup className="mb-3">
+          {/* <CInputGroup className="mb-3">
             <CFormInput
               autoComplete="picture"
               onChange={(e) => setPicture(e.target.value)}
               // accept="image/png, image/jpg, image/jpeg"
               // type="file"
               value={picture}
-            />
+            /> */}
             {/* <CButton type="submit">Post</CButton> */}
-          </CInputGroup>
+          {/* </CInputGroup> */}
 
           <CRow>
             <CCol xs={6}>

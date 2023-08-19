@@ -159,13 +159,6 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: "Channel",
-    to: "/memberChannel",
-    icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
-    roles: ["Member"],
-  },
-  {
-    component: CNavItem,
     name: "Profile",
     to: "/memberProfile",
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,

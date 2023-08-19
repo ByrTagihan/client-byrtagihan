@@ -1,0 +1,21 @@
+.box {
+    border: 1px solid gray;
+    width: 50%;
+    margin-left: auto;
+    margin-top:20%;
+    margin-right: auto;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.p {
+    font-weight: bold;
+    text-align: center;
+    color: white;
+
+}
+.text {
+    background-color: #424e61;
+}
+.box1 {
+    padding: 10px;
+}
