@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-
-// import "./../../../css/ForgotPassword.css"
+import { useNavigate } from "react-router-dom";
+import { API_DUMMY } from "../../../utils/baseURL";
 import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCardGroup,
   CCol,
   CContainer,
   CForm,
@@ -15,15 +11,11 @@ import {
   CRow,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
-import { cilLockLocked, cilUser } from "@coreui/icons";
-import { Link, useNavigate } from "react-router-dom";
+import { cilUser } from "@coreui/icons";
 import axios from "axios";
-import Swal from "sweetalert2";
-import gambarEmail from "../../../assets/images/email.png";
-import "../../../views/css/ForgotPassword.css";
-import { API_DUMMY } from "../../../utils/baseURL";
+import Swal from "sweetalert2"; // Import Swal for alerts
 
-export default function ResetPassword() {
+function ForgotPassUser() {
   const [email, setEmail] = useState();
 
   const navigate = useNavigate();
@@ -31,21 +23,27 @@ export default function ResetPassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`${API_DUMMY}/customer/forgot_password`, {
-        email,
+      .post(`${API_DUMMY}/user/forgot_password`, {
+        email: email,
       })
       .then((res) => {
         console.log(res);
         Swal.fire({
           icon: "success",
           title: "Successfully",
+          text: "Password reset link sent to your email.",
           showConfirmButton: false,
           timer: 1500,
         });
+        navigate("/userVerification");
         window.location.reload();
       })
       .catch((err) => {
-        alert("Terjadi Kesalahan " + err);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Email tidak ada",
+        });
       });
   };
 
@@ -63,7 +61,7 @@ export default function ResetPassword() {
                   textAlign: "center",
                 }}
               >
-                Forgot Password Admin Sekolah
+                Forgot Password Guru
               </p>
               <hr />
               <CForm onSubmit={handleSubmit}>
@@ -74,8 +72,8 @@ export default function ResetPassword() {
                     <CIcon icon={cilUser} />
                   </CInputGroupText>
                   <CFormInput
-                    placeholder="email"
-                    autoComplete="email"
+                    placeholder="Email"
+                    autoComplete="Email"
                     onChange={(e) => {
                       setEmail(e.target.value);
                     }}
@@ -83,30 +81,32 @@ export default function ResetPassword() {
                 </CInputGroup>
                 <CRow>
                   <CCol xs={6}>
-                    <button
-                      style={{
-                        width: "211%",
-                        background: "#213555 ",
-                        color: "white",
-                        fontSize: "18px",
-                      }}
-                      className="px-4"
-                      type="submit"
-                    >
-                      Send
-                    </button>
+                      <button
+                        style={{
+                          width: "211%",
+                          background: "#213555 ",
+                          color: "white",
+                          fontSize: "18px",
+                        }}
+                        className="px-4"
+                        type="submit"
+                      >
+                        Send
+                      </button>
                   </CCol>
                 </CRow>
               </CForm>
             </CRow>
           </CCol>
         </CRow>
-        <CRow>
-          <CCol>
-            <img style={{ width: "90%" }} src={gambarEmail} alt="" />
-          </CCol>
-        </CRow>
+        <img
+          style={{ width: "55%" }}
+          src="https://static.vecteezy.com/system/resources/previews/016/774/705/original/email-with-bell-notification-chat-message-alert-new-event-web-icon-3d-illustration-png.png"
+          alt=""
+        />
       </CContainer>
     </div>
   );
 }
+
+export default ForgotPassUser;
