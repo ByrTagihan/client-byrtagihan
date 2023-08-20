@@ -51,10 +51,10 @@ function BayarTagihan() {
         );
         if (status === 200) {
           setChannel(data.data);
-          console.log(data.data);
+          //console.log(data.data);
         }
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       }
     } else {
       Swal.fire(
@@ -94,7 +94,7 @@ function BayarTagihan() {
           setShowCard(true); // Menampilkan card
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
           // Payment error
           if (
             error.response &&
@@ -111,7 +111,7 @@ function BayarTagihan() {
           }
         });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       // Request error
       Swal.fire({
         title: "Error",

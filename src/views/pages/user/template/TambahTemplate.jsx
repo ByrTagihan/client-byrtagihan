@@ -36,7 +36,7 @@ function TambahTemplate() {
                 });
             })
             .catch((error) => {
-                console.log(error);
+                //console.log(error);
             });
             
         } else {

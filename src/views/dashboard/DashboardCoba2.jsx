@@ -114,7 +114,7 @@ function DashboardCoba2() {
           setMonthlyDataTransaction(monthlyData);
           const combinedData = [...res.data.data];
           setCombinedData(combinedData);
-          //   console.log([...res.data.data]);
+          //   //console.log([...res.data.data]);
         }
       })
       .catch((error) => {
@@ -156,7 +156,7 @@ function DashboardCoba2() {
             setMonthlyDataBill(monthlyData);
             const combinedData = [...res.data.data];
             setCombinedData(combinedData);
-            //   console.log([...res.data.data]);
+            //   //console.log([...res.data.data]);
           }
         })
         . catch ((error) => {
@@ -188,7 +188,7 @@ function DashboardCoba2() {
         });
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
 
@@ -222,7 +222,7 @@ function DashboardCoba2() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   };
  
@@ -304,7 +304,7 @@ function DashboardCoba2() {
   //       setMember(total.member);
   //       setBill(total.bill);
   //       setTransaction(total.transaction);
-  //       console.log(total);
+  //       //console.log(total);
   //     })
   //     .catch((error) => {
   //       alert("Terjadi Kesalahan" + error);

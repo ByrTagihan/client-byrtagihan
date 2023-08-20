@@ -1,5 +1,3 @@
-
-
 import axios from "axios";
 import React, { useEffect } from "react";
 import { API_DUMMY } from "../../../../utils/baseURL";
@@ -15,6 +13,7 @@ import {
   CForm,
   CCol,
   CButton,
+  CFormCheck,
 } from "@coreui/react";
 
 function EditCustomer() {
@@ -23,7 +22,7 @@ function EditCustomer() {
   const [hp, setHp] = useState("");
   const [password, setPassword] = useState("");
 
-  const [active, setActive] = useState("false");
+  const [active, setActive] = useState("");
   const [organization_id, setOrganization_id] = useState("");
   const param = useParams();
   const navigate = useNavigate();
@@ -40,7 +39,7 @@ function EditCustomer() {
         active: active,
         organization_id: organization_id,
       };
-      console.log(req);
+      //console.log(req);
 
       await axios
         .put(`${API_DUMMY}/user/customer/` + param.id, req, {
@@ -61,7 +60,7 @@ function EditCustomer() {
           }, 1500);
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     } else {
       Swal.fire(
@@ -100,12 +99,12 @@ function EditCustomer() {
             setAddress(response.address);
             setOrganization_id(response.organization_id);
             setPassword(response.password);
-            // setActive(response.active);
-            console.log(response.address);
+            setActive(response.active);
+            //console.log(response.address);
           });
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }, []);
 
@@ -137,7 +136,7 @@ function EditCustomer() {
         setSuggestionsActive(false);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -251,28 +250,6 @@ function EditCustomer() {
                 <CCol md={6}>
                   <CFormInput
                     type="text"
-                    placeholder="Active"
-                    id="Active"
-                    onChange={(e) => setActive(e.target.value)}
-                    label="Active"
-                    value={active}
-                    required
-                  />
-                </CCol>
-                <CCol md={6}>
-                  <CFormInput
-                    type="password"
-                    placeholder="Password"
-                    id="Password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    label="Password"
-                    value={password}
-                    required
-                  />
-                </CCol>
-                <CCol md={6}>
-                  <CFormInput
-                    type="text"
                     autoComplete="off"
                     value={value}
                     onKeyDown={handleKeyDown}
@@ -282,6 +259,27 @@ function EditCustomer() {
                   />
                   {suggestionsActive && <Suggestions />}
                 </CCol>
+                <CCol md={6}>
+                  <div className="mx-auto">
+                    <CFormCheck
+                      id="flexCheckDefault"
+                      label="Active"
+                      checked={active}
+                      onChange={(e) => setActive(e.target.checked)}
+                    />
+                  </div>
+                </CCol>
+                {/* <CCol md={6}>
+                  <CFormInput
+                    type="password"
+                    placeholder="Password"
+                    id="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    label="Password"
+                    value={password}
+                    required
+                  />
+                </CCol> */}
 
                 <CCol xs={12}>
                   <CButton onClick={update}>Simpan</CButton>

@@ -1,5 +1,3 @@
-
-
 import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
@@ -66,7 +64,7 @@ function EditMember() {
           window.location.reload();
         }, 1500);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     } else {
       Swal.fire(
@@ -96,7 +94,7 @@ function EditMember() {
         setName(members.name);
         setHp(members.hp);
         setPassword(members.password);
-        console.log(members.password);
+        //console.log(members.password);
         setAddress(members.address);
         setOrganization_name(members.organization_name);
         setPicture(members.picture);
@@ -118,7 +116,7 @@ function EditMember() {
         setOrganization(data.data);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -131,7 +129,7 @@ function EditMember() {
         setCostumer(data.data);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -206,7 +204,7 @@ function EditMember() {
                     disabled
                   />
                 </CCol>
-                <CCol md={6}>
+                {/* <CCol md={6}>
                   <CFormLabel>Password</CFormLabel>
                   <CInputGroup>
                     <CInputGroupText>
@@ -223,7 +221,7 @@ function EditMember() {
                       disabled
                     />
                   </CInputGroup>
-                </CCol>
+                </CCol> */}
                 <CCol md={6}>
                 </CCol>
 

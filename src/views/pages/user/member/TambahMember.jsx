@@ -38,8 +38,8 @@ function TambahMember() {
   const addMember = async (e) => {
     if (localStorage.getItem("type_token") === "User") {
       e.preventDefault();
-      console.log(customer_id);
-      console.log(organization_id);
+      //console.log(customer_id);
+      //console.log(organization_id);
 
       const data = {
         organization_id: organization_id,
@@ -69,7 +69,7 @@ function TambahMember() {
           window.location.reload();
         }, 1500);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
         Swal.fire({
           icon: "error",
           title: "Gagal Menambahkan",
@@ -103,10 +103,10 @@ function TambahMember() {
       );
       if (status === 200) {
         setOrganization(data.data);
-        // console.log(data.data);
+        // //console.log(data.data);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -119,7 +119,7 @@ function TambahMember() {
         setCostumer(data.data);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -136,7 +136,7 @@ function TambahMember() {
   useEffect(() => {
     GetOrganization();
     GetCostumer();
-    console.log(organization_id);
+    //console.log(organization_id);
   }, []);
 
   return (

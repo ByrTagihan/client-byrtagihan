@@ -57,7 +57,7 @@ function TambahOrganization() {
           });
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     } else {
       Swal.fire(
@@ -165,7 +165,7 @@ function TambahOrganization() {
         setSuggestionsActive(false);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
   return (
@@ -178,7 +178,7 @@ function TambahOrganization() {
             </div>
             <div className="card-body">
               <CForm onSubmit={Post} onKeyDown={onKeyDown} className="row g-3">
-                <CCol xs={12}>
+                <CCol md={6}>
                   <CFormInput
                     id="name"
                     label="Nama"
@@ -188,7 +188,7 @@ function TambahOrganization() {
                     required
                   />
                 </CCol>
-                <CCol xs={12}>
+                <CCol md={6}>
                   <CFormInput
                     id="customer_id"
                     label="Customer_id"
@@ -201,7 +201,7 @@ function TambahOrganization() {
                   />
                   {suggestionsActive && <Suggestions />}
                 </CCol>
-                <CCol md={12}>
+                <CCol md={6}>
                   <CFormInput
                     placeholder="Alamat..."
                     id="address"
@@ -210,7 +210,7 @@ function TambahOrganization() {
                     required
                   />
                 </CCol>
-                <CCol md={12}>
+                <CCol md={6}>
                   <CFormInput
                     placeholder="No Hp..."
                     id="hp"
@@ -219,7 +219,7 @@ function TambahOrganization() {
                     required
                   />
                 </CCol>
-                <CCol md={12}>
+                <CCol md={6}>
                   <CFormInput
                     placeholder="Email..."
                     id="email"
@@ -228,7 +228,7 @@ function TambahOrganization() {
                     required
                   />
                 </CCol>
-                <CCol md={12}>
+                <CCol md={6}>
                   <CFormInput
                     placeholder="Kota..."
                     id="city"
@@ -237,7 +237,7 @@ function TambahOrganization() {
                     required
                   />
                 </CCol>
-                <CCol md={12}>
+                <CCol md={6}>
                   <CFormInput
                     placeholder="Provinsi..."
                     id="provinsi"
@@ -246,7 +246,7 @@ function TambahOrganization() {
                     required
                   />
                 </CCol>
-                <CCol md={12}>
+                <CCol md={6}>
                   <CFormInput
                     placeholder="No Rekening..."
                     id="bank_account_name"
@@ -255,7 +255,7 @@ function TambahOrganization() {
                     required
                   />
                 </CCol>
-                <CCol md={12}>
+                <CCol md={6}>
                   <CFormInput
                     placeholder="Nama Rekening..."
                     id="bank_account_name"
@@ -264,7 +264,7 @@ function TambahOrganization() {
                     required
                   />
                 </CCol>
-                <CCol md={12}>
+                <CCol md={6}>
                   <CFormInput
                     placeholder="Nama Bank..."
                     id="bank_name"
@@ -273,7 +273,7 @@ function TambahOrganization() {
                     required
                   />
                 </CCol>
-                <CCol md={12}>
+                <CCol md={6}>
                   <CFormInput
                     placeholder="Saldo..."
                     id="balance"

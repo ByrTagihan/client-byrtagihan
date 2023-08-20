@@ -82,7 +82,7 @@ function ListDataSiswaEdit() {
           window.location.reload();
         }, 1500);
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       }
     } else {
       Swal.fire(

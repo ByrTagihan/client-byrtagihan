@@ -27,7 +27,7 @@ function EditTagihan() {
         periode: periode,
         amount: amount,
       };
-      console.log(req);
+      //console.log(req);
 
       await axios
         .put(`${API_DUMMY}/customer/bill/${id}`, req, {
@@ -48,7 +48,7 @@ function EditTagihan() {
           }, 1500);
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     } else {
       Swal.fire(
@@ -88,7 +88,7 @@ function EditTagihan() {
         setSuggestionsActive(false);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -180,7 +180,7 @@ function EditTagihan() {
           });
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }, []);
 

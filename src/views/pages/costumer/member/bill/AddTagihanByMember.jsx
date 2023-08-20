@@ -40,13 +40,13 @@ function AddTagihanByMember() {
           showConfirmButton: false,
           timer: 1500,
         });
-        console.log(data);
+        //console.log(data);
         setTimeout(() => {
           navigate("/lihattagihanmember:{/id}");
           window.location.reload();
         }, 1500);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     } else {
       Swal.fire(

@@ -28,7 +28,7 @@ function MemberChannel() {
       .then((res) => {
         setTotalPages(res.data.pagination.total_page);
         setList(res.data.data);
-        console.log(res.data.data);
+        //console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);

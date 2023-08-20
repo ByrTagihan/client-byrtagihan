@@ -45,7 +45,7 @@ function BayarSemuaTagihan() {
                     setChannel(data.data);
                 }
             } catch (err) {
-                console.log(err);
+                //console.log(err);
             }
         } else {
             Swal.fire(
@@ -72,7 +72,7 @@ function BayarSemuaTagihan() {
             const data = {
                 channel_id: channel_id,
             };
-            // console.log(data);
+            // //console.log(data);
             await axios.post(
                 `${API_DUMMY}/member/bill/all/payment`,
                 data,
@@ -82,7 +82,7 @@ function BayarSemuaTagihan() {
             )
                 .then(response => {
                     // Mengakses data respons di sini
-                    // console.log(response.data.data);
+                    // //console.log(response.data.data);
                     const byr = response.data.data;
                     setBayar(byr);
                     setAmount(byr.amount);
@@ -92,7 +92,7 @@ function BayarSemuaTagihan() {
                     setShowCard(true); // Menampilkan card
                 })
                 .catch((error) => {
-                    console.log(error);
+                    //console.log(error);
                     // Payment error
                     if (
                         error.response &&
@@ -114,7 +114,7 @@ function BayarSemuaTagihan() {
             setShowCard(true); // Menampilkan card
             setVisible(false); // Menyembunyikan modal
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
 
         navigate(`/bayarSemuaTagihan`)

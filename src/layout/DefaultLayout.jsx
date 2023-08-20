@@ -14,7 +14,7 @@ const isTokenExpired = () => {
 };
 
 const handleLogout = () => {
-  console.log('Token expired. Logging out...');
+  //console.log('Token expired. Logging out...');
   navigate("/");
   setTimeout(() => {
     window.location.reload();

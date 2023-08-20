@@ -17,7 +17,7 @@ function VerificationCode() {
             code: verification_code
           })
           .then((res) => {
-            console.log(res);
+            //console.log(res);
             Swal.fire({
               icon: "success",
               title: "Successfully",
