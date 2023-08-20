@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import "../../../css/Profile.css";
 import axios from "axios";
-import { API_DUMMY } from "../../../utils/baseURL";
+import { API_DUMMY, API_URL } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -44,7 +44,7 @@ function UserProfile() {
 
     try {
       await axios
-        .post(` https://api.byrtagihan.com/api/files`, data, {
+        .post(`${API_URL}/api/files`, data, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         })
         .then((response) => {
@@ -87,7 +87,7 @@ function UserProfile() {
         name: name, // Update the name field with the new value
         hp: origin,
         address: domain,
-        picture: picture, // Keep the existing picture value
+        picture: profile.picture, // Keep the existing picture value
       };
       await axios.put(
         `${API_DUMMY}/user/profile`,

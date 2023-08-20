@@ -1,5 +1,3 @@
-
-
 import React from "react";
 // import Login from './pages/Login'
 // import Register from './pages/Register'
@@ -284,7 +282,7 @@ const routes = [
     name: "Dashboard Member",
     element: DashboardMember,
   },
-  { path: "/memberProfile", name: "Channel", element: MemberProfile },
+  { path: "/memberProfile", name: "Member Profile", element: MemberProfile },
   {
     path: "/listTagihanMember",
     name: "List Tagihan",
