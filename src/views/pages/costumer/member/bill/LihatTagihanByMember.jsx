@@ -60,7 +60,7 @@ function LihatTagihanByMember() {
         .then((res) => {
           setTotalPages(res.data.pagination.total_page);
           setList(res.data.data);
-          console.log(res.data.data);
+          //console.log(res.data.data);
         })
         .catch((error) => {
           alert("Terjadi Kesalahan" + error);
@@ -181,7 +181,7 @@ function LihatTagihanByMember() {
       })
       .then((res) => {
         setList1(res.data.data);
-        console.log(res.data.data);
+        //console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -214,7 +214,7 @@ function LihatTagihanByMember() {
           title: "Dihapus!",
           showConfirmButton: false,
         });
-        console.log(id);
+        //console.log(id);
       }
       setTimeout(() => {
         window.location.reload();
@@ -249,7 +249,7 @@ function LihatTagihanByMember() {
         window.location.reload();
       }, 1500);
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -285,7 +285,7 @@ function LihatTagihanByMember() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   };
 
@@ -297,7 +297,7 @@ function LihatTagihanByMember() {
   //     })
   //     .then((res) => {
   //       setPaid_amount(res.data.data.paid_amount);
-  //       console.log(res.data.data.paid_amount);
+  //       //console.log(res.data.data.paid_amount);
   //       setPaid_date(res.data.data.paid_date);
   //       setId1(res.data.data.id);
   //     })

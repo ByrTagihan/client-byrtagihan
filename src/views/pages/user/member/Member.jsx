@@ -1,4 +1,3 @@
-
 import {
   CCard,
   CCardHeader,
@@ -56,7 +55,7 @@ function Member() {
         );
         if (status === 200) {
           setMember(data.data);
-          console.log(data.data);
+          //console.log(data.data);
           setTotal_Page(data.pagination.total_page);
         }
       } catch (err) {

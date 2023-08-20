@@ -44,7 +44,7 @@ function UserProfile() {
 
     try {
       await axios
-        .post(`${API_URL}/api/files`, data, {
+        .post(`${API_URL}/files`, data, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         })
         .then((response) => {
@@ -54,7 +54,7 @@ function UserProfile() {
             picture: imageUrl,
           }));
           setFoto(imageUrl);
-          console.log(localStorage.getItem("profilePicture"));
+          //console.log(localStorage.getItem("profilePicture"));
 
           // Store the image URL in local storage
           localStorage.setItem("profilePicture", imageUrl);
@@ -67,13 +67,13 @@ function UserProfile() {
         showConfirmButton: false,
         timer: 1500,
       });
-      // console.log(data);
+      // //console.log(data);
       setTimeout(() => {
         navigate("/userProfile");
         // window.location.reload();
       }, 1500);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -92,7 +92,7 @@ function UserProfile() {
       await axios.put(
         `${API_DUMMY}/user/profile`,
         data,
-        // console.log(picture),
+        // //console.log(picture),
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -108,7 +108,7 @@ function UserProfile() {
         window.location.reload();
       }, 1500);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

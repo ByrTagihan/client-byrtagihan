@@ -53,7 +53,7 @@ function MemberProfile() {
             picture: imageUrl,
           }));
           setFoto(imageUrl);
-          console.log(localStorage.getItem("profilePicture"));
+          //console.log(localStorage.getItem("profilePicture"));
 
           // Store the image URL in local storage
           localStorage.setItem("profilePicture", imageUrl);
@@ -69,7 +69,7 @@ function MemberProfile() {
         navigate("/memberProfile");
       }, 1500);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -104,7 +104,7 @@ function MemberProfile() {
         window.location.reload();
       }, 1500);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -121,8 +121,8 @@ function MemberProfile() {
         setAddress(profil.address);
         setProfile({ ...profil, id: profil.id });
         setPicture(profile.picture);
-        console.log(res.data.data);
-        console.log({ ...profil, id: profil.id });
+        //console.log(res.data.data);
+        //console.log({ ...profil, id: profil.id });
         // If profilePicture is available in the response, update the picture state
         if (profil.profilePicture) {
           setFoto(profil.profilePicture);

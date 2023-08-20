@@ -28,7 +28,7 @@ function ForgotPasswordSiswa() {
     axios
       .post(`${API_DUMMY}/member/forgot_password`, data)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         Swal.fire({
           icon: "success",
           title: "Terkirim",

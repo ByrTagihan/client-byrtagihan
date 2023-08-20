@@ -112,7 +112,7 @@ function DashboardUser() {
         setTotalPagesTransaction(res.data.pagination.total_page);
         // setPages(res.data.data.total_page);
         setTransaction1(res.data.data);
-        console.log(res.data.data);
+        //console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -130,7 +130,7 @@ function DashboardUser() {
         setTotalPagesPayment(res.data.pagination.total_page);
         // setPages(res.data.data.total_page);
         setPayment(res.data.data);
-        // console.log(res.data.data);
+        // //console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -250,7 +250,7 @@ function DashboardUser() {
           setMonthlyDataTotal(monthlyData);
           const combinedData = [...res.data.data];
           setCombinedData(combinedData);
-          //   console.log([...res.data.data]);
+          //   //console.log([...res.data.data]);
         }
       })
       .catch((error) => {
@@ -278,7 +278,7 @@ function DashboardUser() {
           setMonthlyDataBill(monthlyData);
           const combinedData = [...res.data.data];
           setCombinedData(combinedData);
-          //   console.log([...res.data.data]);
+          //   //console.log([...res.data.data]);
         }
       })
       .catch((error) => {
@@ -307,7 +307,7 @@ function DashboardUser() {
           setMonthlyDataTransaction(monthlyData);
           const combinedData = [...res.data.data];
           setCombinedData(combinedData);
-          //   console.log([...res.data.data]);
+          //   //console.log([...res.data.data]);
         }
       })
       .catch((error) => {

@@ -34,9 +34,9 @@ function Organization() {
       )
       .then((res) => {
         // setTotalPages(res.data.pagination.total_page);
-        // console.log(res.data.pagination.total_page);
+        // //console.log(res.data.pagination.total_page);
         setList(res.data.data);
-        console.log(res.data.data);
+        //console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -59,7 +59,7 @@ function Organization() {
   const handleLimit = (event) => {
     setLimit(event.target.value);
   };
-  
+
   useEffect(() => {
     let sortedData = [...list];
     if (sortConfig !== null) {
@@ -137,7 +137,7 @@ function Organization() {
           title: "Berhasil Menghapus",
           showConfirmButton: false,
         });
-        console.log(id);
+        //console.log(id);
       }
       setTimeout(() => {
         window.location.reload();
@@ -170,99 +170,104 @@ function Organization() {
                 <div className="card-body">
                   <div className="row">
                     <div className="row">
-                      <div className="col">
-                        <select
-                          className="shows form-select"
-                          value={limit}
-                          onChange={handleLimit}
-                        >
-                          <option value="1">Show 1 Entries</option>
-                          <option value="10">Show 10 Entries</option>
-                          <option value="100">Show 100 Entries</option>
-                        </select>
-                      </div>
+                      <div className="row">
+                        <div className="col">
+                          <select
+                            className="shows form-select"
+                            value={limit}
+                            onChange={handleLimit}
+                          >
+                            <option value="1">Show 1 Entries</option>
+                            <option value="10">Show 10 Entries</option>
+                            <option value="100">Show 100 Entries</option>
+                          </select>
+                        </div>
 
-                      <div className="col">
-                        <CFormInput
-                          className="filter-data-o"
-                          type="search"
-                          placeholder="search data"
-                          value={searchTerm}
-                          onChange={handleSearch}
-                        />
+                        <div className="col">
+                          <CFormInput
+                            className="filter-data-o"
+                            type="search"
+                            placeholder="search data"
+                            value={searchTerm}
+                            onChange={handleSearch}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <table className="tabel-organization table responsive-3 table1">
-                    <thead>
-                      <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">Alamat</th>
-                        <th scope="col">No Hp</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Kota</th>
-                        <th scope="col">Provinsi</th>
-                        <th scope="col">Saldo</th>
-                        <th scope="col">No Rekening</th>
-                        <th scope="col">Nama Rekening</th>
-                        <th scope="col">Nama Bank</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {sortedList.map((data, index) => {
-                        return (
-                          <tr key={index}>
-                            <td data-cell="Id">{index + 1}</td>
-                            <td data-cell="Name">{data.name}</td>
-                            <td data-cell="Address">{data.address}</td>
-                            <td data-cell="HP">{data.hp}</td>
-                            <td data-cell="Email">{data.email}</td>
-                            <td data-cell="City">{data.city}</td>
-                            <td data-cell="Provinsi">{data.provinsi}</td>
-                            <td data-cell="Provinsi">{data.balance}</td>
-                            <td data-cell="Create Date">
-                              {data.bank_account_number}
-                            </td>
-                            <td data-cell="Update Date">
-                              {data.bank_account_name}
-                            </td>
-                            <td data-cell="Update Date">{data.bank_name}</td>
-                            <td data-cell="Action">
-                              <div className="tdd">
-                                <button
-                                  style={{ background: "blue" }}
-                                  onClick={() =>
-                                    navigate(`/editOrganization/${data.id}`)
-                                  }
-                                  type="button"
-                                  className="edit1"
-                                >
-                                  <CIcon
-                                    icon={cilPencil}
-                                    style={{ color: "white" }}
-                                  />
-                                </button>
 
-                                <button
-                                  style={{ background: "red" }}
-                                  onClick={() => Delete(data.id)}
-                                  type="button"
-                                  className="edit1"
-                                >
-                                  <CIcon
-                                    icon={cilTrash}
-                                    style={{ color: "white" }}
-                                  />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table className="tabel-organization table responsive-3 table1">
+                      <thead>
+                        <tr>
+                          <th scope="col">No</th>
+                          <th scope="col">Nama</th>
+                          <th scope="col">Alamat</th>
+                          <th scope="col">No Hp</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">Kota</th>
+                          <th scope="col">Provinsi</th>
+                          <th scope="col">Saldo</th>
+                          <th scope="col">No Rekening</th>
+                          <th scope="col">Nama Rekening</th>
+                          <th scope="col">Nama Bank</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {sortedList.map((data, index) => {
+                          return (
+                            <tr key={index}>
+                              <td data-cell="Id">{index + 1}</td>
+                              <td data-cell="Name">{data.name}</td>
+                              <td data-cell="Address">{data.address}</td>
+                              <td data-cell="HP">{data.hp}</td>
+                              <td data-cell="Email">{data.email}</td>
+                              <td data-cell="City">{data.city}</td>
+                              <td data-cell="Provinsi">{data.provinsi}</td>
+                              <td data-cell="Provinsi">{data.balance}</td>
+                              <td data-cell="Create Date">
+                                {data.bank_account_number}
+                              </td>
+                              <td data-cell="Update Date">
+                                {data.bank_account_name}
+                              </td>
+                              <td data-cell="Update Date">{data.bank_name}</td>
+                              <td data-cell="Action">
+                                <div className="tdd">
+                                  <button
+                                    style={{ background: "blue" }}
+                                    onClick={() =>
+                                      navigate(`/editOrganization/${data.id}`)
+                                    }
+                                    type="button"
+                                    className="edit1"
+                                  >
+                                    <CIcon
+                                      icon={cilPencil}
+                                      style={{ color: "white" }}
+                                    />
+                                  </button>
+
+                                  <button
+                                    style={{ background: "red" }}
+                                    onClick={() => Delete(data.id)}
+                                    type="button"
+                                    className="edit1"
+                                  >
+                                    <CIcon
+                                      icon={cilTrash}
+                                      style={{ color: "white" }}
+                                    />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
 
                   {/* Pagination */}
                   {/* <div>

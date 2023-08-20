@@ -41,7 +41,7 @@ const GantiPasswordCustomer = () => {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
           })
           .then((res) => {
-            console.log(res.data.code);
+            //console.log(res.data.code);
             if (res.data.code === 200) {
               Swal.fire({
                 icon: "success",

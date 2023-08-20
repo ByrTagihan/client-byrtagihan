@@ -40,7 +40,7 @@ function Tagihan() {
       );
       const data = await response.json();
       setBills(data.data);
-      console.log(data.data);
+      //console.log(data.data);
       setTotalPages(data.pagination.total_page);
     } catch (error) {
       console.error("Error fetching bills:", error);
@@ -100,7 +100,7 @@ function Tagihan() {
   //       });
   //     })
   //     .catch((error) => {
-  //       console.log(error);
+  //       //console.log(error);
   //     });
   // };
   const bayarTagihan = async (e) => {
@@ -116,7 +116,7 @@ function Tagihan() {
       await axios.put(
         `${API_DUMMY}/customer/bill/${paidId}/paid`,
         data,
-        // console.log(picture),
+        // //console.log(picture),
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -132,7 +132,7 @@ function Tagihan() {
         window.location.reload();
       }, 1500);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -169,7 +169,7 @@ function Tagihan() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   };
 

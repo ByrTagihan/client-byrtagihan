@@ -86,7 +86,7 @@ function Customer() {
         .then((res) => {
           setTotalPages(res.data.pagination.total_page);
           setUserCustomer1(res.data.data);
-          console.log(res.data.data);
+          //console.log(res.data.data);
         })
         .catch((error) => {
           alert("Terjadi Kesalahan" + error);

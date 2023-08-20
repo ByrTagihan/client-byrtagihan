@@ -19,7 +19,7 @@ function EditTaagihanByMember() {
         setDescription(response.data.data.description);
         setAmount(response.data.data.amount);
         setDescription(response.data.data.description);
-        // console.log(response.data.data);
+        // //console.log(response.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan " + error);
@@ -33,7 +33,7 @@ function EditTaagihanByMember() {
       periode: periode,
       description: description,
     };
-    console.log(data);
+    //console.log(data);
     try {
       await axios.put(`${API_DUMMY}/customer/bill/` + param.id, data, {
         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -51,7 +51,7 @@ function EditTaagihanByMember() {
         window.location.reload();
       }, 1500);
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 return (

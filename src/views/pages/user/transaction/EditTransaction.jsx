@@ -1,4 +1,4 @@
-import { CButton, CCol, CForm, CFormInput } from "@coreui/react";
+import { CButton, CCol, CForm, CFormInput, CFormTextarea } from "@coreui/react";
 import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
@@ -41,7 +41,7 @@ function EditTransaction() {
         }, 1500);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
 
@@ -55,7 +55,7 @@ function EditTransaction() {
         })
         .then((response) => {
           const payment = response.data.data;
-          console.log(response.data.data);
+          //console.log(response.data.data);
           setDescription(payment.description);
           setPeriode(payment.periode);
           setAmount(payment.amount);
@@ -82,52 +82,61 @@ function EditTransaction() {
   return (
     <div>
       {localStorage.getItem("type_token") === "User" ? (
-      <div className="card mb-3">
-        <div className="card-header bg-transparent">
-          <h5>Edit Transaction</h5>
-        </div>
-        <div className="card-body">
-          <CForm onSubmit={Update} className="row g-3">
-            <CCol xs={12}>
-              <CFormInput
-                id="description"
-                label="Description"
-                onChange={(e) => setDescription(e.target.value)}
-                value={description}
-                type="text"
-                required
-              />
-            </CCol>
-            <CCol md={6}>
-              <CFormInput
-                type="number"
-                id="amount"
-                onChange={(e) => setAmount(e.target.value)}
-                value={amount}
-                label="Amount"
-                required
-              />
-            </CCol>
-            <CCol md={6}>
-              <CFormInput
-                type="date"
-                id="periode"
-                onChange={(e) => setPeriode(e.target.value)}
-                value={periode}
-                label="Periode"
-                required
-              />
-            </CCol>
+        <div className="card mb-3">
+          <div className="card-header bg-transparent">
+            <h5>Edit Transaction</h5>
+          </div>
+          <div className="card-body">
+            <CForm onSubmit={Update} className="row g-3">
+              <CCol xs={12}>
+                <CFormTextarea
+                  id="description"
+                  // placeholder="Leave a comment here"
+                  label="Description"
+                  onChange={(e) => setDescription(e.target.value)}
+                  value={description}
+                  type="text"
+                  required
+                ></CFormTextarea>
+                {/* <CFormInput
+                  id="description"
+                  label="Description"
+                  onChange={(e) => setDescription(e.target.value)}
+                  value={description}
+                  type="text"
+                  required
+                /> */}
+              </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  type="number"
+                  id="amount"
+                  onChange={(e) => setAmount(e.target.value)}
+                  value={amount}
+                  label="Amount"
+                  required
+                />
+              </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  type="date"
+                  id="periode"
+                  onChange={(e) => setPeriode(e.target.value)}
+                  value={periode}
+                  label="Periode"
+                  required
+                />
+              </CCol>
 
-            <CCol xs={12}>
-              <CButton type="submit">Simpan</CButton>
-            </CCol>
-          </CForm>
+              <CCol xs={12}>
+                <CButton type="submit">Simpan</CButton>
+              </CCol>
+            </CForm>
+          </div>
         </div>
-      </div>
-       ) : (
-       <></>
-       )} 
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

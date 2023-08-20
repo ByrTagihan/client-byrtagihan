@@ -50,7 +50,7 @@ function AddTagihan() {
           }, 1500);
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     } else {
       Swal.fire(
@@ -90,7 +90,7 @@ function AddTagihan() {
         setSuggestionsActive(false);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 

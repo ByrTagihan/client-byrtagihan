@@ -37,7 +37,7 @@ export default function ResetPassword() {
         unique_id,
       })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         Swal.fire({
           icon: "success",
           title: "Successfully",
