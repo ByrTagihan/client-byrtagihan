@@ -289,23 +289,6 @@ function LihatTagihanByMember() {
       });
   };
 
-  // const [idd1, setId1] = useState(0);
-  // const getByIdSudahByr = async (id) => {
-  //   await axios
-  //     .get(`${API_DUMMY}/customer/member/${param.id}/bill/` + id, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     })
-  //     .then((res) => {
-  //       setPaid_amount(res.data.data.paid_amount);
-  //       //console.log(res.data.data.paid_amount);
-  //       setPaid_date(res.data.data.paid_date);
-  //       setId1(res.data.data.id);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
-
   return (
     <div>
       {localStorage.getItem("type_token") === "Customer" ? (
@@ -342,7 +325,7 @@ function LihatTagihanByMember() {
                 <div className="card-header">
                   <div style={{ display: "flex" }}>
                     <div className="col">
-                      <h4>Lihat Tagihan By Member</h4>
+                      <h4>Tagihan By Member</h4>
                     </div>
                     <div
                       style={{
