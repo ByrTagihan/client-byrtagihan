@@ -6,9 +6,10 @@ import './css/Style.css';
 import ResetPassword from './views/pages/reset/ForgotPasswor';
 import PrivateRoute from './utils/PrivateRoute';
 import ForgotPasswordSiswa from './views/pages/reset/ForgotPasswordSiswa';
-import KonfirmasiPassword from './views/pages/reset/KonfirmasiPassword';
 import UserVerification from './views/pages/user/VerificationCode';
 import CustomerVerification from './views/pages/costumer/VerificationCodeCustomer'
+import ForgotPassUser from './views/pages/reset/ForgotPassUser';
+
 
 const loading = (
   <div className="pt-3 text-center">
@@ -36,8 +37,8 @@ class App extends Component {
             <Route exact path="/404" name="Page 404" element={<Page404 />} />
             <Route exact path="/500" name="Page 500" element={<Page500 />} />
             <Route exact path="/reset" name="Reset" element={<ResetPassword />} />
-            <Route exact path="/konfirmasiPassword" element={<KonfirmasiPassword />} />
             <Route exact path="/forgotPasswordSiswa" name="Forgot Password Siswa" element={<ForgotPasswordSiswa />} />
+            <Route exact path="/forgotPassUser" name="Forgot Password Siswa" element={<ForgotPassUser />} />
             <Route path="*" name="Home" element={
               <PrivateRoute>
                 <DefaultLayout />
