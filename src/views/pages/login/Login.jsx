@@ -140,7 +140,7 @@ const Login = () => {
       <CContainer className="ccontainer ">
         <CRow>
           <CCol>
-            <img style={{ width: "100%" }} src={gambar} alt="" />
+            <img style={{ width: "115%" }} src={gambar} alt="" />
           </CCol>
         </CRow>
         <CRow className="justify-content-center">
@@ -266,6 +266,8 @@ const Login = () => {
                 />
               </CInputGroup>
               <CRow>
+                <p>pilih role yang diinginkan terlebih dahulu sebelum ke forgot password.</p>
+                {type_token === "admin Sekolah" ? (
                 <CButton
                   color="link"
                   style={{
@@ -276,6 +278,31 @@ const Login = () => {
                 >
                   <a href="/#/reset"> Forgot password</a>
                 </CButton>
+                ): type_token === "guru" ? (
+                  <CButton
+                  color="link"
+                  style={{
+                    marginTop: "-20px",
+                    marginLeft: "33.5%",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <a href="/#/forgotPassUser"> Forgot password</a>
+                </CButton>
+                ): type_token === "siswa" ? (
+                  <CButton
+                  color="link"
+                  style={{
+                    marginTop: "-20px",
+                    marginLeft: "33.5%",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <a href="/#/forgotPasswordSiswa"> Forgot password</a>
+                </CButton>
+                ):(
+                  <></>
+                )}
                 <CCol xs={6}>
                   <button
                     type="button"
