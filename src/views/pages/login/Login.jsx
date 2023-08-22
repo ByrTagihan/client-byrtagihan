@@ -267,7 +267,7 @@ const Login = () => {
               </CInputGroup>
               <CRow>
                 <p>pilih role yang diinginkan terlebih dahulu sebelum ke forgot password.</p>
-                {type_token === "admin Sekolah" ? (
+                {type_token === "Costumer" ? (
                 <CButton
                   color="link"
                   style={{
@@ -278,7 +278,7 @@ const Login = () => {
                 >
                   <a href="/#/reset"> Forgot password</a>
                 </CButton>
-                ): type_token === "guru" ? (
+                ): type_token === "User" ? (
                   <CButton
                   color="link"
                   style={{
