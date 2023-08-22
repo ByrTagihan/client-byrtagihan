@@ -103,7 +103,7 @@ const CustomerOrganization = React.lazy(() =>
 
 //Member Section
 const LIstDataSIswa = React.lazy(() =>
-  import("./views/pages/costumer/member/ListDataSiswa")
+  import("./views/pages/costumer/member/LIstDataSIswa")
 );
 const EditListSiswa = React.lazy(() =>
   import("./views/pages/costumer/member/EditListDataSiswa")
