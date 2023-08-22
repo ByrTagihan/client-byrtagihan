@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import "../../../css/Profile.css";
 import axios from "axios";
-import { API_DUMMY } from "../../../utils/baseURL";
+import { API_DUMMY, API_URL } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -44,7 +44,7 @@ function Profile() {
 
     try {
       await axios
-        .post(`${API_DUMMY}/files`, data, {
+        .post(`${API_URL}/files`, data, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         })
         .then((response) => {
@@ -54,7 +54,7 @@ function Profile() {
             picture: imageUrl,
           }));
           setFoto(imageUrl);
-          console.log(localStorage.getItem("profilePicture"));
+          //console.log(localStorage.getItem("profilePicture"));
 
           // Store the image URL in local storage
           localStorage.setItem("profilePicture", imageUrl);
@@ -66,13 +66,13 @@ function Profile() {
         showConfirmButton: false,
         timer: 1500,
       });
-      // console.log(data);
+      // //console.log(data);
       setTimeout(() => {
         navigate("/customerProfile");
         // window.location.reload();
       }, 1500);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -90,7 +90,7 @@ function Profile() {
     try {
       await axios.put(
         `${API_DUMMY}/customer/profile`, data,
-        // console.log(picture),
+        // //console.log(picture),
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -106,7 +106,7 @@ function Profile() {
         window.location.reload();
       }, 1500);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -127,8 +127,8 @@ function Profile() {
         setAddress(profil.address);
         setProfile({ ...profil, id: profil.id });
         setPicture(profile.picture)
-        console.log(res.data.data);
-        console.log({ ...profil, id: profil.id });
+        //console.log(res.data.data);
+        //console.log({ ...profil, id: profil.id });
         const imageUrl = localStorage.getItem("profilePicture");
         if (profil.profilePicture) {
           setFoto(profil.profilePicture);

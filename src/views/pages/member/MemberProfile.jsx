@@ -1,5 +1,3 @@
-
-
 import { cilAddressBook, cilTablet, cilUser } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import {
@@ -14,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import "../../../css/Profile.css";
 import axios from "axios";
-import { API_DUMMY } from "../../../utils/baseURL";
+import { API_DUMMY, API_URL } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -45,7 +43,7 @@ function MemberProfile() {
 
     try {
       await axios
-        .post(`${API_DUMMY}/files`, data, {
+        .post(`${API_URL}/files`, data, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         })
         .then((response) => {
@@ -55,7 +53,7 @@ function MemberProfile() {
             picture: imageUrl,
           }));
           setFoto(imageUrl);
-          console.log(localStorage.getItem("profilePicture"));
+          //console.log(localStorage.getItem("profilePicture"));
 
           // Store the image URL in local storage
           localStorage.setItem("profilePicture", imageUrl);
@@ -71,7 +69,7 @@ function MemberProfile() {
         navigate("/memberProfile");
       }, 1500);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -79,10 +77,18 @@ function MemberProfile() {
     e.preventDefault();
     e.persist();
 
+    const updatedProfile = {
+      ...profile,
+      name: name, // Update the name field with the new value
+      hp: hp,
+      address: address,
+      picture: profile.picture, // Keep the existing picture value
+    };
+
     try {
       await axios.put(
         `${API_DUMMY}/member/profile`,
-        profile,
+        updatedProfile,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -98,7 +104,7 @@ function MemberProfile() {
         window.location.reload();
       }, 1500);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -115,8 +121,8 @@ function MemberProfile() {
         setAddress(profil.address);
         setProfile({ ...profil, id: profil.id });
         setPicture(profile.picture);
-        console.log(res.data.data);
-        console.log({ ...profil, id: profil.id });
+        //console.log(res.data.data);
+        //console.log({ ...profil, id: profil.id });
         // If profilePicture is available in the response, update the picture state
         if (profil.profilePicture) {
           setFoto(profil.profilePicture);

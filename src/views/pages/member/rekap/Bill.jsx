@@ -19,7 +19,7 @@ function Bill() {
       })
       .then((res) => {
         setRekapBill(res.data.data);
-        console.log(res.data.data);
+        //console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);

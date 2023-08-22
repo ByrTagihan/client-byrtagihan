@@ -60,7 +60,7 @@ function LihatTagihanByMember() {
         .then((res) => {
           setTotalPages(res.data.pagination.total_page);
           setList(res.data.data);
-          console.log(res.data.data);
+          //console.log(res.data.data);
         })
         .catch((error) => {
           alert("Terjadi Kesalahan" + error);
@@ -181,7 +181,7 @@ function LihatTagihanByMember() {
       })
       .then((res) => {
         setList1(res.data.data);
-        console.log(res.data.data);
+        //console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -214,7 +214,7 @@ function LihatTagihanByMember() {
           title: "Dihapus!",
           showConfirmButton: false,
         });
-        console.log(id);
+        //console.log(id);
       }
       setTimeout(() => {
         window.location.reload();
@@ -249,7 +249,7 @@ function LihatTagihanByMember() {
         window.location.reload();
       }, 1500);
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -285,26 +285,9 @@ function LihatTagihanByMember() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   };
-
-  // const [idd1, setId1] = useState(0);
-  // const getByIdSudahByr = async (id) => {
-  //   await axios
-  //     .get(`${API_DUMMY}/customer/member/${param.id}/bill/` + id, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     })
-  //     .then((res) => {
-  //       setPaid_amount(res.data.data.paid_amount);
-  //       console.log(res.data.data.paid_amount);
-  //       setPaid_date(res.data.data.paid_date);
-  //       setId1(res.data.data.id);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
 
   return (
     <div>
@@ -342,7 +325,7 @@ function LihatTagihanByMember() {
                 <div className="card-header">
                   <div style={{ display: "flex" }}>
                     <div className="col">
-                      <h4>Lihat Tagihan By Member</h4>
+                      <h4>Tagihan By Member</h4>
                     </div>
                     <div
                       style={{

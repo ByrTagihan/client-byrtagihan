@@ -68,7 +68,7 @@ export const AppSidebarNav = ({ items, userRoles }) => {
     );
   };
 
-  console.log(userRoles);
+  //console.log(userRoles);
 
   return (
     <React.Fragment>

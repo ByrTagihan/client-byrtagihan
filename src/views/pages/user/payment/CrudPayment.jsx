@@ -75,7 +75,7 @@ function CrudPayment() {
           title: "Berhasil Menghapus",
           showConfirmButton: false,
         });
-        console.log(id);
+        //console.log(id);
       }
       setTimeout(() => {
         window.location.reload();

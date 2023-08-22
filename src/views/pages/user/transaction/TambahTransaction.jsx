@@ -51,7 +51,7 @@ function TambahTransaction() {
           });
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     } else {
       Swal.fire(
@@ -86,7 +86,7 @@ function TambahTransaction() {
         setSuggestionsActive(false);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -171,16 +171,16 @@ function TambahTransaction() {
       );
       if (status === 200) {
         setOrganization(data.data);
-        console.log(data.data);
+        //console.log(data.data);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
   useEffect(() => {
     GetOrganization();
-    console.log(organization_id);
+    //console.log(organization_id);
   }, []);
   return (
     <div>

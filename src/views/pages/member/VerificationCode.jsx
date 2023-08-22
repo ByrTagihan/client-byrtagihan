@@ -13,7 +13,7 @@ function VerificationCode() {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-          .post(`${API_DUMMY}/user/verification_code`, {
+          .post(`${API_DUMMY}/member/verification_code`, {
             code: verification_code
           })
           .then((res) => {

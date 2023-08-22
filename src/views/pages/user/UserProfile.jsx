@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import "../../../css/Profile.css";
 import axios from "axios";
-import { API_DUMMY } from "../../../utils/baseURL";
+import { API_DUMMY, API_URL } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -44,7 +44,7 @@ function UserProfile() {
 
     try {
       await axios
-        .post(` https://api.byrtagihan.com/api/files`, data, {
+        .post(`${API_URL}/files`, data, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         })
         .then((response) => {
@@ -54,7 +54,7 @@ function UserProfile() {
             picture: imageUrl,
           }));
           setFoto(imageUrl);
-          console.log(localStorage.getItem("profilePicture"));
+          //console.log(localStorage.getItem("profilePicture"));
 
           // Store the image URL in local storage
           localStorage.setItem("profilePicture", imageUrl);
@@ -67,13 +67,13 @@ function UserProfile() {
         showConfirmButton: false,
         timer: 1500,
       });
-      // console.log(data);
+      // //console.log(data);
       setTimeout(() => {
         navigate("/userProfile");
         // window.location.reload();
       }, 1500);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -87,12 +87,12 @@ function UserProfile() {
         name: name, // Update the name field with the new value
         hp: origin,
         address: domain,
-        picture: picture, // Keep the existing picture value
+        picture: profile.picture, // Keep the existing picture value
       };
       await axios.put(
         `${API_DUMMY}/user/profile`,
         data,
-        // console.log(picture),
+        // //console.log(picture),
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -108,7 +108,7 @@ function UserProfile() {
         window.location.reload();
       }, 1500);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

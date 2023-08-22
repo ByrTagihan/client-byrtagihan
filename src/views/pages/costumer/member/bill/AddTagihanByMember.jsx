@@ -1,10 +1,19 @@
-
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../../../utils/baseURL";
+import {
+  CButton,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CForm,
+  CFormInput,
+  CFormTextarea,
+} from "@coreui/react";
 
 function AddTagihanByMember() {
   const [description, setDescription] = useState("");
@@ -40,13 +49,13 @@ function AddTagihanByMember() {
           showConfirmButton: false,
           timer: 1500,
         });
-        console.log(data);
+        //console.log(data);
         setTimeout(() => {
           navigate("/lihattagihanmember:{/id}");
           window.location.reload();
         }, 1500);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     } else {
       Swal.fire(
@@ -69,25 +78,29 @@ function AddTagihanByMember() {
     setRole(userRoleFromServer);
   }, []);
 
+  const handleGoBack = () => {
+    navigate(-1); // Navigasi ke halaman sebelumnya
+  };
+
   return (
-    <div className="card mb-3">
+    <CCard className="card mb-3">
       {localStorage.getItem("type_token") === "Customer" ? (
         <>
-          <div className="card-header bg-transparent">Tambah Tagihan</div>
-          <div className="card-body">
-            <form onSubmit={add}>
-              <div className="mb-3">
-                <label className="form-label">Deskripsi</label>
-                <input
-                  id="description"
-                  type="text"
-                  className="form-control"
+          <CCardHeader className="card-header bg-transparent">
+            <h4>Tambah Tagihan</h4>
+          </CCardHeader>
+          <CCardBody className="card-body">
+            <CForm className="row g-3">
+              <CCol md={6}>
+                <CFormTextarea
+                  label="Description"
+                  placeholder="Description"
+                  autoComplete="Description"
                   onChange={(e) => setDescription(e.target.value)}
                   value={description}
-                  required
                 />
-              </div>
-              <div className="mb-3">
+              </CCol>
+              <CCol md={6}>
                 <label className="form-label">Periode</label>
                 <input
                   id="periode"
@@ -97,19 +110,24 @@ function AddTagihanByMember() {
                   value={periode}
                   required
                 />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Amount</label>
-                <input
-                  id="amount"
-                  type="number"
-                  className="form-control"
+              </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  label="Amount"
+                  placeholder="Amount"
+                  autoComplete="Amount"
                   onChange={(e) => setAmount(e.target.value)}
                   value={amount}
-                  required
                 />
-              </div>
-              <button
+              </CCol>
+
+              <CCol className="d-flex justify-content-between" xs={12}>
+                <CButton className="btn-danger" onClick={handleGoBack}>
+                  Kembali
+                </CButton>
+                <CButton onClick={add}>Simpan</CButton>
+              </CCol>
+              {/* <button
                 type="button"
                 className="btn btn-secondary float-start"
                 onClick={() => {
@@ -120,16 +138,16 @@ function AddTagihanByMember() {
               </button>
               <button type="submit" className="btn btn-primary float-end">
                 Submit
-              </button>
-            </form>
-          </div>
+              </button> */}
+            </CForm>
+          </CCardBody>
         </>
       ) : (
         <>
           <p>Page Tidak Tersedia</p>
         </>
       )}
-    </div>
+    </CCard>
   );
 }
 

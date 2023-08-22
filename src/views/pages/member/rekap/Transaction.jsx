@@ -22,7 +22,7 @@ function Transaction() {
       })
       .then((res) => {
         setRekapTransaction(res.data.data);
-        console.log(res.data.data);
+        //console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);

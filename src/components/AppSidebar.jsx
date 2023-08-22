@@ -67,7 +67,7 @@ const AppSidebar = () => {
     }
   };
 
-  console.log(userRole);
+  //console.log(userRole);
   return (
     <CSidebar
       position="fixed"

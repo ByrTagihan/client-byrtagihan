@@ -1,10 +1,18 @@
-
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
+import {
+  CButton,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CForm,
+  CFormInput,
+} from "@coreui/react";
 
 function AddTagihan() {
   const [memberId, setMemberId] = useState(0);
@@ -50,7 +58,7 @@ function AddTagihan() {
           }, 1500);
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     } else {
       Swal.fire(
@@ -90,7 +98,7 @@ function AddTagihan() {
         setSuggestionsActive(false);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -166,49 +174,50 @@ function AddTagihan() {
     );
   };
 
+  const handleGoBack = () => {
+    navigate(-1); // Navigasi ke halaman sebelumnya
+  };
+
   return (
     <div>
       {localStorage.getItem("type_token") === "Customer" ? (
         <>
-          <div className="card mb-3">
-            <div className="card-header bg-transparent">Tambah Tagihan</div>
-            <div className="card-body">
-              <form onSubmit={addTagihan} onKeyDown={onKeyDown}>
-                <div className="mb-3 autocomplete">
-                  <label className="form-label">Member</label>
-                  <input
-                    id="number_id"
-                    type="text"
-                    className="form-control"
-                    value={value}
-                    autoComplete="off"
-                    onKeyDown={handleKeyDown}
+          <CCard>
+            <CCardHeader className="card-header bg-transparent">
+              <h4>Tambah Tagihan</h4>
+            </CCardHeader>
+            <CCardBody className="card-body">
+              <CForm className="row g-3">
+                <CCol md={6}>
+                  <CFormInput
+                    label="member_id"
+                    placeholder="Member id"
+                    autoComplete="Member id"
                     onChange={handleChange}
+                    value={value}
                     required
                   />
                   {suggestionsActive && <Suggestions />}
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Keterangan</label>
-                  <input
-                    id="description"
-                    type="text"
-                    className="form-control"
+                </CCol>
+                <CCol md={6}>
+                  <CFormInput
+                    label="Keterangan"
+                    placeholder="Keterangan"
+                    autoComplete="Keterangan"
                     onChange={(e) => setDesc(e.target.value)}
                     required
                   />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Nominal</label>
-                  <input
-                    id="amount"
-                    type="number"
-                    className="form-control"
+                </CCol>
+                <CCol md={6}>
+                  <CFormInput
+                    label="Nominal"
+                    placeholder="Nominal"
+                    autoComplete="Nominal"
                     onChange={(e) => setAmount(e.target.value)}
                     required
                   />
-                </div>
-                <div className="mb-3">
+                </CCol>
+                <CCol md={6}>
                   <label className="form-label">Periode</label>
                   <input
                     id="periode"
@@ -217,22 +226,17 @@ function AddTagihan() {
                     onChange={(e) => setPeriode(e.target.value)}
                     required
                   />
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-secondary float-start"
-                  onClick={() => {
-                    navigate("/customerBill");
-                  }}
-                >
-                  Close
-                </button>
-                <button type="submit" className="btn btn-primary float-end">
-                  Submit
-                </button>
-              </form>
-            </div>
-          </div>
+                </CCol>
+
+                <CCol className="d-flex justify-content-between" xs={12}>
+                  <CButton className="btn-danger" onClick={handleGoBack}>
+                    Kembali
+                  </CButton>
+                  <CButton onClick={addTagihan}>Simpan</CButton>
+                </CCol>
+              </CForm>
+            </CCardBody>
+          </CCard>
         </>
       ) : (
         <>

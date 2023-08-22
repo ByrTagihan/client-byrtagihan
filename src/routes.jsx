@@ -1,5 +1,3 @@
-
-
 import React from "react";
 // import Login from './pages/Login'
 // import Register from './pages/Register'
@@ -16,8 +14,8 @@ const UserProfile = React.lazy(() => import("./views/pages/user/UserProfile"));
 const Organization = React.lazy(() =>
   import("./views/pages/user/organization/Organization")
 );
-const UserOrganization = React.lazy(() =>
-  import("./views/pages/user/organization/UserOrganization")
+const EditOrganization = React.lazy(() =>
+  import("./views/pages/user/organization/EditOrganization")
 );
 
 //Payment Section
@@ -105,10 +103,10 @@ const CustomerOrganization = React.lazy(() =>
 
 //Member Section
 const LIstDataSIswa = React.lazy(() =>
-  import("./views/pages/costumer/member/LIstDataSIswa")
+  import("./views/pages/costumer/member/ListDataSiswa")
 );
 const EditListSiswa = React.lazy(() =>
-  import("./views/pages/costumer/member/ListDataSiswaEdit")
+  import("./views/pages/costumer/member/EditListDataSiswa")
 );
 const TambahOrganization = React.lazy(() =>
   import("./views/pages/user/organization/TambahOrganization")
@@ -167,10 +165,10 @@ const routes = [
   //User
   { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
   //User
-  { path: "/userProfile", name: "Dashboard User", element: UserProfile },
+  { path: "/userProfile", name: "Profile", element: UserProfile },
   {
     path: "/tableOrganization",
-    name: "User Organization",
+    name: "Organization",
     element: Organization,
   },
   {
@@ -181,7 +179,7 @@ const routes = [
   {
     path: "/editOrganization/:id",
     name: "Edit Organization",
-    element: UserOrganization,
+    element: EditOrganization,
   },
   { path: "/payment", name: "Payment", element: CrudPayment },
   { path: "/transaction", name: "Transaction", element: CrudTransaction },
@@ -230,17 +228,17 @@ const routes = [
     name: "Edit Template",
     element: EditTemplate,
   },
-  { path: "/userCustomer", name: "UserCustomer", element: UserCustomer },
+  { path: "/userCustomer", name: "Customer", element: UserCustomer },
   {
     path: "/editUserCustomer/:id",
     name: "Edit User Customer",
     element: EditUserCustomer,
   },
-  { path: "/userChannel", name: "UserChannel", element: userChannel },
-  { path: "/mesage", name: "UserMessage", element: UserMessage },
-  { path: "/userMember", name: "UserMember", element: userMember },
+  { path: "/userChannel", name: "Channel", element: userChannel },
+  { path: "/mesage", name: "Message", element: UserMessage },
+  { path: "/userMember", name: "Member", element: userMember },
   { path: "/editUserMember/:id", name: "Edit User Member", element: EditUserMember },
-  { path: "/UserTemplate", name: "UserTemplate", element: UserTemplate },
+  { path: "/UserTemplate", name: "Template", element: UserTemplate },
   //================================================================
   //Customer
   { path: "/addListDataSiswa", name: "Tambah List Data Siswa", element: AddListDataSiswa },
@@ -261,17 +259,17 @@ const routes = [
   { path: "/customerMember", name: "ListDataSiswa", element: LIstDataSIswa },
   {
     path: "/Editlistdatasiswa/:id",
-    name: "EditListDataSiswa",
+    name: "Edit Data Siswa",
     element: EditListSiswa,
   },
   {
     path: "/lihattagihanmember/:id",
-    name: "dataTagihan",
+    name: "DataTagihan",
     element: LihatTagihanMember,
   },
   {
     path: "/tambahTagihanMember",
-    name: "TambahTagihanMember",
+    name: "TambahTagihan Member",
     element: TambahTagihanMember,
   },
   { path: "/customerBill", name: "Tagihan", element: ListTagihan },
@@ -284,7 +282,7 @@ const routes = [
     name: "Dashboard Member",
     element: DashboardMember,
   },
-  { path: "/memberProfile", name: "Channel", element: MemberProfile },
+  { path: "/memberProfile", name: "Profile", element: MemberProfile },
   {
     path: "/listTagihanMember",
     name: "List Tagihan",

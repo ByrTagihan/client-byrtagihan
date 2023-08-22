@@ -46,7 +46,7 @@ const Login = () => {
     e.persist();
 
     try {
-      if (type_token === "admin Sekolah") {
+      if (type_token === "Costumer") {
         const { data, status } = await axios.post(
           `${API_DUMMY}/customer/login`,
           {
@@ -70,7 +70,7 @@ const Login = () => {
             window.location.reload();
           }, 1500);
         }
-      } else if (type_token === "guru") {
+      } else if (type_token === "User") {
         const { data, status } = await axios.post(
           `${API_DUMMY}/user/login`,
           {
@@ -122,7 +122,7 @@ const Login = () => {
         icon: "error",
         title: "email / Password Salah",
       });
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -185,12 +185,12 @@ const Login = () => {
                       id="radio2"
                       name="selector"
                       class="selector-item_radio"
-                      checked={type_token === "admin Sekolah"}
-                      value="admin Sekolah"
+                      checked={type_token === "Costumer"}
+                      value="Costumer"
                       onChange={handleOptionChange}
                     />
                     <label for="radio2" class="selector-item_label">
-                      Admin
+                      Costumer
                     </label>
                   </div>
                   <div class="selector-item">
@@ -200,16 +200,16 @@ const Login = () => {
                       name="selector"
                       class="selector-item_radio"
                       onChange={handleOptionChange}
-                      checked={type_token === "guru"}
-                      value="guru"
+                      checked={type_token === "User"}
+                      value="User"
                     />
                     <label for="radio3" class="selector-item_label">
-                      Guru
+                      User
                     </label>
                   </div>
                 </div>
               </div>
-              {type_token === "guru" ? (
+              {type_token === "User" ? (
                 <>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
@@ -224,7 +224,7 @@ const Login = () => {
                     />
                   </CInputGroup>
                 </>
-              ) : type_token === "admin Sekolah" ? (
+              ) : type_token === "Costumer" ? (
                 <CInputGroup className="mb-3">
                   <CInputGroupText>
                     <CIcon icon={cilUser} />

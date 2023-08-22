@@ -33,7 +33,7 @@ function Template() {
         .then((res) => {
           setTotalPages(res.data.pagination.total_page);
           setListTemplate(res.data.data);
-          console.log(res.data.data);
+          //console.log(res.data.data);
         })
         .catch((error) => {
           alert("Terjadi Kesalahan" + error);
