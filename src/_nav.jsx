@@ -132,7 +132,7 @@ const _nav = [
     component: CNavItem,
     name: "Member",
     to: "/customerMember",
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    icon: <CIcon icon={cibSuperuser} customClassName="nav-icon" />,
     roles: ["Customer"],
   },
   {
@@ -146,7 +146,7 @@ const _nav = [
     component: CNavItem,
     name: "Profile",
     to: "/customerProfile",
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
     roles: ["Customer"],
   },
   //Member Navigation

@@ -42,7 +42,7 @@ function ForgotPassUser() {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "Email tidak ada",
+          text: "Error",
         });
       });
   };
