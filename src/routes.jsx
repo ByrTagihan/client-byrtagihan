@@ -209,16 +209,6 @@ const routes = [
     element: TambahTemplate,
   },
   {
-    path: "/tambahMember",
-    name: "Tambah Template",
-    element: TambahMember,
-  },
-  {
-    path: "/tambahCostumer",
-    name: "Tambah Costumer",
-    element: TambahCostumer,
-  },
-  {
     path: "/editTransaction/:id",
     name: "Edit Transaction",
     element: EditTransaction,
@@ -231,19 +221,19 @@ const routes = [
   { path: "/userCustomer", name: "Customer", element: UserCustomer },
   {
     path: "/editUserCustomer/:id",
-    name: "Edit User Customer",
+    name: "Edit Data Customer",
     element: EditUserCustomer,
   },
   { path: "/userChannel", name: "Channel", element: userChannel },
   { path: "/mesage", name: "Message", element: UserMessage },
-  { path: "/userMember", name: "Member", element: userMember },
-  { path: "/editUserMember/:id", name: "Edit User Member", element: EditUserMember },
+  { path: "/userMember", name: "Data Siswa", element: userMember },
+  { path: "/editUserMember/:id", name: "Edit Data Siswa", element: EditUserMember },
   { path: "/UserTemplate", name: "Template", element: UserTemplate },
   //================================================================
   //Customer
-  { path: "/addListDataSiswa", name: "Tambah List Data Siswa", element: AddListDataSiswa },
-  { path: "/addListTagihanByMember/:id", name: "Tambah List Tagihan By Member", element: AddListTagihanByMember },
-  { path: "/editTagihanByMember/:id", name: "Edit Tagihan By Member", element: EditTagihanByMember },
+  { path: "/addListDataSiswa", name: "Tambah Data Siswa", element: AddListDataSiswa },
+  { path: "/addListTagihanByMember/:id", name: "Tambah Tagihan Siswa", element: AddListTagihanByMember },
+  { path: "/editTagihanByMember/:id", name: "Edit Tagihan Siswa", element: EditTagihanByMember },
   { path: "/dashboardd", name: "Dashboard Customer", element: DashboardCustomer },
   { path: "/customerProfile", name: "Profile", element: Profile },
   {
@@ -253,10 +243,10 @@ const routes = [
   },
   {
     path: "/customerOrganization",
-    name: "Customer Organization",
+    name: "Organization",
     element: CustomerOrganization,
   },
-  { path: "/customerMember", name: "ListDataSiswa", element: LIstDataSIswa },
+  { path: "/customerMember", name: "Data Siswa", element: LIstDataSIswa },
   {
     path: "/Editlistdatasiswa/:id",
     name: "Edit Data Siswa",
@@ -264,12 +254,12 @@ const routes = [
   },
   {
     path: "/lihattagihanmember/:id",
-    name: "DataTagihan",
+    name: "Data Tagihan Siswa",
     element: LihatTagihanMember,
   },
   {
     path: "/tambahTagihanMember",
-    name: "TambahTagihan Member",
+    name: "Tambah Tagihan Member",
     element: TambahTagihanMember,
   },
   { path: "/customerBill", name: "Tagihan", element: ListTagihan },
