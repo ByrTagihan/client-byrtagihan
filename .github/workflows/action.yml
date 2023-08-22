@@ -34,4 +34,5 @@ jobs:
           script: |
             cd byrtagihan/client-byrtagihan
             echo "${{ secrets.SSH_PASSWORD }}" | sudo -S git pull origin develop
+            echo "${{ secrets.SSH_PASSWORD }}" | sudo -S npm install
             echo ${{ secrets.SSH_PASSWORD }} | sudo -S npm run build
