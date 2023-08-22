@@ -66,8 +66,12 @@ const UserMessage = React.lazy(() =>
 
 //Member Section
 const userMember = React.lazy(() => import("./views/pages/user/member/Member"));
-const TambahMember = React.lazy(() => import("./views/pages/user/member/TambahMember"));
-const EditUserMember = React.lazy(() => import("./views/pages/user/member/EditMember"));
+const TambahMember = React.lazy(() =>
+  import("./views/pages/user/member/TambahMember")
+);
+const EditUserMember = React.lazy(() =>
+  import("./views/pages/user/member/EditMember")
+);
 
 //Template Section
 const UserTemplate = React.lazy(() =>
@@ -82,7 +86,9 @@ const EditTemplate = React.lazy(() =>
 
 //================================================
 //Customer Role
-const DashboardCustomer = React.lazy(() => import("./views/dashboard/DashboardCoba2"));
+const DashboardCustomer = React.lazy(() =>
+  import("./views/dashboard/DashboardCoba2")
+);
 const Profile = React.lazy(() => import("./views/pages/costumer/Profile"));
 const GantiPasswordCustomer = React.lazy(() =>
   import("./views/pages/costumer/GantiPasswordCustomer")
@@ -103,7 +109,7 @@ const CustomerOrganization = React.lazy(() =>
 
 //Member Section
 const LIstDataSIswa = React.lazy(() =>
-  import("./views/pages/costumer/member/ListDataSiswa")
+  import("./views/pages/costumer/member/LIstDataSIswa")
 );
 const EditListSiswa = React.lazy(() =>
   import("./views/pages/costumer/member/EditListDataSiswa")
@@ -150,7 +156,9 @@ const ListTagihanMember = React.lazy(() =>
 const BayarTagihan = React.lazy(() =>
   import("./views/pages/member/bill/BayarTagihan")
 );
-const BayarSemuaTagihan = React.lazy(() => import("./views/pages/member/BayarSemuaTagihan"));
+const BayarSemuaTagihan = React.lazy(() =>
+  import("./views/pages/member/BayarSemuaTagihan")
+);
 
 //Member Role
 const MemberChannel = React.lazy(() =>
@@ -160,7 +168,11 @@ const MemberChannel = React.lazy(() =>
 const routes = [
   { path: "/home", exact: true, name: "Home" },
   { path: "/reset", name: "Reset", element: ResetPassword },
-  { path: "/gantiPassMember", name: "GantiPasswordMember", element: GantiPassMember },
+  {
+    path: "/gantiPassMember",
+    name: "GantiPasswordMember",
+    element: GantiPassMember,
+  },
   //================================================================
   //User
   { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
@@ -227,14 +239,34 @@ const routes = [
   { path: "/userChannel", name: "Channel", element: userChannel },
   { path: "/mesage", name: "Message", element: UserMessage },
   { path: "/userMember", name: "Data Siswa", element: userMember },
-  { path: "/editUserMember/:id", name: "Edit Data Siswa", element: EditUserMember },
+  {
+    path: "/editUserMember/:id",
+    name: "Edit Data Siswa",
+    element: EditUserMember,
+  },
   { path: "/UserTemplate", name: "Template", element: UserTemplate },
   //================================================================
   //Customer
-  { path: "/addListDataSiswa", name: "Tambah Data Siswa", element: AddListDataSiswa },
-  { path: "/addListTagihanByMember/:id", name: "Tambah Tagihan Siswa", element: AddListTagihanByMember },
-  { path: "/editTagihanByMember/:id", name: "Edit Tagihan Siswa", element: EditTagihanByMember },
-  { path: "/dashboardd", name: "Dashboard Customer", element: DashboardCustomer },
+  {
+    path: "/addListDataSiswa",
+    name: "Tambah Data Siswa",
+    element: AddListDataSiswa,
+  },
+  {
+    path: "/addListTagihanByMember/:id",
+    name: "Tambah Tagihan Siswa",
+    element: AddListTagihanByMember,
+  },
+  {
+    path: "/editTagihanByMember/:id",
+    name: "Edit Tagihan Siswa",
+    element: EditTagihanByMember,
+  },
+  {
+    path: "/dashboardd",
+    name: "Dashboard Customer",
+    element: DashboardCustomer,
+  },
   { path: "/customerProfile", name: "Profile", element: Profile },
   {
     path: "/gantiPasswordCustomer",
@@ -279,8 +311,12 @@ const routes = [
     element: ListTagihanMember,
   },
   { path: "/bayarTagihan/:id", name: "Bayar Tagihan", element: BayarTagihan },
-  { path: "/bayarSemuaTagihan", name: "Bayar Tagihan", element: BayarSemuaTagihan },
-  { path: "/memberChannel", name: "Channel", element: MemberChannel }
+  {
+    path: "/bayarSemuaTagihan",
+    name: "Bayar Tagihan",
+    element: BayarSemuaTagihan,
+  },
+  { path: "/memberChannel", name: "Channel", element: MemberChannel },
 ];
 
 export default routes;

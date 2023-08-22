@@ -42,6 +42,7 @@ export default function ResetPassword() {
           showConfirmButton: false,
           timer: 1500,
         });
+        navigate("/costumerVerification");
         window.location.reload();
       })
       .catch((err) => {
