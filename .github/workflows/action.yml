@@ -1,0 +1,37 @@
+name: CI/CD for React App
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Pilih versi Node.js yang sesuai
+
+      - name: Install dependencies
+        run: npm install    # Untuk install semua dependensi
+
+      - name: Build React App
+        run: npm run build     # Untuk build 
+
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: 103.31.250.187
+          username: javaserver
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd byrtagihan/client-byrtagihan
+            echo "${{ secrets.SSH_PASSWORD }}" | sudo -S git pull origin develop
+            echo ${{ secrets.SSH_PASSWORD }} | sudo -S npm run build
