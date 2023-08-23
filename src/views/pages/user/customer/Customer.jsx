@@ -246,7 +246,7 @@ function Customer() {
                       }}
                     >
                       <div>
-                        <Link to="/tambahCostumer">
+                        <Link to="/tambahCustomer">
                           <button className="btn btn-primary">
                             <CIcon icon={cilPlus} /> Tambah
                           </button>

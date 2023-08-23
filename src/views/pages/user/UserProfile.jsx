@@ -15,6 +15,8 @@ import axios from "axios";
 import { API_DUMMY, API_URL } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { storage } from "../../../Firebase";
+import { getDownloadURL, ref, uploadBytes} from "firebase/storage";
 
 function UserProfile() {
   const [show, setShow] = useState(false);
@@ -78,7 +80,7 @@ function UserProfile() {
   };
 
   // function update profile
-  const Put = async (e) => {
+  const Put = async (e, downloadUrl) => {
     e.preventDefault();
     e.persist();
 
@@ -87,7 +89,7 @@ function UserProfile() {
         name: name, // Update the name field with the new value
         hp: origin,
         address: domain,
-        picture: profile.picture, // Keep the existing picture value
+        picture: downloadUrl, // Keep the existing picture value
       };
       await axios.put(
         `${API_DUMMY}/user/profile`,
@@ -111,6 +113,41 @@ function UserProfile() {
       //console.log(error);
     }
   };
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`${API_DUMMY}`)
+  // })
+
+  const submit = (event) => {
+    const storageRef = ref(storage, `Channels/${picture.name}`)
+
+    uploadBytes(storageRef, picture)
+    .then((snapshot) => {
+      console.log("upload berhasil");
+      console.log(snapshot);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finaly(() => {
+      getDownloadURL(storageRef).then((downloadUrl) => {
+        Put(downloadUrl);
+        console.log(downloadUrl);
+      })
+    })
+  }
+
+  const postChannel = async (downloadUrl) => {
+    try {
+      const formData = {
+        picture: downloadUrl,
+      }
+      await axios.post('add', formData, {});
+    }catch(error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     axios
@@ -146,7 +183,7 @@ function UserProfile() {
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> email: {profile.email}
         </h6>
-        <CForm onSubmit={add}>
+        {/* <CForm onSubmit={add}>
           <CInputGroup className="mb-3">
             <CFormInput
               autoComplete="picture"
@@ -155,7 +192,7 @@ function UserProfile() {
             />
             <CButton type="submit">Post</CButton>
           </CInputGroup>
-        </CForm>
+        </CForm> */}
         <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
@@ -192,16 +229,15 @@ function UserProfile() {
               value={domain}
             />
           </CInputGroup>
-          {/* <CInputGroup className="mb-3">
+          <CInputGroup className="mb-3">
             <CFormInput
               autoComplete="picture"
-              onChange={(e) => setPicture(e.target.value)}
-              // accept="image/png, image/jpg, image/jpeg"
-              // type="file"
-              value={picture}
-            /> */}
+              onChange={(e) => setPicture(e.target.files[0])}
+              accept="pitcure/png, pitcure/jpg, pitcure/jpeg"
+              type="file"
+            />
             {/* <CButton type="submit">Post</CButton> */}
-          {/* </CInputGroup> */}
+          </CInputGroup>
 
           <CRow>
             <CCol xs={6}>
