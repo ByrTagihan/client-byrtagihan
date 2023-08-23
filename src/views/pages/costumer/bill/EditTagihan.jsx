@@ -1,9 +1,9 @@
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../../utils/baseURL";
+import { CButton, CCard, CCol, CForm, CFormInput, CCardHeader, CCardBody } from "@coreui/react";
 
 function EditTagihan() {
   const [memberId, setMemberId] = useState(0);
@@ -19,7 +19,7 @@ function EditTagihan() {
   let navigate = useNavigate();
 
   const updateTagihan = async (e) => {
-    if (role === "customer") {
+    if (localStorage.getItem("type_token") === "Customer") {
       e.preventDefault();
       const req = {
         member_id: memberId,

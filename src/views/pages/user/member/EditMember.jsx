@@ -149,6 +149,10 @@ function EditMember() {
     GetCostumer();
   }, []);
 
+  const handleGoBack = () => {
+    navigate(-1); // Navigasi ke halaman sebelumnya
+  };
+
   return (
     <div>
       {localStorage.getItem("type_token") === "User" ? (
@@ -204,28 +208,13 @@ function EditMember() {
                     disabled
                   />
                 </CCol>
-                {/* <CCol md={6}>
-                  <CFormLabel>Password</CFormLabel>
-                  <CInputGroup>
-                    <CInputGroupText>
-                      <span onClick={togglePassword}>
-                        <i className={passwordIcon}></i>
-                      </span>
-                    </CInputGroupText>
-                    <CFormInput
-                      type={passwordType}
-                      placeholder="Password"
-                      autoComplete="current-password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      disabled
-                    />
-                  </CInputGroup>
-                </CCol> */}
                 <CCol md={6}>
                 </CCol>
 
-                <CCol xs={12}>
+                <CCol className="d-flex justify-content-between" xs={12}>
+                  <CButton className="btn-danger" onClick={handleGoBack}>
+                    Kembali
+                  </CButton>
                   <CButton onClick={Put}>Simpan</CButton>
                 </CCol>
               </CForm>

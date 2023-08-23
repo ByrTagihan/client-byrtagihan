@@ -168,6 +168,11 @@ function TambahOrganization() {
       //console.log(err);
     }
   };
+
+  const handleGoBack = () => {
+    navigate(-1); // Navigasi ke halaman sebelumnya
+  };
+
   return (
     <div>
       {localStorage.getItem("type_token") === "User" ? (
@@ -197,7 +202,7 @@ function TambahOrganization() {
                     onChange={handleChange}
                     value={value}
                     placeholder="Customer Id..."
-                    // required
+                  // required
                   />
                   {suggestionsActive && <Suggestions />}
                 </CCol>
@@ -283,7 +288,10 @@ function TambahOrganization() {
                   />
                 </CCol>
 
-                <CCol xs={12}>
+                <CCol className="d-flex justify-content-between" xs={12}>
+                  <CButton className="btn-danger" onClick={handleGoBack}>
+                    Kembali
+                  </CButton>
                   <CButton type="submit">Simpan</CButton>
                 </CCol>
               </CForm>

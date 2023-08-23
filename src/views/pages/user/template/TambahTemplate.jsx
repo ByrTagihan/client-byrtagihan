@@ -15,82 +15,89 @@ function TambahTemplate() {
 
     const Post = async (e) => {
         if (localStorage.getItem("type_token") === "User") {
-        e.preventDefault();
-        const data = {
-            name: name,
-            content: content,
-        };
-        await axios
-            .post(`${API_DUMMY}/user/template`, data, {
-                headers: {
-                    "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-                },
-            })
-            .then(() => {
-                navigate("/UserTemplate");
-                Swal.fire({
-                    icon: "success",
-                    title: "Berhasil Menambahkan",
-                    showConfirmButton: false,
-                    timer: 1500,
+            e.preventDefault();
+            const data = {
+                name: name,
+                content: content,
+            };
+            await axios
+                .post(`${API_DUMMY}/user/template`, data, {
+                    headers: {
+                        "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+                    },
+                })
+                .then(() => {
+                    navigate("/UserTemplate");
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil Menambahkan",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                })
+                .catch((error) => {
+                    //console.log(error);
                 });
-            })
-            .catch((error) => {
-                //console.log(error);
-            });
-            
+
         } else {
             Swal.fire(
-              'Peringatan',
-              'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-              'error'      
+                'Peringatan',
+                'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+                'error'
             ).then((result) => {
                 //Untuk munuju page selanjutnya
                 navigate("/");
                 setTimeout(() => {
-                  window.location.reload();
+                    window.location.reload();
                 }, 1500);
                 localStorage.clear();
             });
-          }
+        }
     };
 
     const handleChange = (value) => {
         setContent(value);
     };
 
+    const handleGoBack = () => {
+        navigate(-1); // Navigasi ke halaman sebelumnya
+    };
+
     return (
         <div>
             {localStorage.getItem("type_token") === "User" ? (
                 <>
-            <div className="card mb-3">
-                <div className="card-header bg-transparent">
-                    <h5>Tambah template</h5>
-                </div>
-                <div className="card-body">
-                    <CForm onSubmit={Post} className="row g-3">
-                        <CCol md={12}>
-                            <CFormInput
-                                type="text"
-                                placeholder="Nama"
-                                id="amount"
-                                onChange={(e) => setName(e.target.value)}
-                                label="Nama"
-                                required
-                            />
-                        </CCol>
-                        <CCol md={12}>
-                            <CFormLabel htmlFor="content">Content</CFormLabel>
-                            <ReactQuill value={content} onChange={handleChange} />
-                        </CCol>
+                    <div className="card mb-3">
+                        <div className="card-header bg-transparent">
+                            <h5>Tambah template</h5>
+                        </div>
+                        <div className="card-body">
+                            <CForm onSubmit={Post} className="row g-3">
+                                <CCol md={12}>
+                                    <CFormInput
+                                        type="text"
+                                        placeholder="Nama"
+                                        id="amount"
+                                        onChange={(e) => setName(e.target.value)}
+                                        label="Nama"
+                                        required
+                                    />
+                                </CCol>
+                                <CCol md={12}>
+                                    <CFormLabel htmlFor="content">Content</CFormLabel>
+                                    <ReactQuill value={content} onChange={handleChange} />
+                                </CCol>
 
-                        <CCol xs={12}>
-                            <CButton type="submit">Simpan</CButton>
-                        </CCol>
-                    </CForm>
-                </div>
-            </div></>
-            ):(
+                                <CCol className="d-flex justify-content-between" xs={12}>
+                                    <CButton className="btn-danger" onClick={handleGoBack}>
+                                        Kembali
+                                    </CButton>
+                                    <CButton type="submit">Simpan</CButton>
+                                </CCol>
+                            </CForm>
+                        </div>
+                    </div></>
+            ) : (
                 <><p>Page Tidak Tersedia</p></>
             )}
         </div>

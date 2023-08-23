@@ -139,6 +139,10 @@ function TambahMember() {
     //console.log(organization_id);
   }, []);
 
+  const handleGoBack = () => {
+    navigate(-1); // Navigasi ke halaman sebelumnya
+  };
+
   return (
     <div>
       {localStorage.getItem("type_token") === "User" ? (
@@ -243,7 +247,10 @@ function TambahMember() {
                     })}
                   </CFormSelect>
                 </CCol>
-                <CCol xs={12}>
+                <CCol className="d-flex justify-content-between" xs={12}>
+                  <CButton className="btn-danger" onClick={handleGoBack}>
+                    Kembali
+                  </CButton>
                   <CButton type="submit">Simpan</CButton>
                 </CCol>
               </CForm>

@@ -41,7 +41,7 @@ function BayarTagihan() {
   const [role, setRole] = useState("");
 
   const GetChannel = async () => {
-    if (role === "member") {
+    if (localStorage.getItem("type_token") === "Member") {
       try {
         const { data, status } = await axios.get(
           `${API_DUMMY}/member/channel`,
@@ -208,8 +208,8 @@ function BayarTagihan() {
                   <b className="text-primary">
                     {bayar.va_expired_date
                       ? new Date(bayar.va_expired_date)
-                          .toISOString()
-                          .slice(0, -5)
+                        .toISOString()
+                        .slice(0, -5)
                       : ""}
                   </b>
                 </CListGroupItem>

@@ -182,54 +182,59 @@ function TambahTransaction() {
     GetOrganization();
     //console.log(organization_id);
   }, []);
+
+  const handleGoBack = () => {
+    navigate(-1); // Navigasi ke halaman sebelumnya
+  };
+
   return (
     <div>
-      {localStorage.getItem("type_token") === "User" ? ( 
-      <div className="card mb-3">
-        <div className="card-header bg-transparent">
-          <h5>Tambah transaction</h5>
-        </div>
-        <div className="card-body">
-          <CForm onSubmit={Post} onKeyDown={onKeyDown} className="row g-3">
-            <CCol xs={12}>
-              <CFormInput
-                id="description"
-                label="Description"
-                type="text"
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Description..."
-                required
-              />
-            </CCol>
-            <CCol md={6}>
-              <CFormInput
-                type="number"
-                placeholder="Amount..."
-                id="amount"
-                onChange={(e) => setAmount(e.target.value)}
-                label="Amount"
-                required
-              />
-            </CCol>
-            <CCol md={6}>
-              <CFormSelect
-                aria-label="Default select example"
-                value={organization_id}
-                label="Organization"
-                onChange={(e) => setOrganizationId(e.target.value.toString())}
-              >
-                <select style={{ height: "100px" }}>Pilih Organization</select>{" "}
-                {organization.map((cos, i) => {
-                  return (
-                    <option value={cos.id} key={i}>
-                      {cos.name}
-                    </option>
-                  );
-                })}
-              </CFormSelect>
-            </CCol>
+      {localStorage.getItem("type_token") === "User" ? (
+        <div className="card mb-3">
+          <div className="card-header bg-transparent">
+            <h5>Tambah transaction</h5>
+          </div>
+          <div className="card-body">
+            <CForm onSubmit={Post} onKeyDown={onKeyDown} className="row g-3">
+              <CCol xs={12}>
+                <CFormInput
+                  id="description"
+                  label="Description"
+                  type="text"
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Description..."
+                  required
+                />
+              </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  type="number"
+                  placeholder="Amount..."
+                  id="amount"
+                  onChange={(e) => setAmount(e.target.value)}
+                  label="Amount"
+                  required
+                />
+              </CCol>
+              <CCol md={6}>
+                <CFormSelect
+                  aria-label="Default select example"
+                  value={organization_id}
+                  label="Organization"
+                  onChange={(e) => setOrganizationId(e.target.value.toString())}
+                >
+                  <select style={{ height: "100px" }}>Pilih Organization</select>{" "}
+                  {organization.map((cos, i) => {
+                    return (
+                      <option value={cos.id} key={i}>
+                        {cos.name}
+                      </option>
+                    );
+                  })}
+                </CFormSelect>
+              </CCol>
 
-            {/* <CFormInput
+              {/* <CFormInput
                 id="organization_id"
                 type="text"
                 placeholder="Organization..."
@@ -243,31 +248,34 @@ function TambahTransaction() {
               />
               {suggestionsActive1 && <Suggestions1 />} */}
 
-            <CCol md={6}>
-              <CFormInput
-                id="number_id"
-                type="text"
-                placeholder="Member..."
-                className="form-control"
-                value={value}
-                label="Member"
-                autoComplete="off"
-                onKeyDown={handleKeyDown}
-                onChange={handleChange}
-                required
-              />
-              {suggestionsActive && <Suggestions />}
-            </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  id="number_id"
+                  type="text"
+                  placeholder="Member..."
+                  className="form-control"
+                  value={value}
+                  label="Member"
+                  autoComplete="off"
+                  onKeyDown={handleKeyDown}
+                  onChange={handleChange}
+                  required
+                />
+                {suggestionsActive && <Suggestions />}
+              </CCol>
 
-            <CCol xs={12}>
-              <CButton type="submit">Simpan</CButton>
-            </CCol>
-          </CForm>
+              <CCol className="d-flex justify-content-between" xs={12}>
+                <CButton className="btn-danger" onClick={handleGoBack}>
+                  Kembali
+                </CButton>
+                <CButton type="submit">Simpan</CButton>
+              </CCol>
+            </CForm>
+          </div>
         </div>
-      </div>
-       ) : (
-         <></>
-       )} 
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
