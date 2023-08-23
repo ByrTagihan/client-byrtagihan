@@ -89,7 +89,6 @@ function AddListDataSiswa() {
                   autoComplete="Unique id"
                   onChange={(e) => setUnique_id(e.target.value)}
                   value={unique_id}
-                  readOnly
                 />
               </CCol>
               <CCol md={6}>
@@ -120,7 +119,7 @@ function AddListDataSiswa() {
                 />
               </CCol>
               <CCol md={6}>
-              <CFormLabel>Password</CFormLabel>
+                <CFormLabel>Password</CFormLabel>
                 <CInputGroup>
                   <CInputGroupText>
                     <span onClick={togglePassword}>

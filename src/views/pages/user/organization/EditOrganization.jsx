@@ -248,6 +248,10 @@ function UserOrganization() {
     }
   };
 
+  const handleGoBack = () => {
+    navigate(-1); // Navigasi ke halaman sebelumnya
+  };
+
   return (
     <div>
       {localStorage.getItem("type_token") === "User" ? (
@@ -419,7 +423,12 @@ function UserOrganization() {
                     />
                   </CCol>
                 </CRow>
-                <CButton type="submit">Simpan</CButton>
+                <CCol className="d-flex justify-content-between" xs={12}>
+                  <CButton className="btn-danger" onClick={handleGoBack}>
+                    Kembali
+                  </CButton>
+                  <CButton type="submit">Simpan</CButton>
+                </CCol>
               </CForm>
             </CCardBody>
           </CCard>

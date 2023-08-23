@@ -19,47 +19,47 @@ function EditTemplate() {
 
     const Put = async (e) => {
         if (localStorage.getItem("type_token") === "User") {
-        e.preventDefault();
-        e.persist();
+            e.preventDefault();
+            e.persist();
 
-        const data = {
-            name: name,
-            content: content,
-        };
+            const data = {
+                name: name,
+                content: content,
+            };
 
-        try {
-            await axios.put(`${API_DUMMY}/user/template/${id}`, data, {
-                headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-            });
-            setShow(false);
-            Swal.fire({
-                icon: "success",
-                title: "Berhasil Mengedit",
-                showConfirmButton: false,
-                timer: 1500,
-            });
-            setTimeout(() => {
-                navigate("/UserTemplate");
-                window.location.reload();
-            }, 1500);
-        } catch (error) {
-            //console.log(error);
-        }
-            
+            try {
+                await axios.put(`${API_DUMMY}/user/template/${id}`, data, {
+                    headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+                });
+                setShow(false);
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil Mengedit",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                setTimeout(() => {
+                    navigate("/UserTemplate");
+                    window.location.reload();
+                }, 1500);
+            } catch (error) {
+                //console.log(error);
+            }
+
         } else {
             Swal.fire(
-              'Peringatan',
-              'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
-              'error'      
+                'Peringatan',
+                'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru',
+                'error'
             ).then((result) => {
                 //Untuk munuju page selanjutnya
                 navigate("/");
                 setTimeout(() => {
-                  window.location.reload();
+                    window.location.reload();
                 }, 1500);
                 localStorage.clear();
             });
-          }
+        }
     };
 
     const get = async () => {
@@ -82,6 +82,10 @@ function EditTemplate() {
         setContent(value);
     };
 
+    const handleGoBack = () => {
+        navigate(-1); // Navigasi ke halaman sebelumnya
+    };
+
     useEffect(() => {
         get(0);
     }, []);
@@ -90,34 +94,37 @@ function EditTemplate() {
         <div>
             {localStorage.getItem("type_token") === "User" ? (
                 <>
-            <CCard>
-                <CCardBody>
-                    <h4>Edit Data Template</h4>
-                    <CForm className="row g-3">
-                        <CCol md={12}>
-                            <CFormInput
-                                type="text"
-                                placeholder="Nama"
-                                id="amount"
-                                onChange={(e) => setName(e.target.value)}
-                                label="Nama"
-                                value={name}
-                                required
-                            />
-                        </CCol>
-                        <CCol md={12}>
-                            <CFormLabel htmlFor="content">Content</CFormLabel>
-                            <ReactQuill value={content} onChange={handleChange} />
-                        </CCol>
+                    <CCard>
+                        <CCardBody>
+                            <h4>Edit Data Template</h4>
+                            <CForm className="row g-3">
+                                <CCol md={12}>
+                                    <CFormInput
+                                        type="text"
+                                        placeholder="Nama"
+                                        id="amount"
+                                        onChange={(e) => setName(e.target.value)}
+                                        label="Nama"
+                                        value={name}
+                                        required
+                                    />
+                                </CCol>
+                                <CCol md={12}>
+                                    <CFormLabel htmlFor="content">Content</CFormLabel>
+                                    <ReactQuill value={content} onChange={handleChange} />
+                                </CCol>
 
-                        <CCol xs={12}>
-                            <CButton onClick={Put}>Simpan</CButton>
-                        </CCol>
-                    </CForm>
-                </CCardBody>
-            </CCard>
-       </>
-            ):(
+                                <CCol className="d-flex justify-content-between" xs={12}>
+                                    <CButton className="btn-danger" onClick={handleGoBack}>
+                                        Kembali
+                                    </CButton>
+                                    <CButton onClick={Put}>Simpan</CButton>
+                                </CCol>
+                            </CForm>
+                        </CCardBody>
+                    </CCard>
+                </>
+            ) : (
                 <></>
             )} </div>
     )

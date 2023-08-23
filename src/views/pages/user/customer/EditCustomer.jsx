@@ -206,6 +206,10 @@ function EditCustomer() {
     );
   };
 
+  const handleGoBack = () => {
+    navigate(-1); // Navigasi ke halaman sebelumnya
+  };
+
   return (
     <div>
       {localStorage.getItem("type_token") === "User" ? (
@@ -269,19 +273,11 @@ function EditCustomer() {
                     />
                   </div>
                 </CCol>
-                {/* <CCol md={6}>
-                  <CFormInput
-                    type="password"
-                    placeholder="Password"
-                    id="Password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    label="Password"
-                    value={password}
-                    required
-                  />
-                </CCol> */}
 
-                <CCol xs={12}>
+                <CCol className="d-flex justify-content-between" xs={12}>
+                  <CButton className="btn-danger" onClick={handleGoBack}>
+                    Kembali
+                  </CButton>
                   <CButton onClick={update}>Simpan</CButton>
                 </CCol>
               </CForm>

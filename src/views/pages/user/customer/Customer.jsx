@@ -246,7 +246,7 @@ function Customer() {
                       }}
                     >
                       <div>
-                        <Link to="/tambahCostumer">
+                        <Link to="/tambahCustomer">
                           <button className="btn btn-primary">
                             <CIcon icon={cilPlus} /> Tambah
                           </button>
@@ -330,12 +330,12 @@ function Customer() {
                           <td data-cell="Name">{data.name}</td>
                           <td data-cell="Hp">{data.hp}</td>
                           <td data-cell="Active">
-                              {data.active === true ? (
-                                <span>true</span>
-                              ) : (
-                                <span>false</span>
-                              )}
-                            </td>
+                            {data.active === true ? (
+                              <span>true</span>
+                            ) : (
+                              <span>false</span>
+                            )}
+                          </td>
                           <td data-cell="Action">
                             <div className="tdd">
                               <button
