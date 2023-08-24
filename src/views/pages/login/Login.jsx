@@ -140,7 +140,7 @@ const Login = () => {
       <CContainer className="ccontainer ">
         <CRow>
           <CCol>
-            <img style={{ width: "115%" }} src={gambar} alt="" />
+            <img className="images1" style={{ width: "115%" }} src={gambar} alt="" />
           </CCol>
         </CRow>
         <CRow className="justify-content-center">

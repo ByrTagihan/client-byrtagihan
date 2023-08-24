@@ -496,6 +496,7 @@ function Tagihan() {
                         id="paid_amount"
                         type="number"
                         className="form-control"
+                        onChange={(e) => setPaidAmount(e.target.value)}
                         value={paidAmount}
                         disabled
                       />

@@ -117,7 +117,6 @@ const EditListSiswa = React.lazy(() =>
 const TambahOrganization = React.lazy(() =>
   import("./views/pages/user/organization/TambahOrganization")
 );
-
 //Member Bill Section
 const LihatTagihanMember = React.lazy(() =>
   import("./views/pages/costumer/member/bill/LihatTagihanByMember")
