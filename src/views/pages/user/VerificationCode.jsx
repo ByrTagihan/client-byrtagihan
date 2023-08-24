@@ -79,7 +79,7 @@ function VerificationCode() {
             </CRow>
           </CCol>
         </CRow>
-            <img style={{ width: "40%"}} src="https://cdn3d.iconscout.com/3d/premium/thumb/security-check-6877543-5639689.png" alt="" />
+            <img className="images" style={{ width: "40%"}} src="https://cdn3d.iconscout.com/3d/premium/thumb/security-check-6877543-5639689.png" alt="" />
       </CContainer>
     </div>
   );
