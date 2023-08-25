@@ -36,6 +36,8 @@ function UserProfile() {
     picture: "",
   });
 
+  
+
   // function add picture
   // const add = async (e) => {
   //   e.preventDefault();
@@ -139,8 +141,8 @@ function UserProfile() {
       });
   };
 
+
   const save = (e) => {
-    e.preventDefault();
     submit();
   };
   useEffect(() => {
@@ -178,16 +180,6 @@ function UserProfile() {
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> email: {profile.email}
         </h6>
-        {/* <CForm onSubmit={add}>
-          <CInputGroup className="mb-3">
-            <CFormInput
-              autoComplete="picture"
-              onChange={(e) => setPicture(e.target.files[0])}
-              type="file"
-            />
-            <CButton type="submit">Post</CButton>
-          </CInputGroup>
-        </CForm> */}
         <CForm onSubmit={save}>
           <CInputGroup className="mb-3">
             <CInputGroupText>

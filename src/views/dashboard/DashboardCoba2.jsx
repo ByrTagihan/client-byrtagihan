@@ -856,7 +856,7 @@ function DashboardCoba2() {
         className={`scroll-to-top-button ${isVisible ? "visible" : "hidden"}`}
         onClick={scrollToTop}
       >
-        <CIcon icon={cilArrowThickTop} />
+        <CIcon className="iconn" icon={cilArrowThickTop} />
       </button>
     </div>
   );
