@@ -39,40 +39,54 @@ function Profile() {
     e.preventDefault();
     e.persist();
 
-    const data = new FormData();
-    data.append("file", foto);
+    if (foto) {
+      const image = new Image();
+      image.src = URL.createObjectURL(foto);
 
-    try {
-      await axios
-        .post(`${API_URL}/files`, data, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
-        .then((response) => {
-          const imageUrl = response.data.data;
-          setProfile((prevProfile) => ({
-            ...prevProfile,
-            picture: imageUrl,
-          }));
-          setFoto(imageUrl);
-          //console.log(localStorage.getItem("profilePicture"));
+      image.onload = () => {
+        const width = image.width;
+        const height = image.height;
 
-          // Store the image URL in local storage
-          localStorage.setItem("profilePicture", imageUrl);
-        });
-      setShow(false);
-      Swal.fire({
-        icon: "success",
-        title: "Foto berhasil ditambahkan",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      // //console.log(data);
-      setTimeout(() => {
-        navigate("/customerProfile");
-        // window.location.reload();
-      }, 1500);
-    } catch (error) {
-      //console.log(error);
+        if (width === height) {
+          const data = new FormData();
+          data.append("file", foto);
+
+          axios
+            .post(`${API_URL}/files`, data, {
+              headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+            })
+            .then((response) => {
+              const imageUrl = response.data.data;
+              setProfile((prevProfile) => ({
+                ...prevProfile,
+                picture: imageUrl,
+              }));
+              setFoto(imageUrl);
+
+              localStorage.setItem("profilePicture", imageUrl);
+            })
+            .catch((error) => {
+              // Handle error
+            });
+
+          setShow(false);
+          Swal.fire({
+            icon: "success",
+            title: "Foto berhasil ditambahkan",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          setTimeout(() => {
+            navigate("/memberProfile");
+          }, 1500);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Ukuran foto harus 1:1 (persegi)",
+            text: "Harap unggah gambar dengan rasio aspek 1:1.",
+          });
+        }
+      };
     }
   };
 
