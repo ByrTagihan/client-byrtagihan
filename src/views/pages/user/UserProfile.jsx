@@ -15,6 +15,8 @@ import axios from "axios";
 import { API_DUMMY, API_URL } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { storage } from "../../../Firebase";
+import { getDownloadURL, ref, uploadBytes} from "firebase/storage";
 
 function UserProfile() {
   const [show, setShow] = useState(false);
@@ -22,8 +24,8 @@ function UserProfile() {
   const [origin, setHp] = useState("");
   const [domain, setAddress] = useState("");
   const [unique_id, setUnique_id] = useState("");
-  const [picture, setPicture] = useState("");
-  const [foto, setFoto] = useState("");
+  const [picture, setPicture] = useState(null);
+  // const [foto, setFoto] = useState("");
   const navigate = useNavigate();
   const [profile, setProfile] = useState({
     id: "",
@@ -34,10 +36,12 @@ function UserProfile() {
     picture: "",
   });
 
+  
+
   // function add picture
-  const add = async (e) => {
-    e.preventDefault();
-    e.persist();
+  // const add = async (e) => {
+  //   e.preventDefault();
+  //   e.persist();
 
     if (foto) {
       const image = new Image();
@@ -91,16 +95,14 @@ function UserProfile() {
   };
 
   // function update profile
-  const Put = async (e) => {
-    e.preventDefault();
-    e.persist();
+  const Put = async (downloadUrl) => {
 
     try {
       const data = {
         name: name, // Update the name field with the new value
         hp: origin,
         address: domain,
-        picture: profile.picture, // Keep the existing picture value
+        picture: downloadUrl, // Keep the existing picture value
       };
       await axios.put(
         `${API_DUMMY}/user/profile`,
@@ -125,6 +127,37 @@ function UserProfile() {
     }
   };
 
+  // useEffect(() => {
+  //   axios
+  //     .get(`${API_DUMMY}`)
+  // })
+
+  const submit = (event) => {
+    // untuk storage
+    const storageRef = ref(storage, `images/${picture.name}`);
+
+    // 'file' comes from the Blob or File API
+    uploadBytes(storageRef, picture)
+      .then((snapshot) => {
+        console.log("Upload berhasil");
+        console.log(snapshot);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        getDownloadURL(storageRef).then((downloadUrl) => {
+          // url nya ini nanti untuk dikirim ke server API yang dimasukkan ke database
+          Put(downloadUrl);
+          console.log(downloadUrl);
+        });
+      });
+  };
+
+
+  const save = (e) => {
+    submit();
+  };
   useEffect(() => {
     axios
       .get(`${API_DUMMY}/user/profile`, {
@@ -139,6 +172,7 @@ function UserProfile() {
         setHp(profil.hp);
         setProfile({ ...profil, id: profil.id });
         // setPassword(profil.password);
+        console.log(response.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan " + error);
@@ -150,11 +184,11 @@ function UserProfile() {
       <div className="box1">
         <h4 className="textProfile">Profile User</h4>
         <div style={{ padding: "10px" }}>
-          <img style={{ width: "20rem", borderRadius: "3%" }} src={profile.picture} alt="" />
+          <img className="images2" style={{ width: "20rem", borderRadius:"3%" }} src={profile.picture} alt="" />
         </div>
       </div>
 
-      <div className="box2">
+     <div className="box2">
         <h6 className="mb-2">Id : {profile.id}</h6>
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> email: {profile.email}
@@ -205,16 +239,6 @@ function UserProfile() {
               value={domain}
             />
           </CInputGroup>
-          {/* <CInputGroup className="mb-3">
-            <CFormInput
-              autoComplete="picture"
-              onChange={(e) => setPicture(e.target.value)}
-              // accept="image/png, image/jpg, image/jpeg"
-              // type="file"
-              value={picture}
-            /> */}
-          {/* <CButton type="submit">Post</CButton> */}
-          {/* </CInputGroup> */}
 
           <CRow>
             <CCol xs={6}>

@@ -28,7 +28,7 @@ function Channel() {
       .then((res) => {
         setTotalPages(res.data.pagination.total_page);
         setList(res.data.data);
-        //console.log(res.data.data);
+        console.log(res.data.data);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -126,15 +126,17 @@ function Channel() {
                   <option value="100">Show 100 Entries</option>
                 </select>
               </div>
-              <div className="col inputSearch1">
+              <div className="col">
                 <CFormInput
-                  className="search-channel"
+                  className="search-channel inputSearch1"
                   type="search"
                   placeholder="search data"
                   value={searchTerm}
                   onChange={handleSearch}
                 />
               </div>
+              <div className="row">
+                <div className="col" xs={12}>
               <div className="card mb-4">
                 <div className="card-header">
                   <div className="row">
@@ -255,6 +257,8 @@ function Channel() {
                       </li>
                     </ul>
                   </div>
+                </div>
+              </div>
                 </div>
               </div>
             </div>

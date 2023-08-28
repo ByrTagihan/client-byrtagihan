@@ -104,7 +104,7 @@ export default function ResetPassword() {
         </CRow>
         <CRow>
           <CCol>
-            <img style={{ width: "90%" }} src={gambarEmail} alt="" />
+            <img className="images" style={{ width: "90%" }} src={gambarEmail} alt="" />
           </CCol>
         </CRow>
       </CContainer>
