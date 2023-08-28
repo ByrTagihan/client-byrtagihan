@@ -218,17 +218,6 @@ function Profile() {
               value={address}
             />
           </CInputGroup>
-          {/* <CInputGroup className="mb-3">
-            <CInputGroupText>
-              <CIcon icon={cilAddressBook} />
-            </CInputGroupText>
-            <CFormInput
-              placeholder="Address"
-              autoComplete="address"
-              onChange={(e) => setPicture(e.target.value)}
-            // value={foto}
-            />
-          </CInputGroup> */}
 
           <CRow>
             <CCol xs={6}>

@@ -278,7 +278,7 @@ function CrudTransaction() {
 
                 {/* Pagination */}
                 <div>
-                  <ul class="pagination float-end">
+                  <ul className="pagination float-end">
                     <li
                       className={
                         "page-item " + (currentPage === 1 ? "disabled" : "")
@@ -286,7 +286,7 @@ function CrudTransaction() {
                       disabled={currentPage === 1}
                     >
                       <a
-                        class="page-link"
+                        className="page-link"
                         onClick={() => handlePageChange(currentPage - 1)}
                       >
                         Previous
@@ -301,7 +301,7 @@ function CrudTransaction() {
                       disabled={currentPage === total_page}
                     >
                       <a
-                        class="page-link"
+                        className="page-link"
                         onClick={() => handlePageChange(currentPage + 1)}
                       >
                         Next

@@ -195,7 +195,7 @@ function DashboardUser() {
   const renderPageNumbersPayment = () => {
     const pageNumbers = Array.from({ length: totalPagesPayment }, (_, i) => i + 1);
     const displayedPages = [];
-  
+
     if (totalPagesPayment <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
@@ -213,7 +213,7 @@ function DashboardUser() {
         );
       }
     }
-  
+
     return displayedPages.map((page, index) =>
       page === 'dot' ? (
         <span key={`dot${index}`}>...</span>
@@ -428,7 +428,7 @@ function DashboardUser() {
             "page-item " + (currentPageTransaction === page ? "active" : "")
           }
         >
-          <a class="page-link">{page}</a>
+          <a className="page-link">{page}</a>
         </li>
       )
     );
@@ -739,309 +739,309 @@ function DashboardUser() {
             }
           />
         </CCol>
-        
-      <div className="row">
-        <div className="col" xs={12}>
-          <div className="card mb-4">
-            <div className="card-header">
-              <div style={{ height: "2.4em" }} className="row">
-                <div className="col">
-                  <div style={{ display: "flex" }}>
-                    <div className="col">
-                      <h4 className="textt">Payment</h4>
+
+        <div className="row">
+          <div className="col" xs={12}>
+            <div className="card mb-4">
+              <div className="card-header">
+                <div style={{ height: "2.4em" }} className="row">
+                  <div className="col">
+                    <div style={{ display: "flex" }}>
+                      <div className="col">
+                        <h4 className="textt">Payment</h4>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="card-body">
-            <div className="two row">
-                <div className="col">
-                  <select
-                    className="pilih form-select"
-                    value={limitPayment}
-                    onChange={handleChangeLimitPayment}
-                   
-                  >
-                    <option className="option-select" value="1">Show 1 Entries</option>
-                    <option className="option-select" value="10">Show 10 Entries</option>
-                    <option className="option-select" value="100">Show 100 Entries</option>
-                  </select>
-                </div>
-                <div className="col">
-                  <CFormInput
-                    className="filter-data-p"
-                    type="search"
-                    placeholder="search data"
-                    value={searchTermPayment}
-                    onChange={handleSearchPayment}
-                  />
-                </div>
-              </div>
-              <table  className="tabel-payment table table1 responsive-3">
-                <thead>
-                <tr>
-                    <th scope="col" onClick={() => handleSort("id")}>
-                      No{" "}
-                      {sortByPayment === "id" && (sortConfigPayment === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("description")}>
-                      Description{" "}
-                      {sortByPayment === "description" &&
-                        (sortConfigPayment === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th
-                      scope="col"
-                      onClick={() => handleSort("organization_name")}
-                    >
-                      Organization Name{" "}
-                      {sortByPayment === "organization_name" &&
-                        (sortConfigPayment === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("periode")}>
-                      Periode{" "}
-                      {sortByPayment === "periode" &&
-                        (sortConfigPayment === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("amount")}>
-                      Nominal{" "}
-                      {sortByPayment === "amount" &&
-                        (sortConfigPayment === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("created_date")}>
-                      Create Date{" "}
-                      {sortByPayment === "created_date" &&
-                        (sortConfigPayment === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("updated_date")}>
-                      Update Date{" "}
-                      {sortByPayment === "updated_date" &&
-                        (sortConfigPayment === "asc" ? "▲" : "▼")}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white">
-                  {sortedPayment.map((data, index) => {
-                    return (
-                      <tr key={index}>
-                        <td data-cell="No">{index + 1}</td>
-                        <td data-cell="Description">{data.description}</td>
-                        <td data-cell="Organization">
-                          {data.organization_name}
-                        </td>
-                        <td data-cell="Periode">{data.periode}</td>
-                        <td data-cell="Nominal">{data.amount}</td>
-                        <td data-cell="Create Date">{data.created_date}</td>
-                        <td data-cell="Update Date">{data.updated_date}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              <div className="card-body">
+                <div className="two row">
+                  <div className="col">
+                    <select
+                      className="pilih form-select"
+                      value={limitPayment}
+                      onChange={handleChangeLimitPayment}
 
-              {/* Pagination */}
-              <div>
-              <ul class="pagination float-end">
-                  <li
-                    className={
-                      "page-item " + (currentPagePayment === 1 ? "disabled" : "")
-                    }
-                    disabled={currentPagePayment === 1}
-                  >
-                    <a
-                      class="page-link"
-                      onClick={() => handlePageChangePayment(currentPagePayment - 1)}
                     >
-                      Previous
-                    </a>
-                  </li>
-                  {renderPageNumbersPayment()}
-                  <li
-                    className={
-                      "page-item " +
-                      (currentPagePayment === totalPagesPayment ? "disabled" : "")
-                    }
-                    disabled={currentPagePayment === totalPagesPayment}
-                  >
-                    <a
-                      class="page-link"
-                      onClick={() => handlePageChangePayment(currentPagePayment + 1)}
+                      <option className="option-select" value="1">Show 1 Entries</option>
+                      <option className="option-select" value="10">Show 10 Entries</option>
+                      <option className="option-select" value="100">Show 100 Entries</option>
+                    </select>
+                  </div>
+                  <div className="col">
+                    <CFormInput
+                      className="filter-data-p"
+                      type="search"
+                      placeholder="search data"
+                      value={searchTermPayment}
+                      onChange={handleSearchPayment}
+                    />
+                  </div>
+                </div>
+                <table className="tabel-payment table table1 responsive-3">
+                  <thead>
+                    <tr>
+                      <th scope="col" onClick={() => handleSort("id")}>
+                        No{" "}
+                        {sortByPayment === "id" && (sortConfigPayment === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("description")}>
+                        Description{" "}
+                        {sortByPayment === "description" &&
+                          (sortConfigPayment === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th
+                        scope="col"
+                        onClick={() => handleSort("organization_name")}
+                      >
+                        Organization Name{" "}
+                        {sortByPayment === "organization_name" &&
+                          (sortConfigPayment === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("periode")}>
+                        Periode{" "}
+                        {sortByPayment === "periode" &&
+                          (sortConfigPayment === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("amount")}>
+                        Nominal{" "}
+                        {sortByPayment === "amount" &&
+                          (sortConfigPayment === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("created_date")}>
+                        Create Date{" "}
+                        {sortByPayment === "created_date" &&
+                          (sortConfigPayment === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("updated_date")}>
+                        Update Date{" "}
+                        {sortByPayment === "updated_date" &&
+                          (sortConfigPayment === "asc" ? "▲" : "▼")}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white">
+                    {sortedPayment.map((data, index) => {
+                      return (
+                        <tr key={index}>
+                          <td data-cell="No">{index + 1}</td>
+                          <td data-cell="Description">{data.description}</td>
+                          <td data-cell="Organization">
+                            {data.organization_name}
+                          </td>
+                          <td data-cell="Periode">{data.periode}</td>
+                          <td data-cell="Nominal">{data.amount}</td>
+                          <td data-cell="Create Date">{data.created_date}</td>
+                          <td data-cell="Update Date">{data.updated_date}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+
+                {/* Pagination */}
+                <div>
+                  <ul className="pagination float-end">
+                    <li
+                      className={
+                        "page-item " + (currentPagePayment === 1 ? "disabled" : "")
+                      }
+                      disabled={currentPagePayment === 1}
                     >
-                      Next
-                    </a>
-                  </li>
-                </ul>
+                      <a
+                        className="page-link"
+                        onClick={() => handlePageChangePayment(currentPagePayment - 1)}
+                      >
+                        Previous
+                      </a>
+                    </li>
+                    {renderPageNumbersPayment()}
+                    <li
+                      className={
+                        "page-item " +
+                        (currentPagePayment === totalPagesPayment ? "disabled" : "")
+                      }
+                      disabled={currentPagePayment === totalPagesPayment}
+                    >
+                      <a
+                        className="page-link"
+                        onClick={() => handlePageChangePayment(currentPagePayment + 1)}
+                      >
+                        Next
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="row" id="transaction">
-        <div className="col" xs={12}>
-          <div className="card mb-4">
-            <div className="card-header">
-              <div className="row">
-                <div className="col">
-                  <h4 className="textt">Transaction</h4>
-                </div>
+        <div className="row" id="transaction">
+          <div className="col" xs={12}>
+            <div className="card mb-4">
+              <div className="card-header">
+                <div className="row">
+                  <div className="col">
+                    <h4 className="textt">Transaction</h4>
+                  </div>
 
-                <div className="col">
-                  <Link to="/tambahtransaction">
-                    <button className="btn btn-primary float-end">
-                      <CIcon icon={cilPlus} className="color-q" /> Tambah
-                    </button>
-                  </Link>
+                  <div className="col">
+                    <Link to="/tambahtransaction">
+                      <button className="btn btn-primary float-end">
+                        <CIcon icon={cilPlus} className="color-q" /> Tambah
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="card-body">
-              <div className="row">
-                <div className="col">
-                  <select
-                    className="choise form-select"
-                    value={limitTransaction}
-                    onChange={handleChangeLimitTransaction}
-                  >
-                    <option value="1">Show 1 Entries</option>
-                    <option value="10">Show 10 Entries</option>
-                    <option value="100">Show 100 Entries</option>
-                  </select>
-                </div>
-                <div className="col">
-                  <CFormInput
-                    // style={{ width: "50%", marginLeft: "15em" }}
-                    className="filter-data-t"
-                    type="search"
-                    placeholder="search data"
-                    value={searchTermTransaction}
-                    onChange={handleSearchTransaction}
-                  />
-                </div>
-              </div>
-              <table className="tabel-transaction table  table1 responsive-3">
-                <thead>
-                  <tr>
-                    <th scope="col" onClick={() => handleSort("id")}>
-                      No{" "}
-                      {sortByTransaction === "id" && (sortConfigTransaction === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("description")}>
-                      Description{" "}
-                      {sortByTransaction === "description" &&
-                        (sortConfigTransaction === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th
-                      scope="col"
-                      onClick={() => handleSort("organization_name")}
+              <div className="card-body">
+                <div className="row">
+                  <div className="col">
+                    <select
+                      className="choise form-select"
+                      value={limitTransaction}
+                      onChange={handleChangeLimitTransaction}
                     >
-                      Organization Name{" "}
-                      {sortByTransaction === "organization_name" &&
-                        (sortConfigTransaction === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("amount")}>
-                      Nominal{" "}
-                      {sortByTransaction === "amount" &&
-                        (sortConfigTransaction === "asc" ? "▲" : "▼")}
-                    </th>{" "}
-                    <th scope="col" onClick={() => handleSort("created_date")}>
-                      Create Date{" "}
-                      {sortByTransaction === "created_date" &&
-                        (sortConfigTransaction === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th scope="col" onClick={() => handleSort("updated_date")}>
-                      Update Date{" "}
-                      {sortByTransaction === "updated_date" &&
-                        (sortConfigTransaction === "asc" ? "▲" : "▼")}
-                    </th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody
+                      <option value="1">Show 1 Entries</option>
+                      <option value="10">Show 10 Entries</option>
+                      <option value="100">Show 100 Entries</option>
+                    </select>
+                  </div>
+                  <div className="col">
+                    <CFormInput
+                      // style={{ width: "50%", marginLeft: "15em" }}
+                      className="filter-data-t"
+                      type="search"
+                      placeholder="search data"
+                      value={searchTermTransaction}
+                      onChange={handleSearchTransaction}
+                    />
+                  </div>
+                </div>
+                <table className="tabel-transaction table  table1 responsive-3">
+                  <thead>
+                    <tr>
+                      <th scope="col" onClick={() => handleSort("id")}>
+                        No{" "}
+                        {sortByTransaction === "id" && (sortConfigTransaction === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("description")}>
+                        Description{" "}
+                        {sortByTransaction === "description" &&
+                          (sortConfigTransaction === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th
+                        scope="col"
+                        onClick={() => handleSort("organization_name")}
+                      >
+                        Organization Name{" "}
+                        {sortByTransaction === "organization_name" &&
+                          (sortConfigTransaction === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("amount")}>
+                        Nominal{" "}
+                        {sortByTransaction === "amount" &&
+                          (sortConfigTransaction === "asc" ? "▲" : "▼")}
+                      </th>{" "}
+                      <th scope="col" onClick={() => handleSort("created_date")}>
+                        Create Date{" "}
+                        {sortByTransaction === "created_date" &&
+                          (sortConfigTransaction === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("updated_date")}>
+                        Update Date{" "}
+                        {sortByTransaction === "updated_date" &&
+                          (sortConfigTransaction === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody
 
 
-                  id="myTable"
-                  className="bg-white"
+                    id="myTable"
+                    className="bg-white"
                   // style={{ textAlign: "center" }}
-                >
-                  {sortedTransaction.map((item, index) => {
-                    return (
-                      <tr key={index}>
-                        <td data-cell="No">{index + 1}</td>
-                        <td data-cell="Description">{item.description}</td>
-                        <td data-cell="Organization">
-                          {item.organization_name}
-                        </td>
-                        <td data-cell="Nominal">{item.amount}</td>
-                        <td data-cell="Create Date">{item.created_date}</td>
-                        <td data-cell="Update Date">{item.updated_date}</td>
+                  >
+                    {sortedTransaction.map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td data-cell="No">{index + 1}</td>
+                          <td data-cell="Description">{item.description}</td>
+                          <td data-cell="Organization">
+                            {item.organization_name}
+                          </td>
+                          <td data-cell="Nominal">{item.amount}</td>
+                          <td data-cell="Create Date">{item.created_date}</td>
+                          <td data-cell="Update Date">{item.updated_date}</td>
 
-                        <td data-cell="Action">
-                          <div className="tdd">
-                          <button
-                            onClick={() =>
-                              navigate(`/editTransaction/${item.id}`)
-                            }
-                            className="edit1"
-                            style={{ background: "blue" }}
-                          >
-                            {" "}
-                            <CIcon icon={cilPencil} />
-                          </button>
-                          {" "}
-                          <button
-                            onClick={() => Delete(item.id)}
-                            className="edit1"
-                            style={{ background: "red", color: "white" }}
-                          >
-                            <CIcon icon={cilTrash} />
-                          </button>
+                          <td data-cell="Action">
+                            <div className="tdd">
+                              <button
+                                onClick={() =>
+                                  navigate(`/editTransaction/${item.id}`)
+                                }
+                                className="edit1"
+                                style={{ background: "blue" }}
+                              >
+                                {" "}
+                                <CIcon icon={cilPencil} />
+                              </button>
+                              {" "}
+                              <button
+                                onClick={() => Delete(item.id)}
+                                className="edit1"
+                                style={{ background: "red", color: "white" }}
+                              >
+                                <CIcon icon={cilTrash} />
+                              </button>
                             </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
 
-              {/* Pagination */}
-              <div>
-                <ul class="pagination float-end">
-                  <li
-                    className={
-                      "page-item " + (currentPageTransaction === 1 ? "disabled" : "")
-                    }
-                    disabled={currentPageTransaction === 1}
-                  >
-                    <a
-                      class="page-link"
-                      onClick={() => handlePageChangeTransaction(currentPageTransaction - 1)}
+                {/* Pagination */}
+                <div>
+                  <ul className="pagination float-end">
+                    <li
+                      className={
+                        "page-item " + (currentPageTransaction === 1 ? "disabled" : "")
+                      }
+                      disabled={currentPageTransaction === 1}
                     >
-                      Previous
-                    </a>
-                  </li>
-                  {renderPageNumbersTransaction()}
-                  <li
-                    className={
-                      "page-item " +
-                      (currentPageTransaction === totalPagesTransaction ? "disabled" : "")
-                    }
-                    disabled={currentPageTransaction === totalPagesTransaction}
-                  >
-                    <a
-                      class="page-link"
-                      onClick={() => handlePageChangeTransaction(currentPageTransaction + 1)}
+                      <a
+                        className="page-link"
+                        onClick={() => handlePageChangeTransaction(currentPageTransaction - 1)}
+                      >
+                        Previous
+                      </a>
+                    </li>
+                    {renderPageNumbersTransaction()}
+                    <li
+                      className={
+                        "page-item " +
+                        (currentPageTransaction === totalPagesTransaction ? "disabled" : "")
+                      }
+                      disabled={currentPageTransaction === totalPagesTransaction}
                     >
-                      Next
-                    </a>
-                  </li>
-                </ul>
+                      <a
+                        className="page-link"
+                        onClick={() => handlePageChangeTransaction(currentPageTransaction + 1)}
+                      >
+                        Next
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </CRow>
       <button
         className={`scroll-to-top-button ${isVisible ? "visible" : "hidden"}`}

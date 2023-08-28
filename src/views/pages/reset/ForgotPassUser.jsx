@@ -36,7 +36,7 @@ function ForgotPassUser() {
           timer: 1500,
         });
         navigate("/userVerification");
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((err) => {
         Swal.fire({
@@ -81,18 +81,18 @@ function ForgotPassUser() {
                 </CInputGroup>
                 <CRow>
                   <CCol xs={6}>
-                      <button
-                        style={{
-                          width: "211%",
-                          background: "#213555 ",
-                          color: "white",
-                          fontSize: "18px",
-                        }}
-                        className="px-4"
-                        type="submit"
-                      >
-                        Send
-                      </button>
+                    <button
+                      style={{
+                        width: "211%",
+                        background: "#213555 ",
+                        color: "white",
+                        fontSize: "18px",
+                      }}
+                      className="px-4"
+                      type="submit"
+                    >
+                      Send
+                    </button>
                   </CCol>
                 </CRow>
               </CForm>

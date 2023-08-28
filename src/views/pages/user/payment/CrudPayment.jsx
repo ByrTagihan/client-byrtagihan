@@ -275,7 +275,7 @@ function CrudPayment() {
 
                   {/* Pagination */}
                   <div>
-                    <ul class="pagination float-end">
+                    <ul className="pagination float-end">
                       <li
                         className={
                           "page-item " + (currentPage === 1 ? "disabled" : "")
@@ -283,7 +283,7 @@ function CrudPayment() {
                         disabled={currentPage === 1}
                       >
                         <a
-                          class="page-link"
+                          className="page-link"
                           onClick={() => handlePageChange(currentPage - 1)}
                         >
                           Previous
@@ -298,7 +298,7 @@ function CrudPayment() {
                         disabled={currentPage === total_page}
                       >
                         <a
-                          class="page-link"
+                          className="page-link"
                           onClick={() => handlePageChange(currentPage + 1)}
                         >
                           Next

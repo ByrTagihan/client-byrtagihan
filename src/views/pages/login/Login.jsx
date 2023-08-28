@@ -163,47 +163,47 @@ const Login = () => {
               >
                 Masuk ke akun anda
               </p>
-              <div class="container1">
-                <div class="selector">
-                  <div class="selector-item">
+              <div className="container1">
+                <div className="selector">
+                  <div className="selector-item">
                     <input
                       type="radio"
                       id="radio1"
                       name="selector"
-                      class="selector-item_radio"
+                      className="selector-item_radio"
                       checked={type_token === "siswa"}
                       value="siswa"
                       onChange={handleOptionChange}
                     />
-                    <label for="radio1" class="selector-item_label">
+                    <label htmlFor="radio1" className="selector-item_label">
                       Siswa
                     </label>
                   </div>
-                  <div class="selector-item">
+                  <div className="selector-item">
                     <input
                       type="radio"
                       id="radio2"
                       name="selector"
-                      class="selector-item_radio"
+                      className="selector-item_radio"
                       checked={type_token === "Costumer"}
                       value="Costumer"
                       onChange={handleOptionChange}
                     />
-                    <label for="radio2" class="selector-item_label">
+                    <label htmlFor="radio2" className="selector-item_label">
                       Costumer
                     </label>
                   </div>
-                  <div class="selector-item">
+                  <div className="selector-item">
                     <input
                       type="radio"
                       id="radio3"
                       name="selector"
-                      class="selector-item_radio"
+                      className="selector-item_radio"
                       onChange={handleOptionChange}
                       checked={type_token === "User"}
                       value="User"
                     />
-                    <label for="radio3" class="selector-item_label">
+                    <label htmlFor="radio3" className="selector-item_label">
                       User
                     </label>
                   </div>
@@ -254,7 +254,7 @@ const Login = () => {
               <CInputGroup className="mb-4">
                 <CInputGroupText>
                   <span onClick={togglePassword}>
-                    <i class={passwordIcon}></i>
+                    <i className={passwordIcon}></i>
                   </span>
                 </CInputGroupText>
                 <CFormInput
@@ -268,39 +268,39 @@ const Login = () => {
               <CRow>
                 <p>pilih role yang diinginkan terlebih dahulu sebelum ke forgot password.</p>
                 {type_token === "Costumer" ? (
-                <CButton
-                  color="link"
-                  style={{
-                    marginTop: "-20px",
-                    marginLeft: "33.5%",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <a href="/#/reset"> Forgot password</a>
-                </CButton>
-                ): type_token === "User" ? (
                   <CButton
-                  color="link"
-                  style={{
-                    marginTop: "-20px",
-                    marginLeft: "33.5%",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <a href="/#/forgotPassUser"> Forgot password</a>
-                </CButton>
-                ): type_token === "siswa" ? (
+                    color="link"
+                    style={{
+                      marginTop: "-20px",
+                      marginLeft: "33.5%",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <a href="/#/reset"> Forgot password</a>
+                  </CButton>
+                ) : type_token === "User" ? (
                   <CButton
-                  color="link"
-                  style={{
-                    marginTop: "-20px",
-                    marginLeft: "33.5%",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <a href="/#/forgotPasswordSiswa"> Forgot password</a>
-                </CButton>
-                ):(
+                    color="link"
+                    style={{
+                      marginTop: "-20px",
+                      marginLeft: "33.5%",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <a href="/#/forgotPassUser"> Forgot password</a>
+                  </CButton>
+                ) : type_token === "siswa" ? (
+                  <CButton
+                    color="link"
+                    style={{
+                      marginTop: "-20px",
+                      marginLeft: "33.5%",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <a href="/#/forgotPasswordSiswa"> Forgot password</a>
+                  </CButton>
+                ) : (
                   <></>
                 )}
                 <CCol xs={6}>

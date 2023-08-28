@@ -263,7 +263,7 @@ function Tagihan() {
               <div className="col inputSearch1">
                 <input
                   type="text"
-                  class="form-control float-end"
+                  className="form-control float-end"
                   placeholder="Filter Deskripsi"
                   value={searchTerm}
                   onChange={handleSearch}
@@ -301,7 +301,7 @@ function Tagihan() {
                     <div className="col inputSearch">
                       <input
                         type="text"
-                        class="form-control float-end"
+                        className="form-control float-end"
                         placeholder="Filter Deskripsi"
                         value={searchTerm}
                         onChange={handleSearch}
@@ -440,7 +440,7 @@ function Tagihan() {
                 </div>
               </div>
               <div>
-                <ul class="pagination float-end">
+                <ul className="pagination float-end">
                   <li
                     className={
                       "page-item " + (currentPage === 1 ? "disabled" : "")
@@ -448,7 +448,7 @@ function Tagihan() {
                     disabled={currentPage === 1}
                   >
                     <a
-                      class="page-link"
+                      className="page-link"
                       onClick={() => handlePageChange(currentPage - 1)}
                     >
                       Previous
@@ -463,7 +463,7 @@ function Tagihan() {
                     disabled={currentPage === totalPages}
                   >
                     <a
-                      class="page-link"
+                      className="page-link"
                       onClick={() => handlePageChange(currentPage + 1)}
                     >
                       Next
@@ -479,7 +479,7 @@ function Tagihan() {
                   >
                     <h5 className="modal-title">Bayar Tagihan</h5>
                   </div>
-                  <div className="modal-body">  
+                  <div className="modal-body">
                     <div className="mb-3">
                       <label className="form-label">Tanggal Bayar</label>
                       <input

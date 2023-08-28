@@ -16,36 +16,39 @@ import "../../../css/ForgotPasswordSiswa.css";
 import { API_DUMMY } from "../../../utils/baseURL";
 import CIcon from "@coreui/icons-react";
 import { cilMobile } from "@coreui/icons";
+import { useNavigate } from "react-router-dom";
 
 function ForgotPasswordSiswa() {
   const [unique_id, setUniqueId] = useState("");
+  const navigate = useNavigate();
 
-  const Add = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {
-      unique_id: unique_id,
-    };
     axios
-      .post(`${API_DUMMY}/member/forgot_password`, data)
+      .post(`${API_DUMMY}/member/forgot_password`, {
+        unique_id: unique_id,
+      })
       .then((res) => {
-        //console.log(res);
+        console.log(res);
         Swal.fire({
           icon: "success",
-          title: "Terkirim",
+          title: "Successfully",
+          text: "Password reset link sent to your number.",
           showConfirmButton: false,
           timer: 1500,
         });
+        navigate("/memberVerification");
         window.location.reload();
       })
       .catch((err) => {
         Swal.fire({
           icon: "error",
-          title: "Nomor Hp tidak ada",
-          showConfirmButton: false,
-          timer: 1500,
+          title: "Error",
+          text: err,
         });
       });
   };
+
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer className="all">
@@ -54,7 +57,7 @@ function ForgotPasswordSiswa() {
             <div>
               <p className="forgot">Forgot Password Siswa</p>
               <hr />
-              <CForm onSubmit={Add}>
+              <CForm onSubmit={handleSubmit}>
                 <p className="text-medium-emphasis"></p>
                 <br />
                 <CInputGroup className="mb-3">
@@ -62,8 +65,8 @@ function ForgotPasswordSiswa() {
                     <CIcon icon={cilMobile} />
                   </CInputGroupText>
                   <CFormInput
-                    placeholder="No Handphone"
-                    autoComplete="no Handphone"
+                    placeholder="unique_id"
+                    autoComplete="unique_id"
                     required
                     value={unique_id}
                     onChange={(e) => setUniqueId(e.target.value)}
