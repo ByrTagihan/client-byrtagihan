@@ -25,6 +25,7 @@ function VerificationCode() {
               timer: 1500,
             });
             window.location.reload();
+            navigate("/login");
           })
           .catch((err) => {
             alert("Terjadi Kesalahan " + err);
