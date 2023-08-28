@@ -80,9 +80,6 @@ function UserProfile() {
             showConfirmButton: false,
             timer: 1500,
           });
-          setTimeout(() => {
-            navigate("/memberProfile");
-          }, 1500);
         } else {
           Swal.fire({
             icon: "error",
