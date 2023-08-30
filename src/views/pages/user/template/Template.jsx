@@ -328,7 +328,7 @@ function Template() {
                     })}
                   </tbody>
                 </table>
-                <ul class="pagination float-end">
+                <ul className="pagination float-end">
                   <li
                     className={
                       "page-item " + (currentPage === 1 ? "disabled" : "")
@@ -336,7 +336,7 @@ function Template() {
                     disabled={currentPage === 1}
                   >
                     <a
-                      class="page-link"
+                      className="page-link"
                       onClick={() => handlePageChange(currentPage - 1)}
                     >
                       Previous
@@ -351,7 +351,7 @@ function Template() {
                     disabled={currentPage === totalPages}
                   >
                     <a
-                      class="page-link"
+                      className="page-link"
                       onClick={() => handlePageChange(currentPage + 1)}
                     >
                       Next

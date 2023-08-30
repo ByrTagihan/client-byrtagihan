@@ -464,7 +464,7 @@ function LIstDataSIswa() {
                     </tbody>
                     <div></div>
                   </table>
-                  <ul class="pagination float-end">
+                  <ul className="pagination float-end">
                     <li
                       className={
                         "page-item " + (currentPage === 1 ? "disabled" : "")
@@ -472,7 +472,7 @@ function LIstDataSIswa() {
                       disabled={currentPage === 1}
                     >
                       <a
-                        class="page-link"
+                        className="page-link"
                         onClick={() => handlePageChange(currentPage - 1)}
                       >
                         Previous
@@ -487,7 +487,7 @@ function LIstDataSIswa() {
                       disabled={currentPage === totalPages}
                     >
                       <a
-                        class="page-link"
+                        className="page-link"
                         onClick={() => handlePageChange(currentPage + 1)}
                       >
                         Next
@@ -520,7 +520,7 @@ function LIstDataSIswa() {
                 <CInputGroup className="mb-3">
                   <CInputGroupText>
                     <span onClick={togglePassword}>
-                      <i class={passwordIcon}></i>
+                      <i className={passwordIcon}></i>
                     </span>
                   </CInputGroupText>
                   <CFormInput

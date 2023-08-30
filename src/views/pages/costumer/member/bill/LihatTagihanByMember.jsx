@@ -230,9 +230,9 @@ function LihatTagihanByMember() {
       await axios
         .put(
           `${API_DUMMY}/customer/member/${param.id}/bill/${paid_id}/paid`, {
-            paid_date: paid_date,
-            paid_amount: paid_amount,
-          },
+          paid_date: paid_date,
+          paid_amount: paid_amount,
+        },
           {
             headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
           }
@@ -494,7 +494,7 @@ function LihatTagihanByMember() {
                       ))}
                     </tbody>
                   </table>
-                  <ul class="pagination float-end">
+                  <ul className="pagination float-end">
                     <li
                       className={
                         "page-item " + (currentPage === 1 ? "disabled" : "")
@@ -502,7 +502,7 @@ function LihatTagihanByMember() {
                       disabled={currentPage === 1}
                     >
                       <a
-                        class="page-link"
+                        className="page-link"
                         onClick={() => handlePageChange(currentPage - 1)}
                       >
                         Previous
@@ -517,7 +517,7 @@ function LihatTagihanByMember() {
                       disabled={currentPage === totalPages}
                     >
                       <a
-                        class="page-link"
+                        className="page-link"
                         onClick={() => handlePageChange(currentPage + 1)}
                       >
                         Next

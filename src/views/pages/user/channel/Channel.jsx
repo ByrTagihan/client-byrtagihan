@@ -226,7 +226,7 @@ function Channel() {
 
                   {/* Pagination */}
                   <div>
-                    <ul class="pagination float-end">
+                    <ul className="pagination float-end">
                       <li
                         className={
                           "page-item " + (currentPage === 1 ? "disabled" : "")
@@ -234,7 +234,7 @@ function Channel() {
                         disabled={currentPage === 1}
                       >
                         <a
-                          class="page-link"
+                          className="page-link"
                           onClick={() => handlePageChange(currentPage - 1)}
                         >
                           Previous
@@ -249,7 +249,7 @@ function Channel() {
                         disabled={currentPage === totalPages}
                       >
                         <a
-                          class="page-link"
+                          className="page-link"
                           onClick={() => handlePageChange(currentPage + 1)}
                         >
                           Next

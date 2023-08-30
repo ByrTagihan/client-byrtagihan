@@ -147,6 +147,9 @@ const MemberProfile = React.lazy(() =>
 const GantiPassMember = React.lazy(() =>
   import("./views/pages/member/GantiPass")
 );
+const MemberVerification = React.lazy(() =>
+  import("./views/pages/member/VerificationCode")
+)
 
 //Bill Section
 const ListTagihanMember = React.lazy(() =>
@@ -316,6 +319,7 @@ const routes = [
     element: BayarSemuaTagihan,
   },
   { path: "/memberChannel", name: "Channel", element: MemberChannel },
+  { path: "/memberVerification", name: "Verification Code", element: MemberVerification },
 ];
 
 export default routes;

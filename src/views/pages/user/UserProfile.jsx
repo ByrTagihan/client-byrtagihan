@@ -43,43 +43,53 @@ function UserProfile() {
   //   e.preventDefault();
   //   e.persist();
 
-  //   const data = new FormData();
-  //   data.append("file", picture);
+    if (foto) {
+      const image = new Image();
+      image.src = URL.createObjectURL(foto);
 
-  //   try {
-  //     await axios
-  //       .post(`${API_URL}/files`, data, {
-  //         headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //       })
-  //       .then((response) => {
-  //         const imageUrl = response.data.data;
-  //         setProfile((prevProfile) => ({
-  //           ...prevProfile,
-  //           picture: imageUrl,
-  //         }));
-  //         setFoto(imageUrl);
-  //         //console.log(localStorage.getItem("profilePicture"));
+      image.onload = () => {
+        const width = image.width;
+        const height = image.height;
 
-  //         // Store the image URL in local storage
-  //         localStorage.setItem("profilePicture", imageUrl);
-  //       });
-  //     setShow(false);
-  //     // navigate("/lihattagihanmember")
-  //     Swal.fire({
-  //       icon: "success",
-  //       title: "Foto berhasil ditambahkan",
-  //       showConfirmButton: false,
-  //       timer: 1500,
-  //     });
-  //     // //console.log(data);
-  //     setTimeout(() => {
-  //       navigate("/userProfile");
-  //       // window.location.reload();
-  //     }, 1500);
-  //   } catch (error) {
-  //     //console.log(error);
-  //   }
-  // };
+        if (width === height) {
+          const data = new FormData();
+          data.append("file", foto);
+
+          axios
+            .post(`${API_URL}/files`, data, {
+              headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+            })
+            .then((response) => {
+              const imageUrl = response.data.data;
+              setProfile((prevProfile) => ({
+                ...prevProfile,
+                picture: imageUrl,
+              }));
+              setFoto(imageUrl);
+
+              localStorage.setItem("profilePicture", imageUrl);
+            })
+            .catch((error) => {
+              // Handle error
+            });
+
+          setShow(false);
+          Swal.fire({
+            icon: "success",
+            title: "Foto berhasil ditambahkan",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Ukuran foto harus 1:1 (persegi)",
+            text: "Harap unggah gambar dengan rasio aspek 1:1.",
+          });
+        }
+      };
+    }
+  };
 
   // function update profile
   const Put = async (downloadUrl) => {
@@ -175,12 +185,22 @@ function UserProfile() {
         </div>
       </div>
 
-      <div className="box2">
+     <div className="box2">
         <h6 className="mb-2">Id : {profile.id}</h6>
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> email: {profile.email}
         </h6>
-        <CForm onSubmit={save}>
+        <CForm onSubmit={add}>
+          <CInputGroup className="mb-3">
+            <CFormInput
+              autoComplete="picture"
+              onChange={(e) => setPicture(e.target.files[0])}
+              type="file"
+            />
+            <CButton type="submit">Post</CButton>
+          </CInputGroup>
+        </CForm>
+        <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
               <CIcon icon={cilUser} />
@@ -215,15 +235,6 @@ function UserProfile() {
               onChange={(e) => setAddress(e.target.value)}
               value={domain}
             />
-          </CInputGroup>
-          <CInputGroup className="mb-3">
-            <CFormInput
-              autoComplete="picture"
-              onChange={(e) => setPicture(e.target.files[0])}
-              accept="image/png, image/jpeg, image/jpg"
-              type="file"
-            />
-            {/* <CButton type="submit">Post</CButton> */}
           </CInputGroup>
 
           <CRow>

@@ -124,43 +124,43 @@ function DashboardCoba2() {
 
   const getAllBill = async () => {
     try {
-        const response = await fetch(`${API_DUMMY}/customer/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`, {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        });
-        const data = await response.json();
-        setRekapBill(data.data);
-        setTotalPages(data.pagination.total_page);
-      } catch (error) {
-        console.error('Error fetching bills:', error);
-      }
+      const response = await fetch(`${API_DUMMY}/customer/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`, {
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await response.json();
+      setRekapBill(data.data);
+      setTotalPages(data.pagination.total_page);
+    } catch (error) {
+      console.error('Error fetching bills:', error);
+    }
   };
-  
+
   const getAllBill1 = async () => {
-    await axios (`${API_DUMMY}/customer/bill?limit=200`, {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          if (Array.isArray(res.data.data)) {
-            setRekapBill1(res.data.data);
-  
-            // Menghitung jumlah member setiap bulan
-            const monthlyData = new Array(12).fill(0); // Inisialisasi array dengan nilai 0 untuk setiap bulan
-            res.data.data.forEach((item) => {
-              const createdMonth = new Date(item.periode).getMonth();
-              monthlyData[createdMonth]++;
-            });
-            setMonthlyDataBill(monthlyData);
-            const combinedData = [...res.data.data];
-            setCombinedData(combinedData);
-            //   //console.log([...res.data.data]);
-          }
-        })
-        . catch ((error) => {
-            alert('Error fetching bills:', error);
+    await axios(`${API_DUMMY}/customer/bill?limit=200`, {
+      headers: {
+        "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => {
+        if (Array.isArray(res.data.data)) {
+          setRekapBill1(res.data.data);
+
+          // Menghitung jumlah member setiap bulan
+          const monthlyData = new Array(12).fill(0); // Inisialisasi array dengan nilai 0 untuk setiap bulan
+          res.data.data.forEach((item) => {
+            const createdMonth = new Date(item.periode).getMonth();
+            monthlyData[createdMonth]++;
+          });
+          setMonthlyDataBill(monthlyData);
+          const combinedData = [...res.data.data];
+          setCombinedData(combinedData);
+          //   //console.log([...res.data.data]);
+        }
+      })
+      .catch((error) => {
+        alert('Error fetching bills:', error);
       })
   };
 
@@ -206,18 +206,18 @@ function DashboardCoba2() {
       .then((result) => {
         if (result.isConfirmed) {
           axios
-          .put(`${API_DUMMY}/customer/bill/${paidIds}/unpaid`, {}, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-            },
-          })
+            .put(`${API_DUMMY}/customer/bill/${paidIds}/unpaid`, {}, {
+              headers: {
+                "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+              },
+            })
           Swal.fire({
             icon: "success",
             title: "Berhasil Membatalkan Pembayaran",
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-              window.location.reload();
+            window.location.reload();
           });
         }
       })
@@ -225,7 +225,7 @@ function DashboardCoba2() {
         //console.log(err);
       });
   };
- 
+
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -259,7 +259,7 @@ function DashboardCoba2() {
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
     const displayedPages = [];
-  
+
     if (totalPages <= 5) {
       displayedPages.push(...pageNumbers);
     } else {
@@ -277,7 +277,7 @@ function DashboardCoba2() {
         );
       }
     }
-  
+
     return displayedPages.map((page, index) =>
       page === 'dot' ? (
         <span key={`dot${index}`}>...</span>
@@ -637,182 +637,182 @@ function DashboardCoba2() {
           />
         </CCol>
       </CRow>
-    <div>
-      <div className="row ">
-        <div className="col" xs={12}>
-                <div className="col inputSearch1">
-                <select className="form-select" value={limit} onChange={handleLimit}>
-                  <option value="1">Show 1 Entries</option>
-                  <option value="10">Show 10 Entries</option>
-                  <option value="100">Show 100 Entries</option>
-                </select>
-                </div>
-                <div className="col inputSearch1">
-                <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch}/>
-                </div>
-          <div className="card mb-4">
-            <div className="card-header">
-              <div className="row">
-                <div className="col">
-                  <h4>List Tagihan</h4>
-                </div>
-                <div className="col">
-                  <Link to="/addtagihan">
-                    <button className="btn btn-primary float-end">
-                    <CIcon icon={cilPlus} /> Tambah Tagihan
-                    </button>
-                  </Link>
-                </div>
-              </div>
+      <div>
+        <div className="row ">
+          <div className="col" xs={12}>
+            <div className="col inputSearch1">
+              <select className="form-select" value={limit} onChange={handleLimit}>
+                <option value="1">Show 1 Entries</option>
+                <option value="10">Show 10 Entries</option>
+                <option value="100">Show 100 Entries</option>
+              </select>
             </div>
-            <div className="card-body table-container">
-            <div className="row">
-                <div className="col inputSearch">
-                <select className="form-select" value={limit} onChange={handleLimit} style={{width: "40%"}}>
-                  <option value="1">Show 1 Entries</option>
-                  <option value="10">Show 10 Entries</option>
-                  <option value="100">Show 100 Entries</option>
-                </select>
-                </div>
-                <div className="col inputSearch">
-                <input type="text" class="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} style={{width: "40%"}}/>
+            <div className="col inputSearch1">
+              <input type="text" className="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} />
+            </div>
+            <div className="card mb-4">
+              <div className="card-header">
+                <div className="row">
+                  <div className="col">
+                    <h4>List Tagihan</h4>
+                  </div>
+                  <div className="col">
+                    <Link to="/addtagihan">
+                      <button className="btn btn-primary float-end">
+                        <CIcon icon={cilPlus} /> Tambah Tagihan
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
-              <table className="table">
-                <thead className="text-center">
-                  <tr>
-                    <th scope="col" onClick={() => handleSort('id')}>Id {sortBy === 'id' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('member_name')}>Nama Murid {sortBy === 'member_name' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('description')}>Description {sortBy === 'description' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('periode')}>Period {sortBy === 'periode' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('amount')}>Nominal {sortBy === 'amount' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('paid_id')}>Status {sortBy === 'paid_id' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('paid_date')}>Tgl Bayar {sortBy === 'paid_date' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" onClick={() => handleSort('paid_amount')}>Nominal Bayar {sortBy === 'paid_amount' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                    <th scope="col" style={{width:"20%"}}>Action</th>
-                  </tr>
-                </thead>
-                <tbody className="text-center">
-                  {sortedBills.map((data) => (
-                    <tr key={data.id}>
-                      <th scope="row">{data.id}</th>
-                      <td data-cell ="Nama Murid">{data.member_name}</td>
-                      <td data-cell ="Description">{data.description}</td>
-                      <td data-cell = "Periode">{data.periode}</td>
-                      <td data-cell = "Nominal">{data.amount}</td>
-                      <td data-cell = "Status">
-                        {data.paid_id != 0 ? (
-                          <span>Sudah Bayar</span>
-                        ) : (
-                          <span>Belum Bayar</span>
-                        )}
-                      </td>
-                      <td data-cell = "Tngl Bayar">{data.paid_date}</td>
-                      <td data-cell = "Nominal Bayar">{data.paid_amount}</td>
-                      <td className="tdd" data-cell = "Action">
-                        <button
-                          type="button"
-                          className="edit1"
-                          onClick={() => navigate(`/edittagihan/${data.id}`)}
-                        >
-                          <CIcon icon={cilPencil} />
-                        </button>
-                        <button
-                          type="button"
-                          className="edit1"
-                          style={{ background: "red", color: "white" }}
-                          onClick={() =>
-                            deleteData(data.id, "customer/bill", setRekapBill)
-                          }
-                        >
-                          <CIcon icon={cilTrash} style={{color: "white"}}/>
-                        </button>
-                        {data.paid_id != 0 ? (
-                          <button
-                          type="button"
-                          className="edit1"
-                          onClick={() => {
-                            unBayarTagihan(data.id);
-                          }}
-                          style={{ background: "red", color: "white" }}
-                        >
-                          Btl Bayar
-                        </button>
-                        ) : (
-                          <button
-                          type="button"
-                          className="edit1"
-                          onClick={() => {
-                            setVisible(!visible);
-                            setPaidId(data.id);
-                            setPaidAmount(data.amount);
-                          }}
-                          style={{ background: "green", color: "white" }}
-                        >
-                          Bayar
-                        </button>
-                        )}
-                      </td>
+              <div className="card-body table-container">
+                <div className="row">
+                  <div className="col inputSearch">
+                    <select className="form-select" value={limit} onChange={handleLimit} style={{ width: "40%" }}>
+                      <option value="1">Show 1 Entries</option>
+                      <option value="10">Show 10 Entries</option>
+                      <option value="100">Show 100 Entries</option>
+                    </select>
+                  </div>
+                  <div className="col inputSearch">
+                    <input type="text" className="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} style={{ width: "40%" }} />
+                  </div>
+                </div>
+                <table className="table">
+                  <thead className="text-center">
+                    <tr>
+                      <th scope="col" onClick={() => handleSort('id')}>Id {sortBy === 'id' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
+                      <th scope="col" onClick={() => handleSort('member_name')}>Nama Murid {sortBy === 'member_name' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
+                      <th scope="col" onClick={() => handleSort('description')}>Description {sortBy === 'description' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
+                      <th scope="col" onClick={() => handleSort('periode')}>Period {sortBy === 'periode' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
+                      <th scope="col" onClick={() => handleSort('amount')}>Nominal {sortBy === 'amount' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
+                      <th scope="col" onClick={() => handleSort('paid_id')}>Status {sortBy === 'paid_id' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
+                      <th scope="col" onClick={() => handleSort('paid_date')}>Tgl Bayar {sortBy === 'paid_date' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
+                      <th scope="col" onClick={() => handleSort('paid_amount')}>Nominal Bayar {sortBy === 'paid_amount' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
+                      <th scope="col" style={{ width: "20%" }}>Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="text-center">
+                    {sortedBills.map((data) => (
+                      <tr key={data.id}>
+                        <th scope="row">{data.id}</th>
+                        <td data-cell="Nama Murid">{data.member_name}</td>
+                        <td data-cell="Description">{data.description}</td>
+                        <td data-cell="Periode">{data.periode}</td>
+                        <td data-cell="Nominal">{data.amount}</td>
+                        <td data-cell="Status">
+                          {data.paid_id != 0 ? (
+                            <span>Sudah Bayar</span>
+                          ) : (
+                            <span>Belum Bayar</span>
+                          )}
+                        </td>
+                        <td data-cell="Tngl Bayar">{data.paid_date}</td>
+                        <td data-cell="Nominal Bayar">{data.paid_amount}</td>
+                        <td className="tdd" data-cell="Action">
+                          <button
+                            type="button"
+                            className="edit1"
+                            onClick={() => navigate(`/edittagihan/${data.id}`)}
+                          >
+                            <CIcon icon={cilPencil} />
+                          </button>
+                          <button
+                            type="button"
+                            className="edit1"
+                            style={{ background: "red", color: "white" }}
+                            onClick={() =>
+                              deleteData(data.id, "customer/bill", setRekapBill)
+                            }
+                          >
+                            <CIcon icon={cilTrash} style={{ color: "white" }} />
+                          </button>
+                          {data.paid_id != 0 ? (
+                            <button
+                              type="button"
+                              className="edit1"
+                              onClick={() => {
+                                unBayarTagihan(data.id);
+                              }}
+                              style={{ background: "red", color: "white" }}
+                            >
+                              Btl Bayar
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="edit1"
+                              onClick={() => {
+                                setVisible(!visible);
+                                setPaidId(data.id);
+                                setPaidAmount(data.amount);
+                              }}
+                              style={{ background: "green", color: "white" }}
+                            >
+                              Bayar
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-          <div>
-          <ul class="pagination float-end">
-            <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
-              <a class="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
-            </li>
-            {renderPageNumbers()}
-            <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
-              <a class="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
-            </li>
-          </ul>
-          </div>
-          <CModal visible={visible} onClose={() => setVisible(false)}>
-            <form onSubmit={bayarTagihan}>
-              <div className="modal-header" onClose={() => setVisible(false)}>
-                <h5 className="modal-title">Bayar Tagihan</h5>
-              </div>
-              <div className="modal-body">
-                <div className="mb-3">
-                  <label className="form-label">Tanggal Bayar</label>
-                  <input
-                    id="paid_date"
-                    type="date"
-                    className="form-control"
-                    onChange={(e) => setPaidDate(e.target.value)}
-                  />
+            <div>
+              <ul className="pagination float-end">
+                <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
+                  <a className="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
+                </li>
+                {renderPageNumbers()}
+                <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
+                  <a className="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
+                </li>
+              </ul>
+            </div>
+            <CModal visible={visible} onClose={() => setVisible(false)}>
+              <form onSubmit={bayarTagihan}>
+                <div className="modal-header" onClose={() => setVisible(false)}>
+                  <h5 className="modal-title">Bayar Tagihan</h5>
                 </div>
-                <div className="mb-3">
-                  <label className="form-label">Nominal</label>
-                  <input
-                    id="paid_amount"
-                    type="number"
-                    className="form-control"
-                    value={paidAmount}
-                    disabled
-                  />
+                <div className="modal-body">
+                  <div className="mb-3">
+                    <label className="form-label">Tanggal Bayar</label>
+                    <input
+                      id="paid_date"
+                      type="date"
+                      className="form-control"
+                      onChange={(e) => setPaidDate(e.target.value)}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Nominal</label>
+                    <input
+                      id="paid_amount"
+                      type="number"
+                      className="form-control"
+                      value={paidAmount}
+                      disabled
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setVisible(false)}
-                >
-                  Close
-                </button>
-                <button className="btn btn-primary" type="submit">
-                  Bayar
-                </button>
-              </div>
-            </form>
-          </CModal>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setVisible(false)}
+                  >
+                    Close
+                  </button>
+                  <button className="btn btn-primary" type="submit">
+                    Bayar
+                  </button>
+                </div>
+              </form>
+            </CModal>
+          </div>
         </div>
       </div>
-    </div>
       {/* <div className="row" id='total'>
       <div className="col" xs={12}>
         <div className="card mb-4">
