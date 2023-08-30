@@ -53,7 +53,7 @@ function EditTaagihanByMember() {
         window.location.reload();
       }, 1500);
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   };
 
@@ -80,7 +80,7 @@ function EditTaagihanByMember() {
                 />
               </CCol>
               <CCol md={6}>
-              <label className="form-label">Periode</label>
+                <label className="form-label">Periode</label>
                 <input
                   id="periode"
                   type="date"

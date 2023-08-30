@@ -249,7 +249,7 @@ function LihatTagihanByMember() {
         window.location.reload();
       }, 1500);
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   };
 
@@ -285,7 +285,7 @@ function LihatTagihanByMember() {
         }
       })
       .catch((err) => {
-        //console.log(err);
+        console.log(err);
       });
   };
 

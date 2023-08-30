@@ -88,7 +88,7 @@ function EditTagihan() {
         setSuggestionsActive(false);
       }
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   };
 

@@ -116,7 +116,7 @@ function EditMember() {
         setOrganization(data.data);
       }
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   };
 
@@ -129,7 +129,7 @@ function EditMember() {
         setCostumer(data.data);
       }
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   };
 

@@ -86,7 +86,7 @@ function TambahTransaction() {
         setSuggestionsActive(false);
       }
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   };
 
@@ -174,7 +174,7 @@ function TambahTransaction() {
         //console.log(data.data);
       }
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   };
 

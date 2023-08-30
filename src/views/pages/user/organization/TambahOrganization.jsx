@@ -1,6 +1,6 @@
-import { CButton, CCol, CForm, CFormInput } from "@coreui/react";
+import { CButton, CCol, CForm, CFormInput, CFormSelect } from "@coreui/react";
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 
 function TambahOrganization() {
   const [customer_id, setCustomer_id] = useState("");
+  const [customer, setCustomer] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const [suggestionsActive, setSuggestionsActive] = useState(false);
@@ -165,9 +166,31 @@ function TambahOrganization() {
         setSuggestionsActive(false);
       }
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   };
+
+  const GetCustomer = async () => {
+    try {
+      const { data, status } = await axios.get(
+        `${API_DUMMY}/user/customer`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      );
+      if (status === 200) {
+        setCustomer(data.data);
+        //console.log(data.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    GetCustomer();
+    //console.log(organization_id);
+  }, []);
 
   const handleGoBack = () => {
     navigate(-1); // Navigasi ke halaman sebelumnya
@@ -190,21 +213,25 @@ function TambahOrganization() {
                     type="text"
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Nama..."
-                    required
+                  // required
                   />
                 </CCol>
                 <CCol md={6}>
-                  <CFormInput
-                    id="customer_id"
-                    label="Customer_id"
-                    type="text"
-                    onKeyDown={handleKeyDown}
-                    onChange={handleChange}
-                    value={value}
-                    placeholder="Customer Id..."
-                  // required
-                  />
-                  {suggestionsActive && <Suggestions />}
+                  <CFormSelect
+                    aria-label="Default select example"
+                    value={customer_id}
+                    label="Customer"
+                    onChange={(e) => setCustomer_id(e.target.value.toString())}
+                  >
+                    <select style={{ height: "100px" }}>Pilih Customer</select>{" "}
+                    {customer.map((cos, i) => {
+                      return (
+                        <option value={cos.id} key={i}>
+                          {cos.email}
+                        </option>
+                      );
+                    })}
+                  </CFormSelect>
                 </CCol>
                 <CCol md={6}>
                   <CFormInput
@@ -212,7 +239,7 @@ function TambahOrganization() {
                     id="address"
                     onChange={(e) => setAddress(e.target.value)}
                     label="Alamat"
-                    required
+                  // required
                   />
                 </CCol>
                 <CCol md={6}>
@@ -221,7 +248,7 @@ function TambahOrganization() {
                     id="hp"
                     onChange={(e) => setHp(e.target.value)}
                     label="No Hp"
-                    required
+                  // required
                   />
                 </CCol>
                 <CCol md={6}>
@@ -230,7 +257,7 @@ function TambahOrganization() {
                     id="email"
                     onChange={(e) => setEmail(e.target.value)}
                     label="Email"
-                    required
+                  // required
                   />
                 </CCol>
                 <CCol md={6}>
@@ -239,7 +266,7 @@ function TambahOrganization() {
                     id="city"
                     onChange={(e) => setCity(e.target.value)}
                     label="Kota"
-                    required
+                  // required
                   />
                 </CCol>
                 <CCol md={6}>
@@ -248,7 +275,7 @@ function TambahOrganization() {
                     id="provinsi"
                     onChange={(e) => setProvinsi(e.target.value)}
                     label="Provinsi"
-                    required
+                  // required
                   />
                 </CCol>
                 <CCol md={6}>
@@ -257,7 +284,7 @@ function TambahOrganization() {
                     id="bank_account_name"
                     onChange={(e) => setBank_account_number(e.target.value)}
                     label="No Rekening"
-                    required
+                  // required
                   />
                 </CCol>
                 <CCol md={6}>
@@ -266,7 +293,7 @@ function TambahOrganization() {
                     id="bank_account_name"
                     onChange={(e) => setBank_account_name(e.target.value)}
                     label="Nama Rekening"
-                    required
+                  // required
                   />
                 </CCol>
                 <CCol md={6}>
@@ -275,7 +302,7 @@ function TambahOrganization() {
                     id="bank_name"
                     onChange={(e) => setBank_name(e.target.value)}
                     label="Nama Bank"
-                    required
+                  // required
                   />
                 </CCol>
                 <CCol md={6}>
@@ -284,7 +311,7 @@ function TambahOrganization() {
                     id="balance"
                     onChange={(e) => setBalance(e.target.value)}
                     label="Saldo"
-                    required
+                  // required
                   />
                 </CCol>
 

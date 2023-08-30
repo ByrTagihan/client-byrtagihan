@@ -8,7 +8,7 @@ import {
   CRow,
   CCard,
   CCardBody,
-  CInputGroup,
+  CFormSelect,
   CInputGroupText,
 } from "@coreui/react";
 import axios from "axios";
@@ -21,6 +21,7 @@ function UserOrganization() {
   const handleClose = () => setShow(false);
 
   const [customer_id, setCustomer_id] = useState("");
+  const [customer, setCustomer] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const [suggestionsActive, setSuggestionsActive] = useState(false);
@@ -244,9 +245,31 @@ function UserOrganization() {
         setSuggestionsActive(false);
       }
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   };
+
+  const GetCustomer = async () => {
+    try {
+      const { data, status } = await axios.get(
+        `${API_DUMMY}/user/customer`,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      );
+      if (status === 200) {
+        setCustomer(data.data);
+        //console.log(data.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    GetCustomer();
+    //console.log(organization_id);
+  }, []);
 
   const handleGoBack = () => {
     navigate(-1); // Navigasi ke halaman sebelumnya
@@ -291,16 +314,20 @@ function UserOrganization() {
                     Customer Id
                   </CFormLabel>
                   <CCol sm={10}>
-                    <CFormInput
-                      id="customer_id"
-                      type="text"
-                      onKeyDown={handleKeyDown}
-                      onChange={handleChange}
-                      value={value}
-                      placeholder="Customer Id..."
-                      required
-                    />
-                    {suggestionsActive && <Suggestions />}
+                    <CFormSelect
+                      aria-label="Default select example"
+                      value={customer_id}
+                      onChange={(e) => setCustomer_id(e.target.value.toString())}
+                    >
+                      <select style={{ height: "100px" }}>Pilih Customer</select>{" "}
+                      {customer.map((cos, i) => {
+                        return (
+                          <option value={cos.id} key={i}>
+                            {cos.email}
+                          </option>
+                        );
+                      })}
+                    </CFormSelect>
                   </CCol>
                 </CRow>
                 <CRow className="mb-3">

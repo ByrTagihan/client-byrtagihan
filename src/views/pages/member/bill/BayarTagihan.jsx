@@ -54,7 +54,7 @@ function BayarTagihan() {
           //console.log(data.data);
         }
       } catch (err) {
-        //console.log(err);
+        console.log(err);
       }
     } else {
       Swal.fire(

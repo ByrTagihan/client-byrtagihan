@@ -39,7 +39,7 @@ function ListTagihan() {
                     setBill(data.data);
                 }
             } catch (err) {
-                //console.log(err);
+                console.log(err);
             }
         } else {
             Swal.fire(

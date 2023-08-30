@@ -106,7 +106,7 @@ function TambahMember() {
         // //console.log(data.data);
       }
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   };
 
@@ -119,7 +119,7 @@ function TambahMember() {
         setCostumer(data.data);
       }
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   };
 
