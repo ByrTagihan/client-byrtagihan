@@ -16,7 +16,7 @@ import { API_DUMMY, API_URL } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { storage } from "../../../Firebase";
-import { getDownloadURL, ref, uploadBytes} from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 function UserProfile() {
   const [show, setShow] = useState(false);
@@ -36,59 +36,58 @@ function UserProfile() {
     picture: "",
   });
 
-  
+
 
   // function add picture
   // const add = async (e) => {
   //   e.preventDefault();
   //   e.persist();
 
-    if (foto) {
-      const image = new Image();
-      image.src = URL.createObjectURL(foto);
+  if (foto) {
+    const image = new Image();
+    image.src = URL.createObjectURL(foto);
 
-      image.onload = () => {
-        const width = image.width;
-        const height = image.height;
+    image.onload = () => {
+      const width = image.width;
+      const height = image.height;
 
-        if (width === height) {
-          const data = new FormData();
-          data.append("file", foto);
+      if (width === height) {
+        const data = new FormData();
+        data.append("file", foto);
 
-          axios
-            .post(`${API_URL}/files`, data, {
-              headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-            })
-            .then((response) => {
-              const imageUrl = response.data.data;
-              setProfile((prevProfile) => ({
-                ...prevProfile,
-                picture: imageUrl,
-              }));
-              setFoto(imageUrl);
+        axios
+          .post(`${API_URL}/files`, data, {
+            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          })
+          .then((response) => {
+            const imageUrl = response.data.data;
+            setProfile((prevProfile) => ({
+              ...prevProfile,
+              picture: imageUrl,
+            }));
+            setFoto(imageUrl);
 
-              localStorage.setItem("profilePicture", imageUrl);
-            })
-            .catch((error) => {
-              // Handle error
-            });
-
-          setShow(false);
-          Swal.fire({
-            icon: "success",
-            title: "Foto berhasil ditambahkan",
-            showConfirmButton: false,
-            timer: 1500,
+            localStorage.setItem("profilePicture", imageUrl);
+          })
+          .catch((error) => {
+            // Handle error
           });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Ukuran foto harus 1:1 (persegi)",
-            text: "Harap unggah gambar dengan rasio aspek 1:1.",
-          });
-        }
-      };
-    }
+
+        setShow(false);
+        Swal.fire({
+          icon: "success",
+          title: "Foto berhasil ditambahkan",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Ukuran foto harus 1:1 (persegi)",
+          text: "Harap unggah gambar dengan rasio aspek 1:1.",
+        });
+      }
+    };
   };
 
   // function update profile
@@ -181,11 +180,11 @@ function UserProfile() {
       <div className="box1">
         <h4 className="textProfile">Profile User</h4>
         <div style={{ padding: "10px" }}>
-          <img className="images2" style={{ width: "20rem", borderRadius:"3%" }} src={profile.picture} alt="" />
+          <img className="images2" style={{ width: "20rem", borderRadius: "3%" }} src={profile.picture} alt="" />
         </div>
       </div>
 
-     <div className="box2">
+      <div className="box2">
         <h6 className="mb-2">Id : {profile.id}</h6>
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> email: {profile.email}

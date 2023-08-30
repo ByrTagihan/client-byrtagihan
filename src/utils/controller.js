@@ -68,7 +68,7 @@ export const deleteData = async (item, path, setPath) => {
       }
     })
     .catch((err) => {
-      //console.log(err);
+      console.log(err);
     });
 };
 

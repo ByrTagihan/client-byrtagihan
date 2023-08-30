@@ -169,7 +169,7 @@ function Tagihan() {
         }
       })
       .catch((err) => {
-        //console.log(err);
+        console.log(err);
       });
   };
 
