@@ -69,7 +69,7 @@ function TambahMember() {
           window.location.reload();
         }, 1500);
       } catch (error) {
-        //console.log(error);
+        console.log(error);
         Swal.fire({
           icon: "error",
           title: "Gagal Menambahkan",

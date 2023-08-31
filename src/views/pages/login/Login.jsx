@@ -122,7 +122,7 @@ const Login = () => {
         icon: "error",
         title: "email / Password Salah",
       });
-      //console.log(error);
+      console.log(error);
     }
   };
 

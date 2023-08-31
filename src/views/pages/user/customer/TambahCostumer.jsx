@@ -57,7 +57,7 @@ function TambahCostumer() {
           window.location.reload();
         }, 1500);
       } catch (error) {
-        //console.log(error);
+        console.log(error);
       }
     } else {
       Swal.fire(

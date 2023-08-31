@@ -531,12 +531,12 @@ function LihatTagihanByMember() {
 
           <Modal show={showEditSudahByr} onHide={!showEditSudahByr}>
             <form onSubmit={putSudahByr}>
-              <Modal.Header style={{ background: "#526D82" }}>
-                <Modal.Title style={{ color: "white" }}>
+              <Modal.Header>
+                <Modal.Title>
                   Modal Pembayaran
                 </Modal.Title>
               </Modal.Header>
-              <Modal.Body style={{ color: "black" }}>
+              <Modal.Body>
                 <label style={{ fontWeight: "bold", marginLeft: "4px" }}>
                   Paid Date :
                 </label>
@@ -572,10 +572,10 @@ function LihatTagihanByMember() {
                   variant="secondary"
                   onClick={() => setShowEditSudahByr(false)}
                 >
-                  Close
+                  Batal
                 </Button>
                 <Button variant="primary" type="submit">
-                  Save Changes
+                  Bayar
                 </Button>
               </Modal.Footer>
             </form>

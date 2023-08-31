@@ -60,7 +60,7 @@ function EditCustomer() {
           }, 1500);
         })
         .catch((error) => {
-          //console.log(error);
+          console.log(error);
         });
     } else {
       Swal.fire(
@@ -104,7 +104,7 @@ function EditCustomer() {
           });
       })
       .catch((error) => {
-        //console.log(error);
+        console.log(error);
       });
   }, []);
 

@@ -92,7 +92,7 @@ function BayarSemuaTagihan() {
                     setShowCard(true); // Menampilkan card
                 })
                 .catch((error) => {
-                    //console.log(error);
+                    console.log(error);
                     // Payment error
                     if (
                         error.response &&
@@ -114,7 +114,7 @@ function BayarSemuaTagihan() {
             setShowCard(true); // Menampilkan card
             setVisible(false); // Menyembunyikan modal
         } catch (error) {
-            //console.log(error);
+            console.log(error);
         }
 
         navigate(`/bayarSemuaTagihan`)

@@ -188,7 +188,7 @@ function DashboardCoba2() {
         });
       })
       .catch((error) => {
-        //console.log(error);
+        console.log(error);
       });
   };
 

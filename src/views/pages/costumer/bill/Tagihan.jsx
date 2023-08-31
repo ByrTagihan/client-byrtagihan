@@ -100,7 +100,7 @@ function Tagihan() {
   //       });
   //     })
   //     .catch((error) => {
-  //       //console.log(error);
+  //       console.log(error);
   //     });
   // };
   const bayarTagihan = async (e) => {
@@ -132,7 +132,7 @@ function Tagihan() {
         window.location.reload();
       }, 1500);
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   };
 
@@ -508,7 +508,7 @@ function Tagihan() {
                       className="btn btn-secondary"
                       onClick={() => setVisible(false)}
                     >
-                      Close
+                      Batal
                     </button>
                     <button className="btn btn-primary" type="submit">
                       Bayar
