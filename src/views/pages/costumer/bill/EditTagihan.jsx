@@ -48,7 +48,7 @@ function EditTagihan() {
           }, 1500);
         })
         .catch((error) => {
-          //console.log(error);
+          console.log(error);
         });
     } else {
       Swal.fire(
@@ -180,7 +180,7 @@ function EditTagihan() {
           });
       })
       .catch((error) => {
-        //console.log(error);
+        console.log(error);
       });
   }, []);
 

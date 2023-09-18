@@ -14,7 +14,7 @@ export const getAllData = async (path, setPath) => {
       setPath(res.data.data);
     })
     .catch((error) => {
-      //console.log(error);
+      console.log(error);
     });
 };
 
@@ -30,7 +30,7 @@ export const getAllDataById = async (item, path, setPath) => {
       setPath(res.data.data);
     })
     .catch((error) => {
-      //console.log(error);
+      console.log(error);
     });
 };
 export const deleteData = async (item, path, setPath) => {
@@ -63,7 +63,7 @@ export const deleteData = async (item, path, setPath) => {
             }, 1500);
           })
           .catch((error) => {
-            //console.log(error);
+            console.log(error);
           });
       }
     })
