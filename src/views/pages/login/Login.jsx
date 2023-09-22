@@ -190,7 +190,7 @@ const Login = () => {
                       onChange={handleOptionChange}
                     />
                     <label htmlFor="radio2" className="selector-item_label">
-                      Costumer
+                      Sekolah
                     </label>
                   </div>
                   <div className="selector-item">
@@ -204,7 +204,7 @@ const Login = () => {
                       value="User"
                     />
                     <label htmlFor="radio3" className="selector-item_label">
-                      User
+                      Admin
                     </label>
                   </div>
                 </div>
