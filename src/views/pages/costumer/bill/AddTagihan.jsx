@@ -180,7 +180,7 @@ function AddTagihan() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "Customer" ? (
+      {localStorage.getItem("type_token") === "customer" ? (
         <>
           <CCard>
             <CCardHeader className="card-header bg-transparent">
