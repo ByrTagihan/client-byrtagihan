@@ -195,7 +195,7 @@ const AppHeaderDropdown = () => {
         ) : (
           <></>
         )}
-        {localStorage.getItem("type_token") === "Customer" ? (
+        {localStorage.getItem("type_token") === "customer" ? (
           <CDropdownItem href="/#/customerOrganization">
             <CIcon icon={cilGraph} className="me-2" />
             Organization
@@ -206,7 +206,7 @@ const AppHeaderDropdown = () => {
         ) : (
           <></>
         )}
-        {localStorage.getItem("type_token") === "Customer" ? (
+        {localStorage.getItem("type_token") === "customer" ? (
           <CDropdownItem href="/#/customerMember">
             <CIcon icon={cibSuperuser} className="me-2" />
             Member
@@ -217,7 +217,7 @@ const AppHeaderDropdown = () => {
         ) : (
           <></>
         )}
-        {localStorage.getItem("type_token") === "Customer" ? (
+        {localStorage.getItem("type_token") === "customer" ? (
           <CDropdownItem href="/#/customerBill">
             <CIcon icon={cilDollar} className="me-2" />
             Bill
@@ -261,7 +261,7 @@ const AppHeaderDropdown = () => {
         ) : (
           <></>
         )}
-        {localStorage.getItem("type_token") === "Member" ? (
+        {localStorage.getItem("type_token") === "member" ? (
           <CDropdownItem href="/#/memberChannel">
             <CIcon icon={cilTask} className="me-2" />
             Channel
@@ -272,7 +272,7 @@ const AppHeaderDropdown = () => {
         ) : (
           <></>
         )}
-        {localStorage.getItem("type_token") === "Member" ? (
+        {localStorage.getItem("type_token") === "member" ? (
           <CDropdownItem href="/#/listTagihanMember">
             <CIcon icon={cilCommentSquare} className="me-2" />
             Bill
@@ -283,7 +283,7 @@ const AppHeaderDropdown = () => {
         ) : (
           <></>
         )}
-        {localStorage.getItem("type_token") === "Customer" ? (
+        {localStorage.getItem("type_token") === "customer" ? (
           <CDropdownItem href="/#/customerProfile">
             <CIcon icon={cilUser} className="me-2" />
             Profile
@@ -329,7 +329,7 @@ const AppHeaderDropdown = () => {
         )}
         <CDropdownDivider />
 
-        {localStorage.getItem("type_token") === "Customer" ? (
+        {localStorage.getItem("type_token") === "customer" ? (
           <CDropdownItem href="/#/gantiPasswordCustomer">
             <CIcon icon={cilLockLocked} className="me-2" />
             Ganti Password
@@ -338,7 +338,7 @@ const AppHeaderDropdown = () => {
           <></>
         )}
 
-        {localStorage.getItem("type_token") === "Member" ? (
+        {localStorage.getItem("type_token") === "member" ? (
           <CDropdownItem href="/#/gantiPasswordMember">
             <CIcon icon={cilLockLocked} className="me-2" />
             Ganti Password

@@ -46,7 +46,7 @@ function EditTransaction() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("type_token") === "User") {
+    if (localStorage.getItem("type_token") === "user") {
       axios
         .get(`${API_DUMMY}/user/transaction/` + param.id, {
           headers: {
@@ -85,7 +85,7 @@ function EditTransaction() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "User" ? (
+      {localStorage.getItem("type_token") === "user" ? (
         <div className="card mb-3">
           <div className="card-header bg-transparent">
             <h5>Edit Transaction</h5>

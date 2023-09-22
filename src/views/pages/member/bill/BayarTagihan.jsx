@@ -41,7 +41,7 @@ function BayarTagihan() {
   const [role, setRole] = useState("");
 
   const GetChannel = async () => {
-    if (localStorage.getItem("type_token") === "Member") {
+    if (localStorage.getItem("type_token") === "member") {
       try {
         const { data, status } = await axios.get(
           `${API_DUMMY}/member/channel`,
@@ -131,7 +131,7 @@ function BayarTagihan() {
 
   return (
     <div className="mb-5">
-      {localStorage.getItem("type_token") === "Member" ? (
+      {localStorage.getItem("type_token") === "member" ? (
         <>
           {!showCard && (
             <CCard>

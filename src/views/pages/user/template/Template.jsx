@@ -25,7 +25,7 @@ function Template() {
   const navigate = useNavigate();
 
   const getAll = async () => {
-    if (localStorage.getItem("type_token") === "User") {
+    if (localStorage.getItem("type_token") === "user") {
       await axios
         .get(`${API_DUMMY}/user/template?page=${currentPage}&limit=${limit}`, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -188,7 +188,7 @@ function Template() {
   };
   return (
     <div className="row">
-      {localStorage.getItem("type_token") === "User" ? (
+      {localStorage.getItem("type_token") === "user" ? (
         <>
           <div className="col" xs={12}>
             <div className="inputSearch1">

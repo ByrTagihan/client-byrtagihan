@@ -49,7 +49,7 @@ function DashboardMember() {
 
   // function get bill
   const getAll = async () => {
-    if (localStorage.getItem("type_token") === "Member") {
+    if (localStorage.getItem("type_token") === "member") {
       await axios
         .get(`${API_DUMMY}/member/bill?limit=10000`, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -89,7 +89,7 @@ function DashboardMember() {
     }
   };
 
-  // function get recap bill 
+  // function get recap bill
   const getRecapBill = async () => {
     await axios
       .get(`${API_DUMMY}/member/report/recap/bill?limit=10000`, {
@@ -280,7 +280,7 @@ function DashboardMember() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "Member" ? (
+      {localStorage.getItem("type_token") === "member" ? (
         <>
           <CRow>
             <CCol sm={6} lg={3}>

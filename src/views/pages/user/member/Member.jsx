@@ -45,7 +45,7 @@ function Member() {
 
   // Function get
   const get = async () => {
-    if (localStorage.getItem("type_token") === "User") {
+    if (localStorage.getItem("type_token") === "user") {
       try {
         const { data, status } = await axios.get(
           `${API_DUMMY}/user/member?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
@@ -189,7 +189,7 @@ function Member() {
 
   return (
     <div className="mb-5">
-      {localStorage.getItem("type_token") === "User" ? (
+      {localStorage.getItem("type_token") === "user" ? (
         <>
           <CCard>
             <CCardHeader>

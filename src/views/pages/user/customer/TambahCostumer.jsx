@@ -28,7 +28,7 @@ function TambahCostumer() {
   let navigate = useNavigate();
 
   const add = async (e) => {
-    if (localStorage.getItem("type_token") === "User") {
+    if (localStorage.getItem("type_token") === "user") {
       e.preventDefault();
       e.persist();
 
@@ -91,7 +91,7 @@ function TambahCostumer() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "User" ? (
+      {localStorage.getItem("type_token") === "user" ? (
         <>
           <div className="card mb-3">
             <div className="card-header bg-transparent">

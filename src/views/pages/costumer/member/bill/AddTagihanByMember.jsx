@@ -84,7 +84,7 @@ function AddTagihanByMember() {
 
   return (
     <CCard className="card mb-3">
-      {localStorage.getItem("type_token") === "Customer" ? (
+      {localStorage.getItem("type_token") === "customer" ? (
         <>
           <CCardHeader className="card-header bg-transparent">
             <h4>Tambah Tagihan</h4>

@@ -38,7 +38,7 @@ function EditMember() {
   const navigate = useNavigate();
 
   const Put = async (e) => {
-    if (localStorage.getItem("type_token") === "User") {
+    if (localStorage.getItem("type_token") === "user") {
       e.preventDefault();
       e.persist();
 
@@ -155,7 +155,7 @@ function EditMember() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "User" ? (
+      {localStorage.getItem("type_token") === "user" ? (
         <>
           <CCard>
             <CCardBody>

@@ -49,7 +49,7 @@ function LihatTagihanByMember() {
   const [role, setRole] = useState("");
 
   const getAll = async () => {
-    if (localStorage.getItem("type_token") === "Customer") {
+    if (localStorage.getItem("type_token") === "customer") {
       await axios
         .get(
           `${API_DUMMY}/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}&filter${searchTerm}`,
@@ -291,7 +291,7 @@ function LihatTagihanByMember() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "Customer" ? (
+      {localStorage.getItem("type_token") === "customer" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>

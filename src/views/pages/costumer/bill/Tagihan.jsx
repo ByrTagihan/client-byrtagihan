@@ -245,7 +245,7 @@ function Tagihan() {
   };
   return (
     <div>
-      {localStorage.getItem("type_token") === "Customer" ? (
+      {localStorage.getItem("type_token") === "customer" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>

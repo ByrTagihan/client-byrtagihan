@@ -18,7 +18,7 @@ function EditListDataSiswa() {
   // const history = useHistory();
 
   useEffect(() => {
-    if (localStorage.getItem("type_token") === "Customer") {
+    if (localStorage.getItem("type_token") === "customer") {
       axios
         .get(`${API_DUMMY}/customer/member/` + param.id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -55,7 +55,7 @@ function EditListDataSiswa() {
   }, []);
 
   const putData = async (e) => {
-    if (localStorage.getItem("type_token") === "Customer") {
+    if (localStorage.getItem("type_token") === "customer") {
       e.preventDefault();
       e.persist();
 
@@ -105,7 +105,7 @@ function EditListDataSiswa() {
 
   return (
     <div style={{ padding: "10px", borderRadius: "20px" }}>
-      {localStorage.getItem("type_token") === "Customer" ? (
+      {localStorage.getItem("type_token") === "customer" ? (
         <CCard>
           <CCardHeader>
             <h4>Edit Data Siswa</h4>

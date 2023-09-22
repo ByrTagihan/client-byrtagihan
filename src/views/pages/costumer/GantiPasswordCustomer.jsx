@@ -25,7 +25,7 @@ const GantiPasswordCustomer = () => {
   const navigate = useNavigate();
 
   const Put = async (e) => {
-    if (localStorage.getItem("type_token") === "Customer") {
+    if (localStorage.getItem("type_token") === "customer") {
       e.preventDefault();
       e.persist();
 
@@ -81,7 +81,7 @@ const GantiPasswordCustomer = () => {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "Customer" ? (
+      {localStorage.getItem("type_token") === "customer" ? (
         <>
           <div className="bg-light min-vh-99 d-flex flex-row align-items-center">
             <CContainer>

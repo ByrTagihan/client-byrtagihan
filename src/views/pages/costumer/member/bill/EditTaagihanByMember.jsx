@@ -63,7 +63,7 @@ function EditTaagihanByMember() {
 
   return (
     <div className="card mb-3">
-      {localStorage.getItem("type_token") === "Customer" ? (
+      {localStorage.getItem("type_token") === "customer" ? (
         <>
           <CCardHeader>
             <h4>Edit Tagihan</h4>

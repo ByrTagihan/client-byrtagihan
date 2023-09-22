@@ -19,7 +19,7 @@ function EditTagihan() {
   let navigate = useNavigate();
 
   const updateTagihan = async (e) => {
-    if (localStorage.getItem("type_token") === "Customer") {
+    if (localStorage.getItem("type_token") === "customer") {
       e.preventDefault();
       const req = {
         member_id: memberId,
@@ -195,7 +195,7 @@ function EditTagihan() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "Customer" ? (
+      {localStorage.getItem("type_token") === "customer" ? (
         <>
           <CCard>
             <CCardHeader className="card-header bg-transparent">

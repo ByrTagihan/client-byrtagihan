@@ -75,7 +75,7 @@ function AddListDataSiswa() {
 
   return (
     <CCard>
-      {localStorage.getItem("type_token") === "Customer" ? (
+      {localStorage.getItem("type_token") === "customer" ? (
         <>
           <CCardHeader className="card-header bg-transparent">
             <h4>Tambah Data Siswa</h4>

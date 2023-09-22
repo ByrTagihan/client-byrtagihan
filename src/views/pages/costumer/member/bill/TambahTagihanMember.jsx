@@ -66,7 +66,7 @@ function TambahTagihanMember() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "Customer" ? (
+      {localStorage.getItem("type_token") === "customer" ? (
         <>
           <CCard className="p-4">
             <CCardBody>

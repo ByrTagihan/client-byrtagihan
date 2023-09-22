@@ -146,7 +146,7 @@ function Organization() {
   };
   return (
     <div>
-      {localStorage.getItem("type_token") === "User" ? (
+      {localStorage.getItem("type_token") === "user" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>
