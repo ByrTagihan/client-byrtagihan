@@ -59,7 +59,7 @@ function LIstDataSIswa() {
   };
 
   const getAll = async () => {
-    if (localStorage.getItem("type_token") === "Customer") {
+    if (localStorage.getItem("type_token") === "customer") {
       await axios
         .get(
           `${API_DUMMY}/customer/member?page=${currentPage}&limit=${limit}&filter=${searchTerm}`,
@@ -142,7 +142,7 @@ function LIstDataSIswa() {
 
   const [idd, setId] = useState(0);
   const getById = async (id) => {
-    if (localStorage.getItem("type_token") === "Customer") {
+    if (localStorage.getItem("type_token") === "customer") {
       await axios
         .get(`${API_DUMMY}/customer/member/` + id, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -282,7 +282,7 @@ function LIstDataSIswa() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "Customer" ? (
+      {localStorage.getItem("type_token") === "customer" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>

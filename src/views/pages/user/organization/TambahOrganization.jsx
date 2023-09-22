@@ -27,7 +27,7 @@ function TambahOrganization() {
   const navigate = useNavigate();
 
   const Post = async (e) => {
-    if (localStorage.getItem("type_token") === "User") {
+    if (localStorage.getItem("type_token") === "user") {
       e.preventDefault();
       const data = {
         name: name,
@@ -198,7 +198,7 @@ function TambahOrganization() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "User" ? (
+      {localStorage.getItem("type_token") === "user" ? (
         <>
           <div className="card mb-3">
             <div className="card-header bg-transparent">
