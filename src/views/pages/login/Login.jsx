@@ -63,7 +63,7 @@ const Login = () => {
             timer: 1500,
           });
           localStorage.setItem("type_token", data.data.type_token);
-          localStorage.setItem("id", data.data.data.id);
+          localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
           navigate("/dashboardd");
           setTimeout(() => {
@@ -86,7 +86,7 @@ const Login = () => {
             showConfirmButton: false,
           });
           localStorage.setItem("type_token", data.data.type_token);
-          localStorage.setItem("id", data.data.data.id);
+          localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
           navigate("/dashboardUser");
           setTimeout(() => {
@@ -109,7 +109,7 @@ const Login = () => {
             showConfirmButton: false,
           });
           localStorage.setItem("type_token", data.data.type_token);
-          localStorage.setItem("id", data.data.data.id);
+          localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
           navigate("/dashboardMember");
           setTimeout(() => {
