@@ -163,7 +163,7 @@ function ListTagihan() {
                                                         <CTableDataCell data-cell="Tanggal Bayar">{bil.paid_date}</CTableDataCell>
                                                         <CTableDataCell data-cell="Nominal Bayar">{bil.paid_amount}</CTableDataCell>
                                                         <CTableDataCell data-cell="Action">
-                                                            {bil.amount === bil.paid_amount ? (
+                                                            {bil.amount <= bil.paid_amount ? (
                                                                 <CButton color='danger' onClick={handleLunas}>
                                                                     Lunas
                                                                 </CButton>
