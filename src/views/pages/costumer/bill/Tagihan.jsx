@@ -373,7 +373,7 @@ function Tagihan() {
                           <td data-cell="Nama Murid">{data.member_name}</td>
                           <td data-cell="Description">{data.description}</td>
                           <td data-cell="Periode">{data.periode}</td>
-                          <td data-cell="Nominal">{data.amount}</td>
+                          <td data-cell="Nominal">{data.amount_formated}</td>
                           <td data-cell="Status">
                             {data.paid_id != 0 ? (
                               <span>Sudah Bayar</span>
