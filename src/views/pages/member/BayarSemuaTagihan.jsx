@@ -35,6 +35,7 @@ function BayarSemuaTagihan() {
         va_expired_date: "",
         channel_name: "",
         va_number: "",
+        descriptions: [],
     });
     const [role, setRole] = useState('');
 
