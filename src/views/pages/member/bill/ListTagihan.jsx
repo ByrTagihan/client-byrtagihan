@@ -67,6 +67,11 @@ function ListTagihan() {
         setSelectAll(!selectAll);
     };
 
+    const handleSelectBilll = (billId) => {
+        setSelectedBills(billId);
+
+    };
+
     // function page change
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -131,7 +136,7 @@ function ListTagihan() {
                                                 <CTableHeaderCell scope="col">
                                                     <CFormCheck id="flexCheckDefault" onChange={handleSelectAll} checked={selectAll} />
                                                 </CTableHeaderCell>
-                                                <CTableHeaderCell scope="col">Id</CTableHeaderCell>
+                                                <CTableHeaderCell scope="col">No</CTableHeaderCell>
                                                 <CTableHeaderCell scope="col">Keterangan</CTableHeaderCell>
                                                 <CTableHeaderCell scope="col">Periode</CTableHeaderCell>
                                                 <CTableHeaderCell scope="col">Nominal</CTableHeaderCell>
@@ -146,7 +151,10 @@ function ListTagihan() {
                                                 return (
                                                     <CTableRow key={index}>
                                                         <CTableHeaderCell scope="row">
+                                                            {/*<CFormCheck onChange={handleSelectBilll(bill.id)}/>*/}
                                                         </CTableHeaderCell>
+
+                                                        <CTableHeaderCell scope="col">Id</CTableHeaderCell>
                                                         <CTableHeaderCell data-cell="No">{index + 1}</CTableHeaderCell>
                                                         <CTableDataCell data-cell="Deskripsi">{bil.description}</CTableDataCell>
                                                         <CTableDataCell data-cell="Periode">{bil.periode}</CTableDataCell>
@@ -195,7 +203,7 @@ function ListTagihan() {
                                     <p>Total Pembayaran: Rp.{selectedBills.reduce((total, bil) => total + bil.amount, 0)}</p>
                                     <CButton
                                         disabled={selectedBills.length === 0} // Menonaktifkan tombol jika tidak ada tagihan yang dipilih
-                                        onClick={() => navigate(`/bayarSemuaTagihan`)}
+                                        onClick={() => navigate(`/bayarTagihan/all`)}
                                     >
                                         Bayar Semua
                                     </CButton>
