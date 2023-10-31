@@ -95,6 +95,7 @@ function BayarSemuaTagihan() {
                     setChannel_name(byr.channel_name);
                     setVa_number(byr.va_number);
                     setShowCard(true); // Menampilkan card
+                    console,log('bayar ',bayar)
                 })
                 .catch((error) => {
                     console.log(error);
@@ -170,7 +171,7 @@ function BayarSemuaTagihan() {
                                     <h3>Pembayaran</h3>
                                 </CListGroupItem>
                                 <CListGroupItem>
-                                    <p>Rincian: {bayar}</p>
+                                    <p>Rincian:</p>
                                     {bayar.descriptions && bayar.descriptions.length > 0 && ((desc, index) => (
                                         <ul key={index} className="ms-5">
                                             <div className='d-flex justify-content-between'>
