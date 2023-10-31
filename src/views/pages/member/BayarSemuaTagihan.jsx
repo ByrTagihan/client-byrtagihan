@@ -170,7 +170,7 @@ function BayarSemuaTagihan() {
                                     <h3>Pembayaran</h3>
                                 </CListGroupItem>
                                 <CListGroupItem>
-                                    <p>Rincian: </p>
+                                    <p>Rincian: {bayar}</p>
                                     {bayar.descriptions && bayar.descriptions.length > 0 && ((desc, index) => (
                                         <ul key={index} className="ms-5">
                                             <div className='d-flex justify-content-between'>
