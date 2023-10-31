@@ -95,7 +95,6 @@ function BayarSemuaTagihan() {
                     setChannel_name(byr.channel_name);
                     setVa_number(byr.va_number);
                     setShowCard(true); // Menampilkan card
-                    console.log('bayar ',bayar)
                 })
                 .catch((error) => {
                     console.log(error);
