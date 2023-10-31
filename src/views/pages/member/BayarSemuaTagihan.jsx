@@ -26,6 +26,7 @@ function BayarSemuaTagihan() {
     const [visible, setVisible] = useState(false)
     const [showCard, setShowCard] = useState(false);
     const navigate = useNavigate();
+    const [amount, setAmount] = useState("");
     const [bayar, setBayar] = useState({
         amount: "",
         va_expired_date: "",
