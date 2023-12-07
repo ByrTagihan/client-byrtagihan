@@ -4,11 +4,14 @@ import App from './App.jsx'
 import './index.css'
 import { Provider } from 'react-redux'
 import store from './store'
+import { SelectedBillIdsProvider } from './views/pages/member/bill/SelectedBillIdsContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
       <Provider store={store}>
-        <App />
+      <SelectedBillIdsProvider>
+      <App />
+    </SelectedBillIdsProvider>
       </Provider>
   </React.StrictMode>,
 )

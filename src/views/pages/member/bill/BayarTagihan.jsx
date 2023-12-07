@@ -19,6 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
+import { useSelectedBillIds } from "./SelectedBillIdsContext";
 
 function BayarTagihan() {
   const [channel, setChannel] = useState([]);
@@ -51,7 +52,6 @@ function BayarTagihan() {
         );
         if (status === 200) {
           setChannel(data.data);
-          //console.log(data.data);
         }
       } catch (err) {
         console.log(err);
@@ -62,7 +62,6 @@ function BayarTagihan() {
         "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa",
         "error"
       ).then((result) => {
-        //Untuk munuju page selanjutnya
         navigate("/");
         setTimeout(() => {
           window.location.reload();
@@ -72,14 +71,32 @@ function BayarTagihan() {
     }
   };
 
+  const { selectedBillIds } = useSelectedBillIds();
+    const [paymentPayload, setPaymentPayload] = useState(null);
+
   const bayarTagihan = async (e) => {
     e.preventDefault();
     e.persist();
 
+    const selectedIdsData = {
+      ids: selectedBillIds,
+    };
+
+    // Menyimpan payload ID yang dipilih ke state
+    setPaymentPayload(selectedIdsData);
+
+    // Menampilkan card
+    setShowCard(true);
+
     try {
       const data = {
         channel_id: channel_id,
+        ids: selectedBillIds,
       };
+
+      console.log("Selected IDs Payload:", selectedIdsData);
+
+
       await axios
         .post(`${API_DUMMY}/member/bill/${id}/payment`, data, {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -91,18 +108,16 @@ function BayarTagihan() {
           setVa_expired_date(byr.va_expired_date);
           setChannel_name(byr.channel_name);
           setVa_number(byr.va_number);
-          setShowCard(true); // Menampilkan card
+          displayPayload();
         })
         .catch((error) => {
           console.log(error);
-          // Payment error
           if (
             error.response &&
             error.response.data &&
             error.response.data.description
           ) {
             const errorDescription = error.response.data.description;
-            // Menggunakan data description dalam SweetAlert
             Swal.fire({
               title: "Error",
               text: errorDescription,
@@ -112,20 +127,18 @@ function BayarTagihan() {
         });
     } catch (error) {
       console.log(error);
-      // Request error
       Swal.fire({
         title: "Error",
         text: "Gagal melakukan permintaan pembayaran.",
         icon: "error",
       });
     }
-
     navigate(`/bayarTagihan/${id}`);
   };
 
   useEffect(() => {
     GetChannel();
-    const userRoleFromServer = "member"; // Ganti dengan peran aktual dari data yang diterima
+    const userRoleFromServer = "member";
     setRole(userRoleFromServer);
   }, []);
 
@@ -143,8 +156,7 @@ function BayarTagihan() {
                   <CFormSelect
                     aria-label="Default select example"
                     value={channel_id}
-                    onChange={(e) => setChannel_id(e.target.value.toString())}
-                  >
+                    onChange={(e) => setChannel_id(e.target.value.toString())}>
                     <option>Pilih metode pembayaran</option>
                     {channel.map((chan, i) => {
                       return (
@@ -159,8 +171,7 @@ function BayarTagihan() {
                   <CButton
                     color="danger"
                     className="me-2"
-                    onClick={() => navigate(`/listTagihanMember`)}
-                  >
+                    onClick={() => navigate(`/listTagihanMember`)}>
                     Kembali
                   </CButton>
                   <CButton color="primary" onClick={bayarTagihan}>
@@ -208,8 +219,8 @@ function BayarTagihan() {
                   <b className="text-primary">
                     {bayar.va_expired_date
                       ? new Date(bayar.va_expired_date)
-                        .toISOString()
-                        .slice(0, -5)
+                          .toISOString()
+                          .slice(0, -5)
                       : ""}
                   </b>
                 </CListGroupItem>
@@ -249,8 +260,7 @@ function BayarTagihan() {
                 <CListGroupItem className="text-center">
                   <CButton
                     className="gap-2 col-4 mx-auto"
-                    onClick={() => navigate(`/listTagihanMember`)}
-                  >
+                    onClick={() => navigate(`/listTagihanMember`)}>
                     Oke
                   </CButton>
                 </CListGroupItem>

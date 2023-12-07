@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import "../../../css/Profile.css";
 import axios from "axios";
-import { API_DUMMY, API_URL } from "../../../utils/baseURL";
+import { API_DUMMY} from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -52,7 +52,7 @@ function Profile() {
           data.append("file", foto);
 
           axios
-            .post(`${API_URL}/files`, data, {
+            .post(`${API_DUMMY}/files`, data, {
               headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
             })
             .then((response) => {

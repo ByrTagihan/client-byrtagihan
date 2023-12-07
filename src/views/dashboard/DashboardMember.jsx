@@ -46,6 +46,7 @@ function DashboardMember() {
   const [dataRecapTransaction, setDataRecapTransaction] = useState([]);
   const [totalRecapTransaction, setTotalRecapTransaction] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedBillIds, setSelectedBillIds] = useState([]);
 
   // function get bill
   const getAll = async () => {
@@ -75,9 +76,9 @@ function DashboardMember() {
         });
     } else {
       Swal.fire(
-        'Peringatan',
-        'Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa',
-        'error'
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai siswa",
+        "error"
       ).then((result) => {
         //Untuk munuju page selanjutnya
         navigate("/");
@@ -170,9 +171,9 @@ function DashboardMember() {
   // function lunas
   const handleLunas = () => {
     Swal.fire({
-      title: 'Informasi',
-      text: 'Tagihan sudah lunas',
-      icon: 'info',
+      title: "Informasi",
+      text: "Tagihan sudah lunas",
+      icon: "info",
     });
   };
 
@@ -204,14 +205,38 @@ function DashboardMember() {
       });
   };
 
-  // function select all bill
   const handleSelectAll = () => {
     if (selectAll) {
       setSelectedBills([]);
+      setSelectedBillIds([]);
     } else {
       setSelectedBills(bill);
+      setSelectedBillIds(bill.map((item) => item.id));
     }
     setSelectAll(!selectAll);
+  };
+
+  const handleCheckboxChange = (id) => {
+    const selectedIds = [...selectedBillIds];
+
+    if (selectedIds.includes(id)) {
+      // Remove ID if already selected
+      const index = selectedIds.indexOf(id);
+      selectedIds.splice(index, 1);
+    } else {
+      // Add ID if not selected
+      selectedIds.push(id);
+    }
+
+    setSelectedBillIds(selectedIds);
+    setSelectAll(selectedIds.length === bill.length);
+  };
+
+  const calculateTotalPayment = () => {
+    const selectedBills = bill.filter((bil) =>
+      selectedBillIds.includes(bil.id)
+    );
+    return selectedBills.reduce((total, bil) => total + bil.amount, 0);
   };
 
   // function page change
@@ -239,29 +264,36 @@ function DashboardMember() {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
 
     return displayedPages.map((page, index) =>
-      page === 'dot' ? (
+      page === "dot" ? (
         <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? ' active' : '')}
-        >
+          className={"page-item" + (currentPage === page ? " active" : "")}>
           <a className="page-link">{page}</a>
         </li>
       )
@@ -298,12 +330,8 @@ function DashboardMember() {
                     <CDropdownToggle
                       color="transparent"
                       caret={false}
-                      className="p-0"
-                    >
-                      <CIcon
-                        icon={cilArrowBottom}
-                        style={{ color: "white" }}
-                      />
+                      className="p-0">
+                      <CIcon icon={cilArrowBottom} style={{ color: "white" }} />
                     </CDropdownToggle>
                   </CDropdown>
                 }
@@ -392,12 +420,8 @@ function DashboardMember() {
                     <CDropdownToggle
                       color="transparent"
                       caret={false}
-                      className="p-0"
-                    >
-                      <CIcon
-                        icon={cilArrowBottom}
-                        style={{ color: "white" }}
-                      />
+                      className="p-0">
+                      <CIcon icon={cilArrowBottom} style={{ color: "white" }} />
                     </CDropdownToggle>
                   </CDropdown>
                 }
@@ -486,12 +510,8 @@ function DashboardMember() {
                     <CDropdownToggle
                       color="transparent"
                       caret={false}
-                      className="p-0"
-                    >
-                      <CIcon
-                        icon={cilArrowBottom}
-                        style={{ color: "white" }}
-                      />
+                      className="p-0">
+                      <CIcon icon={cilArrowBottom} style={{ color: "white" }} />
                     </CDropdownToggle>
                   </CDropdown>
                 }
@@ -567,12 +587,8 @@ function DashboardMember() {
                     <CDropdownToggle
                       color="transparent"
                       caret={false}
-                      className="p-0"
-                    >
-                      <CIcon
-                        icon={cilArrowBottom}
-                        style={{ color: "white" }}
-                      />
+                      className="p-0">
+                      <CIcon icon={cilArrowBottom} style={{ color: "white" }} />
                     </CDropdownToggle>
                   </CDropdown>
                 }
@@ -650,8 +666,7 @@ function DashboardMember() {
               gap: "2.5rem",
               marginTop: "1em",
               marginBottom: "1rem",
-            }}
-          ></div>
+            }}></div>
 
           {bill.length === 0 ? (
             <div className="text-center">
@@ -680,7 +695,9 @@ function DashboardMember() {
                       /> */}
                         </CTableHeaderCell>
                         <CTableHeaderCell scope="col">Id</CTableHeaderCell>
-                        <CTableHeaderCell scope="col">Keterangan</CTableHeaderCell>
+                        <CTableHeaderCell scope="col">
+                          Keterangan
+                        </CTableHeaderCell>
                         <CTableHeaderCell scope="col">Periode</CTableHeaderCell>
                         <CTableHeaderCell scope="col">Nominal</CTableHeaderCell>
                         <CTableHeaderCell scope="col">Status</CTableHeaderCell>
@@ -697,7 +714,14 @@ function DashboardMember() {
                       {bill.map((bil, index) => {
                         return (
                           <CTableRow key={index}>
-                            <CTableHeaderCell scope="row"></CTableHeaderCell>
+                            <CTableHeaderCell scope="row">
+                              {" "}
+                              <CFormCheck
+                                id={`flexCheckDefault${bil.id}`}
+                                onChange={() => handleCheckboxChange(bil.id)}
+                                checked={selectedBillIds.includes(bil.id)}
+                              />
+                            </CTableHeaderCell>
                             <CTableHeaderCell data-cell="No">
                               {index + 1}
                             </CTableHeaderCell>
@@ -727,11 +751,14 @@ function DashboardMember() {
                             </CTableDataCell>
                             <CTableDataCell data-cell="Action">
                               {bil.amount === bil.paid_amount ? (
-                                <CButton color='danger' onClick={handleLunas}>
+                                <CButton color="danger" onClick={handleLunas}>
                                   Lunas
                                 </CButton>
                               ) : (
-                                <CButton onClick={() => navigate(`/bayarTagihan/${bil.id}`)}>
+                                <CButton
+                                  onClick={() =>
+                                    navigate(`/bayarTagihan/${bil.id}`)
+                                  }>
                                   Bayar
                                 </CButton>
                               )}
@@ -748,12 +775,10 @@ function DashboardMember() {
                         className={
                           "page-item " + (currentPage === 1 ? "disabled" : "")
                         }
-                        disabled={currentPage === 1}
-                      >
+                        disabled={currentPage === 1}>
                         <a
                           className="page-link"
-                          onClick={() => handlePageChange(currentPage - 1)}
-                        >
+                          onClick={() => handlePageChange(currentPage - 1)}>
                           Previous
                         </a>
                       </li>
@@ -763,12 +788,10 @@ function DashboardMember() {
                           "page-item " +
                           (currentPage === totalPages ? "disabled" : "")
                         }
-                        disabled={currentPage === totalPages}
-                      >
+                        disabled={currentPage === totalPages}>
                         <a
                           className="page-link"
-                          onClick={() => handlePageChange(currentPage + 1)}
-                        >
+                          onClick={() => handlePageChange(currentPage + 1)}>
                           Next
                         </a>
                       </li>
@@ -786,10 +809,10 @@ function DashboardMember() {
                   />
                   <p>
                     Total Pembayaran: Rp.
-                    {selectedBills.reduce((total, bil) => total + bil.amount, 0)}
+                    {calculateTotalPayment()}
                   </p>
                   <CButton onClick={() => navigate(`/bayarSemuaTagihan`)}>
-                    Bayar Semua
+                    Bayar
                   </CButton>
                 </CCardBody>
               </CCard>
@@ -797,8 +820,11 @@ function DashboardMember() {
           )}
         </>
       ) : (
-        <><p>Page Tidak Tersedia</p></>
-      )}</div>
+        <>
+          <p>Page Tidak Tersedia</p>
+        </>
+      )}
+    </div>
   );
 }
 

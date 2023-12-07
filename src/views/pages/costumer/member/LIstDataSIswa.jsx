@@ -11,6 +11,7 @@ import {
 import CIcon from "@coreui/icons-react";
 import {
   cilAddressBook,
+  cilCloud,
   cilLockLocked,
   cilLockUnlocked,
   cilMoney,
@@ -34,12 +35,15 @@ function LIstDataSIswa() {
   const [passwordIcon, setPasswordIcon] = useState("fa-solid fa-eye-slash");
   const [list, setList] = useState([]);
   const [show1, setShow1] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
   const [show, setShow] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sortBy, setSortBy] = useState("id");
   const [limit, setLimit] = useState(10);
   const [sortedList, setSortedList] = useState([]);
+  const [excel, setExcel] = useState("");
+  const [fileToUpload, setFileToUpload] = useState(null);
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: "ascending",
@@ -124,9 +128,7 @@ function LIstDataSIswa() {
     }
     if (searchTerm !== "") {
       sortedData = sortedData.filter((data) => {
-        return (
-          data.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        return data.name.toLowerCase().includes(searchTerm.toLowerCase());
       });
     }
     setSortedList(sortedData);
@@ -272,12 +274,35 @@ function LIstDataSIswa() {
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? " active" : "")}
-        >
+          className={"page-item" + (currentPage === page ? " active" : "")}>
           <a className="page-link">{page}</a>
         </li>
       )
     );
+  };
+  const importExcel = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("file xlsx", excel);
+
+    await axios
+      .post(
+        `${API_DUMMY}/api/customer/member/file`,
+        formData,
+        {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        }
+      )
+      .then(() => {
+        Swal.fire("Sukses!", " berhasil ditambahkan.", "success");
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire("Error", "Terjadi kesalahan saat upload file.", "error");
+      });
   };
 
   return (
@@ -304,8 +329,7 @@ function LIstDataSIswa() {
                 <select
                   className="form-select"
                   value={limit}
-                  onChange={handleChangeLimit}
-                >
+                  onChange={handleChangeLimit}>
                   <option value="1">Show 1 Entries</option>
                   <option value="10">Show 10 Entries</option>
                   <option value="100">Show 100 Entries</option>
@@ -319,6 +343,16 @@ function LIstDataSIswa() {
                       <h4>List Data Siswa</h4>
                     </div>
                     <div className="col">
+                      <button
+                        onClick={() => setShowUpload(true)}
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        className="btn btn-info float-end text-white">
+                        <CIcon icon={cilCloud} /> Upload
+                      </button>
+                    </div>
+                    <div className="col-2">
                       <Link to="/addListDataSiswa">
                         <button className="btn btn-primary float-end">
                           <CIcon icon={cilPlus} /> Tambah
@@ -333,14 +367,12 @@ function LIstDataSIswa() {
                       display: "flex",
                       justifyContent: "space-between",
                       gap: "10px",
-                    }}
-                  >
+                    }}>
                     <div className="inputSearch">
                       <select
                         className="form-select"
                         value={limit}
-                        onChange={handleChangeLimit}
-                      >
+                        onChange={handleChangeLimit}>
                         <option value="1">Show 1 Entries</option>
                         <option value="10">Show 10 Entries</option>
                         <option value="100">Show 100 Entries</option>
@@ -414,12 +446,10 @@ function LIstDataSIswa() {
                                 <button
                                   className="edit1"
                                   type="button"
-                                  style={{ background: "blue" }}
-                                >
+                                  style={{ background: "blue" }}>
                                   <a
                                     style={{ color: "white" }}
-                                    href={"/#/Editlistdatasiswa/" + data.id}
-                                  >
+                                    href={"/#/Editlistdatasiswa/" + data.id}>
                                     {" "}
                                     <CIcon icon={cilPencil} />
                                   </a>{" "}
@@ -427,8 +457,7 @@ function LIstDataSIswa() {
                                 <button
                                   className="edit1"
                                   onClick={() => deleteData(data.id)}
-                                  style={{ background: "red", color: "white" }}
-                                >
+                                  style={{ background: "red", color: "white" }}>
                                   <CIcon icon={cilTrash} />
                                 </button>
                                 <button
@@ -440,18 +469,15 @@ function LIstDataSIswa() {
                                   style={{
                                     background: "orange",
                                     color: "white",
-                                  }}
-                                >
+                                  }}>
                                   <CIcon icon={cilLockLocked} />
                                 </button>
                                 <button
                                   className="edit1"
-                                  style={{ background: "green" }}
-                                >
+                                  style={{ background: "green" }}>
                                   <a
                                     style={{ color: "white" }}
-                                    href={"/#/lihattagihanmember/" + data.id}
-                                  >
+                                    href={"/#/lihattagihanmember/" + data.id}>
                                     {" "}
                                     <CIcon icon={cilMoney} />
                                   </a>
@@ -469,12 +495,10 @@ function LIstDataSIswa() {
                       className={
                         "page-item " + (currentPage === 1 ? "disabled" : "")
                       }
-                      disabled={currentPage === 1}
-                    >
+                      disabled={currentPage === 1}>
                       <a
                         className="page-link"
-                        onClick={() => handlePageChange(currentPage - 1)}
-                      >
+                        onClick={() => handlePageChange(currentPage - 1)}>
                         Previous
                       </a>
                     </li>
@@ -484,12 +508,10 @@ function LIstDataSIswa() {
                         "page-item " +
                         (currentPage === totalPages ? "disabled" : "")
                       }
-                      disabled={currentPage === totalPages}
-                    >
+                      disabled={currentPage === totalPages}>
                       <a
                         className="page-link"
-                        onClick={() => handlePageChange(currentPage + 1)}
-                      >
+                        onClick={() => handlePageChange(currentPage + 1)}>
                         Next
                       </a>
                     </li>
@@ -498,6 +520,45 @@ function LIstDataSIswa() {
               </div>
             </div>
           </div>
+
+          <Modal show={showUpload} onHide={!showUpload}>
+            <form onSubmit={importExcel}>
+              <Modal.Header style={{ background: "#526D82" }}>
+                <Modal.Title style={{ color: "white" }}>
+                  Modal Upload
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body style={{ color: "black" }}>
+                <label
+                  style={{
+                    fontWeight: "bold",
+                    marginLeft: "4px",
+                    marginBottom: "20px",
+                  }}>
+                  File Xlsx :
+                </label>
+                <CInputGroup className="mb-3">
+                  <CFormInput
+                    required
+                    autoComplete="off"
+                    type="file"
+                    accept=".xlsx"
+                    onChange={(e) => setExcel(e.target.files[0])}
+                  />
+                </CInputGroup>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
+                  variant="secondary"
+                  onClick={() => setShowUpload(false)}>
+                  Close
+                </Button>
+                <Button variant="primary" type="submit" onClick={importExcel}>
+                  Save Changes
+                </Button>
+              </Modal.Footer>
+            </form>
+          </Modal>
 
           {/* Modal Edit Password*/}
           <Modal show={show1} onHide={!show1}>
@@ -513,8 +574,7 @@ function LIstDataSIswa() {
                     fontWeight: "bold",
                     marginLeft: "4px",
                     marginBottom: "20px",
-                  }}
-                >
+                  }}>
                   Password :
                 </label>
                 <CInputGroup className="mb-3">
