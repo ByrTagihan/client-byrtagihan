@@ -3,9 +3,6 @@ import gambar from "../../../assets/images/byrtagihan1.png";
 import { Form, Link, useNavigate } from "react-router-dom";
 import {
   CButton,
-  CCard,
-  CCardBody,
-  CCardGroup,
   CCol,
   CContainer,
   CForm,
@@ -26,7 +23,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [type_token, setType_token] = useState("siswa");
+  const [type_token, setType_token] = useState("Member");
   const [unique_id, setUnique_id] = useState("");
   const [passwordType, setPasswordType] = useState("password");
   const [passwordIcon, setPasswordIcon] = useState("fa-solid fa-eye-slash");
@@ -93,7 +90,7 @@ const Login = () => {
             window.location.reload();
           }, 1500);
         }
-      } else if (type_token === "siswa") {
+      } else if (type_token === "Member") {
         const { data, status } = await axios.post(
           `${API_DUMMY}/member/login`,
           {
@@ -171,8 +168,8 @@ const Login = () => {
                       id="radio1"
                       name="selector"
                       className="selector-item_radio"
-                      checked={type_token === "siswa"}
-                      value="siswa"
+                      checked={type_token === "Member"}
+                      value="Member"
                       onChange={handleOptionChange}
                     />
                     <label htmlFor="radio1" className="selector-item_label">
@@ -289,7 +286,7 @@ const Login = () => {
                   >
                     <a href="/#/forgotPassUser"> Forgot password</a>
                   </CButton>
-                ) : type_token === "siswa" ? (
+                ) : type_token === "Member" ? (
                   <CButton
                     color="link"
                     style={{
