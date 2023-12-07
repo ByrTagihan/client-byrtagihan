@@ -73,9 +73,7 @@ function LIstDataSIswa() {
         )
         .then((res) => {
           setTotalPages(res.data.pagination.total_page || 1);
-          //console.log(res.data.pagination.total_page);
           setList(res.data.data);
-          //console.log(res.data.data);
         })
         .catch((error) => {
           alert("Terjadi Kesalahan" + error);
@@ -86,7 +84,6 @@ function LIstDataSIswa() {
         "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin",
         "error"
       ).then((result) => {
-        //Untuk munuju page selanjutnya
         navigate("/");
         setTimeout(() => {
           window.location.reload();
@@ -165,7 +162,6 @@ function LIstDataSIswa() {
         "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admmin",
         "error"
       ).then((result) => {
-        //Untuk munuju page selanjutnya
         navigate("/");
         setTimeout(() => {
           window.location.reload();
@@ -176,7 +172,7 @@ function LIstDataSIswa() {
   };
 
   useEffect(() => {
-    const userRoleFromServer = "customer"; // Ganti dengan peran aktual dari data yang diterima
+    const userRoleFromServer = "customer";
     setRole(userRoleFromServer);
   }, []);
 
