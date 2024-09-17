@@ -9,6 +9,7 @@ const DashboardUser = React.lazy(() =>
   import("./views/dashboard/DashboardUser")
 );
 const UserProfile = React.lazy(() => import("./views/pages/user/UserProfile"));
+const DigitalCard = React.lazy(() => import("./views/pages/user/NewFeature/DigitalCard"));
 
 //Organization Section
 const Organization = React.lazy(() =>
@@ -320,6 +321,7 @@ const routes = [
   },
   { path: "/memberChannel", name: "Channel", element: MemberChannel },
   { path: "/memberVerification", name: "Verification Code", element: MemberVerification },
+  { path: "/digitalCard", name: "Digital card", element: DigitalCard },
 ];
 
 export default routes;
