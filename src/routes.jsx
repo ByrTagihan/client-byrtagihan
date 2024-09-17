@@ -2,12 +2,15 @@ import React from "react";
 // import Login from './pages/Login'
 // import Register from './pages/Register'
 import ResetPassword from "./views/pages/reset/ForgotPasswor";
+// import DashboardNew from "./views/dashboard/DashboardNew";
 
 //================================================
 //User Role
 const DashboardUser = React.lazy(() =>
   import("./views/dashboard/DashboardUser")
 );
+const KotakMasuk = React.lazy(() => import("./views/pages/user/KotakMasuk"));
+const DashboardNew = React.lazy(() => import("./views/dashboard/DashboardNew"));
 const UserProfile = React.lazy(() => import("./views/pages/user/UserProfile"));
 
 //Organization Section
@@ -149,7 +152,7 @@ const GantiPassMember = React.lazy(() =>
 );
 const MemberVerification = React.lazy(() =>
   import("./views/pages/member/VerificationCode")
-)
+);
 
 //Bill Section
 const ListTagihanMember = React.lazy(() =>
@@ -180,6 +183,8 @@ const routes = [
   { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
   //User
   { path: "/userProfile", name: "Profile", element: UserProfile },
+  { path: "/kotakMasuk", name: "Kotak Masuk", element: KotakMasuk },
+  { path: "/dashboardNew", name: "Dashboard New", element: DashboardNew },
   {
     path: "/tableOrganization",
     name: "Organization",
@@ -319,7 +324,11 @@ const routes = [
     element: BayarSemuaTagihan,
   },
   { path: "/memberChannel", name: "Channel", element: MemberChannel },
-  { path: "/memberVerification", name: "Verification Code", element: MemberVerification },
+  {
+    path: "/memberVerification",
+    name: "Verification Code",
+    element: MemberVerification,
+  },
 ];
 
 export default routes;
