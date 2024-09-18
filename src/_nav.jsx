@@ -47,7 +47,7 @@ const _nav = [
   {
     component: CNavItem,
     name: "Dashboard Member",
-    to: "/dashboardMember",
+    to: "/dashboardNew",
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
     roles: ["member"],
   },
@@ -63,6 +63,13 @@ const _nav = [
     to: "/payment",
     icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
     roles: ["user"],
+  },
+  {
+    component: CNavItem,
+    name: "Kotak Masuk",
+    to: "/kotakMasuk",
+    icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
+    roles: ["member"],
   },
   {
     component: CNavItem,

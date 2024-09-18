@@ -1,0 +1,140 @@
+.card-saldo {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    background: white;
+    width: 70%;
+    border-radius: 15px;
+    bottom: -70px;
+    align-items: center;
+    /* left: 140px;
+    right: 140px; */
+    margin-left: 15%;
+    margin-right: 15%;
+    border: none;
+    margin-bottom: 20px;
+    justify-items: center;
+    /* top: 10px; */
+    /* margin-top: ; */
+}
+
+.container-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    min-height: 30vh;
+    /* agar card berada di tengah vertikal */
+    width: 100%;
+    background-color: #D2E0FB;
+    /* latar belakang sesuai kebutuhan */
+}
+
+.card-selamat-datang {
+    width: 40%;
+}
+
+.card-info-saldo {
+    width: 30%;
+}
+
+.card-info-saldo p {
+    text-align: right;
+}
+
+.card-info-saldo button {
+    float: right;
+}
+
+.card-menu {
+    margin-top: 100px;
+    margin-bottom: 30px;
+}
+
+.menu-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.card-top-up {
+    background: white;
+}
+
+.card-top-up span {
+    font-size: 20px;
+}
+.card-top-up i {
+    /* bg */
+    font-size: 25px;
+    font-weight: bold;
+}
+.card-top-up .top-up {
+    background-color: #3FA2F6;
+    padding: 10px;
+    border-radius: 100%;
+    color: white;
+}
+
+.card-top-up .tagihan {
+    background-color: red;
+    padding: 10px;
+    border-radius: 100%;
+    color: white;
+}
+.card-top-up .presensi {
+    background-color: #55AD9B;
+    padding: 10px;
+    /* height: 10px; */
+    border-radius: 100%;
+    color: white;
+}
+.card-top-up .coin {
+    background-color: #EEC759;
+    padding: 10px;
+    /* height: 10px; */
+    border-radius: 100%;
+    color: white;
+}
+.card-title-byr {
+    display: none;
+}
+
+@media (max-width: 880px) {
+    .card-top-up span {
+        font-size: 8px;
+        font-weight: bold;
+    }
+    .card-top-up {
+        padding: 5px;
+    }
+    .card-top-up i {
+        font-size: 15px;
+    }
+    .card-saldo {
+        display: block;
+    }
+    .card-selamat-datang {
+        width: 100%;
+    }
+
+    .card-info-saldo {
+        width: 100%;
+    }
+    .card-info-saldo p {
+        text-align: left;
+    }
+
+    .card-info-saldo button {
+        float: left;
+    }
+    .card-selamat-datang{
+        display: none;
+    }
+    .card-title-byr {
+        display: block;
+        text-align: center;
+        font-weight: bold;
+    }
+}

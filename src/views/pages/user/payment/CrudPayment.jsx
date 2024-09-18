@@ -10,9 +10,7 @@ function CrudPayment() {
   const [total_page, setTotal_Page] = useState([]);
   const [page, setPage] = useState(1);
   let navigate = useNavigate();
-
   const [payment, setPayment] = useState("");
-
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("id");
   const [currentPage, setCurrentPage] = useState(1);
