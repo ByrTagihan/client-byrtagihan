@@ -44,13 +44,6 @@ const _nav = [
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
     roles: ["customer"],
   },
-  // {
-  //   component: CNavItem,
-  //   name: "Dashboard Member",
-  //   to: "/dashboardMember",
-  //   icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-  //   roles: ["member"],
-  // },
   {
     component: CNavItem,
     name: "Dashboard Member",
