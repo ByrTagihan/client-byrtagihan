@@ -9,6 +9,7 @@ import ForgotPasswordSiswa from './views/pages/reset/ForgotPasswordSiswa';
 import UserVerification from './views/pages/user/VerificationCode';
 import CustomerVerification from './views/pages/costumer/VerificationCodeCustomer'
 import ForgotPassUser from './views/pages/reset/ForgotPassUser';
+import PageTransaction from './views/pages/user/transaction/PageTransaction';
 
 
 const loading = (
@@ -39,6 +40,7 @@ class App extends Component {
             <Route exact path="/reset" name="Reset" element={<ResetPassword />} />
             <Route exact path="/forgotPasswordSiswa" name="Forgot Password Siswa" element={<ForgotPasswordSiswa />} />
             <Route exact path="/forgotPassUser" name="Forgot Password Siswa" element={<ForgotPassUser />} />
+            <Route exact path="/pagetransaction" name="page transaction" element={<PageTransaction/>} />
             <Route path="*" name="Home" element={
               <PrivateRoute>
                 <DefaultLayout />
