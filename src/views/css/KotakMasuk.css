@@ -1,0 +1,23 @@
+.card-kotak-masuk {
+    display: flex;
+    gap: 50px;
+}
+.icon-notif {
+    background: white;
+    padding: 13px;
+    width: 70px;
+    border-radius: 100%;
+    color: orange;
+    text-align: center;
+    font-size: 30px;
+}
+@media (max-width: 800px) {
+.icon-notif {
+    width: 80px;
+    height: fit-content;
+}
+.card-kotak-masuk {
+    display: flex;
+    gap: 20px;
+}
+}
