@@ -327,12 +327,13 @@ const routes = [
     element: BayarSemuaTagihan,
   },
   { path: "/memberChannel", name: "Channel", element: MemberChannel },
+  { path: "/digitalCard", name: "Digital card", element: DigitalCard },
   {
     path: "/memberVerification",
     name: "Verification Code",
     element: MemberVerification,
   },
-  { path: "/digitalCard", name: "Digital card", element: DigitalCard },
+
 ];
 
 export default routes;
