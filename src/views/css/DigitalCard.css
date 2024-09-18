@@ -1,13 +1,142 @@
-.card {
-    border-radius: 10px;
+/* src/components/DigitalCard.css */
+.card-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  /* background-color: #f9f9f983; */
+  /* border-radius: 15px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); */
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* .back-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+} */
+
+.card-balance {
+  /* background-color: #1f6ff9; */
+  background-image: url(https://img.freepik.com/free-vector/gradient-wavy-background_79603-2091.jpg);
+  color: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.card-owner {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.balance-label {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.balance {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.nfc-id {
+  font-size: 14px;
+}
+
+.info-section, .menu-section {
+  margin-top: 20px;
+}
+
+.info-details {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.menu-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+/* .menu-button {
+  background-color: #1f6ff9;
+  color: black;
+  border: none;
+  padding: 10px 35px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+} */
+
+.sync-button  {
+  background-color: #fff;
+}
+
+.help-button {
+  background-color: #fff;
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #1f6ff9; */
+  color: #000000;
+  border: none;
+  padding: 10px 50px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  gap: 10px; /* Adds space between icon and text */
+}
+
+.icon-wrapper {
+  display: inline-block;
+  padding: 3px; /* Padding around the icon */
+  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent background for icon */
+  border-radius: 50%; /* Round background */
+}
+
+.sync-button .icon-wrapper {
+  background-color: rgba(25, 206, 130, 0.89); /* Sync button icon background */
+}
+
+.help-button .icon-wrapper {
+  background-color: rgb(252, 183, 56); /* Help button icon background */
+}
+
+.menu-button i {
+  color: #fff; /* Icon color */
+  font-size: 18px; /* Icon size */
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card-container {
+    padding: 10px;
+    max-width: 100%;
   }
-  
-  .card-title {
-    font-size: 1.5rem;
+  .menu-buttons {
+    flex-direction: column;
+    align-items: center;
   }
-  
-  .btn-primary {
-    background-color: #007bff;
-    border: none;
+  .menu-button {
+    width: 80%;
+    margin-bottom: 10px;
   }
-  
+}
