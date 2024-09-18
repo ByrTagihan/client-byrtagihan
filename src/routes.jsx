@@ -12,7 +12,9 @@ const DashboardUser = React.lazy(() =>
 const KotakMasuk = React.lazy(() => import("./views/pages/user/KotakMasuk"));
 const DashboardNew = React.lazy(() => import("./views/dashboard/DashboardNew"));
 const UserProfile = React.lazy(() => import("./views/pages/user/UserProfile"));
-const DigitalCard = React.lazy(() => import("./views/pages/user/NewFeature/DigitalCard"));
+const DigitalCard = React.lazy(() =>
+  import("./views/pages/user/NewFeature/DigitalCard")
+);
 
 //Organization Section
 const Organization = React.lazy(() =>
@@ -325,7 +327,6 @@ const routes = [
     element: BayarSemuaTagihan,
   },
   { path: "/memberChannel", name: "Channel", element: MemberChannel },
-
   { path: "/digitalCard", name: "Digital card", element: DigitalCard },
   {
     path: "/memberVerification",
