@@ -33,6 +33,9 @@ const CrudPayment = React.lazy(() =>
 const CrudTransaction = React.lazy(() =>
   import("./views/pages/user/transaction/CrudTransaction")
 );
+const PageTransaction = React.lazy(() =>
+  import("./views/pages/user/transaction/Pagetransuction")
+);
 const TambahTransaction = React.lazy(() =>
   import("./views/pages/user/transaction/TambahTransaction")
 );
@@ -206,6 +209,11 @@ const routes = [
   { path: "/payment", name: "Payment", element: CrudPayment },
   { path: "/transaction", name: "Transaction", element: CrudTransaction },
   {
+    path: "/pagetransaction",
+    name: "Page Transuction",
+    element: PageTransaction,
+  },
+  {
     path: "/tambahTransaction",
     name: "Tambah Tagihan",
     element: TambahTransaction,
@@ -333,7 +341,6 @@ const routes = [
     name: "Verification Code",
     element: MemberVerification,
   },
-
 ];
 
 export default routes;
