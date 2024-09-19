@@ -1,34 +1,50 @@
-import React, { useState } from "react";
-import "../../../css/Pagetransuction.css"
+import React, { useState, useEffect } from "react";
+import "../../../css/Pagetransuction.css";
 
-const transactionData = [
-  { title: "ADMIN TOPUP VA", amount: "- Rp 3.000", transactions: 1 },
-  { title: "IURAN SANTRI 10.000", amount: "- Rp 10.000", transactions: 1 },
-  {
-    title: "SMP SYAHRIYAH SEPTEMBER 2024 KELAS 7",
-    amount: "- Rp 2.100.000",
-    transactions: 1,
-  },
-  { title: "TOPUP VA (BSI-MAKARA)", amount: "Rp 2.200.000", transactions: 1 },
-  {
-    title: "TRANSAKSI KARTU ABUYAQU MART",
-    amount: "- Rp 29.500",
-    transactions: 1,
-  },
-];
+export const API_DUMMY = "http://dev-api.byrtagihan.com/api";
 
 function PageTransaction() {
   const [selectedDate, setSelectedDate] = useState("September 2024");
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const handleDateChange = (e) => {
     setSelectedDate(e.target.value);
   };
 
+  // Fungsi untuk mengambil data transaksi dari API
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch(`${API_DUMMY}/transactions`);
+        if (!response.ok) {
+          throw new Error("Error fetching transaction data");
+        }
+        const data = await response.json();
+        setTransactions(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchTransactions();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
     <div className="transaction-page">
       {/* Header dan dropdown untuk bulan */}
       <div className="header">
-        {/* <button className="back-button">{"<"}</button> */}
         <h1>Transaction</h1>
       </div>
 
@@ -53,7 +69,7 @@ function PageTransaction() {
 
       {/* List of transactions */}
       <div className="transactions">
-        {transactionData.map((transaction, index) => (
+        {transactions.map((transaction, index) => (
           <div key={index} className="transaction-card">
             <div className="card-content">
               <h2>{transaction.title}</h2>
