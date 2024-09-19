@@ -66,11 +66,12 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: "Kotak Masuk",
-    to: "/kotakMasuk",
+    name: "Notifikasi",
+    to: "/notifikasi",
     icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
     roles: ["member"],
   },
+
   {
     component: CNavItem,
     name: "Organization",
@@ -169,6 +170,13 @@ const _nav = [
     name: "Profile",
     to: "/memberProfile",
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    roles: ["member"],
+  },
+  {
+    component: CNavItem,
+    name: "Digital Card",
+    to: "/digitalCard",
+    icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
     roles: ["member"],
   },
 ];
