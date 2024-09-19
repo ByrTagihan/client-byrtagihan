@@ -13,7 +13,7 @@ const KotakMasuk = React.lazy(() => import("./views/pages/user/KotakMasuk"));
 const DashboardNew = React.lazy(() => import("./views/dashboard/DashboardNew"));
 const UserProfile = React.lazy(() => import("./views/pages/user/UserProfile"));
 const DigitalCard = React.lazy(() =>
-  import("./views/pages/user/NewFeature/DigitalCard")
+  import("./views/pages/user/newfeature/DigitalCard")
 );
 
 //Organization Section
@@ -32,9 +32,6 @@ const CrudPayment = React.lazy(() =>
 //Transaction Section
 const CrudTransaction = React.lazy(() =>
   import("./views/pages/user/transaction/CrudTransaction")
-);
-const PageTransaction = React.lazy(() =>
-  import("./views/pages/user/transaction/Pagetransuction")
 );
 const TambahTransaction = React.lazy(() =>
   import("./views/pages/user/transaction/TambahTransaction")
@@ -209,11 +206,6 @@ const routes = [
   { path: "/payment", name: "Payment", element: CrudPayment },
   { path: "/transaction", name: "Transaction", element: CrudTransaction },
   {
-    path: "/pagetransaction",
-    name: "Page Transuction",
-    element: PageTransaction,
-  },
-  {
     path: "/tambahTransaction",
     name: "Tambah Tagihan",
     element: TambahTransaction,
@@ -341,6 +333,7 @@ const routes = [
     name: "Verification Code",
     element: MemberVerification,
   },
+
 ];
 
 export default routes;
