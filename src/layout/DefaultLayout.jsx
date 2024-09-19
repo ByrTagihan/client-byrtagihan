@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 const DefaultLayout = () => {
 let navigate = useNavigate();
-const token = localStorage.getItem("token"); 
-const parsedToken = JSON.parse(atob(token.split('.')[1])); 
-const expirationTimestamp = parsedToken.exp; 
+const token = localStorage.getItem("token");
+const parsedToken = JSON.parse(atob(token.split('.')[1]));
+const expirationTimestamp = parsedToken.exp;
 
 const isTokenExpired = () => {
-  const currentTime = Math.floor(Date.now() / 1000); 
+  const currentTime = Math.floor(Date.now() / 1000);
   return currentTime > expirationTimestamp;
 };
 
@@ -29,13 +29,14 @@ useEffect(() => {
       clearInterval(checkTokenExpiration);
     }
   }, 1000);
-  return () => clearInterval(checkTokenExpiration); 
+  return () => clearInterval(checkTokenExpiration);
 }, []);
   return (
     <div>
       <AppSidebar />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
         <AppHeader />
+        {/* <div style={{background:"blue"}}>p</div> */}
         <div className="body flex-grow-1 px-3">
           <AppContent />
         </div>

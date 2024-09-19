@@ -1,19 +1,36 @@
+.text-slm {
+    color: #384B70;
+    font-weight: bold;
+}
+.card-bg {
+    background-image: url("../../assets/images/bg-waves.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: none;
+}
 .card-saldo {
     display: flex;
     justify-content: space-between;
-    position: absolute;
-    background: white;
-    width: 70%;
+    /* position: absolute; */
+    /* background: #ffffff; */
+    width: auto;
+    margin-top: 30px;
     border-radius: 15px;
     bottom: -70px;
     align-items: center;
     /* left: 140px;
     right: 140px; */
-    margin-left: 15%;
-    margin-right: 15%;
+    /* margin-left: 15%;
+    margin-right: 15%; */
     border: none;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     justify-items: center;
+    /* background: #384B70; */
+    background-image: url("../../assets/images/mavesblue.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* background: white; */
+    color: white;
     /* top: 10px; */
     /* margin-top: ; */
 }
@@ -32,22 +49,28 @@
 
 .card-selamat-datang {
     width: 40%;
+    background: #3FA2F6;
+    border-radius: 100%;
+    font-size: 50px;
+    color: white;
+    width: fit-content;
 }
 
-.card-info-saldo {
-    width: 30%;
-}
+/* .card-info-saldo {
+    width: fit-content;
+} */
 
-.card-info-saldo p {
+/* .card-info-saldo p {
     text-align: right;
-}
+} */
 
 .card-info-saldo button {
-    float: right;
+    background: blue;
+    color: white;
 }
 
 .card-menu {
-    margin-top: 100px;
+    margin-top: 20px;
     margin-bottom: 30px;
 }
 
@@ -60,6 +83,8 @@
 
 .card-top-up {
     background: white;
+    height: fit-content;
+    border-radius: 20px;
 }
 
 .card-top-up span {
@@ -75,6 +100,10 @@
     padding: 10px;
     border-radius: 100%;
     color: white;
+}
+
+.card-top-up img {
+    width: 50px;
 }
 
 .card-top-up .tagihan {
@@ -100,6 +129,9 @@
 .card-title-byr {
     display: none;
 }
+.title-text {
+    color: blue;
+}
 
 @media (max-width: 880px) {
     .card-top-up span {
@@ -112,29 +144,58 @@
     .card-top-up i {
         font-size: 15px;
     }
+    .card-top-up img {
+        width: 40px;
+    }
     .card-saldo {
-        display: block;
+        width: 100%;
+        background-image: url("../../assets/images/dotedblue.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        /* margin-top: 20px; */
+        /* display: block; */
     }
     .card-selamat-datang {
-        width: 100%;
+        /* width: 100%; */
+        /* background: blue;
+        color: white; */
+        display: none;
     }
 
     .card-info-saldo {
         width: 100%;
     }
-    .card-info-saldo p {
-        text-align: left;
-    }
+    /* .card-info-saldo p {
+        text-align: lef;
+    } */
 
-    .card-info-saldo button {
-        float: left;
-    }
-    .card-selamat-datang{
+    /* .card-info-saldo button {
+        float: inline-start;
+        align-items: center ;
+        justify-items: center;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    } */
+    /* .card-selamat-datang{
         display: none;
-    }
+    } */
     .card-title-byr {
         display: block;
         text-align: center;
         font-weight: bold;
+    }
+    .img-fluid {
+        /* display: none; */
+    }
+    .title-text {
+        color: black;
+    }
+    .card-bg {
+        /* background: white; */
+        /* color: white; */
+        background-image: url("https://sb-admin-pro-angular.startbootstrap.com/assets/img/backgrounds/bg-waves.svg");
+        background-repeat: no-repeat;
+        background-size: cover;
     }
 }

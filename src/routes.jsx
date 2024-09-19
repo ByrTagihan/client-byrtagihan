@@ -186,7 +186,6 @@ const routes = [
   { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
   //User
   { path: "/userProfile", name: "Profile", element: UserProfile },
-  { path: "/kotakMasuk", name: "Kotak Masuk", element: KotakMasuk },
   { path: "/dashboardNew", name: "Dashboard New", element: DashboardNew },
   {
     path: "/tableOrganization",
@@ -309,6 +308,7 @@ const routes = [
   { path: "/edittagihan/:id", name: "Edit Tagihan", element: EditTagihan },
   //================================================================
   //Member
+  { path: "/notifikasi", name: "Kotak Masuk", element: KotakMasuk },
   {
     path: "/dashboardMember",
     name: "Dashboard Member",

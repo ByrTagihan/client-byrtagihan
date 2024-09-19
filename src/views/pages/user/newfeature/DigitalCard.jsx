@@ -20,14 +20,16 @@ function DigitalCard() {
         if (status === 200) {
           console.log("Data dari API:", data); // Periksa seluruh data
           console.log("Data.data:", data.data); // Periksa data.data
-  
+          console.log("name: ", data.data.name);
+
+
           // Pastikan bahwa data.data adalah array
-          if (Array.isArray(data.data)) {
+          // if (Array.isArray(data.data)) {
             setMember(data.data);
-          } else {
-            console.error("Data yang diterima bukan array");
-            setMember([]); // Atur state ke array kosong jika data tidak valid
-          }
+          // } else {
+          //   console.error("Data yang diterima bukan array");
+          //   setMember([]); // Atur state ke array kosong jika data tidak valid
+          // }
         }
       } catch (err) {
         console.error("Terjadi Kesalahan", err); // Gunakan console.error untuk kesalahan
@@ -46,10 +48,12 @@ function DigitalCard() {
       });
     }
   };
-  
+
 
   useEffect(() => {
     get();
+    console.log("member name: ", member.name);
+
   }, []);
   return (
     <div className="container card-container">
@@ -60,18 +64,18 @@ function DigitalCard() {
             <h2>Digital Card</h2>
           </div>
 
-          {Array.isArray(member) && member.length > 0 ? (
-          member.map((mem) => (
+          {/* {Array.isArray(member) && member.length > 0 ? (
+          member.map((mem) => ( */}
             <div>
               <div className="card-info">
                 <div className="card-balance">
                   <h3 className="card-owner">
-                    {mem.name}
+                    {member.name}
                     {/* KRISNA ABDUL RASYID PUSPITO SUGIYARTO */}
                   </h3>
                   <p className="balance-label">Card Balance</p>
-                  <h1 className="balance">Rp {mem.balance}</h1>
-                  <p className="nfc-id">NFC ID: {mem.va_wallet}</p>
+                  <h1 className="balance">Rp {member.balance}</h1>
+                  <p className="nfc-id">NFC ID: {member.va_wallet}</p>
                 </div>
               </div>
 
@@ -80,11 +84,11 @@ function DigitalCard() {
                 <div className="info-details">
                   <div className="info-item">
                     <span>Maximum Accumulation Limit</span>
-                    <span>{mem.max_accumulate_limit}</span>
+                    <span>{member.max_accumulate_limit}</span>
                   </div>
                   <div className="info-item">
                     <span>Daily Limit</span>
-                    <span>{mem.daily_limit}</span>
+                    <span>{member.daily_limit}</span>
                   </div>
                   <div className="info-item">
                     <span>Last Sync</span>
@@ -93,10 +97,10 @@ function DigitalCard() {
                 </div>
               </div>
             </div>
-                ))
-              ) : (
-                <p>No members available</p>
-              )}
+              {/* //   ))
+              // ) : (
+              //   <p>No members available</p>
+              // )} */}
 
           <div className="menu-section">
             <h4>Card Menu</h4>
