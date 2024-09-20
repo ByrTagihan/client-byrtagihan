@@ -22,6 +22,7 @@ import {
   cilUserFemale,
   cibSuperuser,
   cilDollar,
+  cilMoney,
 } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import { useState } from "react";
@@ -261,21 +262,32 @@ const AppHeaderDropdown = () => {
         ) : (
           <></>
         )}
-        {localStorage.getItem("type_token") === "member" ? (
+        {/* {localStorage.getItem("type_token") === "member" ? (
           <CDropdownItem href="/#/memberChannel">
             <CIcon icon={cilTask} className="me-2" />
             Channel
-            {/* <CBadge color="danger" className="ms-2">
+            <CBadge color="danger" className="ms-2">
               {memberchannel.length}
-            </CBadge> */}
+            </CBadge>
           </CDropdownItem>
         ) : (
           <></>
         )}
         {localStorage.getItem("type_token") === "member" ? (
           <CDropdownItem href="/#/listTagihanMember">
-            <CIcon icon={cilCommentSquare} className="me-2" />
+            <CIcon icon={cilMoney} className="me-2" />
             Bill
+            <CBadge color="warning" className="ms-2">
+              {customerBill.length}
+            </CBadge>
+          </CDropdownItem>
+        ) : (
+          <></>
+        )} */}
+        {localStorage.getItem("type_token") === "member" ? (
+          <CDropdownItem href="/#/notifikasi">
+            <CIcon icon={cilBell} className="me-2" />
+            Notifikasi
             {/* <CBadge color="warning" className="ms-2">
               {customerBill.length}
             </CBadge> */}

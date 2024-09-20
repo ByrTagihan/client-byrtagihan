@@ -46,7 +46,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: "Dashboard Member",
+    name: "Home",
     to: "/dashboardNew",
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
     roles: ["member"],
@@ -64,13 +64,13 @@ const _nav = [
     icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
     roles: ["user"],
   },
-  {
-    component: CNavItem,
-    name: "Notifikasi",
-    to: "/notifikasi",
-    icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
-    roles: ["member"],
-  },
+  // {
+  //   component: CNavItem,
+  //   name: "Notifikasi",
+  //   to: "/notifikasi",
+  //   icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
+  //   roles: ["member"],
+  // },
 
   {
     component: CNavItem,
@@ -158,13 +158,13 @@ const _nav = [
     roles: ["customer"],
   },
   //Member Navigation
-  {
-    component: CNavItem,
-    name: "Bill",
-    to: "/listTagihanMember",
-    icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
-    roles: ["member"],
-  },
+  // {
+  //   component: CNavItem,
+  //   name: "Bill",
+  //   to: "/listTagihanMember",
+  //   icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
+  //   roles: ["member"],
+  // },
   {
     component: CNavItem,
     name: "Profile",

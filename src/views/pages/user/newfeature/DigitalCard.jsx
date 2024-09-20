@@ -22,10 +22,9 @@ function DigitalCard() {
           console.log("Data.data:", data.data); // Periksa data.data
           console.log("name: ", data.data.name);
 
-
           // Pastikan bahwa data.data adalah array
           // if (Array.isArray(data.data)) {
-            setMember(data.data);
+          setMember(data.data);
           // } else {
           //   console.error("Data yang diterima bukan array");
           //   setMember([]); // Atur state ke array kosong jika data tidak valid
@@ -49,11 +48,9 @@ function DigitalCard() {
     }
   };
 
-
   useEffect(() => {
     get();
     console.log("member name: ", member.name);
-
   }, []);
   return (
     <div className="container card-container">
@@ -66,38 +63,41 @@ function DigitalCard() {
 
           {/* {Array.isArray(member) && member.length > 0 ? (
           member.map((mem) => ( */}
-            <div>
-              <div className="card-info">
-                <div className="card-balance">
-                  <h3 className="card-owner">
-                    {member.name}
-                    {/* KRISNA ABDUL RASYID PUSPITO SUGIYARTO */}
-                  </h3>
-                  <p className="balance-label">Card Balance</p>
-                  <h1 className="balance">Rp {member.balance}</h1>
-                  <p className="nfc-id">NFC ID: {member.va_wallet}</p>
-                </div>
+          <div>
+            <div className="card-info">
+              <div className="card-balance">
+                <h3 className="card-owner">
+                  {member.name}
+                  {/* KRISNA ABDUL RASYID PUSPITO SUGIYARTO */}
+                </h3>
+                <p className="balance-label">Card Balance</p>
+                <h1 className="balance">Rp {member.balance}</h1>
+                <p className="nfc-id">NFC ID: {member.va_wallet}</p>
               </div>
+            </div>
 
-              <div className="info-section">
-                <h4>Information Card</h4>
-                <div className="info-details">
-                  <div className="info-item">
-                    <span>Maximum Accumulation Limit</span>
-                    <span>{member.max_accumulate_limit}</span>
-                  </div>
-                  <div className="info-item">
-                    <span>Daily Limit</span>
-                    <span>{member.daily_limit}</span>
-                  </div>
-                  <div className="info-item">
-                    <span>Last Sync</span>
-                    <span>-</span>
-                  </div>
+            <div className="info-section">
+              <h4>Information Card</h4>
+              <div className="info-details">
+                <div className="info-item">
+                  <span className="label">Maximum Accumulation Limit</span>
+                  <span className="colon">:</span>
+                  <span className="value">{member.max_accumulate_limit}</span>
+                </div>
+                <div className="info-item">
+                  <span className="label">Daily Limit</span>
+                  <span className="colon">:</span>
+                  <span className="value">{member.daily_limit}</span>
+                </div>
+                <div className="info-item">
+                  <span className="label">Last Sync</span>
+                  <span className="colon">:</span>
+                  <span className="value">-</span>
                 </div>
               </div>
             </div>
-              {/* //   ))
+          </div>
+          {/* //   ))
               // ) : (
               //   <p>No members available</p>
               // )} */}
