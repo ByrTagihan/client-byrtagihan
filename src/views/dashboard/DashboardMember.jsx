@@ -314,7 +314,7 @@ function DashboardMember() {
     <div>
       {localStorage.getItem("type_token") === "member" ? (
         <>
-        <h4>Chart</h4>
+        {/* <h4>Chart</h4>
           <CRow>
             <CCol sm={6} lg={3}>
               <CWidgetStatsA
@@ -659,7 +659,7 @@ function DashboardMember() {
                 }
               />
             </CCol>
-          </CRow>
+          </CRow> */}
 
           <div
             style={{

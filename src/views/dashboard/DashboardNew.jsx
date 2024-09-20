@@ -182,7 +182,7 @@ function DashboardNew() {
         </div>
         {/* </CContainer> */}
       </div>
-      <DashboardMember />
+      {/* <DashboardMember /> */}
     </div>
   );
 }

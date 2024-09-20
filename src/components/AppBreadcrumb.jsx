@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import routes from "../routes";
 
 import { CBreadcrumb, CBreadcrumbItem } from "@coreui/react";
-
+import "../css/AppBreadcrumb.css"
 const AppBreadcrumb = () => {
   const currentLocation = useLocation().pathname;
 
@@ -32,8 +32,8 @@ const AppBreadcrumb = () => {
   const breadcrumbs = getBreadcrumbs(currentLocation);
 
   return (
-    <CBreadcrumb className="m-0 ms-2">
-      <CBreadcrumbItem href="/#/dashboard">Home</CBreadcrumbItem>
+    <CBreadcrumb className="m-0 ms-2 breadcrumb-hidden-on-mobile">
+      <CBreadcrumbItem href="/#/dashboardNew">Home</CBreadcrumbItem>
       {breadcrumbs.map((breadcrumb, index) => {
         return (
           <CBreadcrumbItem
