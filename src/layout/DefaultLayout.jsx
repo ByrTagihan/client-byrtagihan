@@ -31,9 +31,10 @@ useEffect(() => {
   }, 1000);
   return () => clearInterval(checkTokenExpiration);
 }, []);
+
   return (
     <div>
-      <AppSidebar />
+      {/* <AppSidebar /> */}
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
         <AppHeader />
         {/* <div style={{background:"blue"}}>p</div> */}

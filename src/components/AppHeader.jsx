@@ -25,19 +25,19 @@ const AppHeader = () => {
   return (
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
-        <CHeaderToggler
+        {/* <CHeaderToggler
           className="ps-1"
           onClick={() => dispatch({ type: "set", sidebarShow: !sidebarShow })}
         >
           <CIcon icon={cilMenu} size="lg" />
-        </CHeaderToggler>
-        <CHeaderBrand className="mx-auto d-md-none" to="/">
+        </CHeaderToggler> */}
+        <CHeaderBrand className="d-md-none" to="/">
           <p style={{ fontFamily: "sans-serif" }}>Bayar Tagihan</p>
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
-            <CNavLink to="/dashboard" component={NavLink}>
-              Dashboard
+            <CNavLink to="/" component={NavLink}>
+              Bayar Tagihan
             </CNavLink>
           </CNavItem>
         </CHeaderNav>
@@ -45,10 +45,10 @@ const AppHeader = () => {
           <AppHeaderDropdown />
         </CHeaderNav>
       </CContainer>
-      <CHeaderDivider />
-      <CContainer fluid>
+      {/* <CHeaderDivider /> */}
+      {/* <CContainer fluid>
         <AppBreadcrumb />
-      </CContainer>
+      </CContainer> */}
     </CHeader>
   );
 };
