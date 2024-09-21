@@ -114,10 +114,6 @@
     box-sizing: border-box;
   }
   
-  .amount {
-    color: red;
-  }
-  
   .detail-button {
     align-self: flex-end;
     padding: 8px 16px;

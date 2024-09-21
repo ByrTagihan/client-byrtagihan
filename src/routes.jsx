@@ -2,6 +2,7 @@ import React from "react";
 // import Login from './pages/Login'
 // import Register from './pages/Register'
 import ResetPassword from "./views/pages/reset/ForgotPasswor";
+// import PageTransaction from "./views/pages/user/transaction/Pagetransuction";
 // import DashboardNew from "./views/dashboard/DashboardNew";
 
 //================================================
@@ -32,6 +33,9 @@ const CrudPayment = React.lazy(() =>
 //Transaction Section
 const CrudTransaction = React.lazy(() =>
   import("./views/pages/user/transaction/CrudTransaction")
+);
+const PageTransaction = React.lazy(() =>
+  import("./views/pages/user/transaction/Pagetransuction")
 );
 const TambahTransaction = React.lazy(() =>
   import("./views/pages/user/transaction/TambahTransaction")
@@ -204,6 +208,7 @@ const routes = [
   },
   { path: "/payment", name: "Payment", element: CrudPayment },
   { path: "/transaction", name: "Transaction", element: CrudTransaction },
+  { path: "/pagetransaction", name: "page Transaction", element: PageTransaction },
   {
     path: "/tambahTransaction",
     name: "Tambah Tagihan",
