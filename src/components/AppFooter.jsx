@@ -57,9 +57,9 @@ const AppFooter = () => {
   }, []);
 
   return (
-    <CFooter className="shadow" style={{ background: "white" }}>
+    <CFooter className="navbottom" style={{ background: "white" }}>
       <CContainer>
-        <div className="navbottom">
+        <div className="navbottom1">
           <CNavLink
             component={NavLink}
             to="/"
