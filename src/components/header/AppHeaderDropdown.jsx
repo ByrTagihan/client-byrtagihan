@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import {
   CBadge,
+  CButton,
   CDropdown,
   CDropdownDivider,
   CDropdownHeader,
@@ -30,6 +31,8 @@ import axios from "axios";
 import { API_DUMMY } from "../../utils/baseURL";
 
 import avatar8 from "./../../views/avatars/8.jpg";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AppHeaderDropdown = () => {
   const [foto, setFoto] = useState({
@@ -164,6 +167,35 @@ const AppHeaderDropdown = () => {
   //   // getCustomerMember();
   //   // getCustomerBill();
   // }, []);
+
+  const navigate = useNavigate();
+
+  const logout = () => {
+    Swal.fire({
+      title: "Keluar Dari Akun Anda ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: "success",
+          title: "Success Logout",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
+      }
+    });
+  };
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
@@ -285,13 +317,15 @@ const AppHeaderDropdown = () => {
           <></>
         )} */}
         {localStorage.getItem("type_token") === "member" ? (
-          <CDropdownItem href="/#/notifikasi">
-            <CIcon icon={cilBell} className="me-2" />
-            Notifikasi
-            {/* <CBadge color="warning" className="ms-2">
+          <>
+            <CDropdownItem href="/#/digitalCard">
+              <CIcon icon={cilCreditCard} className="me-2" />
+              Digital Card
+              {/* <CBadge color="warning" className="ms-2">
               {customerBill.length}
             </CBadge> */}
-          </CDropdownItem>
+            </CDropdownItem>
+          </>
         ) : (
           <></>
         )}
@@ -358,6 +392,13 @@ const AppHeaderDropdown = () => {
         ) : (
           <></>
         )}
+
+        <CDropdownItem onClick={logout}>
+          {/* <div style={{padding:"none", background:"none", border:"none", textAlign:"left"}}> */}
+            <CIcon icon={cilUser} className="me-2" />
+            Logout
+          {/* </div> */}
+        </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
   );

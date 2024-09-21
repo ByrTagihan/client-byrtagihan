@@ -52,10 +52,10 @@ const _nav = [
     roles: ["member"],
   },
 
-  {
-    component: CNavTitle,
-    name: "Menu",
-  },
+  // {
+  //   component: CNavTitle,
+  //   name: "Menu",
+  // },
   //User Navigation
   {
     component: CNavItem,
@@ -165,20 +165,20 @@ const _nav = [
   //   icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
   //   roles: ["member"],
   // },
-  {
-    component: CNavItem,
-    name: "Profile",
-    to: "/memberProfile",
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
-    roles: ["member"],
-  },
-  {
-    component: CNavItem,
-    name: "Digital Card",
-    to: "/digitalCard",
-    icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
-    roles: ["member"],
-  },
+  // {
+  //   component: CNavItem,
+  //   name: "Profile",
+  //   to: "/memberProfile",
+  //   icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+  //   roles: ["member"],
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: "Digital Card",
+  //   to: "/digitalCard",
+  //   icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
+  //   roles: ["member"],
+  // },
 ];
 
 export default _nav;

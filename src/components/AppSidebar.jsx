@@ -100,7 +100,7 @@ const AppSidebar = () => {
           <AppSidebarNav items={navigation} userRoles={userRole} />
         </SimpleBar>
       </CSidebarNav>
-      <CSidebarBrand className="d-md-flex">
+      {/* <CSidebarBrand className="d-md-flex">
         <button
           className="button"
           style={{ background: "none", color: "white", width: "100%" }}
@@ -108,7 +108,7 @@ const AppSidebar = () => {
         >
           <i className="fas fa-sign-out-alt"></i> Logout
         </button>
-      </CSidebarBrand>
+      </CSidebarBrand> */}
     </CSidebar>
   );
 };

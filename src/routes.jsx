@@ -186,7 +186,7 @@ const routes = [
   { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
   //User
   { path: "/userProfile", name: "Profile", element: UserProfile },
-  { path: "/dashboardNew", name: "Dashboard New", element: DashboardNew },
+  { path: "/", name: "Dashboard New", element: DashboardNew },
   {
     path: "/tableOrganization",
     name: "Organization",

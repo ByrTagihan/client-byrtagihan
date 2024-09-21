@@ -1,0 +1,33 @@
+.navbottom {
+    display: flex;
+    justify-content: space-around;
+    background: white;
+    align-items: center;
+}
+
+.navbottom .nav-link {
+    color: gray;
+    /* margin-top: 8px; */
+}
+
+.navbottom .active {
+    border-radius: 20px;
+    background: #D2E0FB;
+    color: #295F98;
+    border: none;
+    /* height: 30px; */
+    /* text-align: center; */
+    padding: 7px;
+    padding-left: 10px;
+    padding-left: 10px;
+    /* padding-bottom: 10px; */
+}
+
+.navbottom .nav-link .span1 {
+    display: none;
+}
+
+.navbottom .active .span1{
+    display: inline;
+    font-size: 14px;
+}
