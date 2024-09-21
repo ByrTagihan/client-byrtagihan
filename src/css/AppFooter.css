@@ -1,7 +1,12 @@
 .navbottom {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+.navbottom1 {
+    position: relative;
     display: flex;
     justify-content: space-around;
-    background: white;
     align-items: center;
 }
 
