@@ -2,6 +2,7 @@ import React from "react";
 // import Login from './pages/Login'
 // import Register from './pages/Register'
 import ResetPassword from "./views/pages/reset/ForgotPasswor";
+import { element } from "prop-types";
 // import PageTransaction from "./views/pages/user/transaction/Pagetransuction";
 // import DashboardNew from "./views/dashboard/DashboardNew";
 
@@ -93,6 +94,9 @@ const TambahTemplate = React.lazy(() =>
 const EditTemplate = React.lazy(() =>
   import("./views/pages/user/template/EditTemplate")
 );
+
+//Merchant
+const merchant = React.lazy(() => import("./views/pages/merchant/merchant"));
 
 //================================================
 //Customer Role
@@ -208,7 +212,11 @@ const routes = [
   },
   { path: "/payment", name: "Payment", element: CrudPayment },
   { path: "/transaction", name: "Transaction", element: CrudTransaction },
-  { path: "/pagetransaction", name: "page Transaction", element: PageTransaction },
+  {
+    path: "/pagetransaction",
+    name: "page Transaction",
+    element: PageTransaction,
+  },
   {
     path: "/tambahTransaction",
     name: "Tambah Tagihan",
@@ -338,7 +346,9 @@ const routes = [
     name: "Verification Code",
     element: MemberVerification,
   },
-
+  //================================================================
+  //Merchant
+  { path: "merchant", name: "Merchant", element: merchant },
 ];
 
 export default routes;
