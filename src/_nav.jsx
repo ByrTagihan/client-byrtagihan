@@ -30,26 +30,26 @@ import { CNavGroup, CNavItem, CNavTitle } from "@coreui/react";
 import { useNavigate } from "react-router-dom";
 
 const _nav = [
+  // {
+  //   component: CNavItem,
+  //   name: "Dashboard User",
+  //   to: "/dashboardUser",
+  //   icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  //   roles: ["user"],
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: "Dashboard Customer",
+  //   to: "/dashboardd",
+  //   icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  //   roles: ["customer"],
+  // },
   {
     component: CNavItem,
-    name: "Dashboard User",
-    to: "/dashboardUser",
+    name: "Dashboard",
+    to: "/",
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    roles: ["user"],
-  },
-  {
-    component: CNavItem,
-    name: "Dashboard Customer",
-    to: "/dashboardd",
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    roles: ["customer"],
-  },
-  {
-    component: CNavItem,
-    name: "Home",
-    to: "/dashboardNew",
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    roles: ["member"],
+    roles: ["customer", "member"],
   },
 
   // {
