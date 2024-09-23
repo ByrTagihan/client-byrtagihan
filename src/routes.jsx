@@ -3,6 +3,7 @@ import React from "react";
 // import Register from './pages/Register'
 import ResetPassword from "./views/pages/reset/ForgotPasswor";
 import { element } from "prop-types";
+import IndexDash from "./views/dashboard/IndexDash";
 // import PageTransaction from "./views/pages/user/transaction/Pagetransuction";
 // import DashboardNew from "./views/dashboard/DashboardNew";
 
@@ -191,10 +192,10 @@ const routes = [
   },
   //================================================================
   //User
-  { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
+  // { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
   //User
   { path: "/userProfile", name: "Profile", element: UserProfile },
-  { path: "/", name: "Dashboard New", element: DashboardNew },
+  { path: "/", name: "Dashboard", element: IndexDash },
   {
     path: "/tableOrganization",
     name: "Organization",
@@ -284,11 +285,11 @@ const routes = [
     name: "Edit Tagihan Siswa",
     element: EditTagihanByMember,
   },
-  {
-    path: "/dashboardd",
-    name: "Dashboard Customer",
-    element: DashboardCustomer,
-  },
+  // {
+  //   path: "/dashboardd",
+  //   name: "Dashboard Customer",
+  //   element: DashboardCustomer,
+  // },
   { path: "/customerProfile", name: "Profile", element: Profile },
   {
     path: "/gantiPasswordCustomer",
@@ -322,11 +323,11 @@ const routes = [
   //================================================================
   //Member
   { path: "/notifikasi", name: "Kotak Masuk", element: KotakMasuk },
-  {
-    path: "/dashboardMember",
-    name: "Dashboard Member",
-    element: DashboardMember,
-  },
+  // {
+  //   path: "/dashboardMember",
+  //   name: "Dashboard Member",
+  //   element: DashboardMember,
+  // },
   { path: "/memberProfile", name: "Profile", element: MemberProfile },
   {
     path: "/listTagihanMember",

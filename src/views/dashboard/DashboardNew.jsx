@@ -9,6 +9,7 @@ import {
   CCardTitle,
   CCol,
   CContainer,
+  CNavLink,
   CRow,
 } from "@coreui/react";
 import React from "react";
@@ -16,6 +17,7 @@ import "../css/DashboardNew.css";
 import DashboardMember from "./DashboardMember";
 import transaksi from "../../assets/images/transaksi.png";
 import card from "../../assets/images/card.png";
+import { NavLink } from "react-router-dom";
 // import { cisCreditCard } from '@coreui/icons';
 // import { cidInfo } from '@coreui/icons';
 
@@ -67,11 +69,11 @@ function DashboardNew() {
           <hr />
         </CCardTitle>
       </div> */}
-      <CCard style={{ border: "none", background:"none" }}>
+      <CCard style={{ border: "none", background: "none" }}>
         <CCardBody className="card-saldo shadow">
           {/* <CRow> */}
 
-          <div className="card-info-saldo" style={{color:"black"}}>
+          <div className="card-info-saldo" style={{ color: "black" }}>
             <p>
               Saldo <br /> <CCardTitle className="strong">Rp 10.000</CCardTitle>
             </p>
@@ -163,7 +165,10 @@ function DashboardNew() {
           </div>
           {/* </div> */}
           {/* <div> */}
-          <div className="card-top-up shadow-sm">
+          <CNavLink
+            to="/pagetransaction"
+            component={NavLink}
+            className="card-top-up shadow-sm">
             <CButton
               style={{
                 background: "none",
@@ -177,7 +182,7 @@ function DashboardNew() {
               />
               <span>Transaksi</span>
             </CButton>
-          </div>
+          </CNavLink>
           {/* </div> */}
         </div>
         {/* </CContainer> */}

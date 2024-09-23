@@ -39,7 +39,7 @@ class App extends Component {
             <Route exact path="/reset" name="Reset" element={<ResetPassword />} />
             <Route exact path="/forgotPasswordSiswa" name="Forgot Password Siswa" element={<ForgotPasswordSiswa />} />
             <Route exact path="/forgotPassUser" name="Forgot Password Siswa" element={<ForgotPassUser />} />
-            <Route path="*" name="Dashboard New" element={
+            <Route path="*" name="Dashboard" element={
               <PrivateRoute>
                 <DefaultLayout />
               </PrivateRoute>

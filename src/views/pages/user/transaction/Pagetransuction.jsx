@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "../../../css/Pagetransuction.css";
 import { API_DUMMY } from "../../../../utils/baseURL";
+import { CFormInput } from "@coreui/react";
 
 function PageTransaction() {
   const [selectedDate, setSelectedDate] = useState("September 2024");
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [periode, setPeriode] = useState("");
+  const [desription, setDesription] = useState("");
 
   // Fungsi untuk mengambil token dari localStorage
   const getToken = () => {
@@ -21,10 +24,13 @@ function PageTransaction() {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const response = await fetch(`${API_DUMMY}/member/payment`, {
-          method: "GET",
-          headers: { "auth-tgh": `jwt ${getToken()}` },
-        });
+        const response = await fetch(
+          `${API_DUMMY}/member/payment?periode=${periode}&description=`,
+          {
+            method: "GET",
+            headers: { "auth-tgh": `jwt ${getToken()}` },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Error fetching payment data");
@@ -42,7 +48,9 @@ function PageTransaction() {
     };
 
     fetchPayments();
-  }, []);
+    // console.log("periode: ", periode);
+
+  }, [periode]);
 
   // Fungsi untuk menghitung total income dan outcome
   const calculateTotals = () => {
@@ -73,16 +81,24 @@ function PageTransaction() {
   return (
     <div className="transaction-page">
       {/* Header dan dropdown untuk bulan */}
-      <div className="header">
+      <div className="header-tr">
         <h1>Transactions</h1>
       </div>
-
-      <div className="dropdown-container">
+      <CFormInput
+        className="mb-3"
+        type="month"
+        value={periode}
+        onChange={(e) => setPeriode(e.target.value)}
+        // placeholder="name@example.com"
+        // text="Must be 8-20 characters long."
+        aria-describedby="exampleFormControlInputHelpInline"
+      />
+      {/* <div className="dropdown-container">
         <select value={selectedDate} onChange={handleDateChange}>
           <option value="September 2024">September 2024</option>
           <option value="October 2024">October 2024</option>
         </select>
-      </div>
+      </div> */}
 
       {/* Income dan Outcome */}
       <div className="summary">

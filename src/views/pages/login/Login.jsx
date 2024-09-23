@@ -43,38 +43,36 @@ const Login = () => {
     e.persist();
 
     try {
-      // if (type_token === "Costumer") {
-      //   const { data, status } = await axios.post(
-      //     `${API_DUMMY}/customer/login`,
-      //     {
-      //       email: email,
-      //       password: password,
-      //     }
-      //   );
-      //   // Jika respon 200/ ok
-      //   if (status === 200) {
-      //     Swal.fire({
-      //       icon: "success",
-      //       title: "Berhasil Login Sebagai Customer",
-      //       showConfirmButton: false,
-      //       timer: 1500,
-      //     });
-      //     localStorage.setItem("type_token", data.data.type_token);
-      //     localStorage.setItem("id", data.data.id);
-      //     localStorage.setItem("token", data.data.token);
-      //     navigate("/dashboardd");
-      //     setTimeout(() => {
-      //       window.location.reload();
-      //     }, 1500);
-      //   }
-      // } else if (type_token === "User") {
-      //   const { data, status } = await axios.post(
-      //     `${API_DUMMY}/user/login`,
-      //     {
-      //       email: email,
-      //       password: password,
-      //     }
-      //   );
+      if (type_token === "Costumer") {
+        const { data, status } = await axios.post(
+          `${API_DUMMY}/customer/login`,
+          {
+            email: email,
+            password: password,
+          }
+        );
+        // Jika respon 200/ ok
+        if (status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Login Sebagai Customer",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          localStorage.setItem("type_token", data.data.type_token);
+          localStorage.setItem("id", data.data.id);
+          localStorage.setItem("token", data.data.token);
+          navigate("/dashboardd");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+      }
+      // else if (type_token === "User") {
+      //   const { data, status } = await axios.post(`${API_DUMMY}/user/login`, {
+      //     email: email,
+      //     password: password,
+      //   });
       //   // Jika respon 200/ ok
       //   if (status === 200) {
       //     Swal.fire({
@@ -90,27 +88,28 @@ const Login = () => {
       //       window.location.reload();
       //     }, 1500);
       //   }
-      // } else if (type_token === "Member") {
-      const { data, status } = await axios.post(`${API_DUMMY}/member/login`, {
-        unique_id: unique_id,
-        password: password,
-      });
-      // Jika respon 200/ ok
-      if (status === 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Login Sebagai Member",
-          showConfirmButton: false,
-        });
-        localStorage.setItem("type_token", data.data.type_token);
-        localStorage.setItem("id", data.data.id);
-        localStorage.setItem("token", data.data.token);
-        navigate("/dashboardNew");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-      }
       // }
+      else if (type_token === "Member") {
+        const { data, status } = await axios.post(`${API_DUMMY}/member/login`, {
+          unique_id: unique_id,
+          password: password,
+        });
+        // Jika respon 200/ ok
+        if (status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Login Sebagai Member",
+            showConfirmButton: false,
+          });
+          localStorage.setItem("type_token", data.data.type_token);
+          localStorage.setItem("id", data.data.id);
+          localStorage.setItem("token", data.data.token);
+          navigate("/dashboardNew");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+      }
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -160,7 +159,7 @@ const Login = () => {
                 style={{ textAlign: "center", marginBottom: "30px" }}>
                 Masuk ke akun anda
               </p>
-              {/* <div className="container1">
+              <div className="container1">
                 <div className="selector">
                   <div className="selector-item">
                     <input
@@ -190,7 +189,7 @@ const Login = () => {
                       Sekolah
                     </label>
                   </div>
-                  <div className="selector-item">
+                  {/* <div className="selector-item">
                     <input
                       type="radio"
                       id="radio3"
@@ -203,11 +202,28 @@ const Login = () => {
                     <label htmlFor="radio3" className="selector-item_label">
                       Admin
                     </label>
-                  </div>
+                  </div> */}
                 </div>
-              </div> */}
-              {/* {type_token === "User" ? (
-                <>
+              </div>
+              {
+                // type_token === "User" ? (
+                //   <>
+                //     <CInputGroup className="mb-3">
+                //       <CInputGroupText>
+                //         <CIcon icon={cilUser} />
+                //       </CInputGroupText>
+                //       <CFormInput
+                //         placeholder="email"
+                //         autoComplete="email"
+                //         value={email}
+                //         type="email"
+                //         onChange={(e) => setEmail(e.target.value)}
+                //       />
+                //     </CInputGroup>
+                //   </>
+                // )
+                // :
+                type_token === "Costumer" ? (
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
                       <CIcon icon={cilUser} />
@@ -220,34 +236,21 @@ const Login = () => {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </CInputGroup>
-                </>
-              ) : type_token === "Costumer" ? (
-                <CInputGroup className="mb-3">
-                  <CInputGroupText>
-                    <CIcon icon={cilUser} />
-                  </CInputGroupText>
-                  <CFormInput
-                    placeholder="email"
-                    autoComplete="email"
-                    value={email}
-                    type="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </CInputGroup>
-              ) : ( */}
-                <CInputGroup className="mb-3">
-                  <CInputGroupText>
-                    <CIcon icon={cilUser} />
-                  </CInputGroupText>
-                  <CFormInput
-                    placeholder="unique_id"
-                    autoComplete="unique_id"
-                    value={unique_id}
-                    type="text"
-                    onChange={(e) => setUnique_id(e.target.value)}
-                  />
-                </CInputGroup>
-              {/* // )} */}
+                ) : (
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilUser} />
+                    </CInputGroupText>
+                    <CFormInput
+                      placeholder="unique_id"
+                      autoComplete="unique_id"
+                      value={unique_id}
+                      type="text"
+                      onChange={(e) => setUnique_id(e.target.value)}
+                    />
+                  </CInputGroup>
+                )
+              }
               <CInputGroup className="mb-4">
                 <CInputGroupText>
                   <span onClick={togglePassword}>
@@ -267,7 +270,7 @@ const Login = () => {
                   pilih role yang diinginkan terlebih dahulu sebelum ke forgot
                   password.
                 </p>
-                {/* {type_token === "Costumer" ? (
+                {type_token === "Costumer" ? (
                   <CButton
                     color="link"
                     style={{
@@ -277,17 +280,18 @@ const Login = () => {
                     }}>
                     <a href="/#/reset"> Forgot password</a>
                   </CButton>
-                ) : type_token === "User" ? (
-                  <CButton
-                    color="link"
-                    style={{
-                      marginTop: "-20px",
-                      marginLeft: "33.5%",
-                      marginBottom: "10px",
-                    }}>
-                    <a href="/#/forgotPassUser"> Forgot password</a>
-                  </CButton>
-                ) : type_token === "Member" ? ( */}
+                ) : // : type_token === "User" ? (
+                //   <CButton
+                //     color="link"
+                //     style={{
+                //       marginTop: "-20px",
+                //       marginLeft: "33.5%",
+                //       marginBottom: "10px",
+                //     }}>
+                //     <a href="/#/forgotPassUser"> Forgot password</a>
+                //   </CButton>
+                // )
+                type_token === "Member" ? (
                   <CButton
                     color="link"
                     style={{
@@ -297,9 +301,9 @@ const Login = () => {
                     }}>
                     <a href="/#/forgotPasswordSiswa"> Forgot password</a>
                   </CButton>
-                {/* // ) : (
-                //   <></>
-                // )} */}
+                ) : (
+                  <></>
+                )}
                 <CCol xs={6}>
                   <button
                     type="button"

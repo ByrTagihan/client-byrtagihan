@@ -61,37 +61,53 @@ function KotakMasuk() {
 
   const [idd, setId] = useState(0);
   const getById = async (id) => {
-    if (localStorage.getItem("type_token") === "member") {
-      await axios
-        .get(`${API_DUMMY}/member/notif/` + id, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
-        .then((res) => {
-          setSubject(res.data.data.subject);
-          setMessage(res.data.data.message);
-          setId(res.data.data.id);
-        })
-        .catch((error) => {
-          alert("Terjadi Kesalahan" + error);
+    try {
+      const tokenType = localStorage.getItem("type_token");
+      const token = localStorage.getItem("token");
+
+      // Cek apakah user adalah "member"
+      if (tokenType === "member") {
+        // Fetch data notifikasi
+        const response = await axios.get(`${API_DUMMY}/member/notif/${id}`, {
+          headers: { "auth-tgh": `jwt ${token}` },
         });
-      await axios.put(`${API_DUMMY}/member/notif/${id}/readed`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      });
-    } else {
-      Swal.fire(
-        "Peringatan",
-        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admmin",
-        "error"
-      ).then((result) => {
-        //Untuk munuju page selanjutnya
-        navigate("/");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-        localStorage.clear();
-      });
+
+        // Set state dengan data yang didapat dari response
+        const { subject, message, id: notifId } = response.data.data;
+        setSubject(subject);
+        setMessage(message);
+        setId(notifId);
+
+        // Tandai notifikasi sebagai 'readed'
+        await axios.put(`${API_DUMMY}/member/notif/${id}/readed`, null, {
+          headers: { "auth-tgh": `jwt ${token}` },
+        });
+
+      } else {
+        // Jika bukan member, tampilkan pesan peringatan
+        Swal.fire(
+          "Peringatan",
+          "Anda tidak diizinkan mengakses API ini. Jika ingin melihat halaman ini maka login dulu sebagai admin",
+          "error"
+        ).then((result) => {
+          // Redirect ke halaman utama
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+
+          // Bersihkan localStorage
+          localStorage.clear();
+        });
+      }
+
+    } catch (error) {
+      // Tampilkan pesan error jika terjadi kesalahan
+      console.error("Terjadi Kesalahan:", error);
+      alert("Terjadi Kesalahan: " + error.message);
     }
   };
+
 
   useEffect(() => {
     getAllData();
@@ -116,9 +132,13 @@ function KotakMasuk() {
             }}>
             <CAlert color="info" className="card-kotak-masuk shadow">
               {/* <CCol xs={1}> */}
-              <CAvatar color="white" size="lg" className="icon-notif" textColor="white">
+              <CAvatar
+                color="white"
+                size="lg"
+                className="icon-notif"
+                textColor="white">
                 <i className="fa-solid fa-bell position-relative">
-                {data.readed == true ? (
+                  {data.readed == true ? (
                     <></>
                   ) : (
                     <>

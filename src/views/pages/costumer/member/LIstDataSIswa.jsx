@@ -285,11 +285,11 @@ function LIstDataSIswa() {
 
     const formData = new FormData();
 
-    formData.append("file xlsx", excel);
+    formData.append("file", excel);
 
     await axios
       .post(
-        `${API_DUMMY}/api/customer/member/file`,
+        `${API_DUMMY}/customer/member/import`,
         formData,
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
@@ -297,7 +297,7 @@ function LIstDataSIswa() {
       )
       .then(() => {
         Swal.fire("Sukses!", " berhasil ditambahkan.", "success");
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((err) => {
         console.log(err);
