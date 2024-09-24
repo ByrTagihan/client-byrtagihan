@@ -17,7 +17,6 @@ import { API_DUMMY } from "../../../../utils/baseURL";
 import "../../../css/ListDataSiswa.css";
 import Swal from "sweetalert2";
 import { useSelectedBillIds } from "./SelectedBillIdsContext";
-// import {useSelectedBillIds} from "../../member/bill/SelectedBillIdsContext"
 
 function ListTagihan() {
   const [bill, setBill] = useState([]);
@@ -30,7 +29,6 @@ function ListTagihan() {
   const navigate = useNavigate();
   const [role, setRole] = useState("");
   const { selectedBillIds, setSelectedBillIds } = useSelectedBillIds();
-
 
   // Function get
   const get = async () => {
@@ -60,6 +58,116 @@ function ListTagihan() {
       });
     }
   };
+
+  // // Fungsi untuk melakukan pembayaran setelah konfirmasi
+  // const handleBayarTagihan = async (billId) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${API_DUMMY}/member/bill/${billId}/wallet`, // endpoint yang dipanggil
+  //       {},
+  //       {
+  //         headers: {
+  //           "auth-tgh": `jwt ${localStorage.getItem("token")}`, // pastikan token tersimpan
+  //         },
+  //       }
+  //     );
+  //     if (response.status === 200) {
+  //       Swal.fire("Sukses", "Pembayaran berhasil!", "success");
+  //       navigate("/dashboardNew"); // redirect ke halaman setelah pembayaran
+  //     } else {
+  //       Swal.fire("Gagal", "Pembayaran gagal, coba lagi nanti.", "error");
+  //     }
+  //   } catch (error) {
+  //     Swal.fire(
+  //       "Error",
+  //       "Terjadi kesalahan saat memproses pembayaran.",
+  //       "error"
+  //     );
+  //     console.error(error);
+  //   }
+  // };
+
+  // // Fungsi untuk menampilkan dialog konfirmasi sebelum pembayaran
+  // const confirmBayar = (billId) => {
+  //   Swal.fire({
+  //     title: "Konfirmasi Pembayaran",
+  //     text: "Apakah Anda yakin ingin membayar tagihan ini?",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonText: "Ya, bayar",
+  //     cancelButtonText: "Tidak",
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       handleBayarTagihan(billId); // Panggil fungsi pembayaran jika pengguna memilih "Ya"
+  //     }
+  //   });
+  // };
+
+  // Fungsi untuk melakukan pembayaran setelah konfirmasi
+
+
+  // Fungsi untuk melakukan pembayaran setelah pengecekan saldo
+  
+  const handleBayarTagihan = async (billId) => {
+    try {
+      const response = await axios.post(
+        `${API_DUMMY}/member/bill/${billId}/wallet`, // Endpoint untuk pembayaran tagihan
+        {},
+        {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Pastikan token tersimpan
+          },
+        }
+      );
+  
+      // Cek status respons untuk menentukan apakah saldo cukup
+      if (response.status === 200) {
+        const { saldo, nominalTagihan } = response.data; // Ambil data saldo dan nominal tagihan dari respons API
+  
+        // Jika saldo cukup, munculkan SweetAlert untuk konfirmasi pembayaran
+        const result = await Swal.fire({
+          title: "Konfirmasi Pembayaran",
+          text: `Saldo Anda mencukupi. Apakah Anda yakin ingin membayar tagihan sebesar Rp ${nominalTagihan}?`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Ya, bayar",
+          cancelButtonText: "Tidak",
+        });
+  
+        // Jika pengguna mengonfirmasi pembayaran
+        if (result.isConfirmed) {
+          // Lakukan proses pembayaran
+          Swal.fire("Sukses", "Pembayaran berhasil!", "success");
+  
+          // Redirect ke halaman setelah pembayaran berhasil
+          window.location.href = `${API_DUMMY}/api/customer/bill/impor`; // Redirect ke URL yang diinginkan
+        }
+      }
+    } catch (error) {
+      // Jika respons status 400 karena saldo tidak cukup
+      if (error.response && error.response.status === 400) {
+        Swal.fire(
+          "Saldo Tidak Cukup",
+          "Saldo Anda tidak mencukupi untuk membayar tagihan ini.",
+          "warning"
+        );
+      } else {
+        // Jika terjadi kesalahan lain
+        Swal.fire(
+          "Error",
+          "Terjadi kesalahan saat memproses pembayaran.",
+          "error"
+        );
+        console.error(error); // Log error untuk debugging
+      }
+    }
+  };
+  
+  // Fungsi untuk langsung menampilkan konfirmasi pembayaran tanpa pengecekan saldo
+  const confirmBayar = (billId) => {
+    handleBayarTagihan(billId); // Langsung panggil fungsi pembayaran tanpa pengecekan saldo terpisah
+  };
+  
 
   // function select all
   const handleCheckboxChange = (id) => {
@@ -130,7 +238,8 @@ function ListTagihan() {
           key={i}
           className={"page-item " + (currentPage === i ? "active" : "")}
           aria-current="page"
-          onClick={() => handlePageChange(i)}>
+          onClick={() => handlePageChange(i)}
+        >
           <a className="page-link">{i}</a>
         </li>
       );
@@ -192,7 +301,6 @@ function ListTagihan() {
                         return (
                           <CTableRow key={index}>
                             <CTableHeaderCell scope="row">
-                              {/*<CFormCheck onChange={handleSelectBilll(bill.id)}/>*/}
                               <CFormCheck
                                 id={`flexCheckDefault${bil.id}`}
                                 onChange={() => handleCheckboxChange(bil.id)}
@@ -235,8 +343,9 @@ function ListTagihan() {
                               ) : (
                                 <CButton
                                   onClick={() =>
-                                    navigate(`/bayarTagihan/${bil.id}`)
-                                  }>
+                                    confirmBayar(bil.id, bil.amount)
+                                  }
+                                >
                                   Bayar
                                 </CButton>
                               )}
@@ -251,10 +360,12 @@ function ListTagihan() {
                       className={
                         "page-item " + (currentPage === 1 ? "disabled" : "")
                       }
-                      disabled={currentPage === 1}>
+                      disabled={currentPage === 1}
+                    >
                       <a
                         className="page-link"
-                        onClick={() => handlePageChange(currentPage - 1)}>
+                        onClick={() => handlePageChange(currentPage - 1)}
+                      >
                         Previous
                       </a>
                     </li>
@@ -264,10 +375,12 @@ function ListTagihan() {
                         "page-item " +
                         (currentPage === totalPages ? "disabled" : "")
                       }
-                      disabled={currentPage === totalPages}>
+                      disabled={currentPage === totalPages}
+                    >
                       <a
                         className="page-link"
-                        onClick={() => handlePageChange(currentPage + 1)}>
+                        onClick={() => handlePageChange(currentPage + 1)}
+                      >
                         Next
                       </a>
                     </li>
@@ -285,7 +398,8 @@ function ListTagihan() {
                   <p>Total Pembayaran: Rp.{calculateTotalPayment()}</p>
                   <CButton
                     disabled={selectedBillIds.length === 0}
-                    onClick={() => navigate(`/bayarTagihan/all`)}>
+                    onClick={() => navigate(`/bayarTagihan/all`)}
+                  >
                     Bayar
                   </CButton>
                 </CCardBody>
