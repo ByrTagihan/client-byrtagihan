@@ -1,5 +1,6 @@
 import React from "react";
-import { Container, Card, Row, Col } from "react-bootstrap";
+import { Container, Card, Row, Col, Button } from "react-bootstrap";
+import "./../../css/merchan.css";
 
 function Merchant() {
   // Array yang berisi beberapa data transaksi
@@ -21,6 +22,34 @@ function Merchant() {
     },
   ];
 
+  // Fungsi untuk mengubah teks menjadi bintang-bintang
+  const maskText = (text) => {
+    return "*****"; // Tampilkan hanya 5 bintang
+  };
+
+  // Fungsi untuk menangani pembayaran
+  const handlePayment = async (transaction) => {
+    try {
+      const response = await fetch("/api/merchant/payment/wallet", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(transaction),
+      });
+
+      if (!response.ok) {
+        throw new Error("Payment failed!");
+      }
+
+      const data = await response.json();
+      alert(`Payment successful: ${data.message}`);
+    } catch (error) {
+      console.error("Error processing payment:", error);
+      alert("Payment failed. Please try again.");
+    }
+  };
+
   return (
     <Container className="notification-screen text-center">
       <div className="header">
@@ -31,27 +60,34 @@ function Merchant() {
       {dataTransaksi.map((data, index) => (
         <Card key={index} className="mx-auto my-4 shadow-lg notification-card">
           <Card.Body>
-            <h5 className="text-muted">Transaction Information {index + 1}</h5>
+            <h5 className="text-muted">payment via wallet {index + 1}</h5>
 
             {/* Menampilkan informasi dari setiap data transaksi */}
             <Card className="transaction-summary">
               <Card.Body>
                 <Row>
-                  <Col xs={12}>
+                  <Col xs={12} className="d-flex justify-content-between">
                     <h6>Number</h6>
-                    <p>{data.rfid_number}</p>
+                    <p>{maskText(data.rfid_number)}</p>
                   </Col>
-                  <Col xs={12}>
+                  <Col xs={12} className="d-flex justify-content-between">
                     <h6>PIN</h6>
-                    <p>{data.pin}</p>
+                    <p>{maskText(data.pin)}</p>
                   </Col>
-                  <Col xs={12}>
+                  <Col xs={12} className="d-flex justify-content-between">
                     <h6>Amount</h6>
-                    <p>Rp {data.amount.toLocaleString()}</p>
+                    <p className="text">Rp {data.amount.toLocaleString()}</p>
                   </Col>
                 </Row>
               </Card.Body>
             </Card>
+
+            {/* Tombol Bayar dengan event handler */}
+            <div className="d-flex justify-content-end mt-3">
+              <Button onClick={() => handlePayment(data)} className="button">
+                Bayar
+              </Button>
+            </div>
           </Card.Body>
         </Card>
       ))}
