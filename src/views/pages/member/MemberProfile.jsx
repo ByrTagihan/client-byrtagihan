@@ -3,6 +3,7 @@ import CIcon from "@coreui/icons-react";
 import {
   CButton,
   CCol,
+  CContainer,
   CForm,
   CFormInput,
   CInputGroup,
@@ -151,8 +152,8 @@ function MemberProfile() {
   }, []);
 
   return (
-    <div className="allProfile">
-      <div className="box1">
+    <CContainer className="allProfile1">
+      <div className="box11">
         <h4 className="textProfile">Profile Member</h4>
 
         <div style={{ padding: "10px" }} className="img-container">
@@ -160,7 +161,7 @@ function MemberProfile() {
         </div>
       </div>
 
-      <div className="box2">
+      <div className="box2" style={{marginBottom:"80px"}}>
         <h6 className="mb-2">Id : {profile.id}</h6>
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> unique_id : {profile.unique_id}
@@ -222,7 +223,7 @@ function MemberProfile() {
           </CRow>
         </CForm>
       </div>
-    </div>
+    </CContainer>
   );
 }
 

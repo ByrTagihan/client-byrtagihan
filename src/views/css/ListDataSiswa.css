@@ -140,3 +140,40 @@ tbody {
     font-weight: bold;
   }
 }
+
+.tbody-tagihan {
+  text-align: left;
+}
+/* .readonly2 {
+  gap: 10px;
+}
+.readonly {
+  display: block;
+} */
+/* .bungkus {
+  width: 100%;
+} */
+.td-tagihan {
+  padding-right: none;
+  display: flex;
+  justify-content: left;
+}
+.responsive-4 {
+  width: 100%;
+}
+.thead-tagihan {
+  display: none;
+}
+.td-tagihan {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 15ch auto;
+  padding: 0.75em 1rem;
+}
+.td-tagihan:first-child {
+  padding-top: 2rem;
+}
+.td-tagihan::before {
+  content: attr(data-cell) "  : ";
+  font-weight: bold;
+}
