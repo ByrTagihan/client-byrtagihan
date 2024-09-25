@@ -10,6 +10,7 @@ import {
   CCardBody,
   CButton,
   CFormCheck,
+  CContainer,
 } from "@coreui/react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
@@ -107,7 +108,7 @@ function ListTagihan() {
 
 
   // Fungsi untuk melakukan pembayaran setelah pengecekan saldo
-  
+
   const handleBayarTagihan = async (billId) => {
     try {
       const response = await axios.post(
@@ -119,11 +120,11 @@ function ListTagihan() {
           },
         }
       );
-  
+
       // Cek status respons untuk menentukan apakah saldo cukup
       if (response.status === 200) {
         const { saldo, nominalTagihan } = response.data; // Ambil data saldo dan nominal tagihan dari respons API
-  
+
         // Jika saldo cukup, munculkan SweetAlert untuk konfirmasi pembayaran
         const result = await Swal.fire({
           title: "Konfirmasi Pembayaran",
@@ -133,12 +134,12 @@ function ListTagihan() {
           confirmButtonText: "Ya, bayar",
           cancelButtonText: "Tidak",
         });
-  
+
         // Jika pengguna mengonfirmasi pembayaran
         if (result.isConfirmed) {
           // Lakukan proses pembayaran
           Swal.fire("Sukses", "Pembayaran berhasil!", "success");
-  
+
           // Redirect ke halaman setelah pembayaran berhasil
           window.location.href = `${API_DUMMY}/api/customer/bill/impor`; // Redirect ke URL yang diinginkan
         }
@@ -162,12 +163,12 @@ function ListTagihan() {
       }
     }
   };
-  
+
   // Fungsi untuk langsung menampilkan konfirmasi pembayaran tanpa pengecekan saldo
   const confirmBayar = (billId) => {
     handleBayarTagihan(billId); // Langsung panggil fungsi pembayaran tanpa pengecekan saldo terpisah
   };
-  
+
 
   // function select all
   const handleCheckboxChange = (id) => {
@@ -254,7 +255,7 @@ function ListTagihan() {
   }, []);
 
   return (
-    <div>
+    <CContainer>
       {localStorage.getItem("type_token") === "member" ? (
         <>
           {bill.length === 0 ? (
@@ -270,8 +271,8 @@ function ListTagihan() {
             <div>
               <CCard className="mb-5">
                 <CCardBody>
-                  <CTable className="table table1 responsive-3">
-                    <CTableHead>
+                  <CTable style={{width:"20%"}} className="table table2 responsive-4">
+                    <CTableHead className="thead-tagihan">
                       <CTableRow>
                         <CTableHeaderCell scope="col">
                           <CFormCheck
@@ -296,7 +297,7 @@ function ListTagihan() {
                         <CTableHeaderCell scope="col">Action</CTableHeaderCell>
                       </CTableRow>
                     </CTableHead>
-                    <CTableBody>
+                    <CTableBody className="tbody-tagihan">
                       {bill.map((bil, index) => {
                         return (
                           <CTableRow key={index}>
@@ -311,16 +312,16 @@ function ListTagihan() {
                             <CTableHeaderCell data-cell="No">
                               {index + 1}
                             </CTableHeaderCell>
-                            <CTableDataCell data-cell="Deskripsi">
+                            <CTableDataCell className="td-tagihan" data-cell="Deskripsi">
                               {bil.description}
                             </CTableDataCell>
-                            <CTableDataCell data-cell="Periode">
+                            <CTableDataCell className="td-tagihan"  data-cell="Periode">
                               {bil.periode}
                             </CTableDataCell>
-                            <CTableDataCell data-cell="Nominal">
+                            <CTableDataCell className="td-tagihan"  data-cell="Nominal">
                               {bil.amount}
                             </CTableDataCell>
-                            <CTableDataCell data-cell="Status">
+                            <CTableDataCell className="td-tagihan"  data-cell="Status">
                               {bil.paid_id === 0 ? (
                                 <span>belum terbayar</span>
                               ) : bil.paid_id === 1 ? (
@@ -329,13 +330,13 @@ function ListTagihan() {
                                 <span>terbayar oleh sistem</span>
                               )}
                             </CTableDataCell>
-                            <CTableDataCell data-cell="Tanggal Bayar">
+                            <CTableDataCell className="td-tagihan"  data-cell="Tanggal Bayar">
                               {bil.paid_date}
                             </CTableDataCell>
-                            <CTableDataCell data-cell="Nominal Bayar">
+                            <CTableDataCell className="td-tagihan"  data-cell="Nominal Bayar">
                               {bil.paid_amount}
                             </CTableDataCell>
-                            <CTableDataCell data-cell="Action">
+                            <CTableDataCell className="td-tagihan"  data-cell="Action">
                               {bil.amount <= bil.paid_amount ? (
                                 <CButton color="danger" onClick={handleLunas}>
                                   Lunas
@@ -387,7 +388,7 @@ function ListTagihan() {
                   </ul>
                 </CCardBody>
               </CCard>
-              <CCard>
+              <CCard style={{marginBottom:"70px"}}>
                 <CCardBody className="d-flex justify-content-between">
                   <CFormCheck
                     id="flexCheckDefault"
@@ -412,7 +413,7 @@ function ListTagihan() {
           <p>Page Tidak Tersedia</p>
         </>
       )}
-    </div>
+    </CContainer>
   );
 }
 

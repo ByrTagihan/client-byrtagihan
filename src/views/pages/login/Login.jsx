@@ -62,7 +62,7 @@ const Login = () => {
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
-          navigate("/dashboardd");
+          navigate("/");
           setTimeout(() => {
             window.location.reload();
           }, 1500);
@@ -104,7 +104,28 @@ const Login = () => {
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
-          navigate("/dashboardNew");
+          navigate("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+      }
+      else if (type_token == "merchant") {
+        const { data, status } = await axios.post(`${API_DUMMY}/merchant/login`, {
+          unique_id: unique_id,
+          password: password,
+        });
+        // Jika respon 200/ ok
+        if (status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Login Sebagai Member",
+            showConfirmButton: false,
+          });
+          localStorage.setItem("type_token", data.data.type_token);
+          localStorage.setItem("id", data.data.id);
+          localStorage.setItem("token", data.data.token);
+          navigate("/");
           setTimeout(() => {
             window.location.reload();
           }, 1500);
@@ -189,6 +210,20 @@ const Login = () => {
                       Sekolah
                     </label>
                   </div>
+                  <div className="selector-item">
+                    <input
+                      type="radio"
+                      id="radio3"
+                      name="selector"
+                      className="selector-item_radio"
+                      checked={type_token === "Merchant"}
+                      value="Merchant"
+                      onChange={handleOptionChange}
+                    />
+                    <label htmlFor="radio3" className="selector-item_label">
+                      Merchant
+                    </label>
+                  </div>
                   {/* <div className="selector-item">
                     <input
                       type="radio"
@@ -236,7 +271,7 @@ const Login = () => {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </CInputGroup>
-                ) : (
+                ) : type_token === "Member" ?(
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
                       <CIcon icon={cilUser} />
@@ -249,6 +284,21 @@ const Login = () => {
                       onChange={(e) => setUnique_id(e.target.value)}
                     />
                   </CInputGroup>
+                ): type_token === "Merchant" ?(
+                  <CInputGroup className="mb-3">
+                  <CInputGroupText>
+                    <CIcon icon={cilUser} />
+                  </CInputGroupText>
+                  <CFormInput
+                    placeholder="unique_id"
+                    autoComplete="unique_id"
+                    value={unique_id}
+                    type="text"
+                    onChange={(e) => setUnique_id(e.target.value)}
+                  />
+                </CInputGroup>
+                ):(
+                  <></>
                 )
               }
               <CInputGroup className="mb-4">

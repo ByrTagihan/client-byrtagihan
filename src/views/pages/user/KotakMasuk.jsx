@@ -135,7 +135,7 @@ function KotakMasuk() {
               <CAvatar
                 color="white"
                 size="lg"
-                className="icon-notif"
+                className="icon-notif px-3"
                 textColor="white">
                 <i className="fa-solid fa-bell position-relative">
                   {data.readed == true ? (
