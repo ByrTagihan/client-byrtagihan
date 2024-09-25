@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { deleteData, getAllData } from "../../../../utils/controller";
 import { Link, useNavigate } from "react-router-dom";
-import { CFormInput, CInputGroup, CModal } from "@coreui/react";
+import { CContainer, CFormInput, CInputGroup, CModal } from "@coreui/react";
 import axios from "axios";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
@@ -269,11 +269,11 @@ function Tagihan() {
       });
   };
   return (
-    <div>
+    <CContainer xl>
       {localStorage.getItem("type_token") === "customer" ? (
         <>
-          <div className="row">
-            <div className="col" xs={12}>
+          <div className="">
+            <div className="col" xs={10}>
               <div className="col inputSearch1">
                 <select
                   className="form-select"
@@ -632,7 +632,7 @@ function Tagihan() {
           <p>Page Tidak Tersedia</p>
         </>
       )}
-    </div>
+    </CContainer>
   );
 }
 

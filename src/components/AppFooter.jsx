@@ -57,7 +57,7 @@ const AppFooter = () => {
   }, []);
 
   return (
-    <CFooter className="navbottom" style={{ background: "white" }}>
+    <div className="navbottom" style={{ background: "white" }}>
       <CContainer>
         <div className="navbottom1">
           <CNavLink
@@ -89,7 +89,17 @@ const AppFooter = () => {
             </CBadge>
             <i className="fa-solid fa-bell"> </i>
             {isActive("/notifikasi") && (
-              <span className="span1">Notifikasi</span>
+              <span className="span1">{" "}Notifikasi</span>
+            )}{" "}
+          </CNavLink>
+          <CNavLink
+            style={{ position: "relative" }}
+            component={NavLink}
+            to="/listTagihanMember"
+            className={isActive("/listTagihanMember") ? "active" : ""}>
+            <i class="fa-solid fa-list"></i>
+            {isActive("/listTagihanMember") && (
+              <span className="span1">{" "}Bill</span>
             )}{" "}
           </CNavLink>
           {/* <CCol> */}
@@ -105,7 +115,7 @@ const AppFooter = () => {
           {/* </CCol> */}
         </div>
       </CContainer>
-    </CFooter>
+    </div>
   );
 };
 

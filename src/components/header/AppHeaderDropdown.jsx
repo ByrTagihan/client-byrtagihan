@@ -38,7 +38,6 @@ const AppHeaderDropdown = () => {
   const [foto, setFoto] = useState({
     picture: null,
   });
-
   const [list, setList] = useState([]);
   const [bills, setBills] = useState([]);
   const [message, setMessage] = useState([]);
@@ -50,6 +49,7 @@ const AppHeaderDropdown = () => {
   const [template, setTemplate] = useState([]);
   const [customerMember, setCustomerMember] = useState([]);
   const [customerBill, setCustomerBill] = useState([]);
+  const role = localStorage.getItem("type_token");
 
   // const getAllTransaction = async () => {
   //   await axios
@@ -197,7 +197,7 @@ const AppHeaderDropdown = () => {
     });
   };
   return (
-    <CDropdown variant="nav-item">
+    <CDropdown variant="nav-item" alignment={role === "member" ? "end" : ""}>
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
         {foto.picture ? (
           <img
@@ -213,7 +213,7 @@ const AppHeaderDropdown = () => {
           />
         )}
       </CDropdownToggle>
-      <CDropdownMenu className="pt-0" placement="bottom-end">
+      <CDropdownMenu className="pt-0">
         <CDropdownHeader className="bg-light fw-semibold py-2">
           Account
         </CDropdownHeader>
@@ -395,8 +395,8 @@ const AppHeaderDropdown = () => {
 
         <CDropdownItem onClick={logout}>
           {/* <div style={{padding:"none", background:"none", border:"none", textAlign:"left"}}> */}
-            <CIcon icon={cilUser} className="me-2" />
-            Logout
+          <CIcon icon={cilUser} className="me-2" />
+          Logout
           {/* </div> */}
         </CDropdownItem>
       </CDropdownMenu>
