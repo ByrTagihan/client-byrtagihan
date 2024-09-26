@@ -32,14 +32,14 @@ const AppHeader = () => {
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler> */}
         <CHeaderBrand className="d-md-none" to="/">
-          <p style={{ fontFamily: "sans-serif" }}>Bayar Tagihan</p>
+          SMART
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
-          <CNavItem>
+          {/* <CNavItem>
             <CNavLink to="/" component={NavLink}>
-              Bayar Tagihan
+            SMART
             </CNavLink>
-          </CNavItem>
+          </CNavItem> */}
         </CHeaderNav>
         <CHeaderNav className="ms-3">
           <AppHeaderDropdown />
