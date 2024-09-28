@@ -32,6 +32,7 @@ import { Container } from "react-bootstrap";
 function DashboardNew() {
   const [banner, setBanner] = useState([]);
   const navigate = useNavigate();
+  const [card, setCard] = useState("");
 
   const getAllData = async () => {
     if (localStorage.getItem("type_token") === "member") {
@@ -64,8 +65,40 @@ function DashboardNew() {
     }
   };
 
+  const getAllDataCard = async () => {
+    if (localStorage.getItem("type_token") === "member") {
+      await axios
+        .get(`${API_DUMMY}/member/card`, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        })
+        .then((res) => {
+          //   setTotalPages(res.data.pagination.total_page);
+          setCard(res.data.data.balance);
+          console.log("card: ", res.data.data.balance);
+          //console.log(res.data.data);
+        })
+        .catch((error) => {
+          console.log("Terjadi Kesalahan" + error);
+        });
+    } else {
+      Swal.fire(
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai member",
+        "error"
+      ).then((result) => {
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
+      });
+    }
+  };
+
   useEffect(() => {
     getAllData();
+    getAllDataCard();
   }, []);
 
   return (
@@ -125,11 +158,15 @@ function DashboardNew() {
               alt={`slide ${index + 1}`}
             />
             {/* Div untuk background gradien */}
-            <div className="bg"><p style={{color:"transparent"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, commodi!</p></div>
+            <div className="bg">
+              <p style={{ color: "transparent" }}>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Repellat, commodi!
+              </p>
+            </div>
           </CCarouselItem>
         ))}
       </CCarousel>
-
       <Container md className="px-3">
         <CCard style={{ border: "none", background: "none" }}>
           <div className="card-saldo shadow">
@@ -140,7 +177,7 @@ function DashboardNew() {
               <div>
                 <p>
                   Saldo <br />{" "}
-                  <CCardTitle className="strong">Rp 10.000</CCardTitle>
+                  <CCardTitle className="strong">Rp {card}</CCardTitle>
                 </p>
               </div>
               {/* <CButton style={{ borderRadius: "20px" }}>
@@ -156,7 +193,7 @@ function DashboardNew() {
                 <p>Bayar</p>
               </button>
               <button>
-              <i class="fa-solid fa-ellipsis-vertical icon2"></i>
+                <i class="fa-solid fa-ellipsis-vertical icon2"></i>
                 <p>Lainya</p>
               </button>
               {/* <CButton>

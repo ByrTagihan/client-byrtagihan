@@ -1,9 +1,10 @@
 .navbottom {
     position: fixed;
-    width: 400px;
+    width: 100%;
     bottom: 0;
     z-index: 100;
     padding: 10px;
+    /* margin-top: 100rem; */
 }
 .navbottom1 {
     position: relative;

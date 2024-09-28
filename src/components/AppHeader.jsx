@@ -16,7 +16,7 @@ import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from "@coreui/icons";
 
 import { AppBreadcrumb } from "./index";
 import { AppHeaderDropdown } from "./header/index";
-import { logo } from "../assets/brand/logo";
+import logo from "../assets/images/logo1.png";
 
 const AppHeader = () => {
   const dispatch = useDispatch();
@@ -32,12 +32,13 @@ const AppHeader = () => {
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler> */}
         <CHeaderBrand className="d-md-none" to="/">
-          <p style={{ fontFamily: "sans-serif" }}>Bayar Tagihan</p>
+          SMART
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
+            <img src={logo} alt="" style={{width:"40px"}}/>
           <CNavItem>
-            <CNavLink to="/" component={NavLink}>
-              Bayar Tagihan
+            <CNavLink to="/" component={NavLink} style={{fontWeight:"bold"}}>
+            SMART
             </CNavLink>
           </CNavItem>
         </CHeaderNav>

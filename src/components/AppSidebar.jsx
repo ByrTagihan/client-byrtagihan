@@ -19,7 +19,7 @@ import "simplebar/dist/simplebar.min.css";
 
 // sidebar nav config
 import navigation from "../_nav";
-import Gambar from "../assets/images/branding-identity-corporate-b-logo-vector-design-template_460848-13934-removebg-preview.png";
+import Gambar from "../assets/images/logo.png";
 
 // import "../css/AppSidebar.css"
 import Swal from "sweetalert2";
@@ -92,7 +92,7 @@ const AppSidebar = () => {
             fontSize: "20px",
           }}
         >
-          Tagihan
+          SMART
         </p>
       </CSidebarBrand>
       <CSidebarNav>
