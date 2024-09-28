@@ -114,7 +114,7 @@ function KotakMasuk() {
   }, []);
 
   return (
-    <>
+    <div style={{marginBottom:"80px"}}>
       {notif.map((data, index) => (
         <CCard key={index} style={{ background: "none", border: "none" }}>
           {/* <CCardBody> */}
@@ -202,7 +202,7 @@ function KotakMasuk() {
           </CButton>
         </CModalFooter>
       </CModal>
-    </>
+    </div>
   );
 }
 
