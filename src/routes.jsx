@@ -96,7 +96,8 @@ const EditTemplate = React.lazy(() =>
   import("./views/pages/user/template/EditTemplate")
 );
 
-//Merchant
+//================================================
+//Merchant Role
 const merchant = React.lazy(() => import("./views/pages/merchant/merchant"));
 
 //================================================
@@ -180,6 +181,12 @@ const BayarSemuaTagihan = React.lazy(() =>
 //Member Role
 const MemberChannel = React.lazy(() =>
   import("./views/pages/member/channel/MemberChannel")
+);
+
+//================================================
+// Topup
+const Panduan = React.lazy(() =>
+  import("./views/pages/topup/Panduan")
 );
 
 const routes = [
@@ -350,6 +357,9 @@ const routes = [
   //================================================================
   //Merchant
   { path: "merchant", name: "Merchant", element: merchant },
+  //================================================================
+  //Panduan
+  { path: "panduan", name: "Panduan", element: Panduan },
 ];
 
 export default routes;
