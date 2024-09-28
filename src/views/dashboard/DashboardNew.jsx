@@ -21,7 +21,7 @@ import "../css/DashboardNew.css";
 import DashboardMember from "./DashboardMember";
 import transaksi from "../../assets/images/transaksi.png";
 import card from "../../assets/images/card.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { API_DUMMY } from "../../utils/baseURL";
@@ -177,7 +177,9 @@ function DashboardNew() {
               <div>
                 <p>
                   Saldo <br />{" "}
-                  <CCardTitle className="strong">Rp {card}</CCardTitle>
+                  <CCardTitle className="strong">
+                    Rp {card.toLocaleString("id-ID")}
+                  </CCardTitle>
                 </p>
               </div>
               {/* <CButton style={{ borderRadius: "20px" }}>
@@ -185,17 +187,19 @@ function DashboardNew() {
             </CButton> */}
             </div>
             <div className="card-selamat-datang px-4 py-2">
-              <button>
-                <i class="fa-solid fa-plus icon1"></i> <p>TopUp</p>
-              </button>
-              <button>
+              <Link to="/top-up">
+                <button>
+                  <i class="fa-solid fa-plus icon1"></i> <p>TopUp</p>
+                </button>
+              </Link>
+              {/* <button>
                 <i class="fa-solid fa-plus icon1"></i>
                 <p>Bayar</p>
               </button>
               <button>
                 <i class="fa-solid fa-ellipsis-vertical icon2"></i>
                 <p>Lainya</p>
-              </button>
+              </button> */}
               {/* <CButton>
               <i class="fa-solid fa-coins"></i>
               <p>Transaksi</p>
