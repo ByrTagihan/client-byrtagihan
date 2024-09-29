@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_DUMMY } from "../../../../../src/utils/baseURL";
+
 function DigitalCard() {
   const [member, setMember] = useState({});
   const navigate = useNavigate();

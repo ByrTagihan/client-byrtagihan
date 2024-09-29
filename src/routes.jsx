@@ -356,10 +356,10 @@ const routes = [
   },
   //================================================================
   //Merchant
-  { path: "merchant", name: "Merchant", element: merchant },
+  { path: "/merchant", name: "Merchant", element: merchant },
   //================================================================
   //Panduan
-  { path: "panduan", name: "Panduan", element: Panduan },
+  { path: "/panduan", name: "Panduan", element: Panduan },
 ];
 
 export default routes;
