@@ -110,7 +110,7 @@ const Login = () => {
           }, 1500);
         }
       }
-      else if (type_token == "merchant") {
+      else if (type_token == "Merchant") {
         const { data, status } = await axios.post(`${API_DUMMY}/merchant/login`, {
           unique_id: unique_id,
           password: password,
@@ -119,13 +119,13 @@ const Login = () => {
         if (status === 200) {
           Swal.fire({
             icon: "success",
-            title: "Berhasil Login Sebagai Member",
+            title: "Berhasil Login Sebagai Merchant",
             showConfirmButton: false,
           });
           localStorage.setItem("type_token", data.data.type_token);
           localStorage.setItem("id", data.data.id);
           localStorage.setItem("token", data.data.token);
-          navigate("/");
+          navigate("/merchant");
           setTimeout(() => {
             window.location.reload();
           }, 1500);

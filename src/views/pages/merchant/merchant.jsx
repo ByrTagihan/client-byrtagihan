@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Card, Row, Col, Button } from "react-bootstrap";
+import { Container, Card, Row, Col } from "react-bootstrap";
 import "./../../css/merchan.css";
 
 function Merchant() {
@@ -27,38 +27,15 @@ function Merchant() {
     return "*****"; // Tampilkan hanya 5 bintang
   };
 
-  // Fungsi untuk menangani pembayaran
-  const handlePayment = async (transaction) => {
-    try {
-      const response = await fetch("/api/merchant/payment/wallet", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(transaction),
-      });
-
-      if (!response.ok) {
-        throw new Error("Payment failed!");
-      }
-
-      const data = await response.json();
-      alert(`Payment successful: ${data.message}`);
-    } catch (error) {
-      console.error("Error processing payment:", error);
-      alert("Payment failed. Please try again.");
-    }
-  };
-
   return (
     <Container className="notification-screen text-center">
       <div className="header">
         <h3>Merchant</h3>
       </div>
 
-      {/* Menampilkan tiga kartu dengan data yang berbeda */}
+      {/* Menampilkan semua kartu dengan warna transparan */}
       {dataTransaksi.map((data, index) => (
-        <Card key={index} className="mx-auto my-4 shadow-lg notification-card">
+        <Card key={index} className="mx-auto my-4 notification-card transparent-card">
           <Card.Body>
             <h5 className="text-muted">payment via wallet {index + 1}</h5>
 
@@ -82,12 +59,7 @@ function Merchant() {
               </Card.Body>
             </Card>
 
-            {/* Tombol Bayar dengan event handler */}
-            <div className="d-flex justify-content-end mt-3">
-              <Button onClick={() => handlePayment(data)} className="button">
-                Bayar
-              </Button>
-            </div>
+            <button className="button">Bayar</button>
           </Card.Body>
         </Card>
       ))}

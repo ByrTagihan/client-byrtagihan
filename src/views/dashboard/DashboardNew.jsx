@@ -13,6 +13,11 @@ import {
   CCol,
   CContainer,
   CImage,
+  CModal,
+  CModalBody,
+  CModalFooter,
+  CModalHeader,
+  CModalTitle,
   CNavLink,
   CRow,
 } from "@coreui/react";
@@ -21,17 +26,21 @@ import "../css/DashboardNew.css";
 import DashboardMember from "./DashboardMember";
 import transaksi from "../../assets/images/transaksi.png";
 import card from "../../assets/images/card.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { API_DUMMY } from "../../utils/baseURL";
 import { Container } from "react-bootstrap";
+import logo from "../../assets/images/BNILogo.png";
 // import { cisCreditCard } from '@coreui/icons';
 // import { cidInfo } from '@coreui/icons';
 
 function DashboardNew() {
   const [banner, setBanner] = useState([]);
   const navigate = useNavigate();
+  const [card, setCard] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [member, setMember] = useState({});
 
   const getAllData = async () => {
     if (localStorage.getItem("type_token") === "member") {
@@ -64,8 +73,79 @@ function DashboardNew() {
     }
   };
 
+  const getAllDataCard = async () => {
+    if (localStorage.getItem("type_token") === "member") {
+      await axios
+        .get(`${API_DUMMY}/member/card`, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        })
+        .then((res) => {
+          //   setTotalPages(res.data.pagination.total_page);
+          setCard(res.data.data.balance);
+          console.log("card: ", res.data.data.balance);
+          //console.log(res.data.data);
+        })
+        .catch((error) => {
+          console.log("Terjadi Kesalahan" + error);
+        });
+    } else {
+      Swal.fire(
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai member",
+        "error"
+      ).then((result) => {
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
+      });
+    }
+  };
+
+  const get = async () => {
+    if (localStorage.getItem("type_token") === "member") {
+      try {
+        const { data, status } = await axios.get(`${API_DUMMY}/member/card`, {
+          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+        });
+        if (status === 200) {
+          console.log("Data dari API:", data); // Periksa seluruh data
+          console.log("Data.data:", data.data); // Periksa data.data
+          console.log("name: ", data.data.name);
+
+          // Pastikan bahwa data.data adalah array
+          // if (Array.isArray(data.data)) {
+          setMember(data.data);
+          console.log("member: ", data.data);
+          // } else {
+          //   console.error("Data yang diterima bukan array");
+          //   setMember([]); // Atur state ke array kosong jika data tidak valid
+          // }
+        }
+      } catch (err) {
+        console.error("Terjadi Kesalahan", err); // Gunakan console.error untuk kesalahan
+      }
+    } else {
+      Swal.fire(
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai member",
+        "error"
+      ).then((result) => {
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
+      });
+    }
+  };
+
   useEffect(() => {
     getAllData();
+    get();
+    getAllDataCard();
   }, []);
 
   return (
@@ -125,11 +205,15 @@ function DashboardNew() {
               alt={`slide ${index + 1}`}
             />
             {/* Div untuk background gradien */}
-            <div className="bg"><p style={{color:"transparent"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, commodi!</p></div>
+            <div className="bg">
+              <p style={{ color: "transparent" }}>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Repellat, commodi!
+              </p>
+            </div>
           </CCarouselItem>
         ))}
       </CCarousel>
-
       <Container md className="px-3">
         <CCard style={{ border: "none", background: "none" }}>
           <div className="card-saldo shadow">
@@ -140,7 +224,9 @@ function DashboardNew() {
               <div>
                 <p>
                   Saldo <br />{" "}
-                  <CCardTitle className="strong">Rp 10.000</CCardTitle>
+                  <CCardTitle className="strong">
+                    Rp {card.toLocaleString("id-ID")}
+                  </CCardTitle>
                 </p>
               </div>
               {/* <CButton style={{ borderRadius: "20px" }}>
@@ -148,17 +234,19 @@ function DashboardNew() {
             </CButton> */}
             </div>
             <div className="card-selamat-datang px-4 py-2">
-              <button>
+              {/* <Link to="/top-up"> */}
+              <button onClick={() => setVisible(!visible)}>
                 <i class="fa-solid fa-plus icon1"></i> <p>TopUp</p>
               </button>
-              <button>
+              {/* </Link> */}
+              {/* <button>
                 <i class="fa-solid fa-plus icon1"></i>
                 <p>Bayar</p>
               </button>
               <button>
-              <i class="fa-solid fa-ellipsis-vertical icon2"></i>
+                <i class="fa-solid fa-ellipsis-vertical icon2"></i>
                 <p>Lainya</p>
-              </button>
+              </button> */}
               {/* <CButton>
               <i class="fa-solid fa-coins"></i>
               <p>Transaksi</p>
@@ -185,6 +273,7 @@ function DashboardNew() {
             <div className="card-top-up shadow-sm">
               {/* <CCardBody> */}
               <CButton
+                onClick={() => setVisible(!visible)}
                 style={{
                   background: "none",
                   border: "none",
@@ -208,27 +297,29 @@ function DashboardNew() {
             {/* </div> */}
             {/* <div> */}
             <div className="card-top-up shadow-sm">
-              <CButton
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "black",
-                  fontWeight: "bold",
-                }}>
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/1345/1345063.png"
-                  alt=""
-                />
-                {/* <CBadge
+              <Link to="/listTagihanMember">
+                <CButton
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "black",
+                    fontWeight: "bold",
+                  }}>
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/1345/1345063.png"
+                    alt=""
+                  />
+                  {/* <CBadge
                 className="border border-light p-2"
                 color="danger"
                 position="top-end"
                 shape="rounded-circle">
                 <span className="visually-hidden">New alerts</span>
               </CBadge> */}
-                {/* <i className="fa-solid fa-rectangle-list tagihan"></i>{" "} */}
-                <p>Tagihan</p>
-              </CButton>
+                  {/* <i className="fa-solid fa-rectangle-list tagihan"></i>{" "} */}
+                  <p>Tagihan</p>
+                </CButton>
+              </Link>
             </div>
             {/* </div> */}
             {/* <div> */}
@@ -274,6 +365,77 @@ function DashboardNew() {
         </div>
         {/* <DashboardMember /> */}
       </Container>
+
+      <CModal
+        alignment="center"
+        visible={visible}
+        onClose={() => setVisible(false)}
+        aria-labelledby="VerticallyCenteredExample">
+        <CModalHeader>
+          {/* <CModalTitle id="VerticallyCenteredExample">Modal title</CModalTitle> */}
+          <img src={logo} alt="" />
+        </CModalHeader>
+        <CModalBody>
+          <div style={{ display: "flex", justifyContent: "space-around" }}>
+            <div>
+              <p>Nama Bank</p>
+              <br />
+              <p>Nama Akun</p>
+              <p>Biaya Admin</p>
+              <p>Nomor Virtual Account</p>
+            </div>
+            {/* <div>
+              <p>:</p>
+              <p>:</p>
+              <p>:</p>
+              <p>:</p>
+            </div> */}
+            <div>
+              <p>Bank Nasional Indonesia</p>
+              <p>{member.name}</p>
+              <p>RP. 3.000</p>
+              <p>{member.va_wallet}</p>
+            </div>
+          </div>
+          {/* <table>
+            <thead>
+              <tr>
+                <th>Nama Bank</th>
+                <th>:</th>
+                <td>Bank Nasional Indonesia</td>
+              </tr>
+              <tr>
+                <th>Nama Akun</th>
+                <th>:</th>
+              </tr>
+              <tr>
+                <th>Biaya Admin</th>
+                <th>:</th>
+              </tr>
+              <tr>
+                <th>Nomor Virtual Account</th>
+                <th>:</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Test</td>
+              </tr>
+            </tbody>
+          </table> */}
+          {/* <p>Nama Bank: </p> */}
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="secondary" onClick={() => setVisible(false)}>
+            Close
+          </CButton>
+          <Link to="/panduan">
+            <CButton color="primary">Panduan</CButton>
+          </Link>
+        </CModalFooter>
+      </CModal>
+      <br />
+      <br />
     </>
   );
 }
