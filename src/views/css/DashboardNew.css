@@ -16,7 +16,12 @@
 } */
 
 .card-saldo {
+    position: absolute;
     display: flex;
+    width: 100%;
+    z-index: 20;
+    /* top: 0; */
+    margin-bottom: 20px;
     justify-content: space-between;
     /* position: absolute; */
     /* background: #ffffff; */
@@ -55,6 +60,8 @@
     /* latar belakang sesuai kebutuhan */
 }
 
+
+
 .card-selamat-datang {
     display: flex;
     justify-content: left;
@@ -73,15 +80,18 @@
     color: gray;
     font-weight: 500;
 }
+
 .card-selamat-datang i {
     font-size: 20px;
 }
+
 .card-selamat-datang .icon1 {
     background: #0698d6;
     border-radius: 5px;
     padding: 5px;
 
 }
+
 .card-selamat-datang .icon2 {
     background: #0698d6;
     border-radius: 100%;
@@ -119,7 +129,7 @@
 }
 
 .card-menu {
-    margin-top: 20px;
+    margin-top: 70px;
     margin-bottom: 30px;
 }
 
@@ -188,18 +198,21 @@
 .title-text {
     color: blue;
 }
+
 .itemcarousel {
     margin-top: -25px;
 }
- /* .carousel-item {
+
+/* .carousel-item {
     position: relative;
     top: -20px;
   } */
 
-  /* .carousel-image {
-    position: relative;
-    z-index: 1;
-  } */
+.carousel-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
 
 /* .bg-gradient {
     position: absolute;
@@ -230,6 +243,9 @@
     .card-top-up span {
         font-size: 8px;
         font-weight: bold;
+    }
+    .card-saldo {
+        margin-bottom: 30px;
     }
 
     .card-top-up {
@@ -308,29 +324,35 @@
     }
 
 
-.card-selamat-datang .icon2 {
-    transform: rotate(90deg);
-    background: #0698d6;
-    color: white;
-    font-size: 20px;
-    padding-left: 14px;
-    padding-right: 14px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    /* height: 20px; */
-    /* padding: 5px 5px 15px 15px; */
-    border-radius: 100%;
-    text-align: center;
-}
+    .card-selamat-datang .icon2 {
+        transform: rotate(90deg);
+        background: #0698d6;
+        color: white;
+        font-size: 20px;
+        padding-left: 14px;
+        padding-right: 14px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        /* height: 20px; */
+        /* padding: 5px 5px 15px 15px; */
+        border-radius: 100%;
+        text-align: center;
+    }
 
-.card-selamat-datang .icon1 {
-    background: #0698d6;
-    color: white;
-    font-size: 20px;
-    border-radius: 10px;
-    padding: 7px;
-    /* height: fit-content;
+    .card-selamat-datang .icon1 {
+        background: #0698d6;
+        color: white;
+        font-size: 20px;
+        border-radius: 10px;
+        padding: 7px;
+        /* height: fit-content;
     width: fit-content; */
-    text-align: center;
-}
+        text-align: center;
+    }
+
+    .carousel-image {
+        /* width: 500px; */
+        /* object-fit: none; */
+        height: 200px;
+    }
 }

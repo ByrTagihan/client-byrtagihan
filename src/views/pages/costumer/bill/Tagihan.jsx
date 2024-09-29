@@ -44,7 +44,7 @@ function Tagihan() {
       );
       const data = await response.json();
       setBills(data.data);
-      //console.log(data.data);
+      console.log("data: ", data.data);
       setTotalPages(data.pagination.total_page);
     } catch (error) {
       console.error("Error fetching bills:", error);
@@ -71,13 +71,13 @@ function Tagihan() {
     setCurrentPage(page);
   };
 
-  const sortedBills = bills.sort((a, b) => {
-    if (sortDirection === "asc") {
-      return a[sortBy] - b[sortBy];
-    } else {
-      return b[sortBy] - a[sortBy];
-    }
-  });
+  // const sortedBills = bills.sort((a, b) => {
+  //   if (sortDirection === "asc") {
+  //     return a[sortBy] - b[sortBy];
+  //   } else {
+  //     return b[sortBy] - a[sortBy];
+  //   }
+  // });
 
   // const bayarTagihan = async (e) => {
   //   e.preventDefault();
@@ -397,7 +397,7 @@ function Tagihan() {
                       </tr>
                     </thead>
                     <tbody className="text-center">
-                      {sortedBills.map((data) => (
+                      {bills.map((data) => (
                         <tr key={data.id}>
                           <th scope="row">{data.id}</th>
                           <td data-cell="Nama Murid">{data.member_name}</td>
