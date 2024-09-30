@@ -22,66 +22,78 @@ function Merchant() {
   const [show, setShow] = useState(false);
 
   const addData = async (e) => {
-    if (localStorage.getItem("type_token") === "Merchant") {
-      e.preventDefault();
-      //console.log(customer_id);
-      //console.log(organization_id);
+    e.preventDefault();
 
-      const data = {
-        amount: amount,
-        rfid_number: rfid_number,
-        pin: pin,
-      };
-      try {
-        await axios.post(
-          `${API_DUMMY}/merchant/payment/wallet`,
-          {
-            amount: amount,
-            rfid_number: rfid_number,
-            pin: pin,
-          },
-          {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-          }
-        );
-        setShow(false);
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil diBayar",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      } catch (error) {
-        console.log("erro: ", error.response.status);
-        if (error.response.status == 400) {
-          Swal.fire({
-            icon: "error",
-            title: "Saldo Ando Tidak Cukup",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Gagal Membayar",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      }
-    } else {
-      Swal.fire(
-        "Peringatan",
-        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru",
-        "error"
-      ).then((result) => {
-        //Untuk munuju page selanjutnya
-        navigate("/");
+    const token = localStorage.getItem("token");
+    const typeToken = localStorage.getItem("type_token");
+
+    // Periksa apakah token valid dan user adalah Merchant
+    if (!token || !isTokenValid() || typeToken !== "merchant") {
+      Swal.fire({
+        icon: "error",
+        title: "Peringatan",
+        text: "Anda tidak diizinkan mengakses API ini. Login dulu sebagai merchant",
+        showConfirmButton: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then(() => {
+        navigate("/"); // Kembali ke halaman utama
         setTimeout(() => {
           window.location.reload();
         }, 1500);
-        localStorage.clear();
+        localStorage.clear(); // Hapus data localStorage
       });
+      return; // Hentikan proses jika token tidak valid atau bukan Merchant
+    }
+
+    // Jika sudah login dan token valid, lanjutkan proses
+    try {
+      await axios.post(
+        `${API_DUMMY}/merchant/payment/wallet`,
+        {
+          amount: amount,
+          rfid_number: rfid_number,
+          pin: pin,
+        },
+        {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Pastikan token tersimpan
+          },
+        }
+      );
+      setShow(false);
+
+      // SweetAlert berhasil
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil diBayar",
+        showConfirmButton: false,
+        timer: 3000, // Tampilkan selama 3 detik
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      });
+    } catch (error) {
+      console.log("error: ", error.response.status);
+
+      if (error.response && error.response.status === 400) {
+        Swal.fire({
+          icon: "error",
+          title: "Saldo Anda Tidak Cukup",
+          showConfirmButton: false,
+          timer: 5000, // Tampilkan selama 5 detik
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Membayar",
+          showConfirmButton: false,
+          timer: 4000, // Tampilkan selama 4 detik
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+        });
+      }
     }
   };
 
@@ -96,7 +108,8 @@ function Merchant() {
             <CRow className="mb-3">
               <CFormLabel
                 htmlFor="rfid_number"
-                className="col-sm-2 col-form-label">
+                className="col-sm-2 col-form-label"
+              >
                 RF ID Number
               </CFormLabel>
               <CCol sm={10}>

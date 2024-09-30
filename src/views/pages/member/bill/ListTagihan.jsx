@@ -123,12 +123,12 @@ function ListTagihan() {
 
       // Cek status respons untuk menentukan apakah saldo cukup
       if (response.status === 200) {
-        const { saldo, nominalTagihan } = response.data; // Ambil data saldo dan nominal tagihan dari respons API
+        const {amount } = response.data; // Ambil data saldo dan nominal tagihan dari respons API
 
         // Jika saldo cukup, munculkan SweetAlert untuk konfirmasi pembayaran
         const result = await Swal.fire({
           title: "Konfirmasi Pembayaran",
-          text: `Saldo Anda mencukupi. Apakah Anda yakin ingin membayar tagihan sebesar Rp ${nominalTagihan}?`,
+          text: `Saldo Anda mencukupi. Apakah Anda yakin ingin membayar tagihan sebesar Rp ${amount}?`,
           icon: "warning",
           showCancelButton: true,
           confirmButtonText: "Ya, bayar",
@@ -141,7 +141,7 @@ function ListTagihan() {
           Swal.fire("Sukses", "Pembayaran berhasil!", "success");
 
           // Redirect ke halaman setelah pembayaran berhasil
-          window.location.href = `${API_DUMMY}/api/customer/bill/impor`; // Redirect ke URL yang diinginkan
+          window.location.href = `${API_DUMMY}/api/merchant/payment/wallet`; // Redirect ke URL yang diinginkan
         }
       }
     } catch (error) {
@@ -285,15 +285,15 @@ function ListTagihan() {
                         <CTableHeaderCell scope="col">
                           Keterangan
                         </CTableHeaderCell>
-                        <CTableHeaderCell scope="col">Periode</CTableHeaderCell>
+                        {/* <CTableHeaderCell scope="col">Periode</CTableHeaderCell> */}
                         <CTableHeaderCell scope="col">Nominal</CTableHeaderCell>
                         <CTableHeaderCell scope="col">Status</CTableHeaderCell>
                         <CTableHeaderCell scope="col">
                           Tanggal dibayar
                         </CTableHeaderCell>
-                        <CTableHeaderCell scope="col">
+                        {/* <CTableHeaderCell scope="col">
                           Nominal dibayar
-                        </CTableHeaderCell>
+                        </CTableHeaderCell> */}
                         <CTableHeaderCell scope="col">Action</CTableHeaderCell>
                       </CTableRow>
                     </CTableHead>
@@ -315,9 +315,9 @@ function ListTagihan() {
                             <CTableDataCell data-cell="Deskripsi">
                               {bil.description}
                             </CTableDataCell>
-                            <CTableDataCell  data-cell="Periode">
+                            {/* <CTableDataCell  data-cell="Periode">
                               {bil.periode}
-                            </CTableDataCell>
+                            </CTableDataCell> */}
                             <CTableDataCell  data-cell="Nominal">
                               {bil.amount}
                             </CTableDataCell>
@@ -333,9 +333,9 @@ function ListTagihan() {
                             <CTableDataCell  data-cell="Tanggal Bayar">
                               {bil.paid_date}
                             </CTableDataCell>
-                            <CTableDataCell  data-cell="Nominal Bayar">
+                            {/* <CTableDataCell  data-cell="Nominal Bayar">
                               {bil.paid_amount}
-                            </CTableDataCell>
+                            </CTableDataCell> */}
                             <CTableDataCell  data-cell="Action">
                               {bil.amount <= bil.paid_amount ? (
                                 <CButton color="danger" onClick={handleLunas}>
