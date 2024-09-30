@@ -4,6 +4,7 @@ import React from "react";
 import ResetPassword from "./views/pages/reset/ForgotPasswor";
 import { element } from "prop-types";
 import IndexDash from "./views/dashboard/IndexDash";
+import ListTransaksi from "./views/pages/merchant/ListTransaksi";
 // import PageTransaction from "./views/pages/user/transaction/Pagetransuction";
 // import DashboardNew from "./views/dashboard/DashboardNew";
 
@@ -98,7 +99,7 @@ const EditTemplate = React.lazy(() =>
 
 //================================================
 //Merchant Role
-const merchant = React.lazy(() => import("./views/pages/merchant/merchant"));
+const Merchant = React.lazy(() => import("./views/pages/merchant/Merchant"));
 
 //================================================
 //Customer Role
@@ -185,9 +186,7 @@ const MemberChannel = React.lazy(() =>
 
 //================================================
 // Topup
-const Panduan = React.lazy(() =>
-  import("./views/pages/topup/Panduan")
-);
+const Panduan = React.lazy(() => import("./views/pages/topup/Panduan"));
 
 const routes = [
   { path: "/home", exact: true, name: "Home" },
@@ -356,7 +355,8 @@ const routes = [
   },
   //================================================================
   //Merchant
-  { path: "/merchant", name: "Merchant", element: merchant },
+  // { path: "/merchant", name: "Merchant", element: merchant },
+  { path: "/listTransaksi", name: "List Transaksi", element: ListTransaksi },
   //================================================================
   //Panduan
   { path: "/panduan", name: "Panduan", element: Panduan },

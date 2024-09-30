@@ -24,6 +24,7 @@ import {
   cibSuperuser,
   cilDollar,
   cilMoney,
+  cilList,
 } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import { useState } from "react";
@@ -343,6 +344,20 @@ const AppHeaderDropdown = () => {
             <CIcon icon={cilUser} className="me-2" />
             Profile
           </CDropdownItem>
+        ) : (
+          <></>
+        )}
+        {localStorage.getItem("type_token") === "merchant" ? (
+          <>
+            <CDropdownItem href="/#/">
+              <CIcon icon={cilDollar} className="me-2" />
+              Transaksi
+            </CDropdownItem>
+            <CDropdownItem href="/#/listTransaksi">
+              <CIcon icon={cilList} className="me-2" />
+              List Transaksi
+            </CDropdownItem>
+          </>
         ) : (
           <></>
         )}
