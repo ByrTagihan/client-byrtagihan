@@ -255,7 +255,7 @@ function ListTagihan() {
   }, []);
 
   return (
-    <CContainer>
+    <CContainer md>
       {localStorage.getItem("type_token") === "member" ? (
         <>
           {bill.length === 0 ? (
@@ -271,16 +271,16 @@ function ListTagihan() {
             <div>
               <CCard className="mb-5">
                 <CCardBody>
-                  <CTable style={{width:"20%"}} className="table table2 responsive-4">
-                    <CTableHead className="thead-tagihan">
+                  <CTable className="table table2 responsive-3">
+                    <CTableHead className="">
                       <CTableRow>
-                        <CTableHeaderCell scope="col">
+                        {/* <CTableHeaderCell scope="col">
                           <CFormCheck
                             id="flexCheckDefault"
                             onChange={handleSelectAll}
                             checked={selectAll}
                           />
-                        </CTableHeaderCell>
+                        </CTableHeaderCell> */}
                         <CTableHeaderCell scope="col">No</CTableHeaderCell>
                         <CTableHeaderCell scope="col">
                           Keterangan
@@ -297,31 +297,31 @@ function ListTagihan() {
                         <CTableHeaderCell scope="col">Action</CTableHeaderCell>
                       </CTableRow>
                     </CTableHead>
-                    <CTableBody className="tbody-tagihan">
+                    <CTableBody className="">
                       {bill.map((bil, index) => {
                         return (
                           <CTableRow key={index}>
-                            <CTableHeaderCell scope="row">
+                            {/* <CTableHeaderCell scope="row">
                               <CFormCheck
                                 id={`flexCheckDefault${bil.id}`}
                                 onChange={() => handleCheckboxChange(bil.id)}
                                 checked={selectedBillIds.includes(bil.id)}
                               />
-                            </CTableHeaderCell>
+                            </CTableHeaderCell> */}
 
                             <CTableHeaderCell data-cell="No">
                               {index + 1}
                             </CTableHeaderCell>
-                            <CTableDataCell className="td-tagihan" data-cell="Deskripsi">
+                            <CTableDataCell data-cell="Deskripsi">
                               {bil.description}
                             </CTableDataCell>
-                            <CTableDataCell className="td-tagihan"  data-cell="Periode">
+                            <CTableDataCell  data-cell="Periode">
                               {bil.periode}
                             </CTableDataCell>
-                            <CTableDataCell className="td-tagihan"  data-cell="Nominal">
+                            <CTableDataCell  data-cell="Nominal">
                               {bil.amount}
                             </CTableDataCell>
-                            <CTableDataCell className="td-tagihan"  data-cell="Status">
+                            <CTableDataCell  data-cell="Status">
                               {bil.paid_id === 0 ? (
                                 <span>belum terbayar</span>
                               ) : bil.paid_id === 1 ? (
@@ -330,13 +330,13 @@ function ListTagihan() {
                                 <span>terbayar oleh sistem</span>
                               )}
                             </CTableDataCell>
-                            <CTableDataCell className="td-tagihan"  data-cell="Tanggal Bayar">
+                            <CTableDataCell  data-cell="Tanggal Bayar">
                               {bil.paid_date}
                             </CTableDataCell>
-                            <CTableDataCell className="td-tagihan"  data-cell="Nominal Bayar">
+                            <CTableDataCell  data-cell="Nominal Bayar">
                               {bil.paid_amount}
                             </CTableDataCell>
-                            <CTableDataCell className="td-tagihan"  data-cell="Action">
+                            <CTableDataCell  data-cell="Action">
                               {bil.amount <= bil.paid_amount ? (
                                 <CButton color="danger" onClick={handleLunas}>
                                   Lunas
@@ -388,7 +388,7 @@ function ListTagihan() {
                   </ul>
                 </CCardBody>
               </CCard>
-              <CCard style={{marginBottom:"70px"}}>
+              {/* <CCard style={{marginBottom:"70px"}}>
                 <CCardBody className="d-flex justify-content-between">
                   <CFormCheck
                     id="flexCheckDefault"
@@ -404,7 +404,7 @@ function ListTagihan() {
                     Bayar
                   </CButton>
                 </CCardBody>
-              </CCard>
+              </CCard> */}
             </div>
           )}
         </>
@@ -413,6 +413,8 @@ function ListTagihan() {
           <p>Page Tidak Tersedia</p>
         </>
       )}
+      <br />
+      <br />
     </CContainer>
   );
 }

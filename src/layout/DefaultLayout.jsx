@@ -42,7 +42,7 @@ const DefaultLayout = () => {
 
   return (
     <>
-      {localStorage.getItem("type_token") == "member" ? (
+      {localStorage.getItem("type_token") == "member" || "merchant" ? (
         <></>
       ) : (
         <>
