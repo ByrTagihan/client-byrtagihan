@@ -126,6 +126,8 @@ function DigitalCard() {
           <p>Page Tidak Tersedia</p>
         </>
       )}
+      <br />
+      <br />
     </div>
   );
 }

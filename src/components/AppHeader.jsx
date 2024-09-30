@@ -35,10 +35,10 @@ const AppHeader = () => {
           SMART
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
-            <img src={logo} alt="" style={{width:"40px"}}/>
+          <img src={logo} alt="" style={{ width: "40px" }} />
           <CNavItem>
-            <CNavLink to="/" component={NavLink} style={{fontWeight:"bold"}}>
-            SMART
+            <CNavLink to="/" component={NavLink} style={{ fontWeight: "bold" }}>
+              SMART
             </CNavLink>
           </CNavItem>
         </CHeaderNav>
@@ -46,10 +46,12 @@ const AppHeader = () => {
           <AppHeaderDropdown />
         </CHeaderNav>
       </CContainer>
-      {/* <CHeaderDivider /> */}
-      {/* <CContainer fluid>
-        <AppBreadcrumb />
-      </CContainer> */}
+      <div className="header-mobile">
+        <CHeaderDivider />
+        <CContainer fluid>
+          <AppBreadcrumb />
+        </CContainer>
+      </div>
     </CHeader>
   );
 };

@@ -1,69 +1,146 @@
-import React from "react";
-import { Container, Card, Row, Col } from "react-bootstrap";
-import "./../../css/merchan.css";
+import {
+  CButton,
+  CCard,
+  CCardBody,
+  CCardTitle,
+  CCol,
+  CFormInput,
+  CFormLabel,
+  CRow,
+} from "@coreui/react";
+import React, { useState } from "react";
+import Swal from "sweetalert2";
+import { API_DUMMY } from "../../../utils/baseURL";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Merchant() {
-  // Array yang berisi beberapa data transaksi
-  const dataTransaksi = [
-    {
-      rfid_number: "e280699500005014cca339b4001",
-      pin: "123456",
-      amount: 2100,
-    },
-    {
-      rfid_number: "e280699500005014cca339b4002",
-      pin: "789101",
-      amount: 5000,
-    },
-    {
-      rfid_number: "e280699500005014cca339b4003",
-      pin: "112131",
-      amount: 10000,
-    },
-  ];
+  const [rfid_number, setRfIdNumber] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [pin, setPin] = useState("");
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
-  // Fungsi untuk mengubah teks menjadi bintang-bintang
-  const maskText = (text) => {
-    return "*****"; // Tampilkan hanya 5 bintang
+  const addData = async (e) => {
+    if (localStorage.getItem("type_token") === "Merchant") {
+      e.preventDefault();
+      //console.log(customer_id);
+      //console.log(organization_id);
+
+      const data = {
+        amount: amount,
+        rfid_number: rfid_number,
+        pin: pin,
+      };
+      try {
+        await axios.post(
+          `${API_DUMMY}/merchant/payment/wallet`,
+          {
+            amount: amount,
+            rfid_number: rfid_number,
+            pin: pin,
+          },
+          {
+            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          }
+        );
+        setShow(false);
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil diBayar",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        console.log("erro: ", error.response.status);
+        if (error.response.status == 400) {
+          Swal.fire({
+            icon: "error",
+            title: "Saldo Ando Tidak Cukup",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Membayar",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      }
+    } else {
+      Swal.fire(
+        "Peringatan",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai guru",
+        "error"
+      ).then((result) => {
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
+      });
+    }
   };
 
   return (
-    <Container className="notification-screen text-center">
-      <div className="header">
-        <h3>Merchant</h3>
-      </div>
-
-      {/* Menampilkan semua kartu dengan warna transparan */}
-      {dataTransaksi.map((data, index) => (
-        <Card key={index} className="mx-auto my-4 notification-card transparent-card">
-          <Card.Body>
-            <h5 className="text-muted">payment via wallet {index + 1}</h5>
-
-            {/* Menampilkan informasi dari setiap data transaksi */}
-            <Card className="transaction-summary">
-              <Card.Body>
-                <Row>
-                  <Col xs={12} className="d-flex justify-content-between">
-                    <h6>Number</h6>
-                    <p>{maskText(data.rfid_number)}</p>
-                  </Col>
-                  <Col xs={12} className="d-flex justify-content-between">
-                    <h6>PIN</h6>
-                    <p>{maskText(data.pin)}</p>
-                  </Col>
-                  <Col xs={12} className="d-flex justify-content-between">
-                    <h6>Amount</h6>
-                    <p className="text">Rp {data.amount.toLocaleString()}</p>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-
-            <button className="button">Bayar</button>
-          </Card.Body>
-        </Card>
-      ))}
-    </Container>
+    <>
+      <CCard className="mt-5">
+        <CCardBody>
+          <CCardTitle>Merchant</CCardTitle>
+          <hr />
+          <br />
+          <form onSubmit={addData}>
+            <CRow className="mb-3">
+              <CFormLabel
+                htmlFor="rfid_number"
+                className="col-sm-2 col-form-label">
+                RF ID Number
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="password"
+                  id="rfid_number"
+                  value={rfid_number}
+                  onChange={(e) => setRfIdNumber(e.target.value)}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="pin" className="col-sm-2 col-form-label">
+                PIN
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="password"
+                  id="pin"
+                  value={pin}
+                  onChange={(e) => setPin(e.target.value)}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="amount" className="col-sm-2 col-form-label">
+                Amount
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="number"
+                  id="amount"
+                  value={amount}
+                  onChange={(e) => setAmount(parseFloat(e.target.value))}
+                />
+              </CCol>
+            </CRow>
+            <CButton type="submit" className="mt-5 float-end">
+              Bayar
+            </CButton>
+          </form>
+        </CCardBody>
+      </CCard>
+    </>
   );
 }
 
