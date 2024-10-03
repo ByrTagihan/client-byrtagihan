@@ -99,8 +99,11 @@ function DashboardCoba2() {
   const getAllTransaction = async () => {
     await axios
       .get(`${API_DUMMY}/customer/report/recap/transaction`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((res) => {
         if (Array.isArray(res.data.data)) {
           setRekapTransaction(res.data.data);
@@ -206,11 +209,12 @@ function DashboardCoba2() {
       .then((result) => {
         if (result.isConfirmed) {
           axios
-            .put(`${API_DUMMY}/customer/bill/${paidIds}/unpaid`, {}, {
-              headers: {
-                "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-              },
-            })
+            .put(`${API_DUMMY}/customer/bill/${paidIds}/unpaid`, {},{
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
           Swal.fire({
             icon: "success",
             title: "Berhasil Membatalkan Pembayaran",

@@ -23,8 +23,11 @@ function CrudPayment() {
       await axios
         .get(
           `${API_DUMMY}/user/payment?page=${currentPage}&limit=${limit}&name=${payment}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${search}`,
-          {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+         {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           }
         )
         .then((res) => {
@@ -66,8 +69,11 @@ function CrudPayment() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(`${API_DUMMY}/user/payment/` + id, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
         Swal.fire({
           icon: "success",
           title: "Berhasil Menghapus",

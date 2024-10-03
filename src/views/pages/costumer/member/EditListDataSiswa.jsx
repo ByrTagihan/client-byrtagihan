@@ -21,8 +21,11 @@ function EditListDataSiswa() {
     if (localStorage.getItem("type_token") === "customer") {
       axios
         .get(`${API_DUMMY}/customer/member/` + param.id, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
         .then((response) => {
           const list_data = response.data.data;
           setUnique_id(list_data.unique_id);
@@ -67,8 +70,11 @@ function EditListDataSiswa() {
       };
       try {
         await axios.put(`${API_DUMMY}/customer/member/` + param.id, data, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
         setShow(false);
         Swal.fire({
           icon: "success",

@@ -22,8 +22,11 @@ function Channel() {
       .get(
         `${API_DUMMY}/user/channel?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       )
       .then((res) => {
         setTotalPages(res.data.pagination.total_page);

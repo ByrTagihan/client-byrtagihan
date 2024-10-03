@@ -47,7 +47,10 @@ function BayarTagihan() {
         const { data, status } = await axios.get(
           `${API_DUMMY}/member/channel`,
           {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           }
         );
         if (status === 200) {
@@ -101,8 +104,11 @@ function BayarTagihan() {
           `${API_DUMMY}/api/member/bill/{bill_id}/wallet
 {}`,
           data,
-          {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+         {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           }
         )
         .then((response) => {

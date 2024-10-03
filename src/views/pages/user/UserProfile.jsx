@@ -56,8 +56,11 @@ function UserProfile() {
         data.append("file", foto);
 
         axios
-          .post(`${API_DUMMY}/files`, data, {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          .post(`${API_DUMMY}/files`, data,{
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           })
           .then((response) => {
             const imageUrl = response.data.data;
@@ -105,8 +108,11 @@ function UserProfile() {
         data,
         // //console.log(picture),
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
       setShow(false);
       Swal.fire({
@@ -157,8 +163,11 @@ function UserProfile() {
   useEffect(() => {
     axios
       .get(`${API_DUMMY}/user/profile`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((response) => {
         const profil = response.data.data;
         setPicture(profile.picture);

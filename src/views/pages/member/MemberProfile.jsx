@@ -13,7 +13,7 @@ import {
 import React, { useEffect, useState } from "react";
 import "../../../css/Profile.css";
 import axios from "axios";
-import { API_DUMMY} from "../../../utils/baseURL";
+import { API_DUMMY } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -100,13 +100,12 @@ function MemberProfile() {
     };
 
     try {
-      await axios.put(
-        `${API_DUMMY}/member/profile`,
-        updatedProfile,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      );
+      await axios.put(`${API_DUMMY}/member/profile`, updatedProfile, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
       setShow(false);
       Swal.fire({
         icon: "success",
@@ -125,8 +124,11 @@ function MemberProfile() {
   const get = async () => {
     await axios
       .get(`${API_DUMMY}/member/profile`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((res) => {
         const profil = res.data.data;
         setHp(profil.hp);
@@ -161,7 +163,7 @@ function MemberProfile() {
         </div>
       </div>
 
-      <div className="box2" style={{marginBottom:"80px"}}>
+      <div className="box2" style={{ marginBottom: "80px" }}>
         <h6 className="mb-2">Id : {profile.id}</h6>
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> unique_id : {profile.unique_id}

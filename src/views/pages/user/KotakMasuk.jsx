@@ -32,8 +32,11 @@ function KotakMasuk() {
     if (localStorage.getItem("type_token") === "member") {
       await axios
         .get(`${API_DUMMY}/member/notif`, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
         .then((res) => {
           //   setTotalPages(res.data.pagination.total_page);
           setNotif(res.data.data);
