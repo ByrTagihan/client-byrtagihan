@@ -41,10 +41,11 @@ function AddTagihan() {
       };
       await axios
         .post(`${API_DUMMY}/customer/bill`, req, {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
         .then(() => {
           Swal.fire({
             icon: "success",
@@ -84,10 +85,11 @@ function AddTagihan() {
       const response = await fetch(
         `${API_DUMMY}/customer/member?name=${query}`,
         {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
 
       if (query.length > 0 && response.ok) {

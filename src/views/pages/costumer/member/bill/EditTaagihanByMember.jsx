@@ -3,7 +3,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../../../utils/baseURL";
-import { CButton, CCardBody, CCardHeader, CCol, CForm, CFormInput, CFormTextarea } from "@coreui/react";
+import {
+  CButton,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CForm,
+  CFormInput,
+  CFormTextarea,
+} from "@coreui/react";
 function EditTaagihanByMember() {
   const param = useParams();
   const [description, setDescription] = useState("");
@@ -15,8 +23,11 @@ function EditTaagihanByMember() {
   useEffect(() => {
     axios
       .get(`${API_DUMMY}/customer/bill/` + param.id, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((response) => {
         setDescription(response.data.data.description);
         setAmount(response.data.data.amount);
@@ -38,8 +49,11 @@ function EditTaagihanByMember() {
     //console.log(data);
     try {
       await axios.put(`${API_DUMMY}/customer/bill/` + param.id, data, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
       // alert("Success")
       setShowEdit(false);
       //   navigate("/lihattagihanmember/" + param.id)

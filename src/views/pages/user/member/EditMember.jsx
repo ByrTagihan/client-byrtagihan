@@ -50,8 +50,11 @@ function EditMember() {
 
       try {
         await axios.put(`${API_DUMMY}/user/member/${id}`, data, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
         setShow(false);
         Swal.fire({
           icon: "success",
@@ -85,8 +88,11 @@ function EditMember() {
   const get = async () => {
     await axios
       .get(`${API_DUMMY}/user/member/${id}`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((res) => {
         const members = res.data.data;
         setMember(members);
@@ -109,8 +115,11 @@ function EditMember() {
       const { data, status } = await axios.get(
         `${API_DUMMY}/user/organization`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
       if (status === 200) {
         setOrganization(data.data);
@@ -123,8 +132,11 @@ function EditMember() {
   const GetCostumer = async () => {
     try {
       const { data, status } = await axios.get(`${API_DUMMY}/user/customer`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
       if (status === 200) {
         setCostumer(data.data);
       }

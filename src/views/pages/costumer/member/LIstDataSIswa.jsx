@@ -67,8 +67,11 @@ function LIstDataSIswa() {
       await axios
         .get(
           `${API_DUMMY}/customer/member?page=${currentPage}&limit=${limit}&filter=${searchTerm}`,
-          {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+         {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           }
         )
         .then((res) => {
@@ -147,8 +150,11 @@ function LIstDataSIswa() {
     if (localStorage.getItem("type_token") === "customer") {
       await axios
         .get(`${API_DUMMY}/customer/member/` + id, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
         .then((res) => {
           setUnique_id(res.data.data.unique_id);
           setName(res.data.data.name);
@@ -190,8 +196,11 @@ function LIstDataSIswa() {
 
     try {
       await axios.put(`${API_DUMMY}/customer/member/${idd}/password`, data, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
       setShow1(false);
       Swal.fire({
         icon: "success",
@@ -219,8 +228,11 @@ function LIstDataSIswa() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(`${API_DUMMY}/customer/member/` + id, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
         Swal.fire({
           icon: "success",
           title: "Berhasil Menghapus!",
@@ -292,8 +304,11 @@ function LIstDataSIswa() {
         `${API_DUMMY}/customer/member/import`,
         formData,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       )
       .then(() => {
         Swal.fire("Sukses!", " berhasil ditambahkan.", "success");

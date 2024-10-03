@@ -105,8 +105,11 @@ function DashboardUser() {
       .get(
         `${API_DUMMY}/user/transaction?page=${currentPageTransaction}&limit=${limitTransaction}`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       )
       .then((res) => {
         setTotalPagesTransaction(res.data.pagination.total_page);
@@ -123,8 +126,11 @@ function DashboardUser() {
       .get(
         `${API_DUMMY}/user/payment?page=${currentPagePayment}&limit=${limitPayment}`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       )
       .then((res) => {
         setTotalPagesPayment(res.data.pagination.total_page);
@@ -234,8 +240,11 @@ function DashboardUser() {
       .get(
         `${API_DUMMY}/user/report/total`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       )
       .then((res) => {
         if (Array.isArray(res.data.data)) {
@@ -262,8 +271,11 @@ function DashboardUser() {
       .get(
         `${API_DUMMY}/user/report/recap/bill`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       )
       .then((res) => {
         if (Array.isArray(res.data.data)) {
@@ -291,8 +303,11 @@ function DashboardUser() {
       .get(
         `${API_DUMMY}/user/report/recap/transaction`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       )
       .then((res) => {
         if (Array.isArray(res.data.data)) {

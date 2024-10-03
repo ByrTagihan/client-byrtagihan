@@ -37,10 +37,11 @@ function Tagihan() {
       const response = await fetch(
         `${API_DUMMY}/customer/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
         {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
       const data = await response.json();
       setBills(data.data);
@@ -122,8 +123,11 @@ function Tagihan() {
         data,
         // //console.log(picture),
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
       setShow(false);
       Swal.fire({
@@ -156,11 +160,12 @@ function Tagihan() {
           axios.put(
             `${API_DUMMY}/customer/bill/${paidIds}/unpaid`,
             {},
-            {
-              headers: {
-                "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-              },
-            }
+           {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
           );
           Swal.fire({
             icon: "success",
@@ -233,8 +238,11 @@ function Tagihan() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(`${API_DUMMY}/customer/bill/` + id, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
         Swal.fire({
           icon: "success",
           title: "Berhasil Menghapus!",
@@ -256,8 +264,11 @@ function Tagihan() {
 
     await axios
       .post(`${API_DUMMY}/customer/bill/import`, formData, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then(() => {
         Swal.fire("Sukses!", " berhasil ditambahkan.", "success");
         fetchBills();

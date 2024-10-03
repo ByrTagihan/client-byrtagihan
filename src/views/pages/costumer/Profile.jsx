@@ -103,8 +103,11 @@ function Profile() {
         `${API_DUMMY}/customer/profile`, data,
         // //console.log(picture),
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
       setShow(false);
       Swal.fire({
@@ -128,8 +131,11 @@ function Profile() {
 
     await axios
       .get(`${API_DUMMY}/customer/profile`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((res) => {
         const profil = res.data.data;
         setHp(profil.hp);

@@ -12,8 +12,11 @@ export const AppSidebarNav = ({ items, userRoles }) => {
     const fetchNotifCount = async () => {
       try {
         const response = await axios.get(`${API_DUMMY}/member/notif`, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
         const { data } = response;
         const unreadNotifications = data.data.filter((notif) => !notif.readed);
         setNotifCount(unreadNotifications.length);

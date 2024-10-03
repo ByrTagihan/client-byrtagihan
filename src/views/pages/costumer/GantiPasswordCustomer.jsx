@@ -37,8 +37,11 @@ const GantiPasswordCustomer = () => {
 
       try {
         await axios
-          .put(`${API_DUMMY}/customer/password`, data, {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          .put(`${API_DUMMY}/customer/password`, data,{
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           })
           .then((res) => {
             //console.log(res.data.code);

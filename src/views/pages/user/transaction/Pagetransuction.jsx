@@ -28,7 +28,10 @@ function PageTransaction() {
           `${API_DUMMY}/member/payment?periode=${periode}&description=`,
           {
             method: "GET",
-            headers: { "auth-tgh": `jwt ${getToken()}` },
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           }
         );
 

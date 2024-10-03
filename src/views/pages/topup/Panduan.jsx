@@ -23,8 +23,11 @@ const Panduan = () => {
     if (localStorage.getItem("type_token") === "member") {
       try {
         const { data, status } = await axios.get(`${API_DUMMY}/member/card`, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
         if (status === 200) {
           console.log("Data dari API:", data); // Periksa seluruh data
           console.log("Data.data:", data.data); // Periksa data.data
