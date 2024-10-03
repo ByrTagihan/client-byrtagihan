@@ -1,4 +1,4 @@
-import { cilAddressBook, cilTablet, cilUser } from "@coreui/icons";
+import { cilAddressBook, cilTablet, cilUser, cilEnvelopeClosed } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import {
   CButton,
@@ -21,7 +21,7 @@ function Profile() {
   const [name, setName] = useState("");
   const [hp, setHp] = useState("");
   const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(""); // Kolom email
   const [picture, setPicture] = useState("");
   const [foto, setFoto] = useState("");
   const imageUrl = localStorage.getItem("profilePicture");
@@ -89,10 +89,11 @@ function Profile() {
 
   const Put = async (e) => {
     const data = {
-      name: name, // Update the name field with the new value
+      name: name,
       hp: hp,
       address: address,
-      picture: profile.picture, // Keep the existing picture value
+      email: email, // Update email field
+      picture: profile.picture,
     };
 
     e.preventDefault();
@@ -101,7 +102,6 @@ function Profile() {
     try {
       await axios.put(
         `${API_DUMMY}/customer/profile`, data,
-        // //console.log(picture),
         {
           headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
         }
@@ -138,8 +138,6 @@ function Profile() {
         setAddress(profil.address);
         setProfile({ ...profil, id: profil.id });
         setPicture(profile.picture)
-        //console.log(res.data.data);
-        //console.log({ ...profil, id: profil.id });
         const imageUrl = localStorage.getItem("profilePicture");
         if (profil.profilePicture) {
           setFoto(profil.profilePicture);
@@ -213,6 +211,19 @@ function Profile() {
               autoComplete="address"
               onChange={(e) => setAddress(e.target.value)}
               value={address}
+            />
+          </CInputGroup>
+
+          {/* Kolom Email */}
+          <CInputGroup className="mb-3">
+            <CInputGroupText>
+              <CIcon icon={cilEnvelopeClosed} />
+            </CInputGroupText>
+            <CFormInput
+              placeholder="Email"
+              autoComplete="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
           </CInputGroup>
 
