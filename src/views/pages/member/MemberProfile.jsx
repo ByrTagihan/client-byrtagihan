@@ -22,6 +22,7 @@ function MemberProfile() {
   const [name, setName] = useState("");
   const [hp, setHp] = useState("");
   const [address, setAddress] = useState("");
+  const [email, setEmail] = useState(""); // Tambahkan state untuk email
   const [unique_id, setUnique_id] = useState("");
   const [picture, setPicture] = useState("");
   const [foto, setFoto] = useState("");
@@ -93,10 +94,11 @@ function MemberProfile() {
 
     const updatedProfile = {
       ...profile,
-      name: name, // Update the name field with the new value
+      name: name,
       hp: hp,
       address: address,
-      picture: profile.picture, // Keep the existing picture value
+      email: email, // Update email in the profile
+      picture: profile.picture,
     };
 
     try {
@@ -133,13 +135,12 @@ function MemberProfile() {
         const profil = res.data.data;
         setHp(profil.hp);
         setName(profil.name);
+        setEmail(profil.email); // Set email from API response
         setUnique_id(profil.unique_id);
         setAddress(profil.address);
         setProfile({ ...profil, id: profil.id });
         setPicture(profile.picture);
-        //console.log(res.data.data);
-        //console.log({ ...profil, id: profil.id });
-        // If profilePicture is available in the response, update the picture state
+
         if (profil.profilePicture) {
           setFoto(profil.profilePicture);
         }
@@ -177,7 +178,18 @@ function MemberProfile() {
             />
             <CButton type="submit">Post</CButton>
           </CInputGroup>
+          {/* Tambahkan Input Email di sini */}
+          <CInputGroup className="mb-3">
+            <CInputGroupText>@</CInputGroupText>
+            <CFormInput
+              placeholder="Email"
+              autoComplete="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+          </CInputGroup>
         </CForm>
+
         <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>

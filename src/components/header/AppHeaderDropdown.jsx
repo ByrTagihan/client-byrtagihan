@@ -362,10 +362,10 @@ const AppHeaderDropdown = () => {
           <></>
         )}
 
-        <CDropdownItem href="#">
+        {/* <CDropdownItem href="#">
           <CIcon icon={cilSettings} className="me-2" />
           Settings
-        </CDropdownItem>
+        </CDropdownItem> */}
         {localStorage.getItem("type_token") === "user" ? (
           <CDropdownItem href="/#/payment">
             <CIcon icon={cilCreditCard} className="me-2" />
