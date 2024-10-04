@@ -19,7 +19,7 @@ function Merchant() {
   const [amount, setAmount] = useState(0);
   const [pin, setPin] = useState("");
   const navigate = useNavigate();
-  const [show, setShow] = useState(false); // Control visibility of PIN input for Siswa
+  const [show, setShow] = useState(false); 
   const [showAmount, setShowAmount] = useState(false); // Control display of amount as label
 
   // Format amount as Rupiah
@@ -90,7 +90,7 @@ function Merchant() {
             <div style="background-color: #ffc107; padding: 10px; border-radius: 5px; color: black;">
               Rp${(
               amount * 0.1
-            ).toFixed(3)} 
+            ).toFixed(3)}
             </div>
             <br>
             <p style="color: white; font-size: 16px;">How was your payment experience?</p>
@@ -107,7 +107,7 @@ function Merchant() {
           allowOutsideClick: false,
           allowEscapeKey: false
         });
-        
+
         // SweetAlert berhasil dengan tampilan kustom
         Swal.fire({
           icon: "success",
