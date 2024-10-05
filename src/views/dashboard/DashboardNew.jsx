@@ -46,11 +46,11 @@ function DashboardNew() {
     if (localStorage.getItem("type_token") === "member") {
       await axios
         .get(`${API_DUMMY}/member/banner`, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          })
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        })
         .then((res) => {
           //   setTotalPages(res.data.pagination.total_page);
           setBanner(res.data.data);
@@ -80,14 +80,15 @@ function DashboardNew() {
     if (localStorage.getItem("type_token") === "member") {
       await axios
         .get(`${API_DUMMY}/member/card`, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          })
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        })
         .then((res) => {
           //   setTotalPages(res.data.pagination.total_page);
           setCard(res.data.data.balance);
+          setMember(res.data.data);
           console.log("card: ", res.data.data.balance);
           //console.log(res.data.data);
         })
@@ -110,50 +111,8 @@ function DashboardNew() {
     }
   };
 
-  const get = async () => {
-    if (localStorage.getItem("type_token") === "member") {
-      try {
-        const { data, status } = await axios.get(`${API_DUMMY}/member/card`, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          });
-        if (status === 200) {
-          console.log("Data dari API:", data); // Periksa seluruh data
-          console.log("Data.data:", data.data); // Periksa data.data
-          console.log("name: ", data.data.name);
-
-          // Pastikan bahwa data.data adalah array
-          // if (Array.isArray(data.data)) {
-          setMember(data.data);
-          console.log("member: ", data.data);
-          // } else {
-          //   console.error("Data yang diterima bukan array");
-          //   setMember([]); // Atur state ke array kosong jika data tidak valid
-          // }
-        }
-      } catch (err) {
-        console.error("Terjadi Kesalahan", err); // Gunakan console.error untuk kesalahan
-      }
-    } else {
-      Swal.fire(
-        "Peringatan",
-        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai member",
-        "error"
-      ).then((result) => {
-        navigate("/");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-        localStorage.clear();
-      });
-    }
-  };
-
   useEffect(() => {
     getAllData();
-    get();
     getAllDataCard();
   }, []);
 
