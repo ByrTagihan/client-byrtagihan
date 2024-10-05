@@ -124,25 +124,40 @@ function DashboardCoba2() {
       });
   };
 
-  const getAllBill = async () => {
+  const getAllBills = async () => {
     try {
       const response = await fetch(
-        `${API_DUMMY}/customer/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
+        `${API_DUMMY}/customer/bill?limit=200&page=${currentPage}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
         {
           headers: {
             "auth-tgh": `jwt ${localStorage.getItem("token")}`,
           },
         }
       );
+
       const data = await response.json();
-      setRekapBill(data.data);
-      setTotalPages(data.pagination.total_page);
+
+      if (Array.isArray(data.data)) {
+        setRekapBill(data.data);
+
+        // Menghitung jumlah member setiap bulan
+        const monthlyData = new Array(12).fill(0); // Inisialisasi array dengan nilai 0 untuk setiap bulan
+        data.data.forEach((item) => {
+          const createdMonth = new Date(item.periode).getMonth();
+          monthlyData[createdMonth]++;
+        });
+
+        setMonthlyDataBill(monthlyData);
+        setTotalPages(data.pagination.total_page);
+        setCombinedData([...data.data]); // Menyimpan data ke combinedData
+      }
     } catch (error) {
       console.error("Error fetching bills:", error);
+      alert("Error fetching bills:", error);
     }
   };
 
-   const bayarTagihan = async (e) => {
+  const bayarTagihan = async (e) => {
     e.preventDefault();
     const req = {
       paid_date: paidDate,
@@ -284,8 +299,7 @@ function DashboardCoba2() {
 
   useEffect(() => {
     getAllTransaction();
-    getAllBill();
-    getAllBill1();
+    getAllBills();
     // getAllTotal();
   }, [currentPage, limit, searchTerm, sortBy, sortDirection]);
 
