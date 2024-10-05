@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API_DUMMY } from "../../utils/baseURL";
@@ -62,7 +61,7 @@ function DashboardCoba2() {
     direction: "ascending",
   });
   let navigate = useNavigate();
-  const [sortDirection, setSortDirection] = useState('asc');
+  const [sortDirection, setSortDirection] = useState("asc");
   const [visible, setVisible] = useState(false);
   const [paidId, setPaidId] = useState(0);
   const [paidDate, setPaidDate] = useState("");
@@ -99,11 +98,11 @@ function DashboardCoba2() {
   const getAllTransaction = async () => {
     await axios
       .get(`${API_DUMMY}/customer/report/recap/transaction`, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          })
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+          AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+        },
+      })
       .then((res) => {
         if (Array.isArray(res.data.data)) {
           setRekapTransaction(res.data.data);
@@ -127,44 +126,31 @@ function DashboardCoba2() {
 
   const getAllBill = async () => {
     try {
-      const response = await fetch(`${API_DUMMY}/customer/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`, {
-        headers: {
-          "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `${API_DUMMY}/customer/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&search=${searchTerm}`,
+        {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const data = await response.json();
       setRekapBill(data.data);
+      setRekapBill1(data.data);
+
+      // Menghitung jumlah member setiap bulan
+      const monthlyData = new Array(12).fill(0); // Inisialisasi array dengan nilai 0 untuk setiap bulan
+      data.data.forEach((item) => {
+        const createdMonth = new Date(item.periode).getMonth();
+        monthlyData[createdMonth]++;
+      });
+      setMonthlyDataBill(monthlyData);
+      const combinedData = [...data.data];
+      setCombinedData(combinedData);
       setTotalPages(data.pagination.total_page);
     } catch (error) {
-      console.error('Error fetching bills:', error);
+      console.error("Error fetching bills:", error);
     }
-  };
-
-  const getAllBill1 = async () => {
-    await axios(`${API_DUMMY}/customer/bill?limit=200`, {
-      headers: {
-        "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => {
-        if (Array.isArray(res.data.data)) {
-          setRekapBill1(res.data.data);
-
-          // Menghitung jumlah member setiap bulan
-          const monthlyData = new Array(12).fill(0); // Inisialisasi array dengan nilai 0 untuk setiap bulan
-          res.data.data.forEach((item) => {
-            const createdMonth = new Date(item.periode).getMonth();
-            monthlyData[createdMonth]++;
-          });
-          setMonthlyDataBill(monthlyData);
-          const combinedData = [...res.data.data];
-          setCombinedData(combinedData);
-          //   //console.log([...res.data.data]);
-        }
-      })
-      .catch((error) => {
-        alert('Error fetching bills:', error);
-      })
   };
 
   const bayarTagihan = async (e) => {
@@ -208,13 +194,16 @@ function DashboardCoba2() {
     })
       .then((result) => {
         if (result.isConfirmed) {
-          axios
-            .put(`${API_DUMMY}/customer/bill/${paidIds}/unpaid`, {},{
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          })
+          axios.put(
+            `${API_DUMMY}/customer/bill/${paidIds}/unpaid`,
+            {},
+            {
+              headers: {
+                "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+                AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+              },
+            }
+          );
           Swal.fire({
             icon: "success",
             title: "Berhasil Membatalkan Pembayaran",
@@ -240,10 +229,10 @@ function DashboardCoba2() {
 
   const handleSort = (column) => {
     if (column === sortBy) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
       setSortBy(column);
-      setSortDirection('asc');
+      setSortDirection("asc");
     }
   };
 
@@ -252,13 +241,12 @@ function DashboardCoba2() {
   };
 
   const sortedBills = rekapBill.sort((a, b) => {
-    if (sortDirection === 'asc') {
+    if (sortDirection === "asc") {
       return a[sortBy] - b[sortBy];
     } else {
       return b[sortBy] - a[sortBy];
     }
   });
-
 
   const renderPageNumbers = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -268,29 +256,36 @@ function DashboardCoba2() {
       displayedPages.push(...pageNumbers);
     } else {
       if (currentPage <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPages - 1));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 5),
+          "dot",
+          ...pageNumbers.slice(totalPages - 1)
+        );
       } else if (currentPage >= totalPages - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPages - 5));
+        displayedPages.push(
+          ...pageNumbers.slice(0, 1),
+          "dot",
+          ...pageNumbers.slice(totalPages - 5)
+        );
       } else {
         displayedPages.push(
           ...pageNumbers.slice(0, 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(currentPage - 2, currentPage + 1),
-          'dot',
+          "dot",
           ...pageNumbers.slice(totalPages - 1)
         );
       }
     }
 
     return displayedPages.map((page, index) =>
-      page === 'dot' ? (
+      page === "dot" ? (
         <span key={`dot${index}`}>...</span>
       ) : (
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? ' active' : '')}
-        >
+          className={"page-item" + (currentPage === page ? " active" : "")}>
           <a className="page-link">{page}</a>
         </li>
       )
@@ -300,342 +295,138 @@ function DashboardCoba2() {
   useEffect(() => {
     getAllTransaction();
     getAllBill();
-    getAllBill1();
+    // getAllBill1();
     // getAllTotal();
   }, [currentPage, limit, searchTerm, sortBy, sortDirection]);
 
   return (
     <div>
-      <CRow>
-        <CCol sm={6} lg={3}>
+      <CWidgetStatsA
+        className="mb-4"
+        color="info"
+        value={
+          <>
+            {rekapBill1.length} <span className="fs-6 fw-normal"></span>
+          </>
+        }
+        title="Bill"
+        action={
+          <CDropdown alignment="end">
+            <CDropdownToggle color="transparent" caret={false} className="p-0">
+              <CIcon
+                icon={cilArrowBottom}
+                style={{ color: "white" }}
+                onClick={() => {
+                  const table = document.getElementById("bill");
+                  if (table) {
+                    window.scrollTo({
+                      top: table.offsetTop,
+                      behavior: "smooth",
+                    });
+                  }
+                }}
+              />
+            </CDropdownToggle>
+          </CDropdown>
+        }
+        chart={
+          <CChartLine
+            className="mt-3 mx-3"
+            style={{ height: "70px" }}
+            data={{
+              labels: [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December",
+                "January",
+                "February",
+                "March",
+                "April",
+              ],
+              datasets: [
+                {
+                  label: "My First dataset",
+                  backgroundColor: "transparent",
+                  borderColor: "rgba(255,255,255,.55)",
+                  pointBackgroundColor: getStyle("--cui-info"),
+                  data: monthlyDataBill,
+                },
+              ],
+            }}
+            options={{
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+              maintainAspectRatio: false,
+              scales: {
+                x: {
+                  grid: {
+                    display: false,
+                    drawBorder: false,
+                  },
+                  ticks: {
+                    display: false,
+                  },
+                },
+                y: {
+                  min: -9,
+                  max: 39,
+                  display: false,
+                  grid: {
+                    display: false,
+                  },
+                  ticks: {
+                    display: false,
+                  },
+                },
+              },
+              elements: {
+                line: {
+                  borderWidth: 1,
+                },
+                point: {
+                  radius: 4,
+                  hitRadius: 10,
+                  hoverRadius: 4,
+                },
+              },
+            }}
+          />
+        }
+      />
 
-          <CWidgetStatsA
-            className="mb-4"
-            color="primary"
-            value={
-              <>
-                {rekapTransaction.length} <span className="fs-6 fw-normal"></span>
-              </>
-            }
-            title="Organization"
-            action={
-              <CDropdown alignment="end">
-                <CDropdownToggle
-                  color="transparent"
-                  caret={false}
-                  className="p-0"
-                >
-                  <CIcon
-                    icon={cilArrowBottom}
-                    style={{ color: "white" }}
-                    onClick={() => {
-                      const table = document.getElementById("organization");
-                      if (table) {
-                        window.scrollTo({
-                          top: table.offsetTop,
-                          behavior: "smooth",
-                        });
-                      }
-                    }}
-                  />
-                </CDropdownToggle>
-              </CDropdown>
-            }
-            chart={
-              <CChartLine
-                className="mt-3 mx-3"
-                style={{ height: "70px" }}
-                data={{
-                  labels: [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December",
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                  ],
-                  datasets: [
-                    {
-                      label: "Organization",
-                      backgroundColor: "transparent",
-                      borderColor: "rgba(255,255,255,.55)",
-                      pointBackgroundColor: getStyle("--cui-primary"),
-                      data: monthlyDataTransaction, // Menggunakan state monthlyData yang telah diubah
-                    },
-                  ],
-                }}
-                options={{
-                  plugins: {
-                    legend: {
-                      display: false,
-                    },
-                  },
-                  maintainAspectRatio: false,
-                  scales: {
-                    x: {
-                      grid: {
-                        display: false,
-                        drawBorder: false,
-                      },
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                    y: {
-                      min: -9,
-                      max: 39,
-                      display: false,
-                      grid: {
-                        display: false,
-                      },
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                  },
-                  elements: {
-                    line: {
-                      borderWidth: 1,
-                    },
-                    point: {
-                      radius: 4,
-                      hitRadius: 10,
-                      hoverRadius: 4,
-                    },
-                  },
-                }}
-              />
-            }
-          />
-        </CCol>
-        <CCol sm={6} lg={3}>
-          <CWidgetStatsA
-            className="mb-4"
-            color="info"
-            value={
-              <>
-                {rekapBill1.length} <span className="fs-6 fw-normal"></span>
-              </>
-            }
-            title="Bill"
-            action={
-              <CDropdown alignment="end">
-                <CDropdownToggle
-                  color="transparent"
-                  caret={false}
-                  className="p-0"
-                >
-                  <CIcon
-                    icon={cilArrowBottom}
-                    style={{ color: "white" }}
-                    onClick={() => {
-                      const table = document.getElementById("bill");
-                      if (table) {
-                        window.scrollTo({
-                          top: table.offsetTop,
-                          behavior: "smooth",
-                        });
-                      }
-                    }}
-                  />
-                </CDropdownToggle>
-              </CDropdown>
-            }
-            chart={
-              <CChartLine
-                className="mt-3 mx-3"
-                style={{ height: "70px" }}
-                data={{
-                  labels: [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December",
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                  ],
-                  datasets: [
-                    {
-                      label: "My First dataset",
-                      backgroundColor: "transparent",
-                      borderColor: "rgba(255,255,255,.55)",
-                      pointBackgroundColor: getStyle("--cui-info"),
-                      data: monthlyDataBill,
-                    },
-                  ],
-                }}
-                options={{
-                  plugins: {
-                    legend: {
-                      display: false,
-                    },
-                  },
-                  maintainAspectRatio: false,
-                  scales: {
-                    x: {
-                      grid: {
-                        display: false,
-                        drawBorder: false,
-                      },
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                    y: {
-                      min: -9,
-                      max: 39,
-                      display: false,
-                      grid: {
-                        display: false,
-                      },
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                  },
-                  elements: {
-                    line: {
-                      borderWidth: 1,
-                    },
-                    point: {
-                      radius: 4,
-                      hitRadius: 10,
-                      hoverRadius: 4,
-                    },
-                  },
-                }}
-              />
-            }
-          />
-        </CCol>
-        <CCol sm={6} lg={3}>
-          <CWidgetStatsA
-            className="mb-4"
-            color="danger"
-            value={<>1</>}
-            title="Total"
-            action={
-              <CDropdown alignment="end">
-                <CDropdownToggle
-                  color="transparent"
-                  caret={false}
-                  className="p-0"
-                >
-                  <CIcon
-                    icon={cilArrowBottom}
-                    style={{ color: "white" }}
-                    onClick={() => {
-                      const table = document.getElementById("total");
-                      if (table) {
-                        window.scrollTo({
-                          top: table.offsetTop,
-                          behavior: "smooth",
-                        });
-                      }
-                    }}
-                  />
-                </CDropdownToggle>
-              </CDropdown>
-            }
-            chart={
-              <CChartBar
-                className="mt-3 mx-3"
-                style={{ height: "70px" }}
-                data={{
-                  labels: [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December",
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                  ],
-                  datasets: [
-                    {
-                      label: "amount of data",
-                      backgroundColor: "rgba(255,255,255,.2)",
-                      borderColor: "rgba(255,255,255,.55)",
-                      data: monthlyDataTotal,
-                      barPercentage: 0.6,
-                    },
-                  ],
-                }}
-                options={{
-                  maintainAspectRatio: false,
-                  plugins: {
-                    legend: {
-                      display: false,
-                    },
-                  },
-                  scales: {
-                    x: {
-                      grid: {
-                        display: false,
-                        drawTicks: false,
-                      },
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                    y: {
-                      grid: {
-                        display: false,
-                        drawBorder: false,
-                        drawTicks: false,
-                      },
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                  },
-                }}
-              />
-            }
-          />
-        </CCol>
-      </CRow>
       <div>
         <div className="row ">
           <div className="col" xs={12}>
             <div className="col inputSearch1">
-              <select className="form-select" value={limit} onChange={handleLimit}>
+              <select
+                className="form-select"
+                value={limit}
+                onChange={handleLimit}>
                 <option value="1">Show 1 Entries</option>
                 <option value="10">Show 10 Entries</option>
                 <option value="100">Show 100 Entries</option>
               </select>
             </div>
             <div className="col inputSearch1">
-              <input type="text" className="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} />
+              <input
+                type="text"
+                className="form-control float-end"
+                placeholder="Filter"
+                value={searchTerm}
+                onChange={handleSearch}
+              />
             </div>
             <div className="card mb-4">
               <div className="card-header">
@@ -655,28 +446,73 @@ function DashboardCoba2() {
               <div className="card-body table-container">
                 <div className="row">
                   <div className="col inputSearch">
-                    <select className="form-select" value={limit} onChange={handleLimit} style={{ width: "40%" }}>
+                    <select
+                      className="form-select"
+                      value={limit}
+                      onChange={handleLimit}
+                      style={{ width: "40%" }}>
                       <option value="1">Show 1 Entries</option>
                       <option value="10">Show 10 Entries</option>
                       <option value="100">Show 100 Entries</option>
                     </select>
                   </div>
                   <div className="col inputSearch">
-                    <input type="text" className="form-control float-end" placeholder="Filter" value={searchTerm} onChange={handleSearch} style={{ width: "40%" }} />
+                    <input
+                      type="text"
+                      className="form-control float-end"
+                      placeholder="Filter"
+                      value={searchTerm}
+                      onChange={handleSearch}
+                      style={{ width: "40%" }}
+                    />
                   </div>
                 </div>
                 <table className="table">
                   <thead className="text-center">
                     <tr>
-                      <th scope="col" onClick={() => handleSort('id')}>Id {sortBy === 'id' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                      <th scope="col" onClick={() => handleSort('member_name')}>Nama Murid {sortBy === 'member_name' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                      <th scope="col" onClick={() => handleSort('description')}>Description {sortBy === 'description' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                      <th scope="col" onClick={() => handleSort('periode')}>Period {sortBy === 'periode' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                      <th scope="col" onClick={() => handleSort('amount')}>Nominal {sortBy === 'amount' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                      <th scope="col" onClick={() => handleSort('paid_id')}>Status {sortBy === 'paid_id' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                      <th scope="col" onClick={() => handleSort('paid_date')}>Tgl Bayar {sortBy === 'paid_date' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                      <th scope="col" onClick={() => handleSort('paid_amount')}>Nominal Bayar {sortBy === 'paid_amount' && (sortDirection === 'asc' ? '▲' : '▼')}</th>
-                      <th scope="col" style={{ width: "20%" }}>Action</th>
+                      <th scope="col" onClick={() => handleSort("id")}>
+                        Id{" "}
+                        {sortBy === "id" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("member_name")}>
+                        Nama Murid{" "}
+                        {sortBy === "member_name" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("description")}>
+                        Description{" "}
+                        {sortBy === "description" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("periode")}>
+                        Period{" "}
+                        {sortBy === "periode" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("amount")}>
+                        Nominal{" "}
+                        {sortBy === "amount" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("paid_id")}>
+                        Status{" "}
+                        {sortBy === "paid_id" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("paid_date")}>
+                        Tgl Bayar{" "}
+                        {sortBy === "paid_date" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" onClick={() => handleSort("paid_amount")}>
+                        Nominal Bayar{" "}
+                        {sortBy === "paid_amount" &&
+                          (sortDirection === "asc" ? "▲" : "▼")}
+                      </th>
+                      <th scope="col" style={{ width: "20%" }}>
+                        Action
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="text-center">
@@ -686,7 +522,7 @@ function DashboardCoba2() {
                         <td data-cell="Nama Murid">{data.member_name}</td>
                         <td data-cell="Description">{data.description}</td>
                         <td data-cell="Periode">{data.periode}</td>
-                        <td data-cell="Nominal">{data.amount}</td>
+                        <td data-cell="Nominal">Rp. {data.amount.toLocaleString("id-ID")}</td>
                         <td data-cell="Status">
                           {data.paid_id != 0 ? (
                             <span>Sudah Bayar</span>
@@ -700,8 +536,7 @@ function DashboardCoba2() {
                           <button
                             type="button"
                             className="edit1"
-                            onClick={() => navigate(`/edittagihan/${data.id}`)}
-                          >
+                            onClick={() => navigate(`/edittagihan/${data.id}`)}>
                             <CIcon icon={cilPencil} />
                           </button>
                           <button
@@ -710,8 +545,7 @@ function DashboardCoba2() {
                             style={{ background: "red", color: "white" }}
                             onClick={() =>
                               deleteData(data.id, "customer/bill", setRekapBill)
-                            }
-                          >
+                            }>
                             <CIcon icon={cilTrash} style={{ color: "white" }} />
                           </button>
                           {data.paid_id != 0 ? (
@@ -721,8 +555,7 @@ function DashboardCoba2() {
                               onClick={() => {
                                 unBayarTagihan(data.id);
                               }}
-                              style={{ background: "red", color: "white" }}
-                            >
+                              style={{ background: "red", color: "white" }}>
                               Btl Bayar
                             </button>
                           ) : (
@@ -734,8 +567,7 @@ function DashboardCoba2() {
                                 setPaidId(data.id);
                                 setPaidAmount(data.amount);
                               }}
-                              style={{ background: "green", color: "white" }}
-                            >
+                              style={{ background: "green", color: "white" }}>
                               Bayar
                             </button>
                           )}
@@ -748,12 +580,29 @@ function DashboardCoba2() {
             </div>
             <div>
               <ul className="pagination float-end">
-                <li className={"page-item " + (currentPage === 1 ? 'disabled' : '')} disabled={currentPage === 1} >
-                  <a className="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</a>
+                <li
+                  className={
+                    "page-item " + (currentPage === 1 ? "disabled" : "")
+                  }
+                  disabled={currentPage === 1}>
+                  <a
+                    className="page-link"
+                    onClick={() => handlePageChange(currentPage - 1)}>
+                    Previous
+                  </a>
                 </li>
                 {renderPageNumbers()}
-                <li className={"page-item " + (currentPage === totalPages ? 'disabled' : '')} disabled={currentPage === totalPages} >
-                  <a className="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</a>
+                <li
+                  className={
+                    "page-item " +
+                    (currentPage === totalPages ? "disabled" : "")
+                  }
+                  disabled={currentPage === totalPages}>
+                  <a
+                    className="page-link"
+                    onClick={() => handlePageChange(currentPage + 1)}>
+                    Next
+                  </a>
                 </li>
               </ul>
             </div>
@@ -787,8 +636,7 @@ function DashboardCoba2() {
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={() => setVisible(false)}
-                  >
+                    onClick={() => setVisible(false)}>
                     Close
                   </button>
                   <button className="btn btn-primary" type="submit">
@@ -841,8 +689,7 @@ function DashboardCoba2() {
     </div> */}
       <button
         className={`scroll-to-top-button ${isVisible ? "visible" : "hidden"}`}
-        onClick={scrollToTop}
-      >
+        onClick={scrollToTop}>
         <CIcon className="iconn" icon={cilArrowThickTop} />
       </button>
     </div>

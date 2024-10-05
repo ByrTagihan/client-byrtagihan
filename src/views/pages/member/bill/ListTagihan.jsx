@@ -13,10 +13,11 @@ import {
   CContainer,
 } from "@coreui/react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import "../../../css/ListDataSiswa.css";
 import Swal from "sweetalert2";
+import imgBills from "../../../../assets/images/bill.png";
 import { useSelectedBillIds } from "./SelectedBillIdsContext";
 
 function ListTagihan() {
@@ -36,11 +37,11 @@ function ListTagihan() {
     if (localStorage.getItem("type_token") === "member") {
       try {
         const { data, status } = await axios.get(`${API_DUMMY}/member/bill`, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          });
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        });
         if (status === 200) {
           setBill(data.data);
         }
@@ -109,7 +110,6 @@ function ListTagihan() {
 
   // Fungsi untuk melakukan pembayaran setelah konfirmasi
 
-
   // Fungsi untuk melakukan pembayaran setelah pengecekan saldo
 
   const handleBayarTagihan = async (billId) => {
@@ -126,7 +126,7 @@ function ListTagihan() {
 
       // Cek status respons untuk menentukan apakah saldo cukup
       if (response.status === 200) {
-        const {amount } = response.data; // Ambil data saldo dan nominal tagihan dari respons API
+        const { amount } = response.data; // Ambil data saldo dan nominal tagihan dari respons API
 
         // Jika saldo cukup, munculkan SweetAlert untuk konfirmasi pembayaran
         const result = await Swal.fire({
@@ -171,7 +171,6 @@ function ListTagihan() {
   const confirmBayar = (billId) => {
     handleBayarTagihan(billId); // Langsung panggil fungsi pembayaran tanpa pengecekan saldo terpisah
   };
-
 
   // function select all
   const handleCheckboxChange = (id) => {
@@ -242,8 +241,7 @@ function ListTagihan() {
           key={i}
           className={"page-item " + (currentPage === i ? "active" : "")}
           aria-current="page"
-          onClick={() => handlePageChange(i)}
-        >
+          onClick={() => handlePageChange(i)}>
           <a className="page-link">{i}</a>
         </li>
       );
@@ -263,10 +261,8 @@ function ListTagihan() {
         <>
           {bill.length === 0 ? (
             <div className="text-center">
-              <img
-                src="https://www.pawoon.com/wp-content/uploads/2022/06/checklist-1.png"
-                style={{ width: "6.75rem", height: "6.125rem" }}
-              />
+              <Link to="https://www.pawoon.com/wp-content/uploads/2022/06/checklist-1.png"></Link>
+              <img className="imgbills" src={imgBills} />
               <p>Tidak ada tagihan untuk saat ini</p>
               <CButton to="/home">silahkan kembali ke beranda</CButton>
             </div>
@@ -321,10 +317,10 @@ function ListTagihan() {
                             {/* <CTableDataCell  data-cell="Periode">
                               {bil.periode}
                             </CTableDataCell> */}
-                            <CTableDataCell  data-cell="Nominal">
-                              {bil.amount}
+                            <CTableDataCell data-cell="Nominal">
+                              Rp. {bil.amount.toLocaleString("id-ID")}
                             </CTableDataCell>
-                            <CTableDataCell  data-cell="Status">
+                            <CTableDataCell data-cell="Status">
                               {bil.paid_id === 0 ? (
                                 <span>belum terbayar</span>
                               ) : bil.paid_id === 1 ? (
@@ -333,13 +329,13 @@ function ListTagihan() {
                                 <span>terbayar oleh sistem</span>
                               )}
                             </CTableDataCell>
-                            <CTableDataCell  data-cell="Tanggal Bayar">
+                            <CTableDataCell data-cell="Tanggal Bayar">
                               {bil.paid_date}
                             </CTableDataCell>
                             {/* <CTableDataCell  data-cell="Nominal Bayar">
                               {bil.paid_amount}
                             </CTableDataCell> */}
-                            <CTableDataCell  data-cell="Action">
+                            <CTableDataCell data-cell="Action">
                               {bil.amount <= bil.paid_amount ? (
                                 <CButton color="danger" onClick={handleLunas}>
                                   Lunas
@@ -348,8 +344,7 @@ function ListTagihan() {
                                 <CButton
                                   onClick={() =>
                                     confirmBayar(bil.id, bil.amount)
-                                  }
-                                >
+                                  }>
                                   Bayar
                                 </CButton>
                               )}
@@ -364,12 +359,10 @@ function ListTagihan() {
                       className={
                         "page-item " + (currentPage === 1 ? "disabled" : "")
                       }
-                      disabled={currentPage === 1}
-                    >
+                      disabled={currentPage === 1}>
                       <a
                         className="page-link"
-                        onClick={() => handlePageChange(currentPage - 1)}
-                      >
+                        onClick={() => handlePageChange(currentPage - 1)}>
                         Previous
                       </a>
                     </li>
@@ -379,12 +372,10 @@ function ListTagihan() {
                         "page-item " +
                         (currentPage === totalPages ? "disabled" : "")
                       }
-                      disabled={currentPage === totalPages}
-                    >
+                      disabled={currentPage === totalPages}>
                       <a
                         className="page-link"
-                        onClick={() => handlePageChange(currentPage + 1)}
-                      >
+                        onClick={() => handlePageChange(currentPage + 1)}>
                         Next
                       </a>
                     </li>
