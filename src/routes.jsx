@@ -5,6 +5,7 @@ import ResetPassword from "./views/pages/reset/ForgotPasswor";
 import { element } from "prop-types";
 import IndexDash from "./views/dashboard/IndexDash";
 import ListTransaksi from "./views/pages/merchant/ListTransaksi";
+// import Kirimdana from "./views/pages/member/kirimdana/Kirimdana";
 // import PageTransaction from "./views/pages/user/transaction/Pagetransuction";
 // import DashboardNew from "./views/dashboard/DashboardNew";
 
@@ -183,6 +184,9 @@ const BayarSemuaTagihan = React.lazy(() =>
 const MemberChannel = React.lazy(() =>
   import("./views/pages/member/channel/MemberChannel")
 );
+const Kirimdana = React.lazy(() =>
+  import("./views/pages/member/kirimdana/Kirimdana")
+);
 
 //================================================
 // Topup
@@ -274,6 +278,7 @@ const routes = [
     element: EditUserMember,
   },
   { path: "/UserTemplate", name: "Template", element: UserTemplate },
+{ path:"/Kirimdana", name:"Kirim dana", element: Kirimdana },
   //================================================================
   //Customer
   {
