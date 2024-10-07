@@ -259,10 +259,10 @@ function ListTagihan() {
     <CContainer md>
       {localStorage.getItem("type_token") === "member" ? (
         <>
-          {bill.length === 0 ? (
+          {bill.length != 0 ? (
             <div className="text-center">
-              <Link to="https://www.pawoon.com/wp-content/uploads/2022/06/checklist-1.png"></Link>
-              <img className="imgbills" src={imgBills} />
+              <Link to="https://www.pawoon.com/wp-content/uploads/2022/06/checklist-1.png">
+              <img className="imgbills" src={imgBills} /></Link>
               <p>Tidak ada tagihan untuk saat ini</p>
               <CButton to="/home">silahkan kembali ke beranda</CButton>
             </div>
