@@ -4,7 +4,16 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../../../../views/css/editListDataSiswa.css";
 import { API_DUMMY } from "../../../../utils/baseURL";
-import { CButton, CCard, CCardBody, CCardHeader, CCol, CForm, CFormInput, CFormTextarea } from "@coreui/react";
+import {
+  CButton,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CForm,
+  CFormInput,
+  CFormTextarea,
+} from "@coreui/react";
 
 function EditListDataSiswa() {
   const [name, setName] = useState("");
@@ -15,17 +24,18 @@ function EditListDataSiswa() {
   const param = useParams();
   const navigate = useNavigate();
   const [role, setRole] = useState("");
+  const [rfid, setRfid] = useState("");
   // const history = useHistory();
 
   useEffect(() => {
     if (localStorage.getItem("type_token") === "customer") {
       axios
         .get(`${API_DUMMY}/customer/member/` + param.id, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          })
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        })
         .then((response) => {
           const list_data = response.data.data;
           setUnique_id(list_data.unique_id);
@@ -35,6 +45,18 @@ function EditListDataSiswa() {
         })
         .catch((error) => {
           alert("Terjadi Kesalahan " + error);
+        });
+      axios
+        .get(`${API_DUMMY}/user/member/${param.id}/rfid`, {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        })
+        .then((response) => {
+          const list = response.data.data;
+          setRfid(list);
+          // console.log("rfid: ", response.data.data);
         });
     } else {
       Swal.fire(
@@ -69,12 +91,26 @@ function EditListDataSiswa() {
         name: name,
       };
       try {
-        await axios.put(`${API_DUMMY}/customer/member/` + param.id, data, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+        if (rfid) {
+          await axios.put(
+            `${API_DUMMY}/user/member/${param.id}/rfid`,
+            {
+              rfid_number: rfid,
             },
-          });
+            {
+              headers: {
+                "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+                AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+              },
+            }
+          );
+        }
+        await axios.put(`${API_DUMMY}/customer/member/` + param.id, data, {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        });
         setShow(false);
         Swal.fire({
           icon: "success",
@@ -153,6 +189,15 @@ function EditListDataSiswa() {
                   autoComplete="No hp"
                   onChange={(e) => setHp(e.target.value)}
                   value={hp}
+                />
+              </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  label="Rfid number"
+                  placeholder="Rfid number"
+                  autoComplete="Rfid number"
+                  onChange={(e) => setRfid(e.target.value)}
+                  value={rfid}
                 />
               </CCol>
 
