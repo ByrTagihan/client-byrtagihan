@@ -67,10 +67,10 @@ function LIstDataSIswa() {
       await axios
         .get(
           `${API_DUMMY}/customer/member?page=${currentPage}&limit=${limit}&filter=${searchTerm}`,
-         {
+          {
             headers: {
               "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+              AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
             },
           }
         )
@@ -78,7 +78,7 @@ function LIstDataSIswa() {
           setTotalPages(res.data.pagination.total_page || 1);
           //console.log(res.data.pagination.total_page);
           setList(res.data.data);
-          //console.log(res.data.data);
+          console.log("list: ", res.data.data);
         })
         .catch((error) => {
           alert("Terjadi Kesalahan" + error);
@@ -150,11 +150,11 @@ function LIstDataSIswa() {
     if (localStorage.getItem("type_token") === "customer") {
       await axios
         .get(`${API_DUMMY}/customer/member/` + id, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          })
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        })
         .then((res) => {
           setUnique_id(res.data.data.unique_id);
           setName(res.data.data.name);
@@ -196,11 +196,11 @@ function LIstDataSIswa() {
 
     try {
       await axios.put(`${API_DUMMY}/customer/member/${idd}/password`, data, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          });
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+          AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+        },
+      });
       setShow1(false);
       Swal.fire({
         icon: "success",
@@ -228,11 +228,11 @@ function LIstDataSIswa() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(`${API_DUMMY}/customer/member/` + id, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          });
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        });
         Swal.fire({
           icon: "success",
           title: "Berhasil Menghapus!",
@@ -247,6 +247,7 @@ function LIstDataSIswa() {
 
   useEffect(() => {
     getAll();
+    console.log("data: ", list);
   }, [currentPage, searchTerm, sortBy, limit]);
 
   const renderPageNumbers = () => {
@@ -300,16 +301,12 @@ function LIstDataSIswa() {
     formData.append("file", excel);
 
     await axios
-      .post(
-        `${API_DUMMY}/customer/member/import`,
-        formData,
-        {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          }
-      )
+      .post(`${API_DUMMY}/customer/member/import`, formData, {
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+          AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+        },
+      })
       .then(() => {
         Swal.fire("Sukses!", " berhasil ditambahkan.", "success");
         // window.location.reload();
@@ -436,6 +433,12 @@ function LIstDataSIswa() {
                             sortConfig.key === "hp" &&
                             (sortConfig.direction === "ascending" ? "▲" : "▼")}
                         </th>
+                        <th scope="col" onClick={() => handleSort("rfid_number")}>
+                          Rfid Number{" "}
+                          {sortConfig &&
+                            sortConfig.key === "rfid_number" &&
+                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                        </th>
                         <th scope="col" onClick={() => handleSort("address")}>
                           Address{" "}
                           {sortConfig &&
@@ -455,6 +458,7 @@ function LIstDataSIswa() {
                             <td data-cell="Nisn">{data.unique_id}</td>
                             <td data-cell="Nama">{data.name}</td>
                             <td data-cell="Handphone">{data.hp}</td>
+                            <td data-cell="Rfid Number">{data.rfid_number}</td>
                             <td data-cell="Alamat">{data.address}</td>
                             <td data-cell="Action">
                               <div className="tdd">

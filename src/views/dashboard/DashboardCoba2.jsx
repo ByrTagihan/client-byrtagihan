@@ -136,6 +136,7 @@ function DashboardCoba2() {
       );
       const data = await response.json();
       setRekapBill(data.data);
+      console.log("data: ", data.data);
       setRekapBill1(data.data);
 
       // Menghitung jumlah member setiap bulan
