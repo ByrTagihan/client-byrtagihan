@@ -46,7 +46,6 @@ input {
   margin: 2%; /* Jarak 4% di sekitar input */
 }
 
-
 button[type="submit"] {
   background-color: #007bff; /* Warna latar belakang tombol */
   color: white; /* Warna teks tombol */
@@ -60,4 +59,15 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   background-color: #0056b3; /* Warna latar belakang saat hover */
+}
+
+select {
+  padding: 10px; /* Padding di dalam input */
+  border: 1px solid #ccc; /* Garis batas */
+  border-radius: 5px; /* Sudut melengkung */
+  font-size: 16px; /* Ukuran font */
+  transition: border-color 0.3s; /* Transisi saat fokus */
+  flex-grow: 1; /* Input mengambil ruang yang tersedia */
+  text-align: center; /* Memusatkan teks di dalam input */
+  margin: 2%; /* Jarak 4% di sekitar input */
 }
