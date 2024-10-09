@@ -25,6 +25,8 @@ import {
   cilDollar,
   cilMoney,
   cilList,
+  cilUserX,
+  cilAccountLogout,
 } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import { useState } from "react";
@@ -218,13 +220,10 @@ const AppHeaderDropdown = () => {
         <CDropdownHeader className="bg-light fw-semibold py-2">
           Account
         </CDropdownHeader>
-        {localStorage.getItem("type_token") === "user" ? (
+        {/* {localStorage.getItem("type_token") === "user" ? (
           <CDropdownItem href="/#/userOrganization">
             <CIcon icon={cilGraph} className="me-2" />
             Organization
-            {/* <CBadge color="info" className="ms-2">
-              {organization.length}
-            </CBadge> */}
           </CDropdownItem>
         ) : (
           <></>
@@ -233,9 +232,6 @@ const AppHeaderDropdown = () => {
           <CDropdownItem href="/#/customerOrganization">
             <CIcon icon={cilGraph} className="me-2" />
             Organization
-            {/* <CBadge color="info" className="ms-2">
-              {customerOrganization.length}
-            </CBadge> */}
           </CDropdownItem>
         ) : (
           <></>
@@ -244,31 +240,22 @@ const AppHeaderDropdown = () => {
           <CDropdownItem href="/#/customerMember">
             <CIcon icon={cibSuperuser} className="me-2" />
             Member
-            {/* <CBadge color="info" className="ms-2">
-              {customerMember.length}
-            </CBadge> */}
           </CDropdownItem>
         ) : (
           <></>
-        )}
-        {localStorage.getItem("type_token") === "customer" ? (
+        )} */}
+        {/* {localStorage.getItem("type_token") === "customer" ? (
           <CDropdownItem href="/#/customerBill">
             <CIcon icon={cilDollar} className="me-2" />
             Bill
-            {/* <CBadge color="info" className="ms-2">
-              {customerBill.length}
-            </CBadge> */}
           </CDropdownItem>
         ) : (
           <></>
-        )}
-        {localStorage.getItem("type_token") === "user" ? (
+        )} */}
+        {/* {localStorage.getItem("type_token") === "user" ? (
           <CDropdownItem href="/#/mesage">
             <CIcon icon={cilEnvelopeOpen} className="me-2" />
             Messages
-            {/* <CBadge color="success" className="ms-2">
-              {message.length}
-            </CBadge> */}
           </CDropdownItem>
         ) : (
           <></>
@@ -277,24 +264,24 @@ const AppHeaderDropdown = () => {
           <CDropdownItem href="/#/userChannel">
             <CIcon icon={cilTask} className="me-2" />
             Channel
-            {/* <CBadge color="danger" className="ms-2">
-              {userchannel.length}
-            </CBadge> */}
           </CDropdownItem>
         ) : (
           <></>
         )}
         {localStorage.getItem("type_token") === "user" ? (
-          <CDropdownItem href="/#/UserTemplate">
-            <CIcon icon={cilTask} className="me-2" />
-            Template
-            {/* <CBadge color="danger" className="ms-2">
-              {template.length}
-            </CBadge> */}
-          </CDropdownItem>
+          <>
+            <CDropdownItem href="/#/UserTemplate">
+              <CIcon icon={cilTask} className="me-2" />
+              Template
+            </CDropdownItem>
+            <CDropdownItem href="/#/customerMember">
+              <CIcon icon={cilUser} className="me-2" />
+              Member
+            </CDropdownItem>
+          </>
         ) : (
           <></>
-        )}
+        )} */}
         {/* {localStorage.getItem("type_token") === "member" ? (
           <CDropdownItem href="/#/memberChannel">
             <CIcon icon={cilTask} className="me-2" />
@@ -366,7 +353,7 @@ const AppHeaderDropdown = () => {
           <CIcon icon={cilSettings} className="me-2" />
           Settings
         </CDropdownItem> */}
-        {localStorage.getItem("type_token") === "user" ? (
+        {/* {localStorage.getItem("type_token") === "user" ? (
           <CDropdownItem href="/#/payment">
             <CIcon icon={cilCreditCard} className="me-2" />
             Payments
@@ -376,8 +363,8 @@ const AppHeaderDropdown = () => {
           </CDropdownItem>
         ) : (
           <></>
-        )}
-        {localStorage.getItem("type_token") === "user" ? (
+        )} */}
+        {/* {localStorage.getItem("type_token") === "user" ? (
           <CDropdownItem href="/#/transaction">
             <CIcon icon={cilFile} className="me-2" />
             Transaction
@@ -387,7 +374,7 @@ const AppHeaderDropdown = () => {
           </CDropdownItem>
         ) : (
           <></>
-        )}
+        )} */}
         <CDropdownDivider />
 
         {localStorage.getItem("type_token") === "customer" ? (
@@ -410,7 +397,7 @@ const AppHeaderDropdown = () => {
 
         <CDropdownItem onClick={logout}>
           {/* <div style={{padding:"none", background:"none", border:"none", textAlign:"left"}}> */}
-          <CIcon icon={cilUser} className="me-2" />
+          <CIcon icon={cilAccountLogout} className="me-2" />
           Logout
           {/* </div> */}
         </CDropdownItem>

@@ -26,42 +26,61 @@ function EditListDataSiswa() {
   const [role, setRole] = useState("");
   const [rfid, setRfid] = useState("");
   // const history = useHistory();
+  const type_token = localStorage.getItem("type_token");
 
   useEffect(() => {
-    if (localStorage.getItem("type_token") === "customer") {
-      axios
-        .get(`${API_DUMMY}/customer/member/` + param.id, {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-          },
-        })
-        .then((response) => {
-          const list_data = response.data.data;
-          setUnique_id(list_data.unique_id);
-          setHp(list_data.hp);
-          setAddress(list_data.address);
-          setName(list_data.name);
-        })
-        .catch((error) => {
-          alert("Terjadi Kesalahan " + error);
-        });
-      axios
-        .get(`${API_DUMMY}/user/member/${param.id}/rfid`, {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-          },
-        })
-        .then((response) => {
-          const list = response.data.data;
-          setRfid(list);
-          // console.log("rfid: ", response.data.data);
-        });
+    if (type_token === "customer" || "user") {
+      if (type_token === "customer") {
+        axios
+          .get(`${API_DUMMY}/customer/member/` + param.id, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
+          .then((response) => {
+            const list_data = response.data.data;
+            setUnique_id(list_data.unique_id);
+            setHp(list_data.hp);
+            setAddress(list_data.address);
+            setName(list_data.name);
+          })
+          .catch((error) => {
+            alert("Terjadi Kesalahan " + error);
+          });
+      } else if (type_token === "user") {
+        axios
+          .get(`${API_DUMMY}/user/member/${param.id}/rfid`, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
+          .then((response) => {
+            const list = response.data.data;
+            setRfid(list);
+            console.log("rfid: ", response.data.data);
+          });
+        axios
+          .get(`${API_DUMMY}/user/member/${param.id}`, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
+          .then((response) => {
+            const list = response.data.data;
+            setUnique_id(list.unique_id);
+            setHp(list.hp);
+            setAddress(list.address);
+            setName(list.name);
+            console.log("data: ", response.data.data);
+          });
+      }
     } else {
       Swal.fire(
         "Peringatan",
-        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sesuai dengan role",
         "error"
       ).then((result) => {
         //Untuk munuju page selanjutnya
@@ -80,7 +99,7 @@ function EditListDataSiswa() {
   }, []);
 
   const putData = async (e) => {
-    if (localStorage.getItem("type_token") === "customer") {
+    if (localStorage.getItem("type_token") === "customer" || "user") {
       e.preventDefault();
       e.persist();
 
@@ -91,26 +110,29 @@ function EditListDataSiswa() {
         name: name,
       };
       try {
-        if (rfid) {
-          await axios.put(
-            `${API_DUMMY}/user/member/${param.id}/rfid`,
-            {
-              rfid_number: rfid,
+        // if (type_token === "user") {
+          // if (rfid) {
+          //   await axios.put(
+          //     `${API_DUMMY}/user/member/${param.id}/rfid`,
+          //     {
+          //       rfid_number: rfid,
+          //     },
+          //     {
+          //       headers: {
+          //         "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+          //         AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          //       },
+          //     }
+          //   );
+          // }
+        if (type_token === "customer") {
+          await axios.put(`${API_DUMMY}/customer/member/` + param.id, data, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
             },
-            {
-              headers: {
-                "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-                AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-              },
-            }
-          );
+          });
         }
-        await axios.put(`${API_DUMMY}/customer/member/` + param.id, data, {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-          },
-        });
         setShow(false);
         Swal.fire({
           icon: "success",
@@ -147,7 +169,7 @@ function EditListDataSiswa() {
 
   return (
     <div style={{ padding: "10px", borderRadius: "20px" }}>
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "customer" || "user" ? (
         <CCard>
           <CCardHeader>
             <h4>Edit Data Siswa</h4>
@@ -191,15 +213,19 @@ function EditListDataSiswa() {
                   value={hp}
                 />
               </CCol>
-              <CCol md={6}>
-                <CFormInput
-                  label="Rfid number"
-                  placeholder="Rfid number"
-                  autoComplete="Rfid number"
-                  onChange={(e) => setRfid(e.target.value)}
-                  value={rfid}
-                />
-              </CCol>
+              {/* {localStorage.getItem("type_token") === "user" ? (
+                <CCol md={6}>
+                  <CFormInput
+                    label="Rfid number"
+                    placeholder="Rfid number"
+                    autoComplete="Rfid number"
+                    onChange={(e) => setRfid(e.target.value)}
+                    value={rfid}
+                  />
+                </CCol>
+              ) : (
+                <></>
+              )} */}
 
               <CCol className="d-flex justify-content-between" xs={12}>
                 <CButton className="btn-danger" onClick={handleGoBack}>

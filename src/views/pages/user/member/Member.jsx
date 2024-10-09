@@ -49,16 +49,16 @@ function Member() {
       try {
         const { data, status } = await axios.get(
           `${API_DUMMY}/user/member?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
-         {
+          {
             headers: {
               "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+              AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
             },
           }
         );
         if (status === 200) {
           setMember(data.data);
-          //console.log(data.data);
+          console.log("member: ", data.data);
           setTotal_Page(data.pagination.total_page);
         }
       } catch (err) {
@@ -92,11 +92,11 @@ function Member() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(`${API_DUMMY}/user/member/${id}`, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          });
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        });
         Swal.fire({
           icon: "success",
           title: "Dihapus!",
@@ -116,7 +116,6 @@ function Member() {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
 
   const filteredMembers = member.filter((member) =>
     member.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -181,8 +180,7 @@ function Member() {
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? " active" : "")}
-        >
+          className={"page-item" + (currentPage === page ? " active" : "")}>
           <a className="page-link">{page}</a>
         </li>
       )
@@ -206,8 +204,7 @@ function Member() {
                     display: "flex",
                     justifyContent: "center",
                     gap: "10px",
-                  }}
-                >
+                  }}>
                   <div>
                     <CFormInput
                       className="inputSearch"
@@ -236,6 +233,7 @@ function Member() {
                     <CTableHeaderCell scope="col">Nama</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Unique_id</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Sekolah</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Rfid Number</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Alamat</CTableHeaderCell>
                     <CTableHeaderCell scope="col">No.Hp</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Action</CTableHeaderCell>
@@ -257,6 +255,9 @@ function Member() {
                         <CTableDataCell data-cell="Sekolah">
                           {mem.organization_name}
                         </CTableDataCell>
+                        <CTableDataCell data-cell="Rfid Number">
+                          {mem.rfid_number}
+                        </CTableDataCell>
                         <CTableDataCell data-cell="Alamat">
                           {mem.address}
                         </CTableDataCell>
@@ -269,16 +270,14 @@ function Member() {
                               navigate(`/editUserMember/${mem.id}`)
                             }
                             className="edit1"
-                            style={{ background: "blue" }}
-                          >
+                            style={{ background: "blue" }}>
                             {" "}
                             <CIcon icon={cilPencil} />
                           </button>{" "}
                           <button
                             onClick={() => Delete(mem.id)}
                             className="edit1"
-                            style={{ background: "red", color: "white" }}
-                          >
+                            style={{ background: "red", color: "white" }}>
                             <CIcon icon={cilTrash} />
                           </button>
                         </CTableDataCell>
@@ -294,12 +293,10 @@ function Member() {
                     className={
                       "page-item " + (currentPage === 1 ? "disabled" : "")
                     }
-                    disabled={currentPage === 1}
-                  >
+                    disabled={currentPage === 1}>
                     <a
                       className="page-link"
-                      onClick={() => handlePageChange(currentPage - 1)}
-                    >
+                      onClick={() => handlePageChange(currentPage - 1)}>
                       Previous
                     </a>
                   </li>
@@ -309,12 +306,10 @@ function Member() {
                       "page-item " +
                       (currentPage === total_page ? "disabled" : "")
                     }
-                    disabled={currentPage === total_page}
-                  >
+                    disabled={currentPage === total_page}>
                     <a
                       className="page-link"
-                      onClick={() => handlePageChange(currentPage + 1)}
-                    >
+                      onClick={() => handlePageChange(currentPage + 1)}>
                       Next
                     </a>
                   </li>

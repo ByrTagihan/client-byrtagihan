@@ -51,6 +51,7 @@ function LIstDataSIswa() {
   const [searchTerm, setSearchTerm] = useState("");
   let navigate = useNavigate();
   const [role, setRole] = useState("");
+  const type_token = localStorage.getItem("type_token");
 
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -83,10 +84,30 @@ function LIstDataSIswa() {
         .catch((error) => {
           alert("Terjadi Kesalahan" + error);
         });
+    // } else if (type_token === "user") {
+    //   await axios
+    //     .get(
+    //       `${API_DUMMY}/user/member?page=${currentPage}&limit=${limit}&filter=${searchTerm}`,
+    //       {
+    //         headers: {
+    //           "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+    //           AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+    //         },
+    //       }
+    //     )
+    //     .then((res) => {
+    //       setTotalPages(res.data.pagination.total_page || 1);
+    //       //console.log(res.data.pagination.total_page);
+    //       setList(res.data.data);
+    //       console.log("list: ", res.data.data);
+    //     })
+    //     .catch((error) => {
+    //       alert("Terjadi Kesalahan" + error);
+    //     });
     } else {
       Swal.fire(
         "Peringatan",
-        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sebagai admin",
+        "Anda tidak diizinkan mengakses API ini. Jika ingin melihat page ini maka login dulu sesuai dengan role",
         "error"
       ).then((result) => {
         //Untuk munuju page selanjutnya
@@ -319,7 +340,7 @@ function LIstDataSIswa() {
 
   return (
     <div>
-      {localStorage.getItem("type_token") === "customer" ? (
+      {localStorage.getItem("type_token") === "customer" || "user" ? (
         <>
           <div className="row">
             <div className="col" xs={12}>
@@ -433,12 +454,20 @@ function LIstDataSIswa() {
                             sortConfig.key === "hp" &&
                             (sortConfig.direction === "ascending" ? "▲" : "▼")}
                         </th>
-                        <th scope="col" onClick={() => handleSort("rfid_number")}>
-                          Rfid Number{" "}
-                          {sortConfig &&
-                            sortConfig.key === "rfid_number" &&
-                            (sortConfig.direction === "ascending" ? "▲" : "▼")}
-                        </th>
+                        {type_token === "user" ? (
+                          <th
+                            scope="col"
+                            onClick={() => handleSort("rfid_number")}>
+                            Rfid Number{" "}
+                            {sortConfig &&
+                              sortConfig.key === "rfid_number" &&
+                              (sortConfig.direction === "ascending"
+                                ? "▲"
+                                : "▼")}
+                          </th>
+                        ) : (
+                          <></>
+                        )}
                         <th scope="col" onClick={() => handleSort("address")}>
                           Address{" "}
                           {sortConfig &&
@@ -458,7 +487,13 @@ function LIstDataSIswa() {
                             <td data-cell="Nisn">{data.unique_id}</td>
                             <td data-cell="Nama">{data.name}</td>
                             <td data-cell="Handphone">{data.hp}</td>
-                            <td data-cell="Rfid Number">{data.rfid_number}</td>
+                            {type_token === "user" ? (
+                              <td data-cell="Rfid Number">
+                                {data.rfid_number}
+                              </td>
+                            ) : (
+                              <></>
+                            )}
                             <td data-cell="Alamat">{data.address}</td>
                             <td data-cell="Action">
                               <div className="tdd">

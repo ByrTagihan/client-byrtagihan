@@ -36,6 +36,7 @@ function EditMember() {
   const [selectedMember, setSelectedMember] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
+  const [rfid, setRfid] = useState("");
 
   const Put = async (e) => {
     if (localStorage.getItem("type_token") === "user") {
@@ -49,12 +50,41 @@ function EditMember() {
       };
 
       try {
+        // if (type_token === "user") {
+        // if (rfid) {
+        //   await axios.put(
+        //     `${API_DUMMY}/user/member/${param.id}/rfid`,
+        //     {
+        //       rfid_number: rfid,
+        //     },
+        //     {
+        //       headers: {
+        //         "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+        //         AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+        //       },
+        //     }
+        //   );
+        // }
         await axios.put(`${API_DUMMY}/user/member/${id}`, data, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        });
+        if (rfid) {
+          await axios.put(
+            `${API_DUMMY}/user/member/${param.id}/rfid`,
+            {
+              rfid_number: rfid,
             },
-          });
+            {
+              headers: {
+                "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+                AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+              },
+            }
+          );
+        }
         setShow(false);
         Swal.fire({
           icon: "success",
@@ -88,11 +118,11 @@ function EditMember() {
   const get = async () => {
     await axios
       .get(`${API_DUMMY}/user/member/${id}`, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          })
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+          AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+        },
+      })
       .then((res) => {
         const members = res.data.data;
         setMember(members);
@@ -100,10 +130,11 @@ function EditMember() {
         setName(members.name);
         setHp(members.hp);
         setPassword(members.password);
-        //console.log(members.password);
+        console.log(members);
         setAddress(members.address);
         setOrganization_name(members.organization_name);
         setPicture(members.picture);
+        setRfid(members.rfid_number);
       })
       .catch((error) => {
         alert("Terjadi Kesalahan" + error);
@@ -115,11 +146,11 @@ function EditMember() {
       const { data, status } = await axios.get(
         `${API_DUMMY}/user/organization`,
         {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          }
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        }
       );
       if (status === 200) {
         setOrganization(data.data);
@@ -132,11 +163,11 @@ function EditMember() {
   const GetCostumer = async () => {
     try {
       const { data, status } = await axios.get(`${API_DUMMY}/user/customer`, {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          });
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+          AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+        },
+      });
       if (status === 200) {
         setCostumer(data.data);
       }
@@ -221,7 +252,15 @@ function EditMember() {
                   />
                 </CCol>
                 <CCol md={6}>
+                  <CFormInput
+                    label="Rfid number"
+                    placeholder="Rfid number"
+                    autoComplete="Rfid number"
+                    onChange={(e) => setRfid(e.target.value)}
+                    value={rfid}
+                  />
                 </CCol>
+                <CCol md={6}></CCol>
 
                 <CCol className="d-flex justify-content-between" xs={12}>
                   <CButton className="btn-danger" onClick={handleGoBack}>
