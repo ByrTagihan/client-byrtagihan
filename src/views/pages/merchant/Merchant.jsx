@@ -20,9 +20,8 @@ function Merchant() {
   const [pin, setPin] = useState("");
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
-  const [showAmount, setShowAmount] = useState(false); // Control display of amount as label
-
-  // Format amount as Rupiah
+  const [showAmount, setShowAmount] = useState(false);
+  
   const formatRupiah = (amount) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
