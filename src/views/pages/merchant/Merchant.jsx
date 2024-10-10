@@ -21,7 +21,7 @@ function Merchant() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [showAmount, setShowAmount] = useState(false);
-  
+
   const formatRupiah = (amount) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -50,7 +50,6 @@ function Merchant() {
   const addData = async (e) => {
     e.preventDefault();
 
-    // Validasi input PIN
     if (!pin) {
       Swal.fire({
         icon: "error",
@@ -60,7 +59,6 @@ function Merchant() {
       return;
     }
 
-    // Proses pembayaran jika semua data sudah valid
     try {
       const response = await axios.post(
         `${API_DUMMY}/merchant/payment/wallet`,
