@@ -357,6 +357,7 @@ const routes = [
   //Merchant
   // { path: "/merchant", name: "Merchant", element: merchant },
   { path: "/listTransaksi", name: "List Transaksi", element: ListTransaksi },
+  { path: "/transaksi", name: "Transaksi", element: Merchant },
   //================================================================
   //Panduan
   { path: "/panduan", name: "Panduan", element: Panduan },
