@@ -19,10 +19,9 @@ function Merchant() {
   const [amount, setAmount] = useState(0);
   const [pin, setPin] = useState("");
   const navigate = useNavigate();
-  const [show, setShow] = useState(false); 
-  const [showAmount, setShowAmount] = useState(false); // Control display of amount as label
+  const [show, setShow] = useState(false);
+  const [showAmount, setShowAmount] = useState(false);
 
-  // Format amount as Rupiah
   const formatRupiah = (amount) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -32,7 +31,8 @@ function Merchant() {
 
   const handleLanjut = (e) => {
     e.preventDefault();
-    // Ensure amount is entered
+
+    // Cek apakah nominal valid
     if (amount <= 0) {
       Swal.fire({
         icon: "error",
@@ -42,7 +42,7 @@ function Merchant() {
       return;
     }
 
-    // Move to the next step (enter PIN)
+    // Tampilkan form untuk input PIN setelah nominal valid
     setShow(true);
     setShowAmount(true);
   };
@@ -50,119 +50,62 @@ function Merchant() {
   const addData = async (e) => {
     e.preventDefault();
 
-    // Periksa apakah token valid dan user adalah Merchant
-    if (localStorage.getItem("type_token") === "merchant") {
-      try {
-        const response = await axios.post(
-          `${API_DUMMY}/merchant/payment/wallet`,
-          {
-            amount: amount,
-            rfid_number: rfid_number,
-            pin: pin,
+    if (!pin) {
+      Swal.fire({
+        icon: "error",
+        title: "PIN harus diisi",
+        showConfirmButton: true,
+      });
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${API_DUMMY}/merchant/payment/wallet`,
+        {
+          amount: amount,
+          rfid_number: rfid_number,
+          pin: pin,
+        },
+        {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
           },
-          {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          }
-        );
-        setShow(false);
-
-        Swal.fire({
-          icon: 'success',
-          title: '<h2 style="color:#fff;">Payment successful!</h2>',
-          html: `
-            <div style="
-              background-color: #28a745;
-              border-radius: 50%;
-              padding: 20px;
-              display: inline-block;
-              margin-bottom: 20px;
-            ">
-              // <i class="fa-solid fa-check" style="font-size: 50px; color: white;"></i>
-            </div>
-            <p style="color: white; font-size: 18px;">Hooray! You have completed your payment.</p>
-            <p style="color: white; font-size: 22px;">AMOUNT PAID</p>
-             <p style="font-size:24px; color:#fff; font-weight: bold;">${formatRupiah(
-              amount
-            )}</p>
-            <div style="background-color: #ffc107; padding: 10px; border-radius: 5px; color: black;">
-              Rp${(
-              amount * 0.1
-            ).toFixed(3)}
-            </div>
-            <br>
-            <p style="color: white; font-size: 16px;">How was your payment experience?</p>
-            <button style="background-color: #28a745; border: none; border-radius: 50%; padding: 10px; cursor: pointer; margin-right: 10px;">
-              <i class="fa-solid fa-thumbs-up" style="font-size: 30px; color: white;"></i>
-            </button>
-            <button style="background-color: #dc3545; border: none; border-radius: 50%; padding: 10px; cursor: pointer;">
-              <i class="fa-solid fa-thumbs-down" style="font-size: 30px; color: white;"></i>
-            </button>
-          `,
-          background: '#4caf50',  // Green background for the SweetAlert2 popup
-          showConfirmButton: false,
-          timer: 5000, // Auto-close after 5 seconds
-          allowOutsideClick: false,
-          allowEscapeKey: false
-        });
-
-        // SweetAlert berhasil dengan tampilan kustom
-        Swal.fire({
-          icon: "success",
-          title: '<h2 style="color:#fff;">Payment successful!</h2>',
-          html: `
-            <p style="color:#fff;">Hooray! You have completed your payment.</p>
-            <hr style="color:#fff;"/>
-            <p style="font-size:20px; color:#fff;">AMOUNT PAID</p>
-            <p style="font-size:24px; color:#fff; font-weight: bold;">${formatRupiah(
-              amount
-            )}</p>
-            <p style="background-color:#FFC107; color:#fff; padding:10px; border-radius:5px; font-size:16px;">Rp${(
-              amount * 0.1
-            ).toFixed(3)} Cashback</p>
-            <hr style="color:#fff;"/>
-            <p style="margin-top:20px; color:#fff;">HOW WAS YOUR PAYMENT EXPERIENCE?</p>
-            <button style="background: none; border: none; cursor: pointer;">
-  <i class="fa-solid fa-thumbs-up" style="font-size: 40px; color: white;"></i>
-</button>
-<button style="background: none; border: none; cursor: pointer;">
-  <i class="fa-solid fa-thumbs-down" style="font-size: 40px; color: white;"></i>
-</button>
-
-          `,
-          background: "#4CAF50",
-          showConfirmButton: false,
-          timer: 4000, // Tampilkan selama 4 detik
-          allowOutsideClick: false,
-          allowEscapeKey: false,
-        }).then(() => {
-          // Redirect atau reload halaman transaksi untuk menampilkan data baru
-          navigate("/listTransaksi"); // Arahkan ke halaman daftar transaksi
-        });
-      } catch (error) {
-        console.log("error: ", error.response?.status);
-
-        if (error.response && error.response.status === 400) {
-          Swal.fire({
-            icon: "error",
-            title: "Saldo Anda Tidak Cukup",
-            showConfirmButton: false,
-            timer: 2000, // Tampilkan selama 2 detik
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Gagal Membayar",
-            showConfirmButton: false,
-            timer: 4000, // Tampilkan selama 4 detik
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-          });
         }
+      );
+
+      setShow(false);
+      Swal.fire({
+        icon: "success",
+        title: "Payment successful!",
+        html: `
+          <p style="color:#fff;">Hooray! You have completed your payment.</p>
+          <p style="font-size:24px; color:#fff; font-weight: bold;">${formatRupiah(
+            amount
+          )}</p>`,
+        background: "#4caf50",
+        showConfirmButton: false,
+        timer: 5000,
+      }).then(() => {
+        navigate("/listTransaksi"); // Redirect setelah pembayaran berhasil
+      });
+    } catch (error) {
+      // Menangani error pada pembayaran
+      if (error.response && error.response.status === 400) {
+        Swal.fire({
+          icon: "error",
+          title: "Saldo Anda Tidak Cukup",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Membayar",
+          showConfirmButton: false,
+          timer: 4000,
+        });
       }
     }
   };
@@ -180,8 +123,7 @@ function Merchant() {
                 <CRow className="mb-3">
                   <CFormLabel
                     htmlFor="amount"
-                    className="col-sm-2 col-form-label"
-                  >
+                    className="col-sm-2 col-form-label">
                     Amount
                   </CFormLabel>
                   <CCol sm={10}>
@@ -204,8 +146,7 @@ function Merchant() {
                 <CRow className="mb-3">
                   <CFormLabel
                     htmlFor="amount"
-                    className="col-sm-2 col-form-label"
-                  >
+                    className="col-sm-2 col-form-label">
                     Amount
                   </CFormLabel>
                   <CCol sm={10}>
@@ -214,25 +155,6 @@ function Merchant() {
                     </CFormLabel>
                   </CCol>
                 </CRow>
-
-                <CRow className="mb-3">
-                  <CFormLabel
-                    htmlFor="rfid_number"
-                    className="col-sm-2 col-form-label"
-                  >
-                    KARTU
-                  </CFormLabel>
-                  <CCol sm={10}>
-                    <CFormInput
-                      type="password"
-                      id="rfid_number"
-                      value={rfid_number}
-                      onChange={(e) => setRfIdNumber(e.target.value)}
-                      // disabled
-                    />
-                  </CCol>
-                </CRow>
-
                 <CRow className="mb-3">
                   <CFormLabel htmlFor="pin" className="col-sm-2 col-form-label">
                     PIN
@@ -242,14 +164,58 @@ function Merchant() {
                       type="password"
                       id="pin"
                       value={pin}
+                      required
                       onChange={(e) => setPin(e.target.value)}
                     />
                   </CCol>
                 </CRow>
-
-                <CButton type="submit" className="mt-5 float-end">
-                  Bayar
-                </CButton>
+                {pin === "" ? (
+                  <CRow className="mb-3">
+                    <CFormLabel
+                      htmlFor="rfid_number"
+                      className="col-sm-2 col-form-label">
+                      KARTU
+                    </CFormLabel>
+                    <CCol sm={10}>
+                      <CFormInput
+                        type="password"
+                        id="rfid_number"
+                        disabled
+                        // disabled
+                      />
+                    </CCol>
+                  </CRow>
+                ) : (
+                  <CRow className="mb-3">
+                    <CFormLabel
+                      htmlFor="rfid_number"
+                      className="col-sm-2 col-form-label">
+                      KARTU
+                    </CFormLabel>
+                    <CCol sm={10}>
+                      <CFormInput
+                        type="password"
+                        id="rfid_number"
+                        value={rfid_number}
+                        onChange={(e) => setRfIdNumber(e.target.value)}
+                        required
+                        // disabled
+                      />
+                    </CCol>
+                  </CRow>
+                )}
+                {pin === "" || rfid_number === "" ? (
+                  <CButton type="disabled" disabled className="mt-5 float-end">
+                    Bayar
+                  </CButton>
+                ) : (
+                  <>
+                    {" "}
+                    <CButton type="submit" className="mt-5 float-end">
+                      Bayar
+                    </CButton>
+                  </>
+                )}
               </>
             )}
           </form>
