@@ -70,21 +70,21 @@ function Merchant() {
         {
           headers: {
             "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-            "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
           },
         }
       );
 
       setShow(false);
       Swal.fire({
-        icon: 'success',
-        title: 'Payment successful!',
+        icon: "success",
+        title: "Payment successful!",
         html: `
           <p style="color:#fff;">Hooray! You have completed your payment.</p>
           <p style="font-size:24px; color:#fff; font-weight: bold;">${formatRupiah(
             amount
           )}</p>`,
-        background: '#4caf50',
+        background: "#4caf50",
         showConfirmButton: false,
         timer: 5000,
       }).then(() => {
@@ -155,7 +155,20 @@ function Merchant() {
                     </CFormLabel>
                   </CCol>
                 </CRow>
-
+                <CRow className="mb-3">
+                  <CFormLabel htmlFor="pin" className="col-sm-2 col-form-label">
+                    PIN
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      type="password"
+                      id="pin"
+                      value={pin}
+                      required
+                      onChange={(e) => setPin(e.target.value)}
+                    />
+                  </CCol>
+                </CRow>
                 {pin === "" ? (
                   <CRow className="mb-3">
                     <CFormLabel
@@ -185,29 +198,24 @@ function Merchant() {
                         id="rfid_number"
                         value={rfid_number}
                         onChange={(e) => setRfIdNumber(e.target.value)}
+                        required
                         // disabled
                       />
                     </CCol>
                   </CRow>
                 )}
-
-                <CRow className="mb-3">
-                  <CFormLabel htmlFor="pin" className="col-sm-2 col-form-label">
-                    PIN
-                  </CFormLabel>
-                  <CCol sm={10}>
-                    <CFormInput
-                      type="password"
-                      id="pin"
-                      value={pin}
-                      onChange={(e) => setPin(e.target.value)}
-                    />
-                  </CCol>
-                </CRow>
-
-                <CButton type="submit" className="mt-5 float-end">
-                  Bayar
-                </CButton>
+                {pin === "" || rfid_number === "" ? (
+                  <CButton type="disabled" disabled className="mt-5 float-end">
+                    Bayar
+                  </CButton>
+                ) : (
+                  <>
+                    {" "}
+                    <CButton type="submit" className="mt-5 float-end">
+                      Bayar
+                    </CButton>
+                  </>
+                )}
               </>
             )}
           </form>
