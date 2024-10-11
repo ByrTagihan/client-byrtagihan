@@ -336,7 +336,7 @@ const AppHeaderDropdown = () => {
         )}
         {localStorage.getItem("type_token") === "merchant" ? (
           <>
-            <CDropdownItem href="/#/">
+            <CDropdownItem href="/#/transaksi">
               <CIcon icon={cilDollar} className="me-2" />
               Transaksi
             </CDropdownItem>
