@@ -41,15 +41,6 @@ const AppHeaderDropdown = () => {
   });
   const [list, setList] = useState([]);
   const [bills, setBills] = useState([]);
-  const [message, setMessage] = useState([]);
-  const [userchannel, setUserChannel] = useState([]);
-  const [memberchannel, setMemberChannel] = useState([]);
-  const [bill, setBill] = useState([]);
-  const [organization, setOrganization] = useState([]);
-  const [customerOrganization, setCustomerOrganization] = useState([]);
-  const [template, setTemplate] = useState([]);
-  const [customerMember, setCustomerMember] = useState([]);
-  const [customerBill, setCustomerBill] = useState([]);
   const role = localStorage.getItem("type_token");
 
   // const getAllTransaction = async () => {
@@ -349,7 +340,7 @@ const AppHeaderDropdown = () => {
         )}
         {localStorage.getItem("type_token") === "merchant" ? (
           <>
-            <CDropdownItem href="/#/">
+            <CDropdownItem href="/#/transaksi">
               <CIcon icon={cilDollar} className="me-2" />
               Transaksi
             </CDropdownItem>
