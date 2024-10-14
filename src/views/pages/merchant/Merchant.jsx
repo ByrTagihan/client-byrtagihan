@@ -155,21 +155,7 @@ function Merchant() {
                     </CFormLabel>
                   </CCol>
                 </CRow>
-                <CRow className="mb-3">
-                  <CFormLabel htmlFor="pin" className="col-sm-2 col-form-label">
-                    PIN
-                  </CFormLabel>
-                  <CCol sm={10}>
-                    <CFormInput
-                      type="password"
-                      id="pin"
-                      value={pin}
-                      required
-                      onChange={(e) => setPin(e.target.value)}
-                    />
-                  </CCol>
-                </CRow>
-                {pin === "" ? (
+                {/* {pin === "" ? (
                   <CRow className="mb-3">
                     <CFormLabel
                       htmlFor="rfid_number"
@@ -181,11 +167,10 @@ function Merchant() {
                         type="password"
                         id="rfid_number"
                         disabled
-                        // disabled
                       />
                     </CCol>
                   </CRow>
-                ) : (
+                ) : ( */}
                   <CRow className="mb-3">
                     <CFormLabel
                       htmlFor="rfid_number"
@@ -203,7 +188,21 @@ function Merchant() {
                       />
                     </CCol>
                   </CRow>
-                )}
+                {/* )} */}
+                <CRow className="mb-3">
+                  <CFormLabel htmlFor="pin" className="col-sm-2 col-form-label">
+                    PIN
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      type="password"
+                      id="pin"
+                      value={pin}
+                      required
+                      onChange={(e) => setPin(e.target.value)}
+                    />
+                  </CCol>
+                </CRow>
                 {pin === "" || rfid_number === "" ? (
                   <CButton type="disabled" disabled className="mt-5 float-end">
                     Bayar
