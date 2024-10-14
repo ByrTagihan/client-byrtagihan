@@ -67,27 +67,28 @@ const Login = () => {
             window.location.reload();
           }, 1500);
         }
-      } else if (type_token === "User") {
-        const { data, status } = await axios.post(`${API_DUMMY}/user/login`, {
-          email: email,
-          password: password,
-        });
-        // Jika respon 200/ ok
-        if (status === 200) {
-          Swal.fire({
-            icon: "success",
-            title: "Berhasil Login Sebagai User",
-            showConfirmButton: false,
-          });
-          localStorage.setItem("type_token", data.data.type_token);
-          localStorage.setItem("id", data.data.id);
-          localStorage.setItem("token", data.data.token);
-          navigate("/dashboardUser");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-        }
-      } else if (type_token === "Member") {
+      }
+      //  else if (type_token === "User") {
+      //   const { data, status } = await axios.post(`${API_DUMMY}/user/login`, {
+      //     email: email,
+      //     password: password,
+      //   });
+      //   // Jika respon 200/ ok
+      //   if (status === 200) {
+      //     Swal.fire({
+      //       icon: "success",
+      //       title: "Berhasil Login Sebagai User",
+      //       showConfirmButton: false,
+      //     });
+      //     localStorage.setItem("type_token", data.data.type_token);
+      //     localStorage.setItem("id", data.data.id);
+      //     localStorage.setItem("token", data.data.token);
+      //     navigate("/");
+      //     setTimeout(() => {
+      //       window.location.reload();
+      //     }, 1500);
+      //   }
+       else if (type_token === "Member") {
         const { data, status } = await axios.post(`${API_DUMMY}/member/login`, {
           unique_id: unique_id,
           password: password,
@@ -224,7 +225,7 @@ const Login = () => {
                       Merchant
                     </label>
                   </div>
-                  <div className="selector-item">
+                  {/* <div className="selector-item">
                     <input
                       type="radio"
                       id="radio4"
@@ -237,7 +238,7 @@ const Login = () => {
                     <label htmlFor="radio4" className="selector-item_label">
                       Admin
                     </label>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               {
@@ -277,8 +278,8 @@ const Login = () => {
                       <CIcon icon={cilUser} />
                     </CInputGroupText>
                     <CFormInput
-                      placeholder="unique_id"
-                      autoComplete="unique_id"
+                      placeholder="User"
+                      autoComplete="User"
                       value={unique_id}
                       type="text"
                       onChange={(e) => setUnique_id(e.target.value)}
@@ -290,30 +291,32 @@ const Login = () => {
                       <CIcon icon={cilUser} />
                     </CInputGroupText>
                     <CFormInput
-                      placeholder="unique_id"
-                      autoComplete="unique_id"
+                      placeholder="User"
+                      autoComplete="User"
                       value={unique_id}
                       type="text"
                       onChange={(e) => setUnique_id(e.target.value)}
                     />
                   </CInputGroup>
-                ) : type_token === "User" ? (
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon={cilUser} />
-                    </CInputGroupText>
-                    <CFormInput
-                      placeholder="email"
-                      autoComplete="email"
-                      value={email}
-                      type="email"
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </CInputGroup>
-                ) : (
+                ):(
                   <></>
-                )
-              }
+                //  : type_token === "User" ? (
+                //   <CInputGroup className="mb-3">
+                //     <CInputGroupText>
+                //       <CIcon icon={cilUser} />
+                //     </CInputGroupText>
+                //     <CFormInput
+                //       placeholder="email"
+                //       autoComplete="email"
+                //       value={email}
+                //       type="email"
+                //       onChange={(e) => setEmail(e.target.value)}
+                //     />
+                //   </CInputGroup>
+                // ) : (
+                //   <></>
+                // )
+              )}
               <CInputGroup className="mb-4">
                 <CInputGroupText>
                   <span onClick={togglePassword}>
