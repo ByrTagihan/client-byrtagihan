@@ -155,22 +155,6 @@ function Merchant() {
                     </CFormLabel>
                   </CCol>
                 </CRow>
-                {/* {pin === "" ? (
-                  <CRow className="mb-3">
-                    <CFormLabel
-                      htmlFor="rfid_number"
-                      className="col-sm-2 col-form-label">
-                      KARTU
-                    </CFormLabel>
-                    <CCol sm={10}>
-                      <CFormInput
-                        type="password"
-                        id="rfid_number"
-                        disabled
-                      />
-                    </CCol>
-                  </CRow>
-                ) : ( */}
                   <CRow className="mb-3">
                     <CFormLabel
                       htmlFor="rfid_number"
@@ -184,11 +168,9 @@ function Merchant() {
                         value={rfid_number}
                         onChange={(e) => setRfIdNumber(e.target.value)}
                         required
-                        // disabled
                       />
                     </CCol>
                   </CRow>
-                {/* )} */}
                 <CRow className="mb-3">
                   <CFormLabel htmlFor="pin" className="col-sm-2 col-form-label">
                     PIN
