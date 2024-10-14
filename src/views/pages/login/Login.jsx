@@ -67,29 +67,27 @@ const Login = () => {
             window.location.reload();
           }, 1500);
         }
-      }
-      // else if (type_token === "User") {
-      //   const { data, status } = await axios.post(`${API_DUMMY}/user/login`, {
-      //     email: email,
-      //     password: password,
-      //   });
-      //   // Jika respon 200/ ok
-      //   if (status === 200) {
-      //     Swal.fire({
-      //       icon: "success",
-      //       title: "Berhasil Login Sebagai User",
-      //       showConfirmButton: false,
-      //     });
-      //     localStorage.setItem("type_token", data.data.type_token);
-      //     localStorage.setItem("id", data.data.id);
-      //     localStorage.setItem("token", data.data.token);
-      //     navigate("/dashboardUser");
-      //     setTimeout(() => {
-      //       window.location.reload();
-      //     }, 1500);
-      //   }
-      // }
-      else if (type_token === "Member") {
+      } else if (type_token === "User") {
+        const { data, status } = await axios.post(`${API_DUMMY}/user/login`, {
+          email: email,
+          password: password,
+        });
+        // Jika respon 200/ ok
+        if (status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Login Sebagai User",
+            showConfirmButton: false,
+          });
+          localStorage.setItem("type_token", data.data.type_token);
+          localStorage.setItem("id", data.data.id);
+          localStorage.setItem("token", data.data.token);
+          navigate("/dashboardUser");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+      } else if (type_token === "Member") {
         const { data, status } = await axios.post(`${API_DUMMY}/member/login`, {
           unique_id: unique_id,
           password: password,
@@ -109,12 +107,14 @@ const Login = () => {
             window.location.reload();
           }, 1500);
         }
-      }
-      else if (type_token == "Merchant") {
-        const { data, status } = await axios.post(`${API_DUMMY}/merchant/login`, {
-          unique_id: unique_id,
-          password: password,
-        });
+      } else if (type_token == "Merchant") {
+        const { data, status } = await axios.post(
+          `${API_DUMMY}/merchant/login`,
+          {
+            unique_id: unique_id,
+            password: password,
+          }
+        );
         // Jika respon 200/ ok
         if (status === 200) {
           Swal.fire({
@@ -224,20 +224,20 @@ const Login = () => {
                       Merchant
                     </label>
                   </div>
-                  {/* <div className="selector-item">
+                  <div className="selector-item">
                     <input
                       type="radio"
-                      id="radio3"
+                      id="radio4"
                       name="selector"
                       className="selector-item_radio"
                       onChange={handleOptionChange}
                       checked={type_token === "User"}
                       value="User"
                     />
-                    <label htmlFor="radio3" className="selector-item_label">
+                    <label htmlFor="radio4" className="selector-item_label">
                       Admin
                     </label>
-                  </div> */}
+                  </div>
                 </div>
               </div>
               {
@@ -271,7 +271,7 @@ const Login = () => {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </CInputGroup>
-                ) : type_token === "Member" ?(
+                ) : type_token === "Member" ? (
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
                       <CIcon icon={cilUser} />
@@ -284,20 +284,33 @@ const Login = () => {
                       onChange={(e) => setUnique_id(e.target.value)}
                     />
                   </CInputGroup>
-                ): type_token === "Merchant" ?(
+                ) : type_token === "Merchant" ? (
                   <CInputGroup className="mb-3">
-                  <CInputGroupText>
-                    <CIcon icon={cilUser} />
-                  </CInputGroupText>
-                  <CFormInput
-                    placeholder="unique_id"
-                    autoComplete="unique_id"
-                    value={unique_id}
-                    type="text"
-                    onChange={(e) => setUnique_id(e.target.value)}
-                  />
-                </CInputGroup>
-                ):(
+                    <CInputGroupText>
+                      <CIcon icon={cilUser} />
+                    </CInputGroupText>
+                    <CFormInput
+                      placeholder="unique_id"
+                      autoComplete="unique_id"
+                      value={unique_id}
+                      type="text"
+                      onChange={(e) => setUnique_id(e.target.value)}
+                    />
+                  </CInputGroup>
+                ) : type_token === "User" ? (
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilUser} />
+                    </CInputGroupText>
+                    <CFormInput
+                      placeholder="email"
+                      autoComplete="email"
+                      value={email}
+                      type="email"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </CInputGroup>
+                ) : (
                   <></>
                 )
               }
