@@ -53,8 +53,11 @@ function DashboardMember() {
     if (localStorage.getItem("type_token") === "member") {
       await axios
         .get(`${API_DUMMY}/member/bill?limit=10000`, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
         .then((res) => {
           if (Array.isArray(res.data.data)) {
             setList(res.data.data);
@@ -94,8 +97,11 @@ function DashboardMember() {
   const getRecapBill = async () => {
     await axios
       .get(`${API_DUMMY}/member/report/recap/bill?limit=10000`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((res) => {
         if (Array.isArray(res.data.data)) {
           setRecapBill(res.data.data);
@@ -120,8 +126,11 @@ function DashboardMember() {
   const getRecapTransaction = async () => {
     await axios
       .get(`${API_DUMMY}/member/report/recap/transaction?limit=10000`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((res) => {
         if (Array.isArray(res.data.data)) {
           setRecapTransaction(res.data.data);
@@ -146,8 +155,11 @@ function DashboardMember() {
   const getMemberchannel = async () => {
     await axios
       .get(`${API_DUMMY}/member/channel?limit=10000`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((res) => {
         if (Array.isArray(res.data.data)) {
           setmemberChannel(res.data.data);
@@ -193,8 +205,11 @@ function DashboardMember() {
       .get(
         `${API_DUMMY}/member/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&search=${searchTerm}`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       )
       .then((res) => {
         setTotalPages(res.data.pagination.total_page);
@@ -314,6 +329,7 @@ function DashboardMember() {
     <div>
       {localStorage.getItem("type_token") === "member" ? (
         <>
+        {/* <h4>Chart</h4>
           <CRow>
             <CCol sm={6} lg={3}>
               <CWidgetStatsA
@@ -658,7 +674,7 @@ function DashboardMember() {
                 }
               />
             </CCol>
-          </CRow>
+          </CRow> */}
 
           <div
             style={{
@@ -680,7 +696,7 @@ function DashboardMember() {
           ) : (
             <div>
               <div style={{ display: "flex" }}>
-                <h3 style={{ fontWeight: "bold" }}>Bill</h3>
+                <h4>Bill</h4>
               </div>
               <CCard className="mb-5">
                 <CCardBody>

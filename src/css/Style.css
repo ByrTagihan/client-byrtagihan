@@ -1,3 +1,18 @@
 .fontAll {
   text-transform: capitalize;
 }
+
+* {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.header-mobile {
+  display: inline;
+}
+@media (max-width: 600px) {
+  .header-mobile {
+    display: none;
+  }
+}

@@ -50,8 +50,11 @@ function Customer() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(`${API_DUMMY}/user/customer/` + id, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
         Swal.fire({
           icon: "success",
           title: "Dihapus!",
@@ -81,8 +84,11 @@ function Customer() {
     if (localStorage.getItem("type_token") === "user") {
       await axios
         .get(`${API_DUMMY}/user/customer?page=${currentPage}&limit=${limit}`, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
         .then((res) => {
           setTotalPages(res.data.pagination.total_page);
           setUserCustomer1(res.data.data);

@@ -18,8 +18,11 @@ function Transaction() {
   const getAll = async () => {
     await axios
       .get(`${API_DUMMY}/member/report/recap/transaction`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((res) => {
         setRekapTransaction(res.data.data);
         //console.log(res.data.data);

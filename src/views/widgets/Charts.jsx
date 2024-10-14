@@ -23,8 +23,11 @@ const Charts = () => {
     const getAll = async () => {
       await axios
         .get(`${API_DUMMY}/member/bill`, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
         .then((res) => {
           setList(res.data.data);
         })

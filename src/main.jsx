@@ -7,11 +7,11 @@ import store from './store'
 import { SelectedBillIdsProvider } from './views/pages/member/bill/SelectedBillIdsContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
       <Provider store={store}>
       <SelectedBillIdsProvider>
       <App />
     </SelectedBillIdsProvider>
       </Provider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

@@ -1,0 +1,8 @@
+/* Tambahkan style untuk menyembunyikan breadcrumb pada layar kecil */
+@media (max-width: 768px) {
+    .breadcrumb-hidden-on-mobile {
+      display: none;
+      background: none;
+    }
+  }
+  

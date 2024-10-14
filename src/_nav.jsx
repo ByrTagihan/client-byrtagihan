@@ -30,32 +30,32 @@ import { CNavGroup, CNavItem, CNavTitle } from "@coreui/react";
 import { useNavigate } from "react-router-dom";
 
 const _nav = [
+  // {
+  //   component: CNavItem,
+  //   name: "Dashboard User",
+  //   to: "/dashboardUser",
+  //   icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  //   roles: ["user"],
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: "Dashboard Customer",
+  //   to: "/dashboardd",
+  //   icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  //   roles: ["customer"],
+  // },
   {
     component: CNavItem,
-    name: "Dashboard User",
-    to: "/dashboardUser",
+    name: "Dashboard",
+    to: "/",
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    roles: ["user"],
-  },
-  {
-    component: CNavItem,
-    name: "Dashboard Customer",
-    to: "/dashboardd",
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    roles: ["customer"],
-  },
-  {
-    component: CNavItem,
-    name: "Dashboard Member",
-    to: "/dashboardMember",
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    roles: ["member"],
+    roles: ["customer", "member"],
   },
 
-  {
-    component: CNavTitle,
-    name: "Menu",
-  },
+  // {
+  //   component: CNavTitle,
+  //   name: "Menu",
+  // },
   //User Navigation
   {
     component: CNavItem,
@@ -64,6 +64,14 @@ const _nav = [
     icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
     roles: ["user"],
   },
+  // {
+  //   component: CNavItem,
+  //   name: "Notifikasi",
+  //   to: "/notifikasi",
+  //   icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
+  //   roles: ["member"],
+  // },
+
   {
     component: CNavItem,
     name: "Organization",
@@ -150,20 +158,27 @@ const _nav = [
     roles: ["customer"],
   },
   //Member Navigation
-  {
-    component: CNavItem,
-    name: "Bill",
-    to: "/listTagihanMember",
-    icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
-    roles: ["member"],
-  },
-  {
-    component: CNavItem,
-    name: "Profile",
-    to: "/memberProfile",
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
-    roles: ["member"],
-  },
+  // {
+  //   component: CNavItem,
+  //   name: "Bill",
+  //   to: "/listTagihanMember",
+  //   icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
+  //   roles: ["member"],
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: "Profile",
+  //   to: "/memberProfile",
+  //   icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+  //   roles: ["member"],
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: "Digital Card",
+  //   to: "/digitalCard",
+  //   icon: <CIcon icon={cilCreditCard} customClassName="nav-icon" />,
+  //   roles: ["member"],
+  // },
 ];
 
 export default _nav;

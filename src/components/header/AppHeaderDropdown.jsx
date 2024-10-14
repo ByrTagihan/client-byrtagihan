@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import {
   CBadge,
+  CButton,
   CDropdown,
   CDropdownDivider,
   CDropdownHeader,
@@ -22,6 +23,8 @@ import {
   cilUserFemale,
   cibSuperuser,
   cilDollar,
+  cilMoney,
+  cilList,
 } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import { useState } from "react";
@@ -29,23 +32,16 @@ import axios from "axios";
 import { API_DUMMY } from "../../utils/baseURL";
 
 import avatar8 from "./../../views/avatars/8.jpg";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AppHeaderDropdown = () => {
   const [foto, setFoto] = useState({
     picture: null,
   });
-
   const [list, setList] = useState([]);
   const [bills, setBills] = useState([]);
-  const [message, setMessage] = useState([]);
-  const [userchannel, setUserChannel] = useState([]);
-  const [memberchannel, setMemberChannel] = useState([]);
-  const [bill, setBill] = useState([]);
-  const [organization, setOrganization] = useState([]);
-  const [customerOrganization, setCustomerOrganization] = useState([]);
-  const [template, setTemplate] = useState([]);
-  const [customerMember, setCustomerMember] = useState([]);
-  const [customerBill, setCustomerBill] = useState([]);
+  const role = localStorage.getItem("type_token");
 
   // const getAllTransaction = async () => {
   //   await axios
@@ -163,8 +159,37 @@ const AppHeaderDropdown = () => {
   //   // getCustomerMember();
   //   // getCustomerBill();
   // }, []);
+
+  const navigate = useNavigate();
+
+  const logout = () => {
+    Swal.fire({
+      title: "Keluar Dari Akun Anda ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: "success",
+          title: "Success Logout",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        //Untuk munuju page selanjutnya
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        localStorage.clear();
+      }
+    });
+  };
   return (
-    <CDropdown variant="nav-item">
+    <CDropdown variant="nav-item" alignment={role === "member" ? "end" : ""}>
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
         {foto.picture ? (
           <img
@@ -180,7 +205,7 @@ const AppHeaderDropdown = () => {
           />
         )}
       </CDropdownToggle>
-      <CDropdownMenu className="pt-0" placement="bottom-end">
+      <CDropdownMenu className="pt-0">
         <CDropdownHeader className="bg-light fw-semibold py-2">
           Account
         </CDropdownHeader>
@@ -261,25 +286,38 @@ const AppHeaderDropdown = () => {
         ) : (
           <></>
         )}
-        {localStorage.getItem("type_token") === "member" ? (
+        {/* {localStorage.getItem("type_token") === "member" ? (
           <CDropdownItem href="/#/memberChannel">
             <CIcon icon={cilTask} className="me-2" />
             Channel
-            {/* <CBadge color="danger" className="ms-2">
+            <CBadge color="danger" className="ms-2">
               {memberchannel.length}
-            </CBadge> */}
+            </CBadge>
           </CDropdownItem>
         ) : (
           <></>
         )}
         {localStorage.getItem("type_token") === "member" ? (
           <CDropdownItem href="/#/listTagihanMember">
-            <CIcon icon={cilCommentSquare} className="me-2" />
+            <CIcon icon={cilMoney} className="me-2" />
             Bill
-            {/* <CBadge color="warning" className="ms-2">
+            <CBadge color="warning" className="ms-2">
+              {customerBill.length}
+            </CBadge>
+          </CDropdownItem>
+        ) : (
+          <></>
+        )} */}
+        {localStorage.getItem("type_token") === "member" ? (
+          <>
+            <CDropdownItem href="/#/digitalCard">
+              <CIcon icon={cilCreditCard} className="me-2" />
+              Digital Card
+              {/* <CBadge color="warning" className="ms-2">
               {customerBill.length}
             </CBadge> */}
-          </CDropdownItem>
+            </CDropdownItem>
+          </>
         ) : (
           <></>
         )}
@@ -300,11 +338,25 @@ const AppHeaderDropdown = () => {
         ) : (
           <></>
         )}
+        {localStorage.getItem("type_token") === "merchant" ? (
+          <>
+            <CDropdownItem href="/#/transaksi">
+              <CIcon icon={cilDollar} className="me-2" />
+              Transaksi
+            </CDropdownItem>
+            <CDropdownItem href="/#/listTransaksi">
+              <CIcon icon={cilList} className="me-2" />
+              List Transaksi
+            </CDropdownItem>
+          </>
+        ) : (
+          <></>
+        )}
 
-        <CDropdownItem href="#">
+        {/* <CDropdownItem href="#">
           <CIcon icon={cilSettings} className="me-2" />
           Settings
-        </CDropdownItem>
+        </CDropdownItem> */}
         {localStorage.getItem("type_token") === "user" ? (
           <CDropdownItem href="/#/payment">
             <CIcon icon={cilCreditCard} className="me-2" />
@@ -346,6 +398,13 @@ const AppHeaderDropdown = () => {
         ) : (
           <></>
         )}
+
+        <CDropdownItem onClick={logout}>
+          {/* <div style={{padding:"none", background:"none", border:"none", textAlign:"left"}}> */}
+          <CIcon icon={cilUser} className="me-2" />
+          Logout
+          {/* </div> */}
+        </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
   );

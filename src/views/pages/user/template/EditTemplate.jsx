@@ -28,9 +28,12 @@ function EditTemplate() {
             };
 
             try {
-                await axios.put(`${API_DUMMY}/user/template/${id}`, data, {
-                    headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-                });
+                await axios.put(`${API_DUMMY}/user/template/${id}`, data,{
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
                 setShow(false);
                 Swal.fire({
                     icon: "success",

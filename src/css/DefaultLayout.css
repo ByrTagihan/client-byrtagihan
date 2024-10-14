@@ -1,0 +1,12 @@
+.containerhp {
+   width: 400px;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+@media (max-width: 880px) {
+    .containerhp {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}

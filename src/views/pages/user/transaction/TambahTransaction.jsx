@@ -37,10 +37,11 @@ function TambahTransaction() {
       };
       await axios
         .post(`${API_DUMMY}/user/transaction`, data, {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
         .then(() => {
           navigate("/transaction");
           Swal.fire({
@@ -75,8 +76,11 @@ function TambahTransaction() {
 
     try {
       const response = await fetch(`${API_DUMMY}/user/member?name=${query}`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
 
       if (query.length > 0 && response.ok) {
         const res = await response.json();
@@ -166,8 +170,11 @@ function TambahTransaction() {
       const { data, status } = await axios.get(
         `${API_DUMMY}/user/organization`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
       if (status === 200) {
         setOrganization(data.data);

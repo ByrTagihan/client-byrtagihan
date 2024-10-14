@@ -1,21 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-
 import { CBadge } from "@coreui/react";
 import PropTypes from "prop-types";
+import { API_DUMMY } from "../utils/baseURL";
+import axios from "axios";
 
 export const AppSidebarNav = ({ items, userRoles }) => {
   const location = useLocation();
+  const [notifCount, setNotifCount] = useState(0);
+  useEffect(() => {
+    const fetchNotifCount = async () => {
+      try {
+        const response = await axios.get(`${API_DUMMY}/member/notif`, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
+        const { data } = response;
+        const unreadNotifications = data.data.filter((notif) => !notif.readed);
+        setNotifCount(unreadNotifications.length);
+        console.log("notif length: ", unreadNotifications.length);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
 
-  const navLink = (name, icon, badge) => {
+    fetchNotifCount();
+  }, []);
+
+  const navLink = (name, icon, badge, isInbox) => {
     return (
       <>
         {icon && icon}
         {name && name}
-        {badge && (
-          <CBadge color={badge.color} className="ms-auto">
-            {badge.text}
+        {isInbox ? (
+          <CBadge color="danger" className="ms-auto">
+            {notifCount}
           </CBadge>
+        ) : (
+          badge && (
+            <CBadge color={badge.color} className="ms-auto">
+              {badge.text}
+            </CBadge>
+          )
         )}
       </>
     );
@@ -25,10 +53,11 @@ export const AppSidebarNav = ({ items, userRoles }) => {
     const { component, name, badge, icon, roles, ...rest } = item;
     const Component = component;
 
-    // Periksa apakah role pengguna saat ini diizinkan untuk melihat menu ini
     if (roles && !roles.includes(userRoles)) {
-      return null; // Jika tidak diizinkan, menu ini tidak ditampilkan
+      return null;
     }
+
+    const isInbox = name === "Notifikasi";
 
     return (
       <Component
@@ -37,9 +66,8 @@ export const AppSidebarNav = ({ items, userRoles }) => {
             component: NavLink,
           })}
         key={index}
-        {...rest}
-      >
-        {navLink(name, icon, badge)}
+        {...rest}>
+        {navLink(name, icon, badge, isInbox)}
       </Component>
     );
   };
@@ -47,10 +75,8 @@ export const AppSidebarNav = ({ items, userRoles }) => {
   const navGroup = (item, index) => {
     const { component, name, icon, to, roles, ...rest } = item;
     const Component = component;
-
-    // Periksa apakah role pengguna saat ini diizinkan untuk melihat menu ini
     if (roles && !roles.includes(userRoles)) {
-      return null; // Jika tidak diizinkan, menu ini tidak ditampilkan
+      return null;
     }
 
     return (
@@ -59,16 +85,13 @@ export const AppSidebarNav = ({ items, userRoles }) => {
         key={index}
         toggler={navLink(name, icon)}
         visible={location.pathname.startsWith(to)}
-        {...rest}
-      >
+        {...rest}>
         {item.items?.map((item, index) =>
           item.items ? navGroup(item, index) : navItem(item, index)
         )}
       </Component>
     );
   };
-
-  //console.log(userRoles);
 
   return (
     <React.Fragment>

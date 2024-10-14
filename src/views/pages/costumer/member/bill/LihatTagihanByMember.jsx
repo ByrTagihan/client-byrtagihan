@@ -53,8 +53,11 @@ function LihatTagihanByMember() {
       await axios
         .get(
           `${API_DUMMY}/customer/member/${param.id}/bill?page=${currentPage}&limit=${limit}&filter${searchTerm}`,
-          {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+         {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           }
         )
         .then((res) => {
@@ -177,8 +180,11 @@ function LihatTagihanByMember() {
   const getAll2 = async () => {
     await axios
       .get(`${API_DUMMY}/customer/member/${param.id}`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((res) => {
         setList1(res.data.data);
         //console.log(res.data.data);
@@ -207,8 +213,11 @@ function LihatTagihanByMember() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(`${API_DUMMY}/customer/member/${param.id}/bill/` + id, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
         Swal.fire({
           icon: "success",
           title: "Dihapus!",
@@ -233,8 +242,11 @@ function LihatTagihanByMember() {
           paid_date: paid_date,
           paid_amount: paid_amount,
         },
-          {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+         {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           }
         )
         .then(() => {
@@ -268,11 +280,12 @@ function LihatTagihanByMember() {
           axios.put(
             `${API_DUMMY}/customer/member/${param.id}/bill/${id}/unpaid`,
             {},
-            {
-              headers: {
-                "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-              },
-            }
+           {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
           );
           Swal.fire({
             icon: "success",
