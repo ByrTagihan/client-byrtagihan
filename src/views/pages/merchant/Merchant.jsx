@@ -78,12 +78,15 @@ function Merchant() {
       setShow(false);
       Swal.fire({
         icon: "success",
-        title: "Payment successful!",
+        title: "Pembayaran Berhasil!",
         html: `
-          <p style="color:#fff;">Hooray! You have completed your payment.</p>
+          <p style="color:#fff;">Selamat! Pembayaran Anda telah selesai.</p>
           <p style="font-size:24px; color:#fff; font-weight: bold;">${formatRupiah(
             amount
-          )}</p>`,
+          )}</p>
+          <p style="font-wight; bold, color: white">Saldo Sekarang Rp.${formatRupiah(
+            response.data.balance
+          )}<p/>`,
         background: "#4caf50",
         showConfirmButton: false,
         timer: 5000,
@@ -171,23 +174,23 @@ function Merchant() {
                     </CCol>
                   </CRow>
                 ) : ( */}
-                  <CRow className="mb-3">
-                    <CFormLabel
-                      htmlFor="rfid_number"
-                      className="col-sm-2 col-form-label">
-                      KARTU
-                    </CFormLabel>
-                    <CCol sm={10}>
-                      <CFormInput
-                        type="password"
-                        id="rfid_number"
-                        value={rfid_number}
-                        onChange={(e) => setRfIdNumber(e.target.value)}
-                        required
-                        // disabled
-                      />
-                    </CCol>
-                  </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel
+                    htmlFor="rfid_number"
+                    className="col-sm-2 col-form-label">
+                    KARTU
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      type="password"
+                      id="rfid_number"
+                      value={rfid_number}
+                      onChange={(e) => setRfIdNumber(e.target.value)}
+                      required
+                      // disabled
+                    />
+                  </CCol>
+                </CRow>
                 {/* )} */}
                 <CRow className="mb-3">
                   <CFormLabel htmlFor="pin" className="col-sm-2 col-form-label">

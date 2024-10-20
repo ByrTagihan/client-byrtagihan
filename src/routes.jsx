@@ -3,6 +3,7 @@ import ResetPassword from "./views/pages/reset/ForgotPasswor";
 import { element } from "prop-types";
 import IndexDash from "./views/dashboard/IndexDash";
 import ListTransaksi from "./views/pages/merchant/ListTransaksi";
+import CekSaldo from "./views/pages/merchant/CekSaldo";
 
 //================================================
 //User Role
@@ -358,6 +359,7 @@ const routes = [
   // { path: "/merchant", name: "Merchant", element: merchant },
   { path: "/listTransaksi", name: "List Transaksi", element: ListTransaksi },
   { path: "/transaksi", name: "Transaksi", element: Merchant },
+  { path: "/cel-saldo", name: "Cek Saldo", element: CekSaldo },
   //================================================================
   //Panduan
   { path: "/panduan", name: "Panduan", element: Panduan },
