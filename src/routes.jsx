@@ -5,6 +5,7 @@ import ResetPassword from "./views/pages/reset/ForgotPasswor";
 import { element } from "prop-types";
 import IndexDash from "./views/dashboard/IndexDash";
 import ListTransaksi from "./views/pages/merchant/ListTransaksi";
+import CekSaldo from "./views/pages/merchant/CekSaldo";
 // import Kirimdana from "./views/pages/member/kirimdana/Kirimdana";
 // import PageTransaction from "./views/pages/user/transaction/Pagetransuction";
 // import DashboardNew from "./views/dashboard/DashboardNew";
@@ -278,7 +279,7 @@ const routes = [
     element: EditUserMember,
   },
   { path: "/UserTemplate", name: "Template", element: UserTemplate },
-{ path:"/Kirimdana", name:"Kirim dana", element: Kirimdana },
+  { path: "/Kirimdana", name: "Kirim dana", element: Kirimdana },
   //================================================================
   //Customer
   {
@@ -363,6 +364,7 @@ const routes = [
   // { path: "/merchant", name: "Merchant", element: merchant },
   { path: "/listTransaksi", name: "List Transaksi", element: ListTransaksi },
   { path: "/transaksi", name: "List Transaksi", element: Merchant },
+  { path: "/cek-saldo", name: "Cek Saldo", element: CekSaldo },
   //================================================================
   //Panduan
   { path: "/panduan", name: "Panduan", element: Panduan },

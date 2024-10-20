@@ -8,6 +8,12 @@ import {
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
+  CFormInput,
+  CModal,
+  CModalBody,
+  CModalFooter,
+  CModalHeader,
+  CModalTitle,
 } from "@coreui/react";
 import {
   cilBell,
@@ -25,7 +31,6 @@ import {
   cilDollar,
   cilMoney,
   cilList,
-  cilUserX,
   cilAccountLogout,
 } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
@@ -41,137 +46,50 @@ const AppHeaderDropdown = () => {
   const [foto, setFoto] = useState({
     picture: null,
   });
-  const [list, setList] = useState([]);
-  const [bills, setBills] = useState([]);
-  const [message, setMessage] = useState([]);
-  const [userchannel, setUserChannel] = useState([]);
-  const [memberchannel, setMemberChannel] = useState([]);
-  const [bill, setBill] = useState([]);
-  const [organization, setOrganization] = useState([]);
-  const [customerOrganization, setCustomerOrganization] = useState([]);
-  const [template, setTemplate] = useState([]);
-  const [customerMember, setCustomerMember] = useState([]);
-  const [customerBill, setCustomerBill] = useState([]);
+  const [rfid_number, setRfIdNumber] = useState("");
   const role = localStorage.getItem("type_token");
-
-  // const getAllTransaction = async () => {
-  //   await axios
-  //     .get(`${API_DUMMY}/user/transaction?limit=10000`, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     })
-  //     .then((res) => {
-  //       setBills(res.data.data);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
-
-  // const getAllMessage = async () => {
-  //   await axios
-  //     .get(`${API_DUMMY}/user/message?limit=10000`, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     })
-  //     .then((res) => {
-  //       setMessage(res.data.data);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
-
-  // const getAllPayment = async () => {
-  //   await axios
-  //     .get(`${API_DUMMY}/user/payment?limit=10000`, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     })
-  //     .then((res) => {
-  //       setList(res.data.data);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
-
-  // const getAllUserChannel = async () => {
-  //   await axios
-  //     .get(`${API_DUMMY}/user/channel?limit=10000`, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     })
-  //     .then((res) => {
-  //       setUserChannel(res.data.data);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
-
-  // // const getAllMemberChannel = async () => {
-  // //   await axios
-  // //     .get(`${API_DUMMY}/member/channel?limit=10000`, {
-  // //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  // //     })
-  // //     .then((res) => {
-  // //       setMemberChannel(res.data.data);
-  // //     })
-  // //     .catch((error) => {
-  // //       alert("Terjadi Kesalahan" + error);
-  // //     });
-  // // };
-
-  // // const getAllBill = async () => {
-  // //   await axios
-  // //     .get(`${API_DUMMY}/member/bill`, {
-  // //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  // //     })
-  // //     .then((res) => {
-  // //       setBill(res.data.data);
-  // //     })
-  // //     .catch((error) => {
-  // //       alert("Terjadi Kesalahan" + error);
-  // //     });
-  // // };
-
-  // const getAllOrganization = async () => {
-  //   await axios
-  //     .get(`${API_DUMMY}/user/organization?limit=10000`, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     })
-  //     .then((res) => {
-  //       setOrganization(res.data.data);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
-
-  // const getAllTemplate = async () => {
-  //   await axios
-  //     .get(`${API_DUMMY}/user/template?limit=10000`, {
-  //       headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-  //     })
-  //     .then((res) => {
-  //       setTemplate(res.data.data);
-  //     })
-  //     .catch((error) => {
-  //       alert("Terjadi Kesalahan" + error);
-  //     });
-  // };
-  // useEffect(() => {
-  //   getAllPayment();
-  //   getAllTransaction();
-  //   getAllMessage();
-  //   getAllUserChannel();
-  //   // getAllMemberChannel();
-  //   // getAllBill();
-  //   getAllOrganization();
-  //   getAllTemplate();
-  //   // getCustomerOrganization();
-  //   // getCustomerMember();
-  //   // getCustomerBill();
-  // }, []);
-
+  const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    if (rfid_number) {
+      try {
+        const response = await axios.get(
+          `${API_DUMMY}/merchant/member/${rfid_number}/balance`,
+          {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
+        );
+        const { name, balance } = response.data;
+
+        // Redirect to the balance page with member info
+        navigate("/cek-saldo", { state: { name, balance } });
+
+        Swal.fire({
+          icon: "success",
+          title: "RFID Valid!",
+          text: "Anda akan diarahkan ke halaman cek saldo.",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "RFID Tidak Valid",
+          text: "Nomor RFID tidak ditemukan atau salah, coba lagi.",
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Input Kosong",
+        text: "Harap masukkan nomor RFID.",
+      });
+    }
+  };
 
   const logout = () => {
     Swal.fire({
@@ -220,18 +138,13 @@ const AppHeaderDropdown = () => {
         <CDropdownHeader className="bg-light fw-semibold py-2">
           Account
         </CDropdownHeader>
-        {/* {localStorage.getItem("type_token") === "user" ? (
-          <CDropdownItem href="/#/userOrganization">
-            <CIcon icon={cilGraph} className="me-2" />
-            Organization
-          </CDropdownItem>
-        ) : (
-          <></>
-        )}
         {localStorage.getItem("type_token") === "customer" ? (
           <CDropdownItem href="/#/customerOrganization">
             <CIcon icon={cilGraph} className="me-2" />
             Organization
+            {/* <CBadge color="info" className="ms-2">
+              {customerOrganization.length}
+            </CBadge> */}
           </CDropdownItem>
         ) : (
           <></>
@@ -240,48 +153,25 @@ const AppHeaderDropdown = () => {
           <CDropdownItem href="/#/customerMember">
             <CIcon icon={cibSuperuser} className="me-2" />
             Member
+            {/* <CBadge color="info" className="ms-2">
+              {customerMember.length}
+            </CBadge> */}
           </CDropdownItem>
         ) : (
           <></>
-        )} */}
-        {/* {localStorage.getItem("type_token") === "customer" ? (
+        )}
+        {localStorage.getItem("type_token") === "customer" ? (
           <CDropdownItem href="/#/customerBill">
             <CIcon icon={cilDollar} className="me-2" />
             Bill
-          </CDropdownItem>
-        ) : (
-          <></>
-        )} */}
-        {/* {localStorage.getItem("type_token") === "user" ? (
-          <CDropdownItem href="/#/mesage">
-            <CIcon icon={cilEnvelopeOpen} className="me-2" />
-            Messages
+            {/* <CBadge color="info" className="ms-2">
+              {customerBill.length}
+            </CBadge> */}
           </CDropdownItem>
         ) : (
           <></>
         )}
-        {localStorage.getItem("type_token") === "user" ? (
-          <CDropdownItem href="/#/userChannel">
-            <CIcon icon={cilTask} className="me-2" />
-            Channel
-          </CDropdownItem>
-        ) : (
-          <></>
-        )}
-        {localStorage.getItem("type_token") === "user" ? (
-          <>
-            <CDropdownItem href="/#/UserTemplate">
-              <CIcon icon={cilTask} className="me-2" />
-              Template
-            </CDropdownItem>
-            <CDropdownItem href="/#/customerMember">
-              <CIcon icon={cilUser} className="me-2" />
-              Member
-            </CDropdownItem>
-          </>
-        ) : (
-          <></>
-        )} */}
+
         {/* {localStorage.getItem("type_token") === "member" ? (
           <CDropdownItem href="/#/memberChannel">
             <CIcon icon={cilTask} className="me-2" />
@@ -344,6 +234,10 @@ const AppHeaderDropdown = () => {
               <CIcon icon={cilList} className="me-2" />
               List Transaksi
             </CDropdownItem>
+            <CDropdownItem onClick={() => setVisible(!visible)}>
+              <CIcon icon={cilCreditCard} className="me-2" />
+              Cek Saldo
+            </CDropdownItem>
           </>
         ) : (
           <></>
@@ -353,28 +247,7 @@ const AppHeaderDropdown = () => {
           <CIcon icon={cilSettings} className="me-2" />
           Settings
         </CDropdownItem> */}
-        {/* {localStorage.getItem("type_token") === "user" ? (
-          <CDropdownItem href="/#/payment">
-            <CIcon icon={cilCreditCard} className="me-2" />
-            Payments
-            <CBadge color="secondary" className="ms-2">
-              {list.length}
-            </CBadge>
-          </CDropdownItem>
-        ) : (
-          <></>
-        )} */}
-        {/* {localStorage.getItem("type_token") === "user" ? (
-          <CDropdownItem href="/#/transaction">
-            <CIcon icon={cilFile} className="me-2" />
-            Transaction
-            <CBadge color="primary" className="ms-2">
-              {bills.length}
-            </CBadge>
-          </CDropdownItem>
-        ) : (
-          <></>
-        )} */}
+
         <CDropdownDivider />
 
         {localStorage.getItem("type_token") === "customer" ? (
@@ -402,6 +275,35 @@ const AppHeaderDropdown = () => {
           {/* </div> */}
         </CDropdownItem>
       </CDropdownMenu>
+      <CModal
+        visible={visible}
+        onClose={() => setVisible(false)}
+        aria-labelledby="LiveDemoExampleLabel">
+        <form onSubmit={handleSubmit}>
+          <CModalHeader>
+            <CModalTitle id="LiveDemoExampleLabel">Cek Saldo</CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            <CFormInput
+              type="password"
+              id="exampleFormControlInput1"
+              label="Rfid Number"
+              placeholder="*****"
+              value={rfid_number}
+              onChange={(e) => setRfIdNumber(e.target.value)}
+              aria-describedby="exampleFormControlInputHelpInline"
+            />
+          </CModalBody>
+          <CModalFooter>
+            <CButton color="secondary" onClick={() => setVisible(false)}>
+              Close
+            </CButton>
+            <CButton color="primary" type="Submit">
+              Submit
+            </CButton>
+          </CModalFooter>
+        </form>
+      </CModal>
     </CDropdown>
   );
 };
