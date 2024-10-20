@@ -1,0 +1,53 @@
+  /* Background container */
+  .balance-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(45deg, #5cb85c, #4caf50);
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+
+  /* Card style for balance information */
+  .balance-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 300px;
+    text-align: center;
+    color: #333;
+  }
+
+  .balance-card h2 {
+    font-size: 1.8rem;
+    color: #4caf50;
+    margin-bottom: 20px;
+  }
+
+  .balance-info {
+    text-align: left;
+  }
+
+  .balance-info p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+
+  .balance-info p span {
+    font-weight: bold;
+    color: #4caf50;
+  }
+
+  /* Responsive layout for smaller screens */
+  @media (max-width: 600px) {
+    .balance-card {
+      width: 90%;
+      padding: 20px;
+    }
+
+    .balance-info p {
+      font-size: 1rem;
+    }
+  }
