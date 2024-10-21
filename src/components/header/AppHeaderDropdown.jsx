@@ -48,10 +48,15 @@ const AppHeaderDropdown = () => {
   });
   const [rfid_number, setRfIdNumber] = useState("");
   const role = localStorage.getItem("type_token");
+  const [name, setName] = useState("");
+  const [balance, setBalance] = useState("");
+  const [saldo, setSaldo] = useState({});
   const [visible, setVisible] = useState(false);
+  const [visibleSaldo, setVisibleSaldo] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (rfid_number) {
       try {
         const response = await axios.get(
@@ -63,24 +68,39 @@ const AppHeaderDropdown = () => {
             },
           }
         );
-        const { name, balance } = response.data;
+        console.log("data: ", response.data.dat);
+        setSaldo(response.data.data);
+        // setBalance(response.data.balance);
+        // setName(response.data.name);
+        // setSaldo(
+        //   response.data.map((dt) => {
+        //     dt.name;
+        //     dt.balance;
+        //   })
+        // );
+        // console.log("saldo: ",
+        //   response.data.map((dt) => {
+        //     dt.name;
+        //     dt.balance;
+        //   })
+        // );
 
-        // Redirect to the balance page with member info
-        navigate("/cek-saldo", { state: { name, balance } });
-
-        Swal.fire({
-          icon: "success",
-          title: "RFID Valid!",
-          text: "Anda akan diarahkan ke halaman cek saldo.",
-          timer: 2000,
-          showConfirmButton: false,
-        });
+        setVisible(false);
+        // Swal.fire({
+        //   icon: "success",
+        //   title: "RFID Valid!",
+        //   text: "Anda akan diarahkan ke halaman cek saldo.",
+        //   timer: 2000,
+        //   showConfirmButton: false,
+        // });
       } catch (error) {
         Swal.fire({
           icon: "error",
           title: "RFID Tidak Valid",
           text: "Nomor RFID tidak ditemukan atau salah, coba lagi.",
         });
+        console.log("error: ", error);
+
       }
     } else {
       Swal.fire({
@@ -90,6 +110,24 @@ const AppHeaderDropdown = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (rfid_number) {
+    const response = axios.get(
+      `${API_DUMMY}/merchant/member/${rfid_number}/balance`,
+      {
+        headers: {
+          "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+          AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+        },
+      }
+    );
+    console.log("data: ", response.data);
+    setSaldo(response.data);
+    console.log("name: ", saldo.name);
+
+    }
+  }, []);
 
   const logout = () => {
     Swal.fire({
@@ -116,6 +154,13 @@ const AppHeaderDropdown = () => {
         localStorage.clear();
       }
     });
+  };
+
+  const formatRupiah = (amount) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(amount);
   };
   return (
     <CDropdown variant="nav-item" alignment={role === "member" ? "end" : ""}>
@@ -298,11 +343,55 @@ const AppHeaderDropdown = () => {
             <CButton color="secondary" onClick={() => setVisible(false)}>
               Close
             </CButton>
-            <CButton color="primary" type="Submit">
+            <CButton
+              color="primary"
+              type="Submit"
+              onClick={() => setVisibleSaldo(true)}>
               Submit
             </CButton>
           </CModalFooter>
         </form>
+      </CModal>
+      <CModal
+        visible={visibleSaldo}
+        onClose={() => setVisibleSaldo(false)}
+        aria-labelledby="LiveDemoExampleLabel">
+        {/* <form onSubmit={handleSubmit}> */}
+        <CModalHeader>
+          <CModalTitle id="LiveDemoExampleLabel">Info Saldo</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          {/* {saldo.map((dt, index) => ( */}
+          <>
+            <CFormInput
+              type="text"
+              id="exampleFormControlInput1"
+              label="Nama"
+              placeholder="Nama Member"
+              value={saldo.name}
+              aria-describedby="exampleFormControlInputHelpInline"
+              readOnly
+            />
+            <br />
+            <CFormInput
+              type="text"
+              id="exampleFormControlInput1"
+              label="Sisa Saldo"
+              placeholder="Sisa Saldo"
+              value={formatRupiah(saldo.balance)}
+              aria-describedby="exampleFormControlInputHelpInline"
+              readOnly
+            />
+          </>
+          {/* ))} */}
+          <br />
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="secondary" onClick={() => setVisibleSaldo(false)}>
+            Close
+          </CButton>
+        </CModalFooter>
+        {/* </form> */}
       </CModal>
     </CDropdown>
   );
