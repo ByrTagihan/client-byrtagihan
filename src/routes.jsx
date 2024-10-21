@@ -16,6 +16,12 @@ const UserProfile = React.lazy(() => import("./views/pages/user/UserProfile"));
 const DigitalCard = React.lazy(() =>
   import("./views/pages/user/newfeature/DigitalCard")
 );
+const PresensiHomePulang = React.lazy(() =>
+  import("./views/pages/user/newfeature/PresensiHome")
+);
+const PresensiLeave = React.lazy(() =>
+  import("./views/pages/user/newfeature/PresensiLeave")
+);
 
 //Organization Section
 const Organization = React.lazy(() =>
@@ -363,6 +369,8 @@ const routes = [
   //================================================================
   //Panduan
   { path: "/panduan", name: "Panduan", element: Panduan },
+  { path: "/presensiHome", name: "presensiHome", element: PresensiHomePulang },
+  { path: "/presensiLeave", name: "presensiLeave", element: PresensiLeave },
 ];
 
 export default routes;
