@@ -1,0 +1,358 @@
+.text-slm {
+    color: #384B70;
+    font-weight: bold;
+}
+
+.card-bg {
+    /* background-image: url("../../assets/images/bg-waves.svg"); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: none;
+}
+
+/* .card-selamat-datang {
+    display: flex;
+    gap: 0;
+} */
+
+.card-saldo {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    z-index: 20;
+    /* top: 0; */
+    margin-bottom: 20px;
+    justify-content: space-between;
+    /* position: absolute; */
+    /* background: #ffffff; */
+    /* width: auto; */
+    margin-top: 30px;
+    border-radius: 15px;
+    bottom: -70px;
+    align-items: center;
+    background: white;
+    /* left: 140px;
+    right: 140px; */
+    /* margin-left: 15%;
+    margin-right: 15%; */
+    border: none;
+    /* margin-bottom: 20px; */
+    /* justify-items: center; */
+    /* background: #384B70; */
+    /* background-image: url("../../assets/images/mavesblue.jpg"); */
+    /* background-size: cover;
+    background-repeat: no-repeat; */
+    /* background: white; */
+    color: white;
+    /* top: 10px; */
+    /* margin-top: ; */
+}
+
+.container-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    min-height: 30vh;
+    /* agar card berada di tengah vertikal */
+    width: 100%;
+    background-color: #D2E0FB;
+    /* latar belakang sesuai kebutuhan */
+}
+
+
+
+.card-selamat-datang {
+    display: flex;
+    justify-content: left;
+    gap: 15px;
+    align-items: center;
+    /* width: 40%;
+    background: #3FA2F6;
+    border-radius: 100%;
+    font-size: 50px;
+    color: white;
+    width: fit-content; */
+}
+
+.card-selamat-datang p {
+    font-size: 10px;
+    color: gray;
+    font-weight: 500;
+}
+
+.card-selamat-datang i {
+    font-size: 20px;
+}
+
+.card-selamat-datang .icon1 {
+    background: #0698d6;
+    border-radius: 5px;
+    padding: 5px;
+
+}
+
+.card-selamat-datang .icon2 {
+    background: #0698d6;
+    border-radius: 100%;
+    /* padding: 10px; */
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+
+.card-selamat-datang button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 30px;
+    padding: 0;
+}
+
+.card-info-saldo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.card-info-saldo i {
+    color: #0698d6;
+    font-size: 30px;
+}
+
+.card-info-saldo button {
+    background: blue;
+    color: white;
+}
+
+.card-menu {
+    margin-top: 70px;
+    margin-bottom: 30px;
+}
+
+.menu-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.card-top-up {
+    background: white;
+    height: fit-content;
+    border-radius: 10px;
+}
+
+.card-top-up p {
+    font-size: 10px;
+    margin-bottom: 0px;
+}
+
+.card-top-up i {
+    /* bg */
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.card-top-up .top-up {
+    background-color: #3FA2F6;
+    padding: 10px;
+    border-radius: 100%;
+    color: white;
+}
+
+.card-top-up img {
+    width: 30px;
+}
+
+.card-top-up .tagihan {
+    background-color: red;
+    padding: 10px;
+    border-radius: 100%;
+    color: white;
+}
+
+.card-top-up .presensi {
+    background-color: #55AD9B;
+    padding: 10px;
+    /* height: 10px; */
+    border-radius: 100%;
+    color: white;
+}
+
+.card-top-up .coin {
+    background-color: #EEC759;
+    padding: 10px;
+    /* height: 10px; */
+    border-radius: 100%;
+    color: white;
+}
+
+.card-title-byr {
+    display: none;
+}
+
+.title-text {
+    color: blue;
+}
+
+.itemcarousel {
+    margin-top: -25px;
+}
+
+/* .carousel-item {
+    position: relative;
+    top: -20px;
+  } */
+
+.carousel-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+/* .bg-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(255, 0, 0, 0.7), rgba(0, 255, 0, 0.7));
+  } */
+
+.bg {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ebedef81);
+}
+
+
+.d-block {
+    z-index: 0;
+    /* Pastikan gambar berada di belakang gradien */
+}
+
+
+@media (max-width: 880px) {
+    .card-top-up span {
+        font-size: 8px;
+        font-weight: bold;
+    }
+    .card-saldo {
+        margin-bottom: 30px;
+    }
+
+    .card-top-up {
+        padding: 5px;
+    }
+
+    .card-top-up i {
+        font-size: 15px;
+    }
+
+    .card-top-up img {
+        width: 40px;
+    }
+
+    .card-selamat-datang {
+        gap: 10px;
+        justify-content: center;
+        /* width: 100%; */
+        /* background: blue;
+        color: white; */
+        /* display: none; */
+        /* display: block; */
+    }
+
+    .card-info-saldo {
+        width: 100%;
+        /* display: block; */
+    }
+
+    /* .card-info-saldo p {
+        text-align: lef;
+    } */
+
+    /* .card-info-saldo button {
+        float: inline-start;
+        align-items: center ;
+        justify-items: center;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    } */
+    /* .card-selamat-datang{
+        display: none;
+    } */
+    .card-title-byr {
+        display: block;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .img-fluid {
+        /* display: none; */
+    }
+
+    .title-text {
+        color: black;
+    }
+
+    .card-bg {
+        /* background: white; */
+        /* color: white; */
+        /* background-image: url("https://sb-admin-pro-angular.startbootstrap.com/assets/img/backgrounds/bg-waves.svg"); */
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .card-selamat-datang button {
+        font-size: 30px;
+        padding: 0px;
+    }
+
+    .card-selamat-datang p {
+        font-size: 10px;
+        /* font-weight: bold; */
+        width: 100%;
+    }
+
+
+    .card-selamat-datang .icon2 {
+        transform: rotate(90deg);
+        background: #0698d6;
+        color: white;
+        font-size: 20px;
+        padding-left: 14px;
+        padding-right: 14px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        /* height: 20px; */
+        /* padding: 5px 5px 15px 15px; */
+        border-radius: 100%;
+        text-align: center;
+    }
+
+    .card-selamat-datang .icon1 {
+        background: #0698d6;
+        color: white;
+        font-size: 20px;
+        border-radius: 10px;
+        padding: 7px;
+        /* height: fit-content;
+    width: fit-content; */
+        text-align: center;
+    }
+
+    .carousel-image {
+        /* width: 500px; */
+        /* object-fit: none; */
+        height: 200px;
+    }
+}

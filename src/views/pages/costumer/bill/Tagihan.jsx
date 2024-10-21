@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { deleteData, getAllData } from "../../../../utils/controller";
 import { Link, useNavigate } from "react-router-dom";
-import { CFormInput, CModal } from "@coreui/react";
+import { CContainer, CFormInput, CInputGroup, CModal } from "@coreui/react";
 import axios from "axios";
 import { API_DUMMY } from "../../../../utils/baseURL";
 import Swal from "sweetalert2";
-import { cilPencil, cilPlus, cilTrash } from "@coreui/icons";
+import { cilCloud, cilPencil, cilPlus, cilTrash } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import "../../../css/ListDataSiswa.css";
+// import { Button } from "@coreui/coreui";
+import { Button, Modal } from "react-bootstrap";
 
 function Tagihan() {
   const [bills, setBills] = useState([]);
@@ -18,11 +20,13 @@ function Tagihan() {
   const [sortBy, setSortBy] = useState("id");
   const [sortDirection, setSortDirection] = useState("asc");
   const [show, setShow] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
 
   const [visible, setVisible] = useState(false);
   const [paidId, setPaidId] = useState(0);
   const [paid_date, setPaid_date] = useState("");
   const [paidAmount, setPaidAmount] = useState(0);
+  const [excel, setExcel] = useState("");
 
   useEffect(() => {
     fetchBills();
@@ -33,14 +37,15 @@ function Tagihan() {
       const response = await fetch(
         `${API_DUMMY}/customer/bill?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
         {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
       const data = await response.json();
       setBills(data.data);
-      //console.log(data.data);
+      console.log("data: ", data.data);
       setTotalPages(data.pagination.total_page);
     } catch (error) {
       console.error("Error fetching bills:", error);
@@ -67,13 +72,13 @@ function Tagihan() {
     setCurrentPage(page);
   };
 
-  const sortedBills = bills.sort((a, b) => {
-    if (sortDirection === "asc") {
-      return a[sortBy] - b[sortBy];
-    } else {
-      return b[sortBy] - a[sortBy];
-    }
-  });
+  // const sortedBills = bills.sort((a, b) => {
+  //   if (sortDirection === "asc") {
+  //     return a[sortBy] - b[sortBy];
+  //   } else {
+  //     return b[sortBy] - a[sortBy];
+  //   }
+  // });
 
   // const bayarTagihan = async (e) => {
   //   e.preventDefault();
@@ -118,8 +123,11 @@ function Tagihan() {
         data,
         // //console.log(picture),
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
       setShow(false);
       Swal.fire({
@@ -152,11 +160,12 @@ function Tagihan() {
           axios.put(
             `${API_DUMMY}/customer/bill/${paidIds}/unpaid`,
             {},
-            {
-              headers: {
-                "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-              },
-            }
+           {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
           );
           Swal.fire({
             icon: "success",
@@ -210,8 +219,7 @@ function Tagihan() {
         <li
           key={page}
           onClick={() => handlePageChange(page)}
-          className={"page-item" + (currentPage === page ? " active" : "")}
-        >
+          className={"page-item" + (currentPage === page ? " active" : "")}>
           <a className="page-link">{page}</a>
         </li>
       )
@@ -230,8 +238,11 @@ function Tagihan() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(`${API_DUMMY}/customer/bill/` + id, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
         Swal.fire({
           icon: "success",
           title: "Berhasil Menghapus!",
@@ -243,18 +254,42 @@ function Tagihan() {
       }, 1500);
     });
   };
+
+  const importExcel = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("file", excel);
+
+    await axios
+      .post(`${API_DUMMY}/customer/bill/import`, formData, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
+      .then(() => {
+        Swal.fire("Sukses!", " berhasil ditambahkan.", "success");
+        fetchBills();
+        // window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire("Error", "Terjadi kesalahan saat upload file.", "error");
+      });
+  };
   return (
-    <div>
+    <CContainer xl>
       {localStorage.getItem("type_token") === "customer" ? (
         <>
-          <div className="row">
-            <div className="col" xs={12}>
+          <div className="">
+            <div className="col" xs={10}>
               <div className="col inputSearch1">
                 <select
                   className="form-select"
                   value={limit}
-                  onChange={handleLimit}
-                >
+                  onChange={handleLimit}>
                   <option value="1">Show 1 Entries</option>
                   <option value="10">Show 10 Entries</option>
                   <option value="100">Show 100 Entries</option>
@@ -276,6 +311,16 @@ function Tagihan() {
                       <h4>List Tagihan </h4>
                     </div>
                     <div className="col">
+                      <button
+                        onClick={() => setShowUpload(true)}
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        className="btn btn-info float-end text-white">
+                        <CIcon icon={cilCloud} /> Upload
+                      </button>
+                    </div>
+                    <div className="col-2">
                       <Link to="/addtagihan">
                         <button className="btn btn-primary float-end">
                           <CIcon icon={cilPlus} /> Tambah
@@ -291,8 +336,7 @@ function Tagihan() {
                         className="form-select"
                         value={limit}
                         onChange={handleLimit}
-                        style={{ width: "40%" }}
-                      >
+                        style={{ width: "40%" }}>
                         <option value="1">Show 1 Entries</option>
                         <option value="10">Show 10 Entries</option>
                         <option value="100">Show 100 Entries</option>
@@ -319,16 +363,14 @@ function Tagihan() {
                         </th>
                         <th
                           scope="col"
-                          onClick={() => handleSort("member_name")}
-                        >
+                          onClick={() => handleSort("member_name")}>
                           Nama Murid{" "}
                           {sortBy === "member_name" &&
                             (sortDirection === "asc" ? "▲" : "▼")}
                         </th>
                         <th
                           scope="col"
-                          onClick={() => handleSort("description")}
-                        >
+                          onClick={() => handleSort("description")}>
                           Description{" "}
                           {sortBy === "description" &&
                             (sortDirection === "asc" ? "▲" : "▼")}
@@ -355,8 +397,7 @@ function Tagihan() {
                         </th>
                         <th
                           scope="col"
-                          onClick={() => handleSort("paid_amount")}
-                        >
+                          onClick={() => handleSort("paid_amount")}>
                           Nominal Bayar{" "}
                           {sortBy === "paid_amount" &&
                             (sortDirection === "asc" ? "▲" : "▼")}
@@ -367,7 +408,7 @@ function Tagihan() {
                       </tr>
                     </thead>
                     <tbody className="text-center">
-                      {sortedBills.map((data) => (
+                      {bills.map((data) => (
                         <tr key={data.id}>
                           <th scope="row">{data.id}</th>
                           <td data-cell="Nama Murid">{data.member_name}</td>
@@ -387,12 +428,10 @@ function Tagihan() {
                             <button
                               className="edit1"
                               type="button"
-                              style={{ background: "blue" }}
-                            >
+                              style={{ background: "blue" }}>
                               <Link
                                 to={`/edittagihan/${data.id}`}
-                                style={{ color: "white" }}
-                              >
+                                style={{ color: "white" }}>
                                 {" "}
                                 <CIcon icon={cilPencil} />
                               </Link>{" "}
@@ -400,8 +439,7 @@ function Tagihan() {
                             <button
                               className="edit1"
                               onClick={() => deleteData(data.id)}
-                              style={{ background: "red", color: "white" }}
-                            >
+                              style={{ background: "red", color: "white" }}>
                               <CIcon icon={cilTrash} />
                             </button>
                             {data.paid_id != 0 ? (
@@ -414,8 +452,7 @@ function Tagihan() {
                                 style={{
                                   background: "#B22222",
                                   color: "white",
-                                }}
-                              >
+                                }}>
                                 Batal Bayar
                               </button>
                             ) : (
@@ -427,8 +464,7 @@ function Tagihan() {
                                   setPaidAmount(data.amount);
                                 }}
                                 className="edit1"
-                                style={{ background: "green" }}
-                              >
+                                style={{ background: "green" }}>
                                 Bayar
                               </button>
                             )}
@@ -445,12 +481,10 @@ function Tagihan() {
                     className={
                       "page-item " + (currentPage === 1 ? "disabled" : "")
                     }
-                    disabled={currentPage === 1}
-                  >
+                    disabled={currentPage === 1}>
                     <a
                       className="page-link"
-                      onClick={() => handlePageChange(currentPage - 1)}
-                    >
+                      onClick={() => handlePageChange(currentPage - 1)}>
                       Previous
                     </a>
                   </li>
@@ -460,23 +494,67 @@ function Tagihan() {
                       "page-item " +
                       (currentPage === totalPages ? "disabled" : "")
                     }
-                    disabled={currentPage === totalPages}
-                  >
+                    disabled={currentPage === totalPages}>
                     <a
                       className="page-link"
-                      onClick={() => handlePageChange(currentPage + 1)}
-                    >
+                      onClick={() => handlePageChange(currentPage + 1)}>
                       Next
                     </a>
                   </li>
                 </ul>
               </div>
+              {/* modal import data  */}
+
+              {/* <Modal show={showUpload} onHide={!showUpload}>
+                <form onSubmit={importExcel}>
+                  <Modal.Header style={{ background: "#526D82" }}>
+                    <Modal.Title style={{ color: "white" }}>
+                      Modal Upload
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body style={{ color: "black" }}>
+                    <label
+                      style={{
+                        fontWeight: "bold",
+                        marginLeft: "4px",
+                        marginBottom: "20px",
+                      }}>
+                      File Xlsx :
+                    </label>
+                    <CInputGroup className="mb-3">
+                      <CFormInput
+                        required
+                        autoComplete="off"
+                        type="file"
+                        accept=".xlsx"
+                        onChange={(e) => setExcel(e.target.files[0])}
+                      />
+                    </CInputGroup>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button
+                      variant="secondary"
+                      onClick={() => setShowUpload(false)}>
+                      Close
+                    </Button>
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      onClick={() => {
+                        setShowUpload(false);
+                        importExcel;
+                      }}>
+                      Save Changes
+                    </Button>
+                  </Modal.Footer>
+                </form>
+              </Modal> */}
+
               <CModal visible={visible} onClose={() => setVisible(false)}>
                 <form onSubmit={bayarTagihan}>
                   <div
                     className="modal-header"
-                    onClose={() => setVisible(false)}
-                  >
+                    onClose={() => setVisible(false)}>
                     <h5 className="modal-title">Bayar Tagihan</h5>
                   </div>
                   <div className="modal-body">
@@ -506,8 +584,49 @@ function Tagihan() {
                     <button
                       type="button"
                       className="btn btn-secondary"
-                      onClick={() => setVisible(false)}
-                    >
+                      onClick={() => setVisible(false)}>
+                      Batal
+                    </button>
+                    <button className="btn btn-primary" type="submit">
+                      Bayar
+                    </button>
+                  </div>
+                </form>
+              </CModal>
+
+              <CModal visible={showUpload} onClose={() => setShowUpload(false)}>
+                <form onSubmit={importExcel}>
+                  <div
+                    className="modal-header"
+                    onClose={() => setShowUpload(false)}>
+                    <h5 className="modal-title">Import File</h5>
+                  </div>
+                  <div className="modal-body">
+                    <div className="mb-3">
+                      <label
+                        style={{
+                          fontWeight: "bold",
+                          marginLeft: "4px",
+                          marginBottom: "20px",
+                        }}>
+                        File Xlsx :
+                      </label>
+                      <CInputGroup className="mb-3">
+                        <CFormInput
+                          required
+                          autoComplete="off"
+                          type="file"
+                          accept=".xlsx"
+                          onChange={(e) => setExcel(e.target.files[0])}
+                        />
+                      </CInputGroup>
+                    </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => setShowUpload(false)}>
                       Batal
                     </button>
                     <button className="btn btn-primary" type="submit">
@@ -524,7 +643,7 @@ function Tagihan() {
           <p>Page Tidak Tersedia</p>
         </>
       )}
-    </div>
+    </CContainer>
   );
 }
 

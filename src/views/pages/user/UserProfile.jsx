@@ -25,7 +25,7 @@ function UserProfile() {
   const [domain, setAddress] = useState("");
   const [unique_id, setUnique_id] = useState("");
   const [picture, setPicture] = useState(null);
-  // const [foto, setFoto] = useState("");
+  const [foto, setFoto] = useState("");
   const navigate = useNavigate();
   const [profile, setProfile] = useState({
     id: "",
@@ -39,9 +39,9 @@ function UserProfile() {
 
 
   // function add picture
-  // const add = async (e) => {
-  //   e.preventDefault();
-  //   e.persist();
+  const add = async (e) => {
+    e.preventDefault();
+    e.persist();
 
   if (foto) {
     const image = new Image();
@@ -56,8 +56,11 @@ function UserProfile() {
         data.append("file", foto);
 
         axios
-          .post(`${API_DUMMY}/files`, data, {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+          .post(`${API_DUMMY}/files`, data,{
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           })
           .then((response) => {
             const imageUrl = response.data.data;
@@ -90,6 +93,8 @@ function UserProfile() {
     };
   };
 
+}
+
   // function update profile
   const Put = async (downloadUrl) => {
 
@@ -105,8 +110,11 @@ function UserProfile() {
         data,
         // //console.log(picture),
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
       setShow(false);
       Swal.fire({
@@ -157,8 +165,11 @@ function UserProfile() {
   useEffect(() => {
     axios
       .get(`${API_DUMMY}/user/profile`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((response) => {
         const profil = response.data.data;
         setPicture(profile.picture);

@@ -23,8 +23,9 @@ function TambahTemplate() {
             await axios
                 .post(`${API_DUMMY}/user/template`, data, {
                     headers: {
-                        "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-                    },
+                        "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+                        "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+                      },
                 })
                 .then(() => {
                     navigate("/UserTemplate");

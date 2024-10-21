@@ -52,8 +52,11 @@ function CustomerOrganization() {
     if (localStorage.getItem("type_token") === "customer") {
       await axios
         .get(`${API_DUMMY}/customer/organization`, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
         .then((res) => {
           const organization = res.data.data;
           // //console.log(res.data.data);
@@ -112,8 +115,11 @@ function CustomerOrganization() {
 
     try {
       await axios.put(`${API_DUMMY}/customer/organization`, data, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
       setShow(false);
       Swal.fire({
         icon: "success",

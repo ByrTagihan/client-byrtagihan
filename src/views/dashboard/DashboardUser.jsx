@@ -46,17 +46,6 @@ function DashboardUser() {
   const [total, setTotal] = useState([]);
   const [bill, setBill] = useState([]);
 
-  // start useState Payment
-  const [currentPagePayment, setCurrentPagePayment] = useState(1);
-  const [totalPagesPayment, setTotalPagesPayment] = useState(1);
-  const [sortByPayment, setSortByPayment] = useState("id");
-  const [limitPayment, setLimitPayment] = useState(10);
-  const [sortedPayment, setSortedPayment] = useState([]);
-  const [sortConfigPayment, setSortConfigPayment] = useState({
-    key: null,
-    direction: "ascending",
-  });
-  const [searchTermPayment, setSearchTermPayment] = useState("");
   // useState end Payment
 
   // start useState Payment
@@ -105,8 +94,11 @@ function DashboardUser() {
       .get(
         `${API_DUMMY}/user/transaction?page=${currentPageTransaction}&limit=${limitTransaction}`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       )
       .then((res) => {
         setTotalPagesTransaction(res.data.pagination.total_page);
@@ -118,124 +110,21 @@ function DashboardUser() {
         alert("Terjadi Kesalahan" + error);
       });
   };
-  const getAllPayment = async () => {
-    await axios
-      .get(
-        `${API_DUMMY}/user/payment?page=${currentPagePayment}&limit=${limitPayment}`,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      )
-      .then((res) => {
-        setTotalPagesPayment(res.data.pagination.total_page);
-        // setPages(res.data.data.total_page);
-        setPayment(res.data.data);
-        // //console.log(res.data.data);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-  };
-
-  const handleSearchPayment = (event) => {
-    setSearchTermPayment(event.target.value);
-  };
-
-  const handleSortPayment = (key) => {
-    let direction = "ascending";
-    if (
-      sortConfigPayment &&
-      sortConfigPayment.key === key &&
-      sortConfigPayment.direction === "ascending"
-    ) {
-      direction = "descending";
-    }
-    setSortConfigPayment({ key, direction });
-  };
-
-  useEffect(() => {
-    let sortedData = [...payment];
-    if (sortConfigPayment !== null) {
-      sortedData.sort((a, b) => {
-        if (a[sortConfigPayment.key] < b[sortConfigPayment.key]) {
-          return sortConfigPayment.direction === "ascending" ? -1 : 1;
-        }
-        if (a[sortConfigPayment.key] > b[sortConfigPayment.key]) {
-          return sortConfigPayment.direction === "ascending" ? 1 : -1;
-        }
-        return 0;
-      });
-    }
-    if (searchTermPayment !== "") {
-      sortedData = sortedData.filter((data) => {
-        return data.description
-          .toLowerCase()
-          .includes(searchTermPayment.toLowerCase());
-      });
-    }
-    setSortedPayment(sortedData);
-  }, [sortConfigPayment, searchTermPayment, payment]);
-
-  const handlePageChangePayment = (page) => {
-    setCurrentPagePayment(page);
-  };
-
-  const handleChangeLimitPayment = (event) => {
-    setLimitPayment(event.target.value);
-  };
-
-  useEffect(() => {
-    getAllPayment();
-  }, [currentPagePayment, setSearchTermPayment, sortByPayment, limitPayment]);
-
   useEffect(() => {
     getAllTransaction1();
   }, [currentPageTransaction, searchTermTransaction, sortByTransaction, limitTransaction]);
 
-  const renderPageNumbersPayment = () => {
-    const pageNumbers = Array.from({ length: totalPagesPayment }, (_, i) => i + 1);
-    const displayedPages = [];
-
-    if (totalPagesPayment <= 5) {
-      displayedPages.push(...pageNumbers);
-    } else {
-      if (currentPagePayment <= 3) {
-        displayedPages.push(...pageNumbers.slice(0, 5), 'dot', ...pageNumbers.slice(totalPagesPayment - 1));
-      } else if (currentPagePayment >= totalPagesPayment - 2) {
-        displayedPages.push(...pageNumbers.slice(0, 1), 'dot', ...pageNumbers.slice(totalPagesPayment - 5));
-      } else {
-        displayedPages.push(
-          ...pageNumbers.slice(0, 1),
-          'dot',
-          ...pageNumbers.slice(currentPagePayment - 2, currentPagePayment + 1),
-          'dot',
-          ...pageNumbers.slice(totalPagesPayment - 1)
-        );
-      }
-    }
-
-    return displayedPages.map((page, index) =>
-      page === 'dot' ? (
-        <span key={`dot${index}`}>...</span>
-      ) : (
-        <li
-          key={page}
-          onClick={() => handlePageChangePayment(page)}
-          className={"page-item" + (currentPagePayment === page ? ' active' : '')}
-        >
-          <a className="page-link">{page}</a>
-        </li>
-      )
-    );
-  };
 
   const getAllTotal = async () => {
     await axios
       .get(
         `${API_DUMMY}/user/report/total`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       )
       .then((res) => {
         if (Array.isArray(res.data.data)) {
@@ -262,8 +151,11 @@ function DashboardUser() {
       .get(
         `${API_DUMMY}/user/report/recap/bill`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       )
       .then((res) => {
         if (Array.isArray(res.data.data)) {
@@ -291,8 +183,11 @@ function DashboardUser() {
       .get(
         `${API_DUMMY}/user/report/recap/transaction`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       )
       .then((res) => {
         if (Array.isArray(res.data.data)) {
@@ -435,118 +330,8 @@ function DashboardUser() {
   };
   return (
     <>
-      <CRow>
-        <CCol sm={6} lg={3}>
-          <CWidgetStatsA
-            className="mb-4"
-            color="primary"
-            value={
-              <>
-                1 <span className="fs-6 fw-normal"></span>
-              </>
-            }
-            title="Total"
-            action={
-              <CDropdown alignment="end">
-                <CDropdownToggle
-                  color="transparent"
-                  caret={false}
-                  className="p-0"
-                >
-                  <CIcon
-                    icon={cilArrowBottom}
-                    style={{ color: "white" }}
-                    onClick={() => {
-                      const table = document.getElementById("organization");
-                      if (table) {
-                        window.scrollTo({
-                          top: table.offsetTop,
-                          behavior: "smooth",
-                        });
-                      }
-                    }}
-                  />
-                </CDropdownToggle>
-              </CDropdown>
-            }
-            chart={
-              <CChartLine
-                className="mt-3 mx-3"
-                style={{ height: "70px" }}
-                data={{
-                  labels: [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December",
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                  ],
-                  datasets: [
-                    {
-                      label: "amount of data",
-                      backgroundColor: "transparent",
-                      borderColor: "rgba(255,255,255,.55)",
-                      pointBackgroundColor: getStyle("--cui-primary"),
-                      data: monthlyDataTotal, // Menggunakan state monthlyData yang telah diubah
-                    },
-                  ],
-                }}
-                options={{
-                  plugins: {
-                    legend: {
-                      display: false,
-                    },
-                  },
-                  maintainAspectRatio: false,
-                  scales: {
-                    x: {
-                      grid: {
-                        display: false,
-                        drawBorder: false,
-                      },
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                    y: {
-                      min: -9,
-                      max: 39,
-                      display: false,
-                      grid: {
-                        display: false,
-                      },
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                  },
-                  elements: {
-                    line: {
-                      borderWidth: 1,
-                    },
-                    point: {
-                      radius: 4,
-                      hitRadius: 10,
-                      hoverRadius: 4,
-                    },
-                  },
-                }}
-              />
-            }
-          />
-        </CCol>
-        <CCol sm={6} lg={3}>
+      {/* <CRow>
+        <CCol sm={6} lg={3}> */}
           <CWidgetStatsA
             className="mb-4"
             color="info"
@@ -647,236 +432,8 @@ function DashboardUser() {
               />
             }
           />
-        </CCol>
-        <CCol sm={6} lg={3}>
-          <CWidgetStatsA
-            className="mb-4"
-            color="danger"
-            value={<>{bill.length}</>}
-            title="Bill"
-            action={
-              <CDropdown alignment="end">
-                <CDropdownToggle
-                  color="transparent"
-                  caret={false}
-                  className="p-0"
-                >
-                  <CIcon
-                    icon={cilArrowBottom}
-                    style={{ color: "white" }}
-                    onClick={() => {
-                      const table = document.getElementById("customer");
-                      if (table) {
-                        window.scrollTo({
-                          top: table.offsetTop,
-                          behavior: "smooth",
-                        });
-                      }
-                    }}
-                  />
-                </CDropdownToggle>
-              </CDropdown>
-            }
-            chart={
-              <CChartBar
-                className="mt-3 mx-3"
-                style={{ height: "70px" }}
-                data={{
-                  labels: [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December",
-                  ],
-                  datasets: [
-                    {
-                      label: "amount of data",
-                      backgroundColor: "rgba(255,255,255,.2)",
-                      borderColor: "rgba(255,255,255,.55)",
-                      data: monthlyDataBill,
-                      barPercentage: 0.6,
-                    },
-                  ],
-                }}
-                options={{
-                  maintainAspectRatio: false,
-                  plugins: {
-                    legend: {
-                      display: false,
-                    },
-                  },
-                  scales: {
-                    x: {
-                      grid: {
-                        display: false,
-                        drawTicks: false,
-                      },
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                    y: {
-                      grid: {
-                        display: false,
-                        drawBorder: false,
-                        drawTicks: false,
-                      },
-                      ticks: {
-                        display: false,
-                      },
-                    },
-                  },
-                }}
-              />
-            }
-          />
-        </CCol>
+        {/* </CCol> */}
 
-        <div className="row">
-          <div className="col" xs={12}>
-            <div className="card mb-4">
-              <div className="card-header">
-                <div style={{ height: "2.4em" }} className="row">
-                  <div className="col">
-                    <div style={{ display: "flex" }}>
-                      <div className="col">
-                        <h4 className="textt">Payment</h4>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="card-body">
-                <div className="two row">
-                  <div className="col">
-                    <select
-                      className="pilih form-select"
-                      value={limitPayment}
-                      onChange={handleChangeLimitPayment}
-
-                    >
-                      <option className="option-select" value="1">Show 1 Entries</option>
-                      <option className="option-select" value="10">Show 10 Entries</option>
-                      <option className="option-select" value="100">Show 100 Entries</option>
-                    </select>
-                  </div>
-                  <div className="col">
-                    <CFormInput
-                      className="filter-data-p"
-                      type="search"
-                      placeholder="search data"
-                      value={searchTermPayment}
-                      onChange={handleSearchPayment}
-                    />
-                  </div>
-                </div>
-                <table className="tabel-payment table table1 responsive-3">
-                  <thead>
-                    <tr>
-                      <th scope="col" onClick={() => handleSort("id")}>
-                        No{" "}
-                        {sortByPayment === "id" && (sortConfigPayment === "asc" ? "▲" : "▼")}
-                      </th>
-                      <th scope="col" onClick={() => handleSort("description")}>
-                        Description{" "}
-                        {sortByPayment === "description" &&
-                          (sortConfigPayment === "asc" ? "▲" : "▼")}
-                      </th>
-                      <th
-                        scope="col"
-                        onClick={() => handleSort("organization_name")}
-                      >
-                        Organization Name{" "}
-                        {sortByPayment === "organization_name" &&
-                          (sortConfigPayment === "asc" ? "▲" : "▼")}
-                      </th>
-                      <th scope="col" onClick={() => handleSort("periode")}>
-                        Periode{" "}
-                        {sortByPayment === "periode" &&
-                          (sortConfigPayment === "asc" ? "▲" : "▼")}
-                      </th>
-                      <th scope="col" onClick={() => handleSort("amount")}>
-                        Nominal{" "}
-                        {sortByPayment === "amount" &&
-                          (sortConfigPayment === "asc" ? "▲" : "▼")}
-                      </th>
-                      <th scope="col" onClick={() => handleSort("created_date")}>
-                        Create Date{" "}
-                        {sortByPayment === "created_date" &&
-                          (sortConfigPayment === "asc" ? "▲" : "▼")}
-                      </th>
-                      <th scope="col" onClick={() => handleSort("updated_date")}>
-                        Update Date{" "}
-                        {sortByPayment === "updated_date" &&
-                          (sortConfigPayment === "asc" ? "▲" : "▼")}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white">
-                    {sortedPayment.map((data, index) => {
-                      return (
-                        <tr key={index}>
-                          <td data-cell="No">{index + 1}</td>
-                          <td data-cell="Description">{data.description}</td>
-                          <td data-cell="Organization">
-                            {data.organization_name}
-                          </td>
-                          <td data-cell="Periode">{data.periode}</td>
-                          <td data-cell="Nominal">{data.amount}</td>
-                          <td data-cell="Create Date">{data.created_date}</td>
-                          <td data-cell="Update Date">{data.updated_date}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-
-                {/* Pagination */}
-                <div>
-                  <ul className="pagination float-end">
-                    <li
-                      className={
-                        "page-item " + (currentPagePayment === 1 ? "disabled" : "")
-                      }
-                      disabled={currentPagePayment === 1}
-                    >
-                      <a
-                        className="page-link"
-                        onClick={() => handlePageChangePayment(currentPagePayment - 1)}
-                      >
-                        Previous
-                      </a>
-                    </li>
-                    {renderPageNumbersPayment()}
-                    <li
-                      className={
-                        "page-item " +
-                        (currentPagePayment === totalPagesPayment ? "disabled" : "")
-                      }
-                      disabled={currentPagePayment === totalPagesPayment}
-                    >
-                      <a
-                        className="page-link"
-                        onClick={() => handlePageChangePayment(currentPagePayment + 1)}
-                      >
-                        Next
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         <div className="row" id="transaction">
           <div className="col" xs={12}>
             <div className="card mb-4">
@@ -1042,7 +599,7 @@ function DashboardUser() {
             </div>
           </div>
         </div>
-      </CRow>
+      {/* </CRow> */}
       <button
         className={`scroll-to-top-button ${isVisible ? "visible" : "hidden"}`}
         onClick={scrollToTop}

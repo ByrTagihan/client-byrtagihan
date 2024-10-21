@@ -3,6 +3,10 @@
   justify-content: center;
   gap: 5%;
 }
+.imgbills {
+  width: 40rem;
+  height: 40rem;
+}
 .readonly1 {
   display: flex;
   justify-content: space-around;
@@ -82,6 +86,10 @@ tbody {
   display: none;
 }
 @media (max-width: 600px) {
+  .imgbills {
+    width: 20rem;
+    height: 20rem;
+  }
   .action {
     display: block;
     float: right;
@@ -139,4 +147,41 @@ tbody {
     content: attr(data-cell) "  : ";
     font-weight: bold;
   }
+}
+
+.tbody-tagihan {
+  text-align: left;
+}
+/* .readonly2 {
+  gap: 10px;
+}
+.readonly {
+  display: block;
+} */
+/* .bungkus {
+  width: 100%;
+} */
+.td-tagihan {
+  padding-right: none;
+  display: flex;
+  justify-content: left;
+}
+.responsive-4 {
+  width: 100%;
+}
+.thead-tagihan {
+  display: none;
+}
+.td-tagihan {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 15ch auto;
+  padding: 0.75em 1rem;
+}
+.td-tagihan:first-child {
+  padding-top: 2rem;
+}
+.td-tagihan::before {
+  content: attr(data-cell) "  : ";
+  font-weight: bold;
 }

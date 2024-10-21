@@ -44,10 +44,11 @@ function TambahOrganization() {
       };
       await axios
         .post(`${API_DUMMY}/user/organization`, data, {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
         .then(() => {
           navigate("/tableOrganization");
           Swal.fire({
@@ -154,8 +155,11 @@ function TambahOrganization() {
       const response = await fetch(
         `${API_DUMMY}/user/organization?name=${query}`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
 
       if (query.length > 0 && response.ok) {
@@ -175,8 +179,11 @@ function TambahOrganization() {
       const { data, status } = await axios.get(
         `${API_DUMMY}/user/customer`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
       if (status === 200) {
         setCustomer(data.data);
