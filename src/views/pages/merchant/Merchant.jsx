@@ -83,6 +83,9 @@ function Merchant() {
           <p style="color:#fff;">Hooray! You have completed your payment.</p>
           <p style="font-size:24px; color:#fff; font-weight: bold;">${formatRupiah(
             amount
+          )}</p>
+          <p style="font-size: 20px; color:white; font-weight: bolf">Sisa Saldo: ${formatRupiah(
+            balance
           )}</p>`,
         background: "#4caf50",
         showConfirmButton: false,
