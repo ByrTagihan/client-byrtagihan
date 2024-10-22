@@ -120,7 +120,7 @@ const Login = () => {
         if (status === 200) {
           Swal.fire({
             icon: "success",
-            title: "Berhasil Login Sebagai Merchant",
+            title: "Berhasil Login Sebagai Kantin",
             showConfirmButton: false,
           });
           localStorage.setItem("type_token", data.data.type_token);
@@ -222,7 +222,7 @@ const Login = () => {
                       onChange={handleOptionChange}
                     />
                     <label htmlFor="radio3" className="selector-item_label">
-                      Merchant
+                      Kantin
                     </label>
                   </div>
                   {/* <div className="selector-item">

@@ -6,6 +6,7 @@ import { element } from "prop-types";
 import IndexDash from "./views/dashboard/IndexDash";
 import ListTransaksi from "./views/pages/merchant/ListTransaksi";
 import CekSaldo from "./views/pages/merchant/CekSaldo";
+import ProfileMerchant from "./views/pages/merchant/ProfileMerchant";
 // import Kirimdana from "./views/pages/member/kirimdana/Kirimdana";
 // import PageTransaction from "./views/pages/user/transaction/Pagetransuction";
 // import DashboardNew from "./views/dashboard/DashboardNew";
@@ -365,6 +366,7 @@ const routes = [
   { path: "/listTransaksi", name: "List Transaksi", element: ListTransaksi },
   { path: "/transaksi", name: "List Transaksi", element: Merchant },
   { path: "/cek-saldo", name: "Cek Saldo", element: CekSaldo },
+  { path: "/ProfileMerchant", name: "Profile Kantin", element: ProfileMerchant },
   //================================================================
   //Panduan
   { path: "/panduan", name: "Panduan", element: Panduan },
