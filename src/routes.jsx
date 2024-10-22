@@ -3,6 +3,7 @@ import ResetPassword from "./views/pages/reset/ForgotPasswor";
 import { element } from "prop-types";
 import IndexDash from "./views/dashboard/IndexDash";
 import ListTransaksi from "./views/pages/merchant/ListTransaksi";
+import ProfileMerchant from "./views/pages/merchant/ProfileMerchant";
 // import Kirimdana from "./views/pages/member/kirimdana/Kirimdana";
 // import PageTransaction from "./views/pages/user/transaction/Pagetransuction";
 // import DashboardNew from "./views/dashboard/DashboardNew";
@@ -365,7 +366,13 @@ const routes = [
   //================================================================
   //Merchant
   // { path: "/merchant", name: "Merchant", element: merchant },
-  { path: "/listTransaksi", name: "List Transaksi", element: ListTransaksi },
+   { path: "/listTransaksi", name: "List Transaksi", element: ListTransaksi },
+   { path: "/transaksi", name: "Transaksi", element: Merchant },
+   {
+     path: "/profileMerchant",
+     name: "Profile Kantin",
+     element: ProfileMerchant,
+   },
   //================================================================
   //Panduan
   { path: "/panduan", name: "Panduan", element: Panduan },
