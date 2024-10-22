@@ -4,6 +4,10 @@ import { element } from "prop-types";
 import IndexDash from "./views/dashboard/IndexDash";
 import ListTransaksi from "./views/pages/merchant/ListTransaksi";
 import CekSaldo from "./views/pages/merchant/CekSaldo";
+import ProfileMerchant from "./views/pages/merchant/ProfileMerchant";
+import ListMerchant from "./views/pages/user/merchant/ListMerchant";
+import AddMerchant from "./views/pages/user/merchant/AddMerchant";
+import EditMerchant from "./views/pages/user/merchant/EditMerchant";
 
 //================================================
 //User Role
@@ -280,7 +284,10 @@ const routes = [
     element: EditUserMember,
   },
   { path: "/UserTemplate", name: "Template", element: UserTemplate },
-{ path:"/Kirimdana", name:"Kirim dana", element: Kirimdana },
+  { path: "/Kirimdana", name: "Kirim dana", element: Kirimdana },
+  { path: "/userMerchant", name: "List Merchant", element: ListMerchant },
+  { path: "/tambahMerchant", name: "Tambah Merchant", element: AddMerchant },
+  { path: "/editMerchant/:id", name: "Edit Merchant", element: EditMerchant },
   //================================================================
   //Customer
   {
@@ -366,6 +373,11 @@ const routes = [
   { path: "/listTransaksi", name: "List Transaksi", element: ListTransaksi },
   { path: "/transaksi", name: "Transaksi", element: Merchant },
   { path: "/cel-saldo", name: "Cek Saldo", element: CekSaldo },
+  {
+    path: "/profileMerchant",
+    name: "Profile Kantin",
+    element: ProfileMerchant,
+  },
   //================================================================
   //Panduan
   { path: "/panduan", name: "Panduan", element: Panduan },

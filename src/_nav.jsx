@@ -116,6 +116,13 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: "Merchant",
+    to: "/userMerchant",
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    roles: ["user"],
+  },
+  {
+    component: CNavItem,
     name: "Template",
     to: "/UserTemplate",
     icon: <CIcon icon={cibCircle} customClassName="nav-icon" />,
