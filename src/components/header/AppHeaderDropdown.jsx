@@ -43,9 +43,10 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const AppHeaderDropdown = () => {
-  const [foto, setFoto] = useState({
-    picture: null,
+  const [profile, setprofile] = useState({
+    picture: "",
   });
+  const [picture, setPicture] = useState("");
   const [rfid_number, setRfIdNumber] = useState("");
   const role = localStorage.getItem("type_token");
   const [name, setName] = useState("");
@@ -100,7 +101,6 @@ const AppHeaderDropdown = () => {
           text: "Nomor RFID tidak ditemukan atau salah, coba lagi.",
         });
         console.log("error: ", error);
-
       }
     } else {
       Swal.fire({
@@ -113,19 +113,45 @@ const AppHeaderDropdown = () => {
 
   useEffect(() => {
     if (rfid_number) {
-    const response = axios.get(
-      `${API_DUMMY}/merchant/member/${rfid_number}/balance`,
-      {
-        headers: {
-          "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-          AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-        },
-      }
-    );
-    console.log("data: ", response.data);
-    setSaldo(response.data);
-    console.log("name: ", saldo.name);
-
+      const response = axios.get(
+        `${API_DUMMY}/merchant/member/${rfid_number}/balance`,
+        {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        }
+      );
+      console.log("data: ", response.data);
+      setSaldo(response.data);
+      console.log("name: ", saldo.name);
+    }
+    let url;
+    if (role == "merchant") {
+      url = `${API_DUMMY}/merchant/profile`;
+    } else if (role == "user") {
+      url = `${API_DUMMY}/user/profile`;
+    } else if (role == "member") {
+      url = `${API_DUMMY}/member/profile`;
+    } else if (role == "customer") {
+      url = `${API_DUMMY}/customer/profile`;
+    }
+    if (url) {
+      axios
+        .get(url, {
+          headers: {
+            "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+          },
+        })
+        .then((response) => {
+          const profil = response.data.data;
+          setPicture(profil.picture);
+          console.log("profile: ", response.data.data);
+        })
+        .catch((error) => {
+          alert("Terjadi Kesalahan " + error);
+        });
     }
   }, []);
 
@@ -165,15 +191,15 @@ const AppHeaderDropdown = () => {
   return (
     <CDropdown variant="nav-item" alignment={role === "member" ? "end" : ""}>
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
-        {foto.picture ? (
+        {picture ? (
           <img
-            src={foto.picture}
+            src={picture}
             alt=""
             style={{ borderRadius: "100%", width: "2.5rem" }}
           />
         ) : (
           <img
-            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+            src="https://freesvg.org/img/abstract-user-flat-4.png"
             alt=""
             style={{ borderRadius: "100%", width: "2.5rem" }}
           />
@@ -271,6 +297,10 @@ const AppHeaderDropdown = () => {
         )}
         {localStorage.getItem("type_token") === "merchant" ? (
           <>
+            <CDropdownItem href="/#/profileMerchant">
+              <CIcon icon={cilUser} className="me-2" />
+              Profile
+            </CDropdownItem>
             <CDropdownItem href="/#/transaksi">
               <CIcon icon={cilDollar} className="me-2" />
               Transaksi
@@ -332,7 +362,7 @@ const AppHeaderDropdown = () => {
             <CFormInput
               type="password"
               id="exampleFormControlInput1"
-              label="Rfid Number"
+              label="Tab Kartu"
               placeholder="*****"
               value={rfid_number}
               onChange={(e) => setRfIdNumber(e.target.value)}
