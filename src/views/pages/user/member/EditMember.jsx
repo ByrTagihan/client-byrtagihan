@@ -123,22 +123,6 @@ function EditMember() {
         },
       })
       .then((res) => {
-        const members = res.data.data;
-        setMember(members);
-        setUnique_id(members.unique_id);
-        setName(members.name);
-        setHp(members.hp);
-        setPassword(members.password);
-        console.log(members);
-        setAddress(members.address);
-        setOrganization_name(members.organization_name);
-        setPicture(members.picture);
-        setRfid(members.rfid_number);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
-      });
-
       const members = res.data.data;
       setMember(members);
       setUnique_id(members.unique_id);
@@ -150,7 +134,7 @@ function EditMember() {
       setPicture(members.picture);
 
       // Request kedua: Mengambil data RFID
-      const rfidResponse = await axios.get(
+      const rfidResponse = axios.get(
         `${API_DUMMY}/user/member/${id}/rfid`,
         {
           headers: {
@@ -159,13 +143,14 @@ function EditMember() {
           },
         }
       );
-
       const rfidData = rfidResponse.data.data;
       console.log("rfid: ", rfidData);
       setRfidNumber(rfidData);
-    } catch (error) {
-      alert("Terjadi Kesalahan: " + error.message);
-    }
+      })
+      .catch((error) => {
+        alert("Terjadi Kesalahan" + error);
+      })
+
   };
 
   const GetOrganization = async () => {

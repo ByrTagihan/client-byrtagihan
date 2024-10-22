@@ -164,8 +164,22 @@ function Profile() {
         <h4 className="textProfile">Profile Customer</h4>
 
         <div style={{ padding: "10px" }}>
-          <img style={{ width: "20rem" }} src={profile.picture} alt="" />
-        </div>
+            {profile.picture ? (
+              <img
+                className="images2"
+                style={{ width: "20rem", borderRadius: "3%" }}
+                src={profile.picture}
+                alt=""
+              />
+            ) : (
+              <img
+                className="images2"
+                style={{ width: "20rem", borderRadius: "3%" }}
+                src="https://freesvg.org/img/abstract-user-flat-4.png"
+                alt=""
+              />
+            )}
+          </div>
       </div>
 
       <div className="box2">
@@ -221,7 +235,7 @@ function Profile() {
           </CInputGroup>
 
           {/* Kolom Email */}
-          <CInputGroup className="mb-3">
+          <CInputGroup className="">
             <CInputGroupText>
               <CIcon icon={cilEnvelopeClosed} />
             </CInputGroupText>
