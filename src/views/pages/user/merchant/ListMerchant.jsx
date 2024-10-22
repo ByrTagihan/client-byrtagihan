@@ -200,7 +200,7 @@ import {
             <CCard>
               <CCardHeader>
                 <div className="d-flex justify-content-between">
-                  <h4>Siswa</h4>
+                  <h4>Kantin</h4>
                   <div
                     style={{
                       display: "flex",
