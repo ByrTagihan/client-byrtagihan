@@ -39,6 +39,7 @@ const PresensiHomePulang = () => {
   };
 
   return (
+    <div className='body-presensi'>
     <div className="presensi-container">
       <h2>Presensi Pulang</h2>
       <form className="presensi-form" onSubmit={handleSubmit}>
@@ -57,6 +58,7 @@ const PresensiHomePulang = () => {
           {successMessage}
         </div>
       )}
+    </div>
     </div>
   );
 };

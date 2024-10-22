@@ -1,11 +1,11 @@
 /* File: PresensiHome.css */
-body {
+.body-presensi {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    min-height: 100vh; /* Take full viewport height */
-    margin: 0; /* Remove default margin */
-    background-color: #f0f0f0; /* Background color for contrast */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
 }
 
 .presensi-container {
@@ -14,9 +14,12 @@ body {
     border-radius: 15px;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: calc(100% - 20px); /* Full width minus 10px margin on each side */
-    max-width: 200vh; /* Maximum width if desired */
-    margin: 10px; /* Margin on all sides */
+    width: calc(100% - 20px);
+    /* Full width minus 10px margin on each side */
+    max-width: 200vh;
+    /* Maximum width if desired */
+    margin: 10px;
+    /* Margin on all sides */
     width: 300vh;
 }
 
@@ -44,7 +47,8 @@ body {
     font-size: 16px;
     border: 2px solid #ddd;
     border-radius: 10px;
-    width: 100%; /* Full width of the input field */
+    width: 100%;
+    /* Full width of the input field */
     margin-bottom: 20px;
     transition: border-color 0.3s ease;
 }
@@ -75,18 +79,21 @@ body {
 .success-message {
     margin-top: 20px;
     font-size: 25px;
-    color: #4CAF50; /* Green color for success message */
+    color: #4CAF50;
+    /* Green color for success message */
 }
 
 /* Mobile Devices (max-width: 768px) */
 @media (max-width: 768px) {
     .presensi-container {
         padding: 20px;
-        max-width: 100%; /* Full width on small devices */
+        max-width: 100%;
+        /* Full width on small devices */
     }
 
     .presensi-form h2 {
-        font-size: 20px; /* Smaller for mobile */
+        font-size: 20px;
+        /* Smaller for mobile */
     }
 
     .presensi-form input[type="text"] {
@@ -100,7 +107,8 @@ body {
     }
 
     .success-message {
-        font-size: 20px; /* Smaller success message */
+        font-size: 20px;
+        /* Smaller success message */
     }
 }
 
@@ -108,11 +116,13 @@ body {
 @media (max-width: 480px) {
     .presensi-container {
         padding: 15px;
-        max-width: 100%; /* Full width on small devices */
+        max-width: 100%;
+        /* Full width on small devices */
     }
 
     .presensi-form h2 {
-        font-size: 18px; /* Smaller for very small devices */
+        font-size: 18px;
+        /* Smaller for very small devices */
     }
 
     .presensi-form input[type="text"] {
@@ -126,6 +136,7 @@ body {
     }
 
     .success-message {
-        font-size: 18px; /* Smaller success message */
+        font-size: 18px;
+        /* Smaller success message */
     }
 }
