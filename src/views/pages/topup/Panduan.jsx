@@ -66,7 +66,7 @@ const Panduan = () => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(member.va_wallet).then(() => {
-      alert("Teks berhasil disalin ke clipboard!"); // Opsional: Menampilkan alert atau pesan lain
+      alert("Teks berhasil disalin ke clipboard!"); 
     });
   };
 

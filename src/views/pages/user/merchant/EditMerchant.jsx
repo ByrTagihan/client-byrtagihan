@@ -19,7 +19,7 @@ import {
 import Swal from "sweetalert2";
 import { API_DUMMY } from "../../../../utils/baseURL";
 
-function EditMember() {
+function EditMerchant() {
   const [member, setMember] = useState([]);
   const [organization, setOrganization] = useState([]);
   const [show, setShow] = useState(false);
@@ -33,11 +33,9 @@ function EditMember() {
   const [picture, setPicture] = useState("");
   const [costumer, setCostumer] = useState([]);
   const [password, setPassword] = useState("");
-  const [rfidNumber, setRfidNumber] = useState("");
   const [selectedMember, setSelectedMember] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
-  const [rfid, setRfid] = useState("");
 
   const Put = async (e) => {
     if (localStorage.getItem("type_token") === "user") {
@@ -51,39 +49,12 @@ function EditMember() {
       };
 
       try {
-        // if (type_token === "user") {
-        // if (rfid) {
-        //   await axios.put(
-        //     `${API_DUMMY}/user/member/${param.id}/rfid`,
-        //     {
-        //       rfid_number: rfid,
-        //     },
-        //     {
-        //       headers: {
-        //         "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-        //         AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-        //       },
-        //     }
-        //   );
-        // }
-        await axios.put(`${API_DUMMY}/user/member/${id}`, data, {
+        await axios.put(`${API_DUMMY}/user/merchant/${id}`, data, {
           headers: {
             "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
             AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
           },
         });
-        await axios.put(
-          `${API_DUMMY}/user/member/${id}/rfid`,
-          {
-            rfid_number: rfidNumber,
-          },
-          {
-            headers: {
-              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
-              AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
-            },
-          }
-        );
         setShow(false);
         Swal.fire({
           icon: "success",
@@ -92,7 +63,7 @@ function EditMember() {
           timer: 1500,
         });
         setTimeout(() => {
-          navigate("/userMember");
+          navigate("/userMerchant");
           window.location.reload();
         }, 1500);
       } catch (error) {
@@ -115,28 +86,13 @@ function EditMember() {
   };
 
   const get = async () => {
-    await axios
-      .get(`${API_DUMMY}/user/member/${id}`, {
+    try {
+      // Request pertama: Mengambil data member
+      const res = await axios.get(`${API_DUMMY}/user/merchant/${id}`, {
         headers: {
           "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
           AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
         },
-      })
-      .then((res) => {
-        const members = res.data.data;
-        setMember(members);
-        setUnique_id(members.unique_id);
-        setName(members.name);
-        setHp(members.hp);
-        setPassword(members.password);
-        console.log(members);
-        setAddress(members.address);
-        setOrganization_name(members.organization_name);
-        setPicture(members.picture);
-        setRfid(members.rfid_number);
-      })
-      .catch((error) => {
-        alert("Terjadi Kesalahan" + error);
       });
 
       const members = res.data.data;
@@ -148,21 +104,6 @@ function EditMember() {
       setAddress(members.address);
       setOrganization_name(members.organization_name);
       setPicture(members.picture);
-
-      // Request kedua: Mengambil data RFID
-      const rfidResponse = await axios.get(
-        `${API_DUMMY}/user/member/${id}/rfid`,
-        {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-            AuthPrs: `Bearer ${localStorage.getItem("token_presensi")}`,
-          },
-        }
-      );
-
-      const rfidData = rfidResponse.data.data;
-      console.log("rfid: ", rfidData);
-      setRfidNumber(rfidData);
     } catch (error) {
       alert("Terjadi Kesalahan: " + error.message);
     }
@@ -229,7 +170,7 @@ function EditMember() {
         <>
           <CCard>
             <CCardBody>
-              <h4>Edit Data Siswa</h4>
+              <h4>Edit Data</h4>
               <CForm className="row g-3">
                 <CCol md={6}>
                   <CFormInput
@@ -244,8 +185,8 @@ function EditMember() {
                 <CCol md={6}>
                   <CFormInput
                     label="Nama"
-                    placeholder="Nama Siswa"
-                    autoComplete="Nama Siswa"
+                    placeholder="Nama"
+                    autoComplete="Nama"
                     onChange={(e) => setName(e.target.value)}
                     value={name}
                   />
@@ -278,16 +219,6 @@ function EditMember() {
                     disabled
                   />
                 </CCol>
-                <CCol md={6}>
-                  <CFormInput
-                    label="Rfid number"
-                    placeholder="Rfid number"
-                    autoComplete="Rfid number"
-                    onChange={(e) => setRfid(e.target.value)}
-                    value={rfid}
-                  />
-                </CCol>
-                <CCol md={6}></CCol>
 
                 <CCol className="d-flex justify-content-between" xs={12}>
                   <CButton className="btn-danger" onClick={handleGoBack}>
@@ -308,4 +239,4 @@ function EditMember() {
   );
 }
 
-export default EditMember;
+export default EditMerchant;

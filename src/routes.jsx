@@ -1,12 +1,8 @@
 import React from "react";
-// import Login from './pages/Login'
-// import Register from './pages/Register'
 import ResetPassword from "./views/pages/reset/ForgotPasswor";
 import { element } from "prop-types";
 import IndexDash from "./views/dashboard/IndexDash";
 import ListTransaksi from "./views/pages/merchant/ListTransaksi";
-import CekSaldo from "./views/pages/merchant/CekSaldo";
-import ProfileMerchant from "./views/pages/merchant/ProfileMerchant";
 // import Kirimdana from "./views/pages/member/kirimdana/Kirimdana";
 // import PageTransaction from "./views/pages/user/transaction/Pagetransuction";
 // import DashboardNew from "./views/dashboard/DashboardNew";
@@ -21,6 +17,12 @@ const DashboardNew = React.lazy(() => import("./views/dashboard/DashboardNew"));
 const UserProfile = React.lazy(() => import("./views/pages/user/UserProfile"));
 const DigitalCard = React.lazy(() =>
   import("./views/pages/user/newfeature/DigitalCard")
+);
+const PresensiHomePulang = React.lazy(() =>
+  import("./views/pages/user/newfeature/PresensiHome")
+);
+const PresensiLeave = React.lazy(() =>
+  import("./views/pages/user/newfeature/PresensiLeave")
 );
 
 //Organization Section
@@ -280,7 +282,7 @@ const routes = [
     element: EditUserMember,
   },
   { path: "/UserTemplate", name: "Template", element: UserTemplate },
-  { path: "/Kirimdana", name: "Kirim dana", element: Kirimdana },
+{ path:"/Kirimdana", name:"Kirim dana", element: Kirimdana },
   //================================================================
   //Customer
   {
@@ -364,12 +366,11 @@ const routes = [
   //Merchant
   // { path: "/merchant", name: "Merchant", element: merchant },
   { path: "/listTransaksi", name: "List Transaksi", element: ListTransaksi },
-  { path: "/transaksi", name: "List Transaksi", element: Merchant },
-  { path: "/cek-saldo", name: "Cek Saldo", element: CekSaldo },
-  { path: "/ProfileMerchant", name: "Profile Kantin", element: ProfileMerchant },
   //================================================================
   //Panduan
   { path: "/panduan", name: "Panduan", element: Panduan },
+  { path: "/presensiHome", name: "presensiHome", element: PresensiHomePulang },
+  { path: "/presensiLeave", name: "presensiLeave", element: PresensiLeave },
 ];
 
 export default routes;
