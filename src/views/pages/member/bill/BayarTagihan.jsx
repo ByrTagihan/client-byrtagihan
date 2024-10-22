@@ -47,7 +47,10 @@ function BayarTagihan() {
         const { data, status } = await axios.get(
           `${API_DUMMY}/member/channel`,
           {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           }
         );
         if (status === 200) {
@@ -72,7 +75,7 @@ function BayarTagihan() {
   };
 
   const { selectedBillIds } = useSelectedBillIds();
-    const [paymentPayload, setPaymentPayload] = useState(null);
+  const [paymentPayload, setPaymentPayload] = useState(null);
 
   const bayarTagihan = async (e) => {
     e.preventDefault();
@@ -96,11 +99,18 @@ function BayarTagihan() {
 
       console.log("Selected IDs Payload:", selectedIdsData);
 
-
       await axios
-        .post(`${API_DUMMY}/member/bill/${id}/payment`, data, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        })
+        .post(
+          `${API_DUMMY}/api/member/bill/{bill_id}/wallet
+{}`,
+          data,
+         {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
+        )
         .then((response) => {
           const byr = response.data.data;
           setBayar(byr);
@@ -156,7 +166,8 @@ function BayarTagihan() {
                   <CFormSelect
                     aria-label="Default select example"
                     value={channel_id}
-                    onChange={(e) => setChannel_id(e.target.value.toString())}>
+                    onChange={(e) => setChannel_id(e.target.value.toString())}
+                  >
                     <option>Pilih metode pembayaran</option>
                     {channel.map((chan, i) => {
                       return (
@@ -171,7 +182,8 @@ function BayarTagihan() {
                   <CButton
                     color="danger"
                     className="me-2"
-                    onClick={() => navigate(`/listTagihanMember`)}>
+                    onClick={() => navigate(`/listTagihanMember`)}
+                  >
                     Kembali
                   </CButton>
                   <CButton color="primary" onClick={bayarTagihan}>
@@ -260,7 +272,8 @@ function BayarTagihan() {
                 <CListGroupItem className="text-center">
                   <CButton
                     className="gap-2 col-4 mx-auto"
-                    onClick={() => navigate(`/listTagihanMember`)}>
+                    onClick={() => navigate(`/listTagihanMember`)}
+                  >
                     Oke
                   </CButton>
                 </CListGroupItem>

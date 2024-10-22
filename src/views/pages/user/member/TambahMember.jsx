@@ -53,8 +53,11 @@ function TambahMember() {
 
       try {
         const response = await axios.post(`${API_DUMMY}/user/member`, data, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
 
         setShow(false);
         Swal.fire({
@@ -98,8 +101,11 @@ function TambahMember() {
       const { data, status } = await axios.get(
         `${API_DUMMY}/user/organization`,
         {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
       if (status === 200) {
         setOrganization(data.data);
@@ -113,8 +119,11 @@ function TambahMember() {
   const GetCostumer = async () => {
     try {
       const { data, status } = await axios.get(`${API_DUMMY}/user/customer`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
       if (status === 200) {
         setCostumer(data.data);
       }

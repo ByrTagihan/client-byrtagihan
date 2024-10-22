@@ -49,13 +49,16 @@ function Member() {
       try {
         const { data, status } = await axios.get(
           `${API_DUMMY}/user/member?page=${currentPage}&limit=${limit}&sortBy=${sortBy}&sortDirection=${sortDirection}&filter=${searchTerm}`,
-          {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+         {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           }
         );
         if (status === 200) {
           setMember(data.data);
-          //console.log(data.data);
+          console.log(data.data);
           setTotal_Page(data.pagination.total_page);
         }
       } catch (err) {
@@ -89,8 +92,11 @@ function Member() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(`${API_DUMMY}/user/member/${id}`, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
         Swal.fire({
           icon: "success",
           title: "Dihapus!",
@@ -230,6 +236,7 @@ function Member() {
                     <CTableHeaderCell scope="col">Nama</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Unique_id</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Sekolah</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Rfid Number</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Alamat</CTableHeaderCell>
                     <CTableHeaderCell scope="col">No.Hp</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Action</CTableHeaderCell>
@@ -250,6 +257,9 @@ function Member() {
                         </CTableDataCell>
                         <CTableDataCell data-cell="Sekolah">
                           {mem.organization_name}
+                        </CTableDataCell>
+                        <CTableDataCell data-cell="Rfid Number">
+                          {mem.rfid_number}
                         </CTableDataCell>
                         <CTableDataCell data-cell="Alamat">
                           {mem.address}

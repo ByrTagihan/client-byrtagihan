@@ -16,7 +16,7 @@ import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from "@coreui/icons";
 
 import { AppBreadcrumb } from "./index";
 import { AppHeaderDropdown } from "./header/index";
-import { logo } from "../assets/brand/logo";
+import logo from "../assets/images/logo1.png";
 
 const AppHeader = () => {
   const dispatch = useDispatch();
@@ -25,19 +25,20 @@ const AppHeader = () => {
   return (
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
-        <CHeaderToggler
+        {/* <CHeaderToggler
           className="ps-1"
           onClick={() => dispatch({ type: "set", sidebarShow: !sidebarShow })}
         >
           <CIcon icon={cilMenu} size="lg" />
-        </CHeaderToggler>
-        <CHeaderBrand className="mx-auto d-md-none" to="/">
-          <p style={{ fontFamily: "sans-serif" }}>Bayar Tagihan</p>
+        </CHeaderToggler> */}
+        <CHeaderBrand className="d-md-none" to="/">
+          SMART
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
+          <img src={logo} alt="" style={{ width: "40px" }} />
           <CNavItem>
-            <CNavLink to="/dashboard" component={NavLink}>
-              Dashboard
+            <CNavLink to="/" component={NavLink} style={{ fontWeight: "bold" }}>
+              SMART
             </CNavLink>
           </CNavItem>
         </CHeaderNav>
@@ -45,10 +46,12 @@ const AppHeader = () => {
           <AppHeaderDropdown />
         </CHeaderNav>
       </CContainer>
-      <CHeaderDivider />
-      <CContainer fluid>
-        <AppBreadcrumb />
-      </CContainer>
+      <div className="header-mobile">
+        <CHeaderDivider />
+        <CContainer fluid>
+          <AppBreadcrumb />
+        </CContainer>
+      </div>
     </CHeader>
   );
 };

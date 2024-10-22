@@ -1,0 +1,165 @@
+/* Container untuk halaman */
+.transaction-page {
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    overflow-x: hidden; /* Cegah scroll ke kanan/kiri */
+    width: 100%;
+    box-sizing: border-box; /* Pastikan padding dan border dihitung dalam lebar elemen */
+  }
+
+  /* Tambahkan untuk body agar mencegah horizontal scrolling */
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Cegah scroll horizontal untuk keseluruhan body */
+    box-sizing: border-box;
+  }
+
+  /* Header */
+  .header-tr {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+
+  /* Tombol Back */
+  .back-button {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  /* Judul Halaman */
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    box-sizing: border-box;
+  }
+
+  /* Dropdown untuk bulan dan tahun */
+  .dropdown-container {
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+
+  select {
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  /* Bagian Income dan Outcome */
+  .summary {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+    box-sizing: border-box;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .income {
+    color: green;
+    font-weight: bold;
+  }
+
+  .outcome {
+    color: red;
+    font-weight: bold;
+    transform: translateY(-5%   );
+  }
+
+  /* Card untuk transaksi */
+  .transactions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+  }
+
+  /* Card untuk transaksi */
+  .transaction-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    width: 100%;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+  }
+
+  .card-content {
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-size: 18px;
+    font-weight: bold;
+    box-sizing: border-box;
+  }
+
+  .detail-button {
+    align-self: flex-end;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .detail-button:hover {
+    background-color: #0056b3;
+  }
+
+  /* Atur posisi teks dan angka di kiri dan kanan */
+  .transaction-detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+  }
+
+  .transaction-detail-row p {
+    margin: 0;
+  }
+
+  /* Media queries untuk responsif */
+  @media (max-width: 768px) {
+    .transaction-page {
+      padding: 10px;
+    }
+
+    h1 {
+      font-size: 20px;
+    }
+
+    select {
+      font-size: 14px;
+      padding: 8px;
+    }
+
+    .summary-row p {
+      font-size: 14px;
+    }
+
+    h2 {
+      font-size: 16px;
+    }
+  }

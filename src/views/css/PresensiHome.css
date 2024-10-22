@@ -1,0 +1,142 @@
+/* File: PresensiHome.css */
+.body-presensi {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.presensi-container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: calc(100% - 20px);
+    /* Full width minus 10px margin on each side */
+    max-width: 200vh;
+    /* Maximum width if desired */
+    margin: 10px;
+    /* Margin on all sides */
+    width: 300vh;
+}
+
+.presensi-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.presensi-form h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.presensi-form label {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.presensi-form input[type="text"] {
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    width: 100%;
+    /* Full width of the input field */
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+.presensi-form input[type="text"]:focus {
+    border-color: rgb(33, 53, 85);
+    outline: none;
+}
+
+.presensi-form .submit-btn {
+    background: linear-gradient(to right, rgb(33, 53, 85), rgb(39, 65, 107));
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.presensi-form .submit-btn:hover {
+    background: linear-gradient(to right, rgb(18, 31, 53), rgb(20, 36, 61));
+    transform: translateY(-2px);
+}
+
+/* Success Message */
+.success-message {
+    margin-top: 20px;
+    font-size: 25px;
+    color: #4CAF50;
+    /* Green color for success message */
+}
+
+/* Mobile Devices (max-width: 768px) */
+@media (max-width: 768px) {
+    .presensi-container {
+        padding: 20px;
+        max-width: 100%;
+        /* Full width on small devices */
+    }
+
+    .presensi-form h2 {
+        font-size: 20px;
+        /* Smaller for mobile */
+    }
+
+    .presensi-form input[type="text"] {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .presensi-form .submit-btn {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .success-message {
+        font-size: 20px;
+        /* Smaller success message */
+    }
+}
+
+/* Very Small Devices (max-width: 480px) */
+@media (max-width: 480px) {
+    .presensi-container {
+        padding: 15px;
+        max-width: 100%;
+        /* Full width on small devices */
+    }
+
+    .presensi-form h2 {
+        font-size: 18px;
+        /* Smaller for very small devices */
+    }
+
+    .presensi-form input[type="text"] {
+        padding: 8px;
+        font-size: 11px;
+    }
+
+    .presensi-form .submit-btn {
+        padding: 8px;
+        font-size: 11px;
+    }
+
+    .success-message {
+        font-size: 18px;
+        /* Smaller success message */
+    }
+}

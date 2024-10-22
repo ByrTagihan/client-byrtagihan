@@ -1,0 +1,53 @@
+.card-kotak-masuk {
+    display: flex;
+    gap: 30px;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.icon-notif {
+    /* background: white;
+    padding: 15px;
+    padding-right: 17px;
+    padding-left: 17px;
+    height: fit-content;
+    width: 55px;
+    border-radius: 100%;
+    text-align: center; */
+    /* font-size: 20px; */
+}
+
+.icon-notif .fa-bell {
+    font-size: 20px;
+    text-align: center;
+    color: orange;
+}
+.notif-name {
+    margin-top: 5px;
+}
+
+.notif-name p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: calc(0.5em * 3);
+}
+
+@media (max-width: 800px) {
+    /* .icon-notif {
+        width: fit-content;
+        height: fit-content;
+    } */
+
+    .card-kotak-masuk {
+        display: flex;
+        gap: 20px;
+    }
+
+    .notif-name p {
+        font-size: 10px;
+    }
+
+}

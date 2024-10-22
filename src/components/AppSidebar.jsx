@@ -19,7 +19,7 @@ import "simplebar/dist/simplebar.min.css";
 
 // sidebar nav config
 import navigation from "../_nav";
-import Gambar from "../assets/images/branding-identity-corporate-b-logo-vector-design-template_460848-13934-removebg-preview.png";
+import Gambar from "../assets/images/logo.png";
 
 // import "../css/AppSidebar.css"
 import Swal from "sweetalert2";
@@ -92,7 +92,7 @@ const AppSidebar = () => {
             fontSize: "20px",
           }}
         >
-          Tagihan
+          SMART
         </p>
       </CSidebarBrand>
       <CSidebarNav>
@@ -100,7 +100,7 @@ const AppSidebar = () => {
           <AppSidebarNav items={navigation} userRoles={userRole} />
         </SimpleBar>
       </CSidebarNav>
-      <CSidebarBrand className="d-md-flex">
+      {/* <CSidebarBrand className="d-md-flex">
         <button
           className="button"
           style={{ background: "none", color: "white", width: "100%" }}
@@ -108,7 +108,7 @@ const AppSidebar = () => {
         >
           <i className="fas fa-sign-out-alt"></i> Logout
         </button>
-      </CSidebarBrand>
+      </CSidebarBrand> */}
     </CSidebar>
   );
 };

@@ -42,8 +42,11 @@ function TambahCostumer() {
       };
       try {
         await axios.post(`${API_DUMMY}/user/customer`, data, {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        });
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
         // //console.log(unique_id);
         setShow(false);
         Swal.fire({

@@ -1,14 +1,31 @@
 import React from "react";
-// import Login from './pages/Login'
-// import Register from './pages/Register'
 import ResetPassword from "./views/pages/reset/ForgotPasswor";
+import { element } from "prop-types";
+import IndexDash from "./views/dashboard/IndexDash";
+import ListTransaksi from "./views/pages/merchant/ListTransaksi";
+import CekSaldo from "./views/pages/merchant/CekSaldo";
+import ProfileMerchant from "./views/pages/merchant/ProfileMerchant";
+import ListMerchant from "./views/pages/user/merchant/ListMerchant";
+import AddMerchant from "./views/pages/user/merchant/AddMerchant";
+import EditMerchant from "./views/pages/user/merchant/EditMerchant";
 
 //================================================
 //User Role
 const DashboardUser = React.lazy(() =>
   import("./views/dashboard/DashboardUser")
 );
+const KotakMasuk = React.lazy(() => import("./views/pages/user/KotakMasuk"));
+const DashboardNew = React.lazy(() => import("./views/dashboard/DashboardNew"));
 const UserProfile = React.lazy(() => import("./views/pages/user/UserProfile"));
+const DigitalCard = React.lazy(() =>
+  import("./views/pages/user/newfeature/DigitalCard")
+);
+const PresensiHomePulang = React.lazy(() =>
+  import("./views/pages/user/newfeature/PresensiHome")
+);
+const PresensiLeave = React.lazy(() =>
+  import("./views/pages/user/newfeature/PresensiLeave")
+);
 
 //Organization Section
 const Organization = React.lazy(() =>
@@ -26,6 +43,9 @@ const CrudPayment = React.lazy(() =>
 //Transaction Section
 const CrudTransaction = React.lazy(() =>
   import("./views/pages/user/transaction/CrudTransaction")
+);
+const PageTransaction = React.lazy(() =>
+  import("./views/pages/user/transaction/Pagetransuction")
 );
 const TambahTransaction = React.lazy(() =>
   import("./views/pages/user/transaction/TambahTransaction")
@@ -83,6 +103,10 @@ const TambahTemplate = React.lazy(() =>
 const EditTemplate = React.lazy(() =>
   import("./views/pages/user/template/EditTemplate")
 );
+
+//================================================
+//Merchant Role
+const Merchant = React.lazy(() => import("./views/pages/merchant/Merchant"));
 
 //================================================
 //Customer Role
@@ -149,7 +173,7 @@ const GantiPassMember = React.lazy(() =>
 );
 const MemberVerification = React.lazy(() =>
   import("./views/pages/member/VerificationCode")
-)
+);
 
 //Bill Section
 const ListTagihanMember = React.lazy(() =>
@@ -166,6 +190,13 @@ const BayarSemuaTagihan = React.lazy(() =>
 const MemberChannel = React.lazy(() =>
   import("./views/pages/member/channel/MemberChannel")
 );
+const Kirimdana = React.lazy(() =>
+  import("./views/pages/member/kirimdana/Kirimdana")
+);
+
+//================================================
+// Topup
+const Panduan = React.lazy(() => import("./views/pages/topup/Panduan"));
 
 const routes = [
   { path: "/home", exact: true, name: "Home" },
@@ -177,9 +208,10 @@ const routes = [
   },
   //================================================================
   //User
-  { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
+  // { path: "/dashboardUser", name: "Dashboard User", element: DashboardUser },
   //User
   { path: "/userProfile", name: "Profile", element: UserProfile },
+  { path: "/", name: "Dashboard", element: IndexDash },
   {
     path: "/tableOrganization",
     name: "Organization",
@@ -197,6 +229,11 @@ const routes = [
   },
   { path: "/payment", name: "Payment", element: CrudPayment },
   { path: "/transaction", name: "Transaction", element: CrudTransaction },
+  {
+    path: "/pagetransaction",
+    name: "page Transaction",
+    element: PageTransaction,
+  },
   {
     path: "/tambahTransaction",
     name: "Tambah Tagihan",
@@ -247,6 +284,10 @@ const routes = [
     element: EditUserMember,
   },
   { path: "/UserTemplate", name: "Template", element: UserTemplate },
+  { path: "/Kirimdana", name: "Kirim dana", element: Kirimdana },
+  { path: "/userMerchant", name: "List Merchant", element: ListMerchant },
+  { path: "/tambahMerchant", name: "Tambah Merchant", element: AddMerchant },
+  { path: "/editMerchant/:id", name: "Edit Merchant", element: EditMerchant },
   //================================================================
   //Customer
   {
@@ -264,11 +305,11 @@ const routes = [
     name: "Edit Tagihan Siswa",
     element: EditTagihanByMember,
   },
-  {
-    path: "/dashboardd",
-    name: "Dashboard Customer",
-    element: DashboardCustomer,
-  },
+  // {
+  //   path: "/dashboardd",
+  //   name: "Dashboard Customer",
+  //   element: DashboardCustomer,
+  // },
   { path: "/customerProfile", name: "Profile", element: Profile },
   {
     path: "/gantiPasswordCustomer",
@@ -301,11 +342,12 @@ const routes = [
   { path: "/edittagihan/:id", name: "Edit Tagihan", element: EditTagihan },
   //================================================================
   //Member
-  {
-    path: "/dashboardMember",
-    name: "Dashboard Member",
-    element: DashboardMember,
-  },
+  { path: "/notifikasi", name: "Kotak Masuk", element: KotakMasuk },
+  // {
+  //   path: "/dashboardMember",
+  //   name: "Dashboard Member",
+  //   element: DashboardMember,
+  // },
   { path: "/memberProfile", name: "Profile", element: MemberProfile },
   {
     path: "/listTagihanMember",
@@ -319,7 +361,28 @@ const routes = [
     element: BayarSemuaTagihan,
   },
   { path: "/memberChannel", name: "Channel", element: MemberChannel },
-  { path: "/memberVerification", name: "Verification Code", element: MemberVerification },
+  { path: "/digitalCard", name: "Digital card", element: DigitalCard },
+  {
+    path: "/memberVerification",
+    name: "Verification Code",
+    element: MemberVerification,
+  },
+  //================================================================
+  //Merchant
+  // { path: "/merchant", name: "Merchant", element: merchant },
+  { path: "/listTransaksi", name: "List Transaksi", element: ListTransaksi },
+  { path: "/transaksi", name: "Transaksi", element: Merchant },
+  { path: "/cel-saldo", name: "Cek Saldo", element: CekSaldo },
+  {
+    path: "/profileMerchant",
+    name: "Profile Kantin",
+    element: ProfileMerchant,
+  },
+  //================================================================
+  //Panduan
+  { path: "/panduan", name: "Panduan", element: Panduan },
+  { path: "/presensiHome", name: "presensiHome", element: PresensiHomePulang },
+  { path: "/presensiLeave", name: "presensiLeave", element: PresensiLeave },
 ];
 
 export default routes;

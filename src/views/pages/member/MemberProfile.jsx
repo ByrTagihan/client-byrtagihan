@@ -3,6 +3,7 @@ import CIcon from "@coreui/icons-react";
 import {
   CButton,
   CCol,
+  CContainer,
   CForm,
   CFormInput,
   CInputGroup,
@@ -12,7 +13,7 @@ import {
 import React, { useEffect, useState } from "react";
 import "../../../css/Profile.css";
 import axios from "axios";
-import { API_DUMMY} from "../../../utils/baseURL";
+import { API_DUMMY } from "../../../utils/baseURL";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +22,7 @@ function MemberProfile() {
   const [name, setName] = useState("");
   const [hp, setHp] = useState("");
   const [address, setAddress] = useState("");
+  const [email, setEmail] = useState(""); // Tambahkan state untuk email
   const [unique_id, setUnique_id] = useState("");
   const [picture, setPicture] = useState("");
   const [foto, setFoto] = useState("");
@@ -92,20 +94,20 @@ function MemberProfile() {
 
     const updatedProfile = {
       ...profile,
-      name: name, // Update the name field with the new value
+      name: name,
       hp: hp,
       address: address,
-      picture: profile.picture, // Keep the existing picture value
+      email: email, // Update email in the profile
+      picture: profile.picture,
     };
 
     try {
-      await axios.put(
-        `${API_DUMMY}/member/profile`,
-        updatedProfile,
-        {
-          headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-        }
-      );
+      await axios.put(`${API_DUMMY}/member/profile`, updatedProfile, {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          });
       setShow(false);
       Swal.fire({
         icon: "success",
@@ -124,19 +126,21 @@ function MemberProfile() {
   const get = async () => {
     await axios
       .get(`${API_DUMMY}/member/profile`, {
-        headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
-      })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
       .then((res) => {
         const profil = res.data.data;
         setHp(profil.hp);
         setName(profil.name);
+        setEmail(profil.email); // Set email from API response
         setUnique_id(profil.unique_id);
         setAddress(profil.address);
         setProfile({ ...profil, id: profil.id });
         setPicture(profile.picture);
-        //console.log(res.data.data);
-        //console.log({ ...profil, id: profil.id });
-        // If profilePicture is available in the response, update the picture state
+
         if (profil.profilePicture) {
           setFoto(profil.profilePicture);
         }
@@ -151,8 +155,8 @@ function MemberProfile() {
   }, []);
 
   return (
-    <div className="allProfile">
-      <div className="box1">
+    <CContainer className="allProfile1">
+      <div className="box11">
         <h4 className="textProfile">Profile Member</h4>
 
         <div style={{ padding: "10px" }} className="img-container">
@@ -160,7 +164,7 @@ function MemberProfile() {
         </div>
       </div>
 
-      <div className="box2">
+      <div className="box2" style={{ marginBottom: "80px" }}>
         <h6 className="mb-2">Id : {profile.id}</h6>
         <h6 className="mb-3">
           <CIcon icon={cilUser} /> unique_id : {profile.unique_id}
@@ -174,7 +178,18 @@ function MemberProfile() {
             />
             <CButton type="submit">Post</CButton>
           </CInputGroup>
+          {/* Tambahkan Input Email di sini */}
+          <CInputGroup className="mb-3">
+            <CInputGroupText>@</CInputGroupText>
+            <CFormInput
+              placeholder="Email"
+              autoComplete="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+          </CInputGroup>
         </CForm>
+
         <CForm onSubmit={Put}>
           <CInputGroup className="mb-3">
             <CInputGroupText>
@@ -222,7 +237,7 @@ function MemberProfile() {
           </CRow>
         </CForm>
       </div>
-    </div>
+    </CContainer>
   );
 }
 

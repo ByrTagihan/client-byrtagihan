@@ -43,10 +43,11 @@ function EditCustomer() {
 
       await axios
         .put(`${API_DUMMY}/user/customer/` + param.id, req, {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
         .then(() => {
           Swal.fire({
             icon: "success",
@@ -122,10 +123,11 @@ function EditCustomer() {
       const response = await fetch(
         `${API_DUMMY}/user/organization?name=${query}`,
         {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        }
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          }
       );
 
       if (query.length > 0 && response.ok) {

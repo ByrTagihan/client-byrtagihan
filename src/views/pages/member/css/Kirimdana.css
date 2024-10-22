@@ -1,0 +1,73 @@
+.one {
+  background-color: #f9f9f9; /* Warna latar belakang yang lembut */
+  border-radius: 8px; /* Sudut melengkung untuk kontainer */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Bayangan halus untuk efek kedalaman */
+  margin: auto; /* Memusatkan card di halaman */
+  max-width: 800px;
+  padding: 1.5%;
+}
+
+h2 {
+  text-align: center; /* Memusatkan judul */
+  color: #333; /* Warna teks yang kontras */
+  margin-bottom: 20px; /* Jarak bawah untuk judul */
+}
+
+.kirim-dana-form {
+  display: flex;
+  flex-direction: column; /* Menyusun elemen form secara vertikal */
+  align-items: center; /* Memusatkan elemen form secara horizontal */
+}
+
+.kirim-dana-form div {
+  margin-bottom: 15px; /* Jarak antara elemen form */
+  display: flex; /* Menggunakan flexbox untuk menyusun label dan input */
+  align-items: center; /* Memastikan label dan input sejajar secara vertikal */
+  justify-content: center; /* Memusatkan isi div */
+  width: 100%; /* Memastikan div mengambil lebar penuh */
+}
+
+.kirim-dana-form label {
+  color: red; /* Warna teks label */
+  margin-right: 5%; /* Jarak kanan antara label dan input */
+  flex-basis: 30%; /* Mengatur lebar label (opsional) */
+  margin-bottom: 2%;
+}
+
+input {
+  padding: 10px; /* Padding di dalam input */
+  width: 290px;
+  border: 1px solid #ccc; /* Garis batas */
+  border-radius: 5px; /* Sudut melengkung */
+  font-size: 16px; /* Ukuran font */
+  transition: border-color 0.3s; /* Transisi saat fokus */
+  flex-grow: 1; /* Input mengambil ruang yang tersedia */
+  text-align: center; /* Memusatkan teks di dalam input */
+  margin: 2%; /* Jarak 4% di sekitar input */
+}
+
+button[type="submit"] {
+  background-color: #007bff; /* Warna latar belakang tombol */
+  color: white; /* Warna teks tombol */
+  padding: 10px 20px; /* Padding dalam tombol */
+  border: none; /* Menghapus batas default */
+  border-radius: 5px; /* Sudut melengkung untuk tombol */
+  font-size: 16px; /* Ukuran font */
+  cursor: pointer; /* Mengubah kursor saat hover */
+  transition: background-color 0.3s; /* Transisi saat hover */
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3; /* Warna latar belakang saat hover */
+}
+
+select {
+  padding: 10px; /* Padding di dalam input */
+  border: 1px solid #ccc; /* Garis batas */
+  border-radius: 5px; /* Sudut melengkung */
+  font-size: 16px; /* Ukuran font */
+  transition: border-color 0.3s; /* Transisi saat fokus */
+  flex-grow: 1; /* Input mengambil ruang yang tersedia */
+  text-align: center; /* Memusatkan teks di dalam input */
+  margin: 2%; /* Jarak 4% di sekitar input */
+}

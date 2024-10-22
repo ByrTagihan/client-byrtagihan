@@ -49,10 +49,11 @@ function EditTransaction() {
     if (localStorage.getItem("type_token") === "user") {
       axios
         .get(`${API_DUMMY}/user/transaction/` + param.id, {
-          headers: {
-            "auth-tgh": `jwt ${localStorage.getItem("token")}`,
-          },
-        })
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
+          })
         .then((response) => {
           const payment = response.data.data;
           //console.log(response.data.data);

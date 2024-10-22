@@ -37,8 +37,11 @@ function AddTagihanByMember() {
         await axios.post(
           `${API_DUMMY}/customer/member/${param.id}/bill`,
           data,
-          {
-            headers: { "auth-tgh": `jwt ${localStorage.getItem("token")}` },
+         {
+            headers: {
+              "auth-tgh": `jwt ${localStorage.getItem("token")}`, // Token auth-tgh
+              "AuthPrs": `Bearer ${localStorage.getItem("token_presensi")}`, // Token AuthPrs
+            },
           }
         );
         setShowAdd(false);
