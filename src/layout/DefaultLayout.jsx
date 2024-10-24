@@ -44,12 +44,14 @@ const DefaultLayout = () => {
     <>
       {/* {localStorage.getItem("type_token") == "member" || "merchant" ? (
         <></> */}
-      {localStorage.getItem("type_token") === "user" ? (
+      {localStorage.getItem("type_token") === "member" ? (
+        <></>
+      ) : localStorage.getItem("type_token") === "merchant" ? (
+        <></>
+      ) : (
         <>
           <AppSidebar />
         </>
-      ) : (
-        <></>
       )}
       {/* <div className={role === "member" ? "containerhp" : ""}> */}
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">

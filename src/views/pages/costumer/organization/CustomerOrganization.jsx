@@ -143,7 +143,7 @@ function CustomerOrganization() {
     <div>
       {localStorage.getItem("type_token") === "customer" ? (
         <>
-          <AppSidebar />
+          {/* <AppSidebar /> */}
           <CCard className="mb-4">
             <CCardBody>
               <CForm onSubmit={Put}>

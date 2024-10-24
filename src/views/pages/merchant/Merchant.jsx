@@ -17,6 +17,7 @@ import axios from "axios";
 function Merchant() {
   const [rfid_number, setRfIdNumber] = useState("");
   const [amount, setAmount] = useState(0);
+  const [balance, setBalance] = useState(0);
   const [pin, setPin] = useState("");
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -42,9 +43,20 @@ function Merchant() {
       return;
     }
 
-    // Tampilkan form untuk input PIN setelah nominal valid
-    setShow(true);
-    setShowAmount(true);
+    Swal.fire({
+      title: "Apakah anda yakin dengan transaksi " + formatRupiah(amount) + "?",
+      text: "Masukan amount dengan teliti dan benar !",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setShow(true);
+        setShowAmount(true);
+      }
+    });
   };
 
   const addData = async (e) => {
@@ -74,7 +86,8 @@ function Merchant() {
           },
         }
       );
-
+      setBalance(response.data.data.balance);
+      console.log("balance: ", response.data.data.balance);
       setShow(false);
       Swal.fire({
         icon: "success",
@@ -84,8 +97,8 @@ function Merchant() {
           <p style="font-size:24px; color:#fff; font-weight: bold;">${formatRupiah(
             amount
           )}</p>
-          <p style="font-wight; bold, color: white">Saldo Sekarang Rp.${formatRupiah(
-            response.data.balance
+          <p style="font-wight; bold, color: white; font-size: 20px">Saldo Sekarang Rp.${formatRupiah(
+            response.data.data.balance
           )}<p/>`,
         background: "#4caf50",
         showConfirmButton: false,
@@ -218,6 +231,12 @@ function Merchant() {
                     </CButton>
                   </>
                 )}
+                <CButton
+                  color="danger"
+                  onClick={() => setShow(false)}
+                  className="mt-5 mr-4">
+                  Batal
+                </CButton>
               </>
             )}
           </form>
